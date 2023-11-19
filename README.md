@@ -16,3 +16,13 @@ pnpm install
 pnpm dev
 
 ```
+
+## 演示图
+
+<table>
+    <tr>
+        <td>
+          <img src="https://picdl.sunbangyan.cn/2023/11/20/1daade7fca59e2a93e834396ed86f788.webp" />
+        </td>
+    </tr>
+</table>
