@@ -1,7 +1,18 @@
-# Vue 3 + Vite
+# 若依前后端分离版本
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## 前端运行
 
-## Recommended IDE Setup
+```bash
+# 克隆项目
+git clone https://gitee.com/codelm/ruoyi-vue3-lmw.git
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+# 进入项目目录
+cd ruoyi-vue3-lmw
+
+# 安装依赖
+pnpm install
+
+# 启动服务
+pnpm dev
+
+```

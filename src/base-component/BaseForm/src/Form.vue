@@ -8,7 +8,7 @@
       v-bind="elFormConfig"
     >
       <el-row v-bind="rowConfig">
-        <template v-for="item in formItems.value || formItems">
+        <template v-for="item in formItems">
           <el-col
             v-bind="item.layout ? item.layout : colLayout"
             :class="`${item.field}Col`"
@@ -18,18 +18,18 @@
               class="form-item"
               :class="`${item.field}Class`"
               v-show="!item.isHidden"
-              :label="item.label"
+              :label="item.hideLabel ? '' : item.label"
               :style="itemStyle"
               :prop="item.field"
               v-bind="item.formItemConfig"
             >
+              <slot
+                :name="`${item.field}Before`"
+                :backData="{ item, data: data[`${item.field}`] }"
+              ></slot>
               <template
                 v-if="item.type === 'input' || item.type === 'password'"
               >
-                <slot
-                  :name="`${item.field}Before`"
-                  :backData="{ item, data: data[`${item.field}`] }"
-                ></slot>
                 <el-input
                   clearable
                   :ref="(el) => setItemRef(el, item.field)"
@@ -53,10 +53,6 @@
                     </slot>
                   </template>
                 </el-input>
-                <slot
-                  :name="`${item.field}After`"
-                  :backData="{ item, data: data[`${item.field}`] }"
-                ></slot>
               </template>
               <template v-if="item.type === 'inputNumber'">
                 <el-input-number
@@ -116,9 +112,6 @@
                   @update:modelValue="handleValueChange($event, item.field)"
                   clearable
                   v-bind="item.config"
-                  :class="{
-                    red: data[`${item.field}`] === '1' && item.hasColor,
-                  }"
                   v-on="item.eventFunction || {}"
                 >
                   <el-option
@@ -191,6 +184,47 @@
                   :inputEventFunction="item.inputEventFunction || {}"
                 ></InputDropdown>
               </template>
+              <template v-if="item.type === 'checkBox'">
+                <el-checkbox-group
+                  :ref="(el) => setItemRef(el, item.field)"
+                  :disabled="allDisabled"
+                  v-model="data[`${item.field}`]"
+                  v-bind="item.config"
+                  v-on="item.eventFunction || {}"
+                  v-if="item.isGroup"
+                >
+                  <el-checkbox
+                    v-for="option in item.options.value || item.options"
+                    :key="option.key ?? option.value"
+                    :label="option.label"
+                    :disabled="allDisabled"
+                  >
+                  </el-checkbox>
+                  <template v-for="slotName in item.slotNames" #[slotName]>
+                    <slot
+                      :name="`${item.field}` + capitalizeFirstLetter(slotName)"
+                    >
+                    </slot>
+                  </template>
+                </el-checkbox-group>
+                <el-checkbox
+                  v-else
+                  :ref="(el) => setItemRef(el, item.field)"
+                  :disabled="allDisabled"
+                  v-model="data[`${item.field}`]"
+                  v-bind="item.config"
+                  v-on="item.eventFunction || {}"
+                >
+                  {{ item.label }}
+                </el-checkbox>
+              </template>
+              <template v-if="item.type === 'custom'">
+                <slot :name="`${item.field}Custom`"></slot>
+              </template>
+              <slot
+                :name="`${item.field}After`"
+                :backData="{ item, data: data[`${item.field}`] }"
+              ></slot>
             </el-form-item>
           </el-col>
         </template>
@@ -205,7 +239,6 @@
 </template>
 
 <script setup>
-import { isRef } from 'vue'
 import InputDropdown from './cpn/inputDropdown/inputDropdown.vue'
 const props = defineProps({
   // el-from的配置
@@ -218,9 +251,9 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  // 是一个数组对象，对鲜花里面是el-form-item配置
+  // 是一个数组对象，里面是el-form-item配置
   formItems: {
-    type: [Array, Object],
+    type: Array,
     default: () => [],
   },
   // 数据
@@ -231,7 +264,9 @@ const props = defineProps({
   // el-form-item的style
   itemStyle: {
     type: Object,
-    default: () => ({}),
+    default: () => ({
+      padding: '20px 20px 0px 0px',
+    }),
   },
   // 布局适配
   colLayout: {
@@ -270,7 +305,6 @@ const props = defineProps({
     default: () => [],
   },
 })
-
 const emits = defineEmits(['update:data'])
 let elFormRef = ref(null)
 const allRefs = ref({})
@@ -362,10 +396,5 @@ defineExpose({
   display: flex;
   align-items: center;
   justify-content: flex-start;
-}
-.red {
-  :deep(.el-input__inner) {
-    color: red !important;
-  }
 }
 </style>
