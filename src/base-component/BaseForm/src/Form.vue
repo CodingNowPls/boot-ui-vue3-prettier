@@ -1,0 +1,371 @@
+<template>
+  <div class="lmw-from">
+    <el-form
+      ref="elFormRef"
+      :rules="rules"
+      :model="data"
+      :scroll-to-error="true"
+      v-bind="elFormConfig"
+    >
+      <el-row v-bind="rowConfig">
+        <template v-for="item in formItems.value || formItems">
+          <el-col
+            v-bind="item.layout ? item.layout : colLayout"
+            :class="`${item.field}Col`"
+            v-if="!isHiddenItem(item)"
+          >
+            <el-form-item
+              class="form-item"
+              :class="`${item.field}Class`"
+              v-show="!item.isHidden"
+              :label="item.label"
+              :style="itemStyle"
+              :prop="item.field"
+              v-bind="item.formItemConfig"
+            >
+              <template
+                v-if="item.type === 'input' || item.type === 'password'"
+              >
+                <slot
+                  :name="`${item.field}Before`"
+                  :backData="{ item, data: data[`${item.field}`] }"
+                ></slot>
+                <el-input
+                  clearable
+                  :ref="(el) => setItemRef(el, item.field)"
+                  :disabled="allDisabled"
+                  :show-password="item.type === 'password'"
+                  :placeholder="'请输入' + item.label"
+                  :model-value="data[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
+                  v-bind="item.config"
+                  v-on="item.eventFunction || {}"
+                >
+                  <template v-for="slotName in item.slotNames" #[slotName]>
+                    <slot
+                      :name="`${item.field}` + capitalizeFirstLetter(slotName)"
+                      :backData="{
+                        item,
+                        dataValue: data[`${item.field}`],
+                        data,
+                      }"
+                    >
+                    </slot>
+                  </template>
+                </el-input>
+                <slot
+                  :name="`${item.field}After`"
+                  :backData="{ item, data: data[`${item.field}`] }"
+                ></slot>
+              </template>
+              <template v-if="item.type === 'inputNumber'">
+                <el-input-number
+                  :model-value="data[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
+                  v-bind="item.config"
+                  v-on="item.eventFunction || {}"
+                />
+              </template>
+              <template v-if="item.type === 'textarea'">
+                <el-input
+                  :ref="(el) => setItemRef(el, item.field)"
+                  type="textarea"
+                  maxlength="150"
+                  show-word-limit
+                  :placeholder="'请输入' + item.label"
+                  :disabled="allDisabled"
+                  :model-value="data[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
+                  v-bind="item.config"
+                  v-on="item.eventFunction || {}"
+                >
+                  <template v-for="slotName in item.slotNames" #[slotName]>
+                    <slot
+                      :name="`${item.field}` + capitalizeFirstLetter(slotName)"
+                      :backData="item"
+                    >
+                    </slot>
+                  </template>
+                </el-input>
+              </template>
+              <template v-if="item.type === 'cascader'">
+                <el-cascader
+                  clearable
+                  :ref="(el) => setItemRef(el, item.field)"
+                  :disabled="allDisabled"
+                  :placeholder="'请选择' + item.label"
+                  :options="item.options.value ?? item.options"
+                  v-model="data[`${item.field}`]"
+                  v-bind="item.config"
+                  v-on="item.eventFunction || {}"
+                >
+                  <template v-for="slotName in item.slotNames" #[slotName]>
+                    <slot
+                      :name="`${item.field}` + capitalizeFirstLetter(slotName)"
+                    >
+                    </slot>
+                  </template>
+                </el-cascader>
+              </template>
+              <template v-if="item.type === 'select'">
+                <el-select
+                  :ref="(el) => setItemRef(el, item.field)"
+                  :disabled="allDisabled"
+                  :placeholder="'请选择' + item.label"
+                  :model-value="data[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
+                  clearable
+                  v-bind="item.config"
+                  :class="{
+                    red: data[`${item.field}`] === '1' && item.hasColor,
+                  }"
+                  v-on="item.eventFunction || {}"
+                >
+                  <el-option
+                    v-for="option in item.options.value || item.options"
+                    :value="option.value"
+                    :label="option.label"
+                    :key="option.key ?? option.value"
+                    @click="
+                      item.optionsClick
+                        ? item.optionsClick(option)
+                        : optionsClick(option)
+                    "
+                  >
+                  </el-option>
+                  <template v-for="slotName in item.slotNames" #[slotName]>
+                    <slot
+                      :name="`${item.field}` + capitalizeFirstLetter(slotName)"
+                    >
+                    </slot>
+                  </template>
+                </el-select>
+              </template>
+              <template v-if="item.type === 'treeSelect'">
+                <el-tree-select
+                  :ref="(el) => setItemRef(el, item.field)"
+                  :disabled="allDisabled"
+                  :placeholder="'请选择' + item.label"
+                  :model-value="data[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
+                  v-bind="item.config"
+                  v-on="item.eventFunction || {}"
+                >
+                </el-tree-select>
+              </template>
+              <template v-if="item.type === 'datepicker'">
+                <el-date-picker
+                  class="date"
+                  :ref="(el) => setItemRef(el, item.field)"
+                  :disabled="allDisabled"
+                  :placeholder="'请选择' + item.label"
+                  :model-value="data[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
+                  v-bind="item.config"
+                  v-on="item.eventFunction || {}"
+                >
+                  <template v-for="slotName in item.slotNames" #[slotName]>
+                    <slot
+                      :name="`${item.field}` + capitalizeFirstLetter(slotName)"
+                    >
+                    </slot>
+                  </template>
+                </el-date-picker>
+              </template>
+              <template v-if="item.type === 'pickerColor'">
+                <el-color-picker
+                  :ref="(el) => setItemRef(el, item.field)"
+                  :disabled="allDisabled"
+                  :model-value="data[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
+                  v-bind="item.config"
+                  v-on="item.eventFunction || {}"
+                ></el-color-picker>
+              </template>
+              <template v-if="item.type === 'inputSearch'">
+                <InputDropdown
+                  :ref="(el) => setItemRef(el, item.field)"
+                  :disabled="allDisabled"
+                  v-model:data="data[`${item.field}`]"
+                  :options="item.options.value || item.options || []"
+                  :inputEventFunction="item.inputEventFunction || {}"
+                ></InputDropdown>
+              </template>
+            </el-form-item>
+          </el-col>
+        </template>
+        <el-col v-bind="footerLayout" v-if="$slots['footer']">
+          <div class="footer" :style="itemStyle">
+            <slot name="footer"></slot>
+          </div>
+        </el-col>
+      </el-row>
+    </el-form>
+  </div>
+</template>
+
+<script setup>
+import { isRef } from 'vue'
+import InputDropdown from './cpn/inputDropdown/inputDropdown.vue'
+const props = defineProps({
+  // el-from的配置
+  elFormConfig: {
+    type: Object,
+    default: () => {},
+  },
+  // 是否全部禁用
+  allDisabled: {
+    type: Boolean,
+    default: false,
+  },
+  // 是一个数组对象，对鲜花里面是el-form-item配置
+  formItems: {
+    type: [Array, Object],
+    default: () => [],
+  },
+  // 数据
+  data: {
+    type: Object,
+    required: true,
+  },
+  // el-form-item的style
+  itemStyle: {
+    type: Object,
+    default: () => ({}),
+  },
+  // 布局适配
+  colLayout: {
+    type: Object,
+    default: () => ({
+      xl: 3, //1920
+      gl: 6, //1200
+      md: 8, //992
+      sm: 12, //768
+      xs: 24, //<768
+    }),
+  },
+  footerLayout: {
+    type: Object,
+    default: () => ({
+      xl: 3,
+      gl: 6,
+      md: 8,
+      sm: 12,
+      xs: 24,
+    }),
+  },
+  // 表单正则校验
+  rules: {
+    type: Object,
+    default: () => ({}),
+  },
+  rowConfig: {
+    type: Object,
+    default: () => {
+      return {}
+    },
+  },
+  hideItems: {
+    type: [Array, Object],
+    default: () => [],
+  },
+})
+
+const emits = defineEmits(['update:data'])
+let elFormRef = ref(null)
+const allRefs = ref({})
+const setItemRef = (el, type) => {
+  if (el) {
+    allRefs.value[type] = el
+  }
+}
+const handleValueChange = (value, field) => {
+  emits('update:data', { ...props.data, [field]: value })
+}
+const optionsClick = () => {}
+let commit = async (
+  success,
+  loading = { value: false },
+  dialogVisible = { value: false },
+  autoCloseDialog = true
+) => {
+  let isSuccess = elFormRef.value.validate(async (valid) => {
+    if (valid) {
+      loading.value = true
+      success && (await success())
+      if (autoCloseDialog) {
+        dialogVisible.value = false
+      }
+      loading.value = false
+      return true
+    } else {
+      return false
+    }
+  })
+  return isSuccess
+}
+let getFormValidate = async () => {
+  return elFormRef.value.validate((valid) => {
+    return valid
+  })
+}
+
+const capitalizeFirstLetter = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+
+const isHiddenItem = (item) => {
+  let flag = false
+  if (isRef(props.hideItems)) {
+    if (props.hideItems.value.includes(item.field)) {
+      flag = true
+    }
+  }
+  return flag
+}
+defineExpose({
+  commit,
+  getFormValidate,
+  allRefs,
+  elFormRef,
+})
+</script>
+
+<style scoped lang="scss">
+.lmw-from {
+  :deep(.el-form-item__label) {
+    margin: 0px !important;
+    font-weight: 500;
+    color: var(--el-text-color-primary);
+  }
+  :deep(.el-cascader) {
+    width: 100%;
+  }
+  :deep(.el-select) {
+    width: 100%;
+  }
+  :deep(.el-form-item__content) {
+    width: 100%;
+  }
+  :deep(.el-date-editor) {
+    width: 100%;
+  }
+  :deep(.el-input__clear) {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+.footer {
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.red {
+  :deep(.el-input__inner) {
+    color: red !important;
+  }
+}
+</style>

@@ -1,0 +1,223 @@
+<script setup>
+const props = defineProps({
+  border: {
+    type: Boolean,
+    default: true,
+  },
+  dataList: {
+    // 数据
+    type: Array,
+    default: () => [],
+  },
+  tableItem: {
+    // 每列的名字
+    type: Array,
+    default: () => [],
+  },
+  tableListener: {
+    type: Object,
+    default: () => {
+      return {}
+    },
+  },
+  showChoose: {
+    // 是否展示复选框
+    type: Boolean,
+    default: false,
+  },
+  showIndex: {
+    // 是否展示序号
+    type: Boolean,
+    default: false,
+  },
+  pagination: {
+    // 是否显示分页
+    type: Boolean,
+    default: true,
+  },
+  listCount: {
+    //总条数
+    type: Number,
+    default: 0,
+  },
+  paginationInfo: {
+    // 分页的页码和偏移
+    type: Object,
+    default: () => ({ pageNum: 1, pageSize: 100 }),
+  },
+  elTableConfig: {
+    type: Object,
+    default: () => {
+      return {
+        maxHeight: 600,
+      }
+    },
+  },
+  showExpand: {
+    type: Boolean,
+    default: false,
+  },
+  align: {
+    type: String,
+    default: 'center',
+  },
+  changeColor: {
+    type: Boolean,
+    default: false,
+  },
+  paginationLayout: {
+    type: String,
+    default: 'total, sizes, prev, pager, next, jumper',
+  },
+  otherStartColumn: {
+    type: Array,
+    default: () => [],
+  },
+})
+const emit = defineEmits(['update:paginationInfo', 'sortChange'])
+const elTableRef = ref(null)
+const handleCurrentChange = (pageNum) => {
+  elTableRef.value.setScrollTop(0)
+  setTimeout(() => {
+    // 让CurrentChange比sizeChange后执行
+    emit('update:paginationInfo', { ...props.paginationInfo, pageNum })
+  }, 0)
+}
+const sortChange = (order) => {
+  elTableRef.value.setScrollTop(0)
+  emit('sortChange', order)
+}
+const handleSizeChange = (pageSize) => {
+  elTableRef.value.setScrollTop(0)
+  emit('update:paginationInfo', {
+    ...props.paginationInfo,
+    pageSize,
+  })
+}
+const capitalizeFirstLetter = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}
+const hasSlot = (slots, arr) => {
+  return arr.some((key) => slots.hasOwnProperty(key))
+}
+
+defineExpose({
+  elTableRef,
+})
+</script>
+
+<template>
+  <div class="lmw-table">
+    <div class="header" v-if="hasSlot($slots, ['handle', 'refresh'])">
+      <slot name="header">
+        <div class="handle">
+          <slot name="handleLeft"></slot>
+        </div>
+        <div class="handleRight">
+          <slot name="handleRight"></slot>
+        </div>
+      </slot>
+    </div>
+    <el-table
+      class="elTable"
+      ref="elTableRef"
+      :data="dataList"
+      :border="border"
+      @sort-change="sortChange"
+      :show-overflow-tooltip="true"
+      style="width: 100%"
+      v-on="tableListener"
+      v-bind="elTableConfig"
+    >
+      <el-table-column type="expand" v-if="showExpand">
+        <template #default="{ row }">
+          <slot name="expand" :backData="row"></slot>
+        </template>
+      </el-table-column>
+      <el-table-column
+        type="selection"
+        width="55"
+        :align="align"
+        v-if="showChoose"
+      ></el-table-column>
+      <el-table-column
+        width="55"
+        :align="align"
+        label="序号"
+        type="index"
+        v-if="showIndex"
+      ></el-table-column>
+
+      <template v-for="item in tableItem" :key="item.prop">
+        <el-table-column :align="align" v-bind="item">
+          <template #header v-if="!item.useOwn">
+            <slot :name="`${item.slotName}Header`">
+              {{ item.label }}
+            </slot>
+          </template>
+          <template v-else #header="{ column }">
+            <slot :name="item.prop" :backData="column"></slot>
+          </template>
+
+          <template #default="scope">
+            <slot
+              :name="item.slotName"
+              :backData="scope.row"
+              :currentItem="item"
+            >
+              <template v-if="item.prop">
+                {{ scope.row[item.prop] }}
+              </template>
+            </slot>
+          </template>
+          <template v-for="slotName in item.slotNames" #[slotName]="slotData">
+            <slot
+              :name="`${item.prop}` + capitalizeFirstLetter(slotName)"
+              :backData="slotData"
+            ></slot>
+          </template>
+        </el-table-column>
+      </template>
+    </el-table>
+
+    <div class="footer" v-if="pagination">
+      <slot name="footer">
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="paginationInfo.pageNum"
+          :page-sizes="[100, 200, 300]"
+          :page-size="paginationInfo.pageSize"
+          :layout="paginationLayout"
+          :total="listCount"
+        >
+        </el-pagination>
+      </slot>
+    </div>
+  </div>
+</template>
+
+<style scoped lang="scss">
+.header {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  height: 50px;
+}
+.footer {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  float: right;
+}
+.btns {
+  display: flex;
+}
+.lmw-table {
+  :deep(
+      .el-table__body-wrapper .el-table-column--selection > .cell,
+      .el-table__header-wrapper .el-table-column--selection > .cell
+    ) {
+    display: block;
+  }
+}
+</style>
