@@ -78,10 +78,15 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
-.header {
-  height: 50px;
-  line-height: 60px;
-  text-align: center;
+.page-search {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100%;
+  background-color: var(--ba-bg-color-overlay);
+  border: 1px solid var(--ba-border-color);
+  border-bottom: none;
+  padding: 13px 15px;
+  font-size: 14px;
 }
 .footer {
   text-align: right;

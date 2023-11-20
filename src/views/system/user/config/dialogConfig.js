@@ -66,7 +66,7 @@ export default (listeners = {}) => {
         field: 'sex',
         type: 'select',
         options: [],
-        label: '用户性别',
+        label: '性别',
         config: {
           clearable: false,
         },
@@ -126,7 +126,7 @@ export default (listeners = {}) => {
       padding: '0px 8px 0px 8px',
     },
     elFormConfig: {
-      labelWidth: '75px',
+      labelWidth: '80px',
     },
     hideItems: ref([]),
   }

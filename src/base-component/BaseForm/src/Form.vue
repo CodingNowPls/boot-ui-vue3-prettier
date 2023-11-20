@@ -141,6 +141,7 @@
                   :placeholder="'请选择' + item.label"
                   :model-value="data[`${item.field}`]"
                   @update:modelValue="handleValueChange($event, item.field)"
+                  :data="item.options.value"
                   v-bind="item.config"
                   v-on="item.eventFunction || {}"
                 >

@@ -2,6 +2,7 @@ export const tableItem = [
   {
     prop: 'userId',
     label: '用户编号',
+    hide: false,
   },
   {
     prop: 'userName',
@@ -25,15 +26,16 @@ export const tableItem = [
     prop: 'status',
     label: '状态',
     width: '120',
+    slotName: 'statusSlot',
   },
   {
     prop: 'createTime',
     label: '创建时间',
-    width: '120',
+    width: '180',
   },
   {
     label: '操作',
-    width: '150',
+    width: '180',
     fixed: 'right',
     slotName: 'todo',
   },
@@ -51,6 +53,6 @@ export default () => {
     showIndex: true,
     showChoose: true,
     pagination: true,
-    border: false,
+    // border: false,
   }
 }

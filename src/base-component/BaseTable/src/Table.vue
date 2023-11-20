@@ -73,6 +73,10 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  hideItems: {
+    type: [Array, Object],
+    default: () => ({}),
+  },
 })
 const emit = defineEmits(['update:paginationInfo', 'sortChange'])
 const elTableRef = ref(null)
@@ -101,6 +105,16 @@ const hasSlot = (slots, arr) => {
   return arr.some((key) => slots.hasOwnProperty(key))
 }
 
+const isHiddenItem = (item) => {
+  let flag = false
+  if (isRef(props.hideItems)) {
+    if (props.hideItems.value.includes(item.prop)) {
+      flag = true
+    }
+  }
+  return flag
+}
+
 defineExpose({
   elTableRef,
 })
@@ -126,6 +140,7 @@ defineExpose({
       @sort-change="sortChange"
       :show-overflow-tooltip="true"
       style="width: 100%"
+      stripe
       v-on="tableListener"
       v-bind="elTableConfig"
     >
@@ -149,7 +164,11 @@ defineExpose({
       ></el-table-column>
 
       <template v-for="item in tableItem" :key="item.prop">
-        <el-table-column :align="align" v-bind="item">
+        <el-table-column
+          :align="align"
+          v-bind="item"
+          v-if="!isHiddenItem(item) && !item.hide"
+        >
           <template #header v-if="!item.useOwn">
             <slot :name="`${item.slotName}Header`">
               {{ item.label }}
@@ -190,6 +209,7 @@ defineExpose({
           :page-size="paginationInfo.pageSize"
           :layout="paginationLayout"
           :total="listCount"
+          background
         >
         </el-pagination>
       </slot>
@@ -199,15 +219,41 @@ defineExpose({
 
 <style scoped lang="scss">
 .header {
+  /* display: flex;
+  background-color: var(--ba-bg-color-overlay);
+  border: 1px solid var(--ba-border-color);
+  border-bottom: none;
+  padding: 13px 15px; */
+
+  position: relative;
+  overflow-x: auto;
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
-  margin-top: 10px;
-  height: 50px;
+  align-items: center;
+  width: 100%;
+  max-width: 100%;
+  background-color: var(--ba-bg-color-overlay);
+  border: 1px solid var(--ba-border-color);
+  border-bottom: none;
+  padding: 13px 15px;
+  font-size: 14px;
+  .table-header-operate-text {
+    margin-left: 6px;
+  }
 }
 .footer {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  float: right;
+  :deep(.el-pagination) {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-end;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    background-color: var(--ba-bg-color-overlay);
+    padding: 13px 15px;
+  }
 }
 .btns {
   display: flex;

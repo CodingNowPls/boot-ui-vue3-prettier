@@ -1,6 +1,6 @@
 <script setup></script>
 <template>
-  <el-main>
+  <el-main class="main">
     <router-view v-slot="{ Component, route }">
       <transition name="fade-transform" mode="out-in">
         <!-- <keep-alive :include="tagsViewStore.cachedViews"> -->
@@ -11,4 +11,8 @@
   </el-main>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.main {
+  padding: 0;
+}
+</style>

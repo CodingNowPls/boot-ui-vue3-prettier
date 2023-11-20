@@ -85,7 +85,17 @@ const props = defineProps({
   },
   headerButtons: {
     type: Array,
-    default: () => ['refresh', 'add', 'edit', 'delete'],
+    default: () => [
+      'refresh',
+      'add',
+      'edit',
+      'delete',
+      'columnDisplay',
+      'comSearch',
+    ],
+  },
+  showPageSearch: {
+    type: Boolean,
   },
 })
 const emit = defineEmits([
@@ -93,6 +103,8 @@ const emit = defineEmits([
   'editBtnClick',
   'beforeSend',
   'afterSend',
+  'triggerShowSearch',
+  'onChangeShowColumn',
 ])
 const store = businessStore()
 const isLoading = ref(false)
@@ -263,6 +275,35 @@ const emitterListener = () => {
     emitter.on(`search${props.pageName}Info`, mittFunc)
   }
 }
+
+const columnChecked = ref([])
+watch(
+  () => props.contentConfig.tableItem,
+  () => {
+    props.contentConfig.tableItem.forEach((item) => {
+      if (item.prop) {
+        columnChecked.value.push(item.prop)
+      }
+    })
+  },
+  {
+    immediate: true,
+  }
+)
+let filterArr = []
+const onChangeShowColumn = (checked, prop) => {
+  if (checked) {
+    filterArr = filterArr.filter((item) => item !== prop)
+  } else {
+    filterArr = [...filterArr, prop]
+  }
+  emit('onChangeShowColumn', filterArr)
+}
+
+const triggerShowSearch = () => {
+  emit('triggerShowSearch')
+}
+
 onMounted(() => {
   if (props.autoDesc) {
     for (const [key, value] of Object.entries(props.descConfig)) {
@@ -313,12 +354,6 @@ defineExpose({
     >
       <template #refresh> </template>
       <!-- 操作按钮 -->
-      <!-- <template v-for="item in contentConfig.handleSlot" #[item]>
-        <template v-if="item">
-          <slot :name="item"></slot>
-        </template>
-      </template> -->
-
       <template #handleLeft>
         <el-button
           v-if="headerButtons.includes('refresh')"
@@ -347,6 +382,60 @@ defineExpose({
         <slot name="handleLeft"></slot>
       </template>
       <template #handleRight>
+        <div
+          class="table-search-button-group"
+          v-if="
+            headerButtons.includes('columnDisplay') ||
+            headerButtons.includes('comSearch')
+          "
+        >
+          <el-dropdown
+            v-if="headerButtons.includes('columnDisplay')"
+            :max-height="380"
+            :hide-on-click="false"
+          >
+            <el-button
+              class="table-search-button-item"
+              :class="
+                headerButtons.includes('columnDisplay') ? 'right-border' : ''
+              "
+              plain
+            >
+              <SvgIcon size="14" iconClass="el-icon-Grid" />
+            </el-button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-checkbox-group v-model="columnChecked">
+                  <el-dropdown-item
+                    v-for="(item, idx) in contentConfig.tableItem"
+                    :key="idx"
+                  >
+                    <el-checkbox
+                      v-if="item.prop"
+                      @change="onChangeShowColumn($event, item.prop)"
+                      size="small"
+                      :label="item.prop"
+                      >{{ item.label }}
+                    </el-checkbox>
+                  </el-dropdown-item>
+                </el-checkbox-group>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+          <el-tooltip
+            v-if="headerButtons.includes('comSearch')"
+            :content="showPageSearch ? '关闭搜索' : '展开搜索'"
+            placement="top"
+          >
+            <el-button
+              class="table-search-button-item"
+              @click="triggerShowSearch"
+              plain
+            >
+              <SvgIcon size="14" iconClass="el-icon-Search" />
+            </el-button>
+          </el-tooltip>
+        </div>
         <slot name="handleRight"></slot>
       </template>
       <template #createTime="{ backData }">
@@ -365,15 +454,16 @@ defineExpose({
           <slot name="todoSlot" :backData="backData"></slot>
           <div class="edit" v-if="showEdit">
             <el-button
-              link
+              v-if="showEdit"
               type="primary"
-              icon="Edit"
+              size="small"
               @click="editClick(backData)"
             >
-              修改
+              <SvgIcon :size="10" iconClass="pencil"></SvgIcon>
+              <span class="ml6">编辑</span>
             </el-button>
           </div>
-          <div class="del" v-if="showDelete">
+          <div class="del ml10" v-if="showDelete">
             <el-popconfirm
               title="确定删除选中记录？"
               confirm-button-text="确认"
@@ -381,7 +471,10 @@ defineExpose({
               @confirm="deleteRow(backData)"
             >
               <template #reference>
-                <el-button link type="danger" icon="Delete">删除 </el-button>
+                <el-button type="danger" size="small">
+                  <SvgIcon :size="10" iconClass="trash"></SvgIcon>
+                  <span class="ml6">删除</span>
+                </el-button>
               </template>
             </el-popconfirm>
           </div>
@@ -433,6 +526,56 @@ defineExpose({
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+}
+
+.table-search-button-group {
+  display: flex;
+  margin-left: 12px;
+  border: 1px solid var(--el-border-color);
+  border-radius: var(--el-border-radius-base);
+  overflow: hidden;
+  button:focus,
+  button:active {
+    color: #000;
+    background-color: var(--ba-bg-color-overlay);
+  }
+  button:hover {
+    color: #000;
+    background-color: var(--el-color-info-light-7);
+  }
+  .table-search-button-item {
+    height: 30px;
+    border: none;
+    border-radius: 0;
+  }
+  .el-button + .el-button {
+    margin: 0;
+  }
+  .right-border {
+    border-right: 1px solid var(--el-border-color);
+  }
+  :deep(.el-button:focus-visible) {
+    outline: none;
+    outline-offset: 0;
+  }
+}
+
+html.dark {
+  .table-search-button-group {
+    button:focus,
+    button:active {
+      background-color: var(--el-color-info-dark-2);
+    }
+    button:hover {
+      background-color: var(--el-color-info-light-7);
+    }
+    button {
+      background-color: #898a8d;
+      el-icon {
+        color: white !important;
+      }
+    }
   }
 }
 </style>

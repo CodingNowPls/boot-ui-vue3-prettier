@@ -3,6 +3,7 @@ import getSearchConfig from './config/searchConfig'
 import getContentConfig from './config/contentConfig.js'
 import getDialogConfig from './config/dialogConfig.js'
 import useDialog from '@/hooks/useDialog'
+import getComputedConfig from '@/hooks/getPageConfig'
 import {
   changeUserStatus,
   listUser,
@@ -14,12 +15,18 @@ import {
   deptTreeSelect,
 } from '@/api/system/user'
 import to from '@/utils/to'
-import Dept from './components/Dept'
+import { ElMessage } from 'element-plus'
+
+const { proxy } = getCurrentInstance()
+const { sys_normal_disable, sys_user_sex } = proxy.useDict(
+  'sys_normal_disable',
+  'sys_user_sex'
+)
 
 const pageName = ref('user')
+const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
-const deptName = ref('')
 const deptOptions = ref([])
 const descConfig = ref({})
 /** 查询部门下拉树结构 */
@@ -29,67 +36,128 @@ const getDeptTree = async () => {
     deptOptions.value = res.data
   }
 }
-const init = () => {
-  getDeptTree()
+const dialogHideItems = ref([])
+const tableHideItems = ref([])
+const dictMap = {
+  status: sys_normal_disable,
+  sex: sys_user_sex,
+  deptId: deptOptions,
 }
-const searchOtherConfig = {
-  clear: () => {
-    console.log('111')
-  },
-}
-const searchConfig = getSearchConfig(searchOtherConfig)
+const searchConfig = getSearchConfig()
+const searchConfigComputed = computed(() => {
+  return getComputedConfig(searchConfig, dictMap)
+})
+
 const contentConfig = getContentConfig()
+const contentConfigComputed = computed(() => {
+  contentConfig.hideItems = tableHideItems
+  return contentConfig
+})
+
 const dialogConfig = getDialogConfig()
 
+const dialogConfigComputed = computed(() => {
+  dialogConfig.hideItems = dialogHideItems
+  return getComputedConfig(dialogConfig, dictMap)
+})
+
+const addCallBack = () => {
+  dialogHideItems.value.length = 0
+}
+const editCallBack = () => {
+  dialogHideItems.value = ['password']
+}
+
 const [dialogRef, infoInit, addClick, editBtnClick] = useDialog(
-  undefined,
-  undefined,
+  addCallBack,
+  editCallBack,
   '添加'
 )
+
 const dialogWidth = ref('600px')
 const searchData = computed(() => {
   return pageContentRef.value?.finalSearchData
 })
 
+const triggerShowSearch = () => {
+  showPageSearch.value = !showPageSearch.value
+}
+
+const onChangeShowColumn = (filterArr) => {
+  tableHideItems.value = filterArr
+}
+
+const handleStatusChange = async (row) => {
+  let text = row.status === '0' ? '启用' : '停用'
+  const [err, res] = await to(changeUserStatus(row.userId, row.status))
+  if (res) {
+    ElMessage({
+      type: 'success',
+      message: text + '成功',
+    })
+  }
+  if (err) {
+    row.status = row.status === '0' ? '1' : '0'
+  }
+}
+
+const init = () => {
+  getDeptTree()
+}
+
 init()
 </script>
 <template>
   <div class="default-main userPage">
-    <el-row :gutter="20">
-      <el-col :span="4" :xl="4" :gl="4" :md="4" :sm="8" :xs="24">
-        <Dept v-model:deptName="deptName" :deptOptions="deptOptions"></Dept>
-      </el-col>
-      <el-col :span="20" :xl="20" :gl="20" :md="20" :sm="16" :xs="24">
-        <PageSearch
-          ref="pageSearchRef"
-          :pageName="pageName"
-          :searchConfig="searchConfig"
-        ></PageSearch>
-        <PageContent
-          :pageName="pageName"
-          :contentConfig="contentConfig"
-          :descConfig="descConfig"
-          @addClick="addClick"
-          @editBtnClick="editBtnClick"
-        >
-        </PageContent>
-        <PageDialog
-          ref="dialogRef"
-          :width="dialogWidth"
-          :pageName="pageName"
-          :dialogConfig="dialogConfig"
-          :infoInit="infoInit"
-          :searchData="searchData"
-        >
-        </PageDialog>
-      </el-col>
-    </el-row>
+    <PageSearch
+      v-show="showPageSearch"
+      ref="pageSearchRef"
+      :pageName="pageName"
+      :searchConfig="searchConfigComputed"
+    ></PageSearch>
+    <PageContent
+      :pageName="pageName"
+      :contentConfig="contentConfigComputed"
+      :descConfig="descConfig"
+      :showPageSearch="showPageSearch"
+      @addClick="addClick"
+      @editBtnClick="editBtnClick"
+      @onChangeShowColumn="onChangeShowColumn"
+      @triggerShowSearch="triggerShowSearch"
+    >
+      <template #handleLeft>
+        <el-button type="warning">
+          <SvgIcon size="14" iconClass="upload" />
+          <span class="ml6">导入</span>
+        </el-button>
+        <el-button type="warning">
+          <SvgIcon size="14" iconClass="download" />
+          <span class="ml6">导出</span>
+        </el-button>
+      </template>
+      <template #statusSlot="{ backData }">
+        <el-switch
+          v-model="backData.status"
+          active-value="0"
+          inactive-value="1"
+          @click="handleStatusChange(backData)"
+        ></el-switch>
+      </template>
+    </PageContent>
+    <PageDialog
+      ref="dialogRef"
+      :width="dialogWidth"
+      :pageName="pageName"
+      :dialogConfig="dialogConfigComputed"
+      :infoInit="infoInit"
+      :searchData="searchData"
+    >
+    </PageDialog>
   </div>
 </template>
 
 <style scoped lang="scss">
 .userPage {
-  background-color: #fff;
-  padding: 20px;
+  background-color: var(--ba-bg-color-overlay);
 }
 </style>

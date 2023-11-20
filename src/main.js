@@ -26,12 +26,16 @@ import PageContent from '@/components/HsjComponent/pageContent/index'
 import PageDialog from '@/components/HsjComponent/pageDialog/index'
 import PageSearch from '@/components/HsjComponent/pageSearch/index'
 
+import { useDict } from '@/utils/dict'
+
 const app = createApp(App)
 
 app.use(store)
 app.use(route)
 app.use(plugins)
 app.use(elementIcons)
+
+app.config.globalProperties.useDict = useDict
 
 app.component('SvgIcon', SvgIcon)
 app.component('BaseForm', BaseForm)
