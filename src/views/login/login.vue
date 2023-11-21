@@ -12,8 +12,8 @@ const title = ref(import.meta.env.VITE_APP_TITLE)
 const formRef = ref(null)
 const formData = ref({
   code: '',
-  username: '',
-  password: '',
+  username: 'admin123',
+  password: 'admin',
   uuid: '',
   rememberMe: false,
 })

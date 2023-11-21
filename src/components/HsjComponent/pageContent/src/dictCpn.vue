@@ -1,22 +1,17 @@
 <script setup>
 import { selectDictLabel } from '@/utils/ruoyi'
 const props = defineProps({
-  dictKey: {
-    type: String,
-    default: '',
-  },
-  backData: {
+  value: {
     type: [String, Number],
   },
-  dictObj: {
-    type: Object,
-    default: () => ({}),
+  dictList: {
+    type: Array,
+    default: () => [],
   },
 })
 const data = computed(() => {
-  if (props.backData) {
-    const list = props.dictObj[props.dictKey] || []
-    return selectDictLabel(list, props.backData)
+  if (props.value) {
+    return selectDictLabel(props.list, props.value)
   } else {
     return ''
   }

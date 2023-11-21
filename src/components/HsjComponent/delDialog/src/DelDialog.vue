@@ -1,5 +1,6 @@
 <script setup>
 import { deletData } from '@/api/business/main/index'
+import to from '@/utils/to'
 
 const props = defineProps({
   tabelSelection: {
@@ -33,10 +34,12 @@ const confirm = async () => {
     return item[props.idKey]
   })
 
-  await deletData(`/${props.pageName}/${ids.toString()}`)
-  emit('delSuccess')
+  const [err, res] = to(await deletData(`/${props.pageName}/${ids.toString()}`))
   delLoading.value = false
-  closeDialog()
+  if (res) {
+    emit('delSuccess')
+    closeDialog()
+  }
 }
 const emit = defineEmits(['delSuccess'])
 defineExpose({

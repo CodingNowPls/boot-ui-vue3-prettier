@@ -3,7 +3,7 @@
  * @param { Object= } errorExt - Additional Information you can pass to the err object
  * @return { Promise }
  */
-export function to(promise, errorExt) {
+function to(promise, errorExt) {
   return promise
     .then((data) => [null, data])
     .catch((err) => {

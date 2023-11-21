@@ -10,6 +10,7 @@ import '@/assets/css/index.scss'
 
 import store from './store/index'
 import route from './router/index'
+import directive from './directive/index'
 
 // 注册指令
 import plugins from './plugins/index.js' // plugins
@@ -43,5 +44,7 @@ app.component('BaseTable', BaseTable)
 app.component('PageContent', PageContent)
 app.component('PageDialog', PageDialog)
 app.component('PageSearch', PageSearch)
+
+directive(app)
 
 app.mount('#app')

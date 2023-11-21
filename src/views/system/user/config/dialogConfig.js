@@ -16,12 +16,12 @@ export default (listeners = {}) => {
         },
       },
       {
+        label: '归属部门',
         field: 'deptId',
         type: 'treeSelect',
-        options: [],
-        label: '归属部门',
+        options: ref([]),
         config: {
-          clearable: false,
+          props: { label: 'label', value: 'id', children: 'children' },
         },
       },
       {
@@ -74,7 +74,7 @@ export default (listeners = {}) => {
 
       {
         field: 'status',
-        type: 'select',
+        type: 'radio',
         options: [],
         label: '状态',
         config: {
@@ -91,6 +91,8 @@ export default (listeners = {}) => {
           clearable: false,
           multiple: true,
         },
+        setValue: 'postId',
+        setLabel: 'postName',
       },
       {
         field: 'roleIds',
@@ -101,6 +103,8 @@ export default (listeners = {}) => {
           multiple: true,
         },
         label: '角色',
+        setValue: 'roleId',
+        setLabel: 'roleName',
       },
       {
         field: 'userId',

@@ -90,7 +90,7 @@
                   :ref="(el) => setItemRef(el, item.field)"
                   :disabled="allDisabled"
                   :placeholder="'请选择' + item.label"
-                  :options="item.options.value ?? item.options"
+                  :options="getOptions(item)"
                   v-model="data[`${item.field}`]"
                   v-bind="item.config"
                   v-on="item.eventFunction || {}"
@@ -115,9 +115,13 @@
                   v-on="item.eventFunction || {}"
                 >
                   <el-option
-                    v-for="option in item.options.value || item.options"
-                    :value="option.value"
-                    :label="option.label"
+                    v-for="option in getOptions(item)"
+                    :value="
+                      item.setValue ? option[item.setValue] : option.value
+                    "
+                    :label="
+                      item.setLabel ? option[item.setLabel] : option.label
+                    "
                     :key="option.key ?? option.value"
                     @click="
                       item.optionsClick
@@ -141,7 +145,7 @@
                   :placeholder="'请选择' + item.label"
                   :model-value="data[`${item.field}`]"
                   @update:modelValue="handleValueChange($event, item.field)"
-                  :data="item.options.value"
+                  :data="getOptions(item)"
                   v-bind="item.config"
                   v-on="item.eventFunction || {}"
                 >
@@ -181,7 +185,7 @@
                   :ref="(el) => setItemRef(el, item.field)"
                   :disabled="allDisabled"
                   v-model:data="data[`${item.field}`]"
-                  :options="item.options.value || item.options || []"
+                  :options="getOptions(item)"
                   :inputEventFunction="item.inputEventFunction || {}"
                 ></InputDropdown>
               </template>
@@ -195,11 +199,12 @@
                   v-if="item.isGroup"
                 >
                   <el-checkbox
-                    v-for="option in item.options.value || item.options"
+                    v-for="option in getOptions(item)"
                     :key="option.key ?? option.value"
-                    :label="option.label"
+                    :label="option.value"
                     :disabled="allDisabled"
                   >
+                    {{ option.label }}
                   </el-checkbox>
                   <template v-for="slotName in item.slotNames" #[slotName]>
                     <slot
@@ -208,16 +213,56 @@
                     </slot>
                   </template>
                 </el-checkbox-group>
-                <el-checkbox
-                  v-else
+                <template v-else>
+                  <el-checkbox
+                    v-for="option in getOptions(item)"
+                    v-model="data[`${item.field}`]"
+                    :key="option.key ?? option.value"
+                    :label="option.label"
+                    :disabled="allDisabled"
+                    v-bind="item.config"
+                    v-on="item.eventFunction || {}"
+                  >
+                  </el-checkbox>
+                </template>
+              </template>
+              <template v-if="item.type === 'radio'">
+                <el-radio-group
                   :ref="(el) => setItemRef(el, item.field)"
                   :disabled="allDisabled"
                   v-model="data[`${item.field}`]"
                   v-bind="item.config"
                   v-on="item.eventFunction || {}"
+                  v-if="item.isGroup"
                 >
-                  {{ item.label }}
-                </el-checkbox>
+                  <el-radio
+                    v-for="option in getOptions(item)"
+                    :key="option.key ?? option.value"
+                    :label="option.value"
+                    :disabled="allDisabled"
+                  >
+                    {{ option.label }}
+                  </el-radio>
+                  <template v-for="slotName in item.slotNames" #[slotName]>
+                    <slot
+                      :name="`${item.field}` + capitalizeFirstLetter(slotName)"
+                    >
+                    </slot>
+                  </template>
+                </el-radio-group>
+                <template v-else>
+                  <el-radio
+                    v-for="option in getOptions(item)"
+                    :ref="(el) => setItemRef(el, item.field)"
+                    :disabled="allDisabled"
+                    :label="option.value"
+                    v-model="data[`${item.field}`]"
+                    v-bind="item.config"
+                    v-on="item.eventFunction || {}"
+                  >
+                    {{ option.label }}
+                  </el-radio>
+                </template>
               </template>
               <template v-if="item.type === 'custom'">
                 <slot :name="`${item.field}Custom`"></slot>
@@ -358,6 +403,10 @@ const isHiddenItem = (item) => {
   }
   return flag
 }
+const getOptions = (item) => {
+  return item.options.value ?? item.options ?? []
+}
+
 defineExpose({
   commit,
   getFormValidate,

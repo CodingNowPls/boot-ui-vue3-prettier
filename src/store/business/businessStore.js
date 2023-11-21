@@ -5,7 +5,8 @@ import {
   editData,
   getPageListData,
 } from '@/api/business/main'
-import { callWithAsyncErrorHandling } from '@/utils/globalUtil/catchError.js'
+import to from '@/utils/to'
+
 const interceptor = (pageName) => {
   let url = `/${pageName}`
   return url
@@ -88,7 +89,10 @@ const businessStore = defineStore('business', {
         }
         return pageData
       }
-      let res = await callWithAsyncErrorHandling(fn)
+      let [err, res] = await to(fn())
+      if (err) {
+        console.log(err)
+      }
       return res
     },
     async deletDataAction(payload, send = true) {
@@ -106,7 +110,10 @@ const businessStore = defineStore('business', {
         }
         return res
       }
-      let res = await callWithAsyncErrorHandling(fn)
+      let [err, res] = await to(fn())
+      if (err) {
+        console.log(err)
+      }
       return res
     },
     async createDataAction(payload, send = true) {
@@ -125,7 +132,10 @@ const businessStore = defineStore('business', {
         }
         return res
       }
-      let res = await callWithAsyncErrorHandling(fn)
+      let [err, res] = await to(fn())
+      if (err) {
+        console.log(err)
+      }
 
       return res
     },
@@ -156,7 +166,10 @@ const businessStore = defineStore('business', {
         }
         return res
       }
-      let res = await callWithAsyncErrorHandling(fn)
+      let [err, res] = await to(fn())
+      if (err) {
+        console.log(err)
+      }
       return res
     },
     resetData(payload) {

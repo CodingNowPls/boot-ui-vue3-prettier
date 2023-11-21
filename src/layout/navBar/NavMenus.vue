@@ -35,7 +35,7 @@
     </div>
     <div @click="terminal.toggle()" class="nav-menu-item pt2">
       <el-badge>
-        <svg-icon
+        <SvgIcon
           :color="configStore.getColorVal('headerBarTabColor')"
           class="nav-menu-icon icon"
           icon-class="terminal"
@@ -123,10 +123,10 @@
       @click="configStore.setLayout('showDrawer', true)"
       class="nav-menu-item"
     >
-      <svg-icon
+      <SvgIcon
         :color="configStore.getColorVal('headerBarTabColor')"
         class="nav-menu-icon icon"
-        icon-class="cogs"
+        icon-class="system"
         size="20"
       />
     </div>

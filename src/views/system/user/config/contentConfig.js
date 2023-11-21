@@ -14,7 +14,7 @@ export const tableItem = [
   },
 
   {
-    prop: 'deptName',
+    slotName: 'deptSlot',
     label: '部门',
   },
   {
@@ -35,7 +35,7 @@ export const tableItem = [
   },
   {
     label: '操作',
-    width: '180',
+    width: '280',
     fixed: 'right',
     slotName: 'todo',
   },

@@ -60,7 +60,13 @@ export default (listeners = {}) => {
         },
       },
       {
-        label: '记住密码',
+        // label: '记住密码',
+        options: [
+          {
+            label: '记住密码',
+            value: true,
+          },
+        ],
         field: 'rememberMe',
         type: 'checkBox',
         hideLabel: true,

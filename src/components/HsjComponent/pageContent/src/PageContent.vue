@@ -3,7 +3,7 @@ import BaseTable from '@/base-component/BaseTable/index'
 import emitter from '@/utils/hsj/bus'
 import businessStore from '@/store/business/businessStore'
 import { getInfo } from '@/api/business/main/index'
-import { callWithAsyncErrorHandling } from '@/utils/globalUtil/catchError'
+import to from '@/utils/to'
 import DictCpn from './dictCpn.vue'
 const props = defineProps({
   // table的配置
@@ -77,7 +77,7 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  dictObj: {
+  dictMap: {
     type: Object,
     default: () => {
       return {}
@@ -97,6 +97,14 @@ const props = defineProps({
   showPageSearch: {
     type: Boolean,
   },
+  tableSelected: {
+    type: Array,
+    default: () => [],
+  },
+  permission: {
+    type: Object,
+    default: () => ({}),
+  },
 })
 const emit = defineEmits([
   'addClick',
@@ -105,6 +113,8 @@ const emit = defineEmits([
   'afterSend',
   'triggerShowSearch',
   'onChangeShowColumn',
+  'selectionChange',
+  'editMoreClick',
 ])
 const store = businessStore()
 const isLoading = ref(false)
@@ -165,38 +175,43 @@ const listCount = computed(() => {
 // 删除按钮
 const deleteRow = async (delData) => {
   isLoading.value = true
-  await store.deletDataAction(
-    {
-      id: delData[props.idKey] ?? delData[props.pageName + 'Id'] ?? delData.id,
-      pageName: props.pageName,
-      requestUrl: props.requestUrl,
-      searchData: {
-        ...props.otherRequestOption,
-        ...searchDatas.value,
+  let id = ''
+  if (Array.isArray(delData)) {
+    const ids = delData.map((item) => {
+      return item[props.idKey] ?? item[props.pageName + 'Id'] ?? item.id
+    })
+    id = ids.toString()
+  } else {
+    id = delData[props.idKey] ?? delData[props.pageName + 'Id'] ?? delData.id
+  }
+  await to(
+    store.deletDataAction(
+      {
+        id,
+        pageName: props.pageName,
+        requestUrl: props.requestUrl,
+        searchData: {
+          ...props.otherRequestOption,
+          ...finalSearchData.value,
+        },
       },
-    },
-    false
+      false
+    )
   )
-  send(finalSearchData.value)
+  await to(send(finalSearchData.value))
   isLoading.value = false
 }
 
 // 编辑按钮
 const editClick = async (item, type) => {
   isLoading.value = true
-  const fn = async () => {
-    // console.log('admin: ', admin)
-    let id = item[props.idKey] ?? item[props.pageName + 'Id'] ?? item.id
-    let url = `/${props.pageName}/${id}`
-    let res = await getInfo(url)
-    if (res.data) {
-      emit('editBtnClick', res.data, type)
-    }
-    return res
+  let id = item[props.idKey] ?? item[props.pageName + 'Id'] ?? item.id
+  let url = `/${props.pageName}/${id}`
+  let [err, res] = await to(getInfo(url))
+
+  if (res.data) {
+    emit('editBtnClick', res.data, type)
   }
-
-  await callWithAsyncErrorHandling(fn)
-
   isLoading.value = false
 }
 
@@ -303,6 +318,9 @@ const onChangeShowColumn = (checked, prop) => {
 const triggerShowSearch = () => {
   emit('triggerShowSearch')
 }
+const editMoreClick = () => {
+  emit('editMoreClick')
+}
 
 onMounted(() => {
   if (props.autoDesc) {
@@ -355,31 +373,55 @@ defineExpose({
       <template #refresh> </template>
       <!-- 操作按钮 -->
       <template #handleLeft>
-        <el-button
-          v-if="headerButtons.includes('refresh')"
-          type="info"
-          color="#40485b"
-          @click="refresh"
-        >
-          <SvgIcon iconClass="refresh" :size="13"></SvgIcon>
-        </el-button>
-        <el-button
-          type="primary"
-          v-if="headerButtons.includes('add')"
-          @click="addClick"
-        >
-          <SvgIcon :size="14" iconClass="plus"></SvgIcon>
-          <span class="ml6">添加</span>
-        </el-button>
-        <el-button type="primary" v-if="headerButtons.includes('edit')">
-          <SvgIcon :size="14" iconClass="pencil"></SvgIcon>
-          <span class="ml6">编辑</span>
-        </el-button>
-        <el-button type="danger" v-if="headerButtons.includes('delete')">
-          <SvgIcon :size="14" iconClass="trash"></SvgIcon>
-          <span class="ml6">删除</span>
-        </el-button>
-        <slot name="handleLeft"></slot>
+        <div class="flex">
+          <el-button
+            v-if="headerButtons.includes('refresh')"
+            type="info"
+            color="#40485b"
+            @click="refresh"
+          >
+            <SvgIcon iconClass="refresh" :size="13"></SvgIcon>
+          </el-button>
+          <el-button
+            type="primary"
+            v-if="headerButtons.includes('add')"
+            v-hasPermi="[permission.add]"
+            @click="addClick"
+          >
+            <SvgIcon :size="14" iconClass="plus"></SvgIcon>
+            <span class="ml6">添加</span>
+          </el-button>
+          <el-button
+            type="primary"
+            v-if="headerButtons.includes('edit')"
+            :disabled="tableSelected.length === 0"
+            v-hasPermi="[permission.edit]"
+            @click="editMoreClick"
+          >
+            <SvgIcon :size="14" iconClass="pencil"></SvgIcon>
+            <span class="ml6">编辑</span>
+          </el-button>
+          <div v-hasPermi="[permission.del]" class="ml12">
+            <el-popconfirm
+              v-if="headerButtons.includes('delete')"
+              title="确定删除选中记录？"
+              confirm-button-text="确认"
+              cancel-button-text="取消"
+              confirmButtonType="danger"
+              :hide-after="0"
+              @confirm="deleteRow(tableSelected)"
+            >
+              <template #reference>
+                <el-button type="danger" :disabled="tableSelected.length === 0">
+                  <SvgIcon :size="14" iconClass="trash"></SvgIcon>
+                  <span class="ml6">删除</span>
+                </el-button>
+              </template>
+            </el-popconfirm>
+          </div>
+
+          <slot name="handleLeft"></slot>
+        </div>
       </template>
       <template #handleRight>
         <div
@@ -451,10 +493,11 @@ defineExpose({
       </template>
       <template #todo="{ backData }">
         <div class="todo">
-          <slot name="todoSlot" :backData="backData"></slot>
+          <slot name="todoSlotLeft" :backData="backData"></slot>
           <div class="edit" v-if="showEdit">
             <el-button
               v-if="showEdit"
+              v-hasPermi="[permission.edit]"
               type="primary"
               size="small"
               @click="editClick(backData)"
@@ -463,11 +506,14 @@ defineExpose({
               <span class="ml6">编辑</span>
             </el-button>
           </div>
-          <div class="del ml10" v-if="showDelete">
+          <slot name="todoSlotCenter" :backData="backData"></slot>
+          <div class="del ml10" v-if="showDelete" v-hasPermi="[permission.del]">
             <el-popconfirm
               title="确定删除选中记录？"
               confirm-button-text="确认"
               cancel-button-text="取消"
+              confirmButtonType="danger"
+              :hide-after="0"
               @confirm="deleteRow(backData)"
             >
               <template #reference>
@@ -478,6 +524,7 @@ defineExpose({
               </template>
             </el-popconfirm>
           </div>
+          <slot name="todoSlotRight" :backData="backData"></slot>
         </div>
       </template>
 
@@ -487,14 +534,13 @@ defineExpose({
         #[item.slotName]="{ backData }"
       >
         <template v-if="item.slotName">
-          <template v-if="item.isDict">
-            <DictCpn
-              :dictKey="item.slotName"
-              :dictObj="dictObj"
-              :backData="backData[item.prop]"
-            ></DictCpn>
-          </template>
-          <slot :name="item.slotName" :backData="backData" v-else></slot>
+          <slot :name="item.slotName" :backData="backData"></slot>
+        </template>
+        <template v-if="item.isDict">
+          <DictCpn
+            :value="backData[item.prop]"
+            :dictList="dictMap[backData.prop]"
+          ></DictCpn>
         </template>
       </template>
       <template
@@ -510,15 +556,14 @@ defineExpose({
 
 <style scoped lang="scss">
 .todo {
-  max-width: 150px;
   flex-wrap: wrap;
   display: flex;
   justify-content: center;
   align-items: center;
-  button {
+  /* button {
     width: 60px;
     text-align: center;
-  }
+  } */
 }
 .page-content :deep(.el-table__header) {
   .cell {

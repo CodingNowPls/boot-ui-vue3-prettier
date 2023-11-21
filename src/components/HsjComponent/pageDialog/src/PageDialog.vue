@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue'
 import BaseForm from '@/base-component/BaseForm'
 import businessStore from '@/store/business/businessStore'
+import to from '@/utils/to'
 
 const props = defineProps({
   infoInit: {
@@ -51,14 +52,18 @@ const props = defineProps({
   sendIdKey: {
     type: String,
   },
+  isEditMore: {
+    type: Boolean,
+  },
 })
-const emits = defineEmits(['closed'])
+const emits = defineEmits(['closed', 'editNext'])
 const dialogVisible = ref(false)
 const formData = ref({})
 const title = ref('')
 const formRef = ref(null)
 const store = businessStore()
 const loading = ref(false)
+const tableSelected = ref([])
 
 watch(
   () => props.infoInit,
@@ -79,7 +84,7 @@ const commitClick = async () => {
   const success = async () => {
     if (Object.keys(props.infoInit).length) {
       //编辑
-      await store.editDataAction({
+      return await store.editDataAction({
         pageName: props.pageName,
         requestUrl: props.requestUrl,
         editInfo: {
@@ -96,7 +101,7 @@ const commitClick = async () => {
       })
     } else {
       //新建
-      await store.createDataAction({
+      return await store.createDataAction({
         pageName: props.pageName,
         requestUrl: props.requestUrl,
         newData: {
@@ -108,7 +113,20 @@ const commitClick = async () => {
       })
     }
   }
-  await formRef.value?.commit(success, loading, dialogVisible)
+  const validate = formRef.value?.getFormValidate
+  if (validate) {
+    loading.value = true
+    const [err, res] = await to(success())
+    if (res) {
+      if (props.isEditMore && tableSelected.value.length > 0) {
+        const current = tableSelected.value.shift()
+        emits('editNext', current)
+      } else {
+        dialogVisible.value = false
+      }
+    }
+    loading.value = false
+  }
 }
 const footerPaddingRight = computed(() => {
   let pr = 30
@@ -125,7 +143,11 @@ const footerPaddingRight = computed(() => {
 const dialogClosed = () => {
   emits('closed')
 }
-defineExpose({ dialogVisible, title, formData })
+
+const changeSelected = (newValue) => {
+  tableSelected.value = newValue
+}
+defineExpose({ dialogVisible, title, formData, changeSelected })
 </script>
 <template>
   <div class="page-dialog">
@@ -150,10 +172,15 @@ defineExpose({ dialogVisible, title, formData })
       <slot></slot>
       <template #footer>
         <span class="dialog-footer">
-          <el-button @click="dialogVisible = false">取 消</el-button>
+          <el-button @click="dialogVisible = false" :loading="loading">
+            取消
+          </el-button>
 
           <el-button type="primary" @click="commitClick" :loading="loading">
-            确 定
+            <span v-if="tableSelected.length > 0 && isEditMore">
+              保存并编辑下一项
+            </span>
+            <span v-else>保存</span>
           </el-button>
         </span>
       </template>

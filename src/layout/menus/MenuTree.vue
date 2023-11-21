@@ -15,11 +15,11 @@
           :index="resolvePath(onlyOneChild.path)"
           :class="{ 'submenu-title-noDropdown': !isNest }"
         >
-          <svg-icon
+          <SvgIcon
             :icon-class="
               onlyOneChild.meta.icon || (item.meta && item.meta.icon)
             "
-            :size="18"
+            :size="16"
           />
           <template #title>
             <span

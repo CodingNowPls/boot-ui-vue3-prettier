@@ -17,13 +17,13 @@ export default function useDialog(
     }
     addCallBack && addCallBack()
   }
-  const editBtnClick = (item) => {
+  const editBtnClick = (item, type = false) => {
     infoInit.value = { ...item }
     if (dialogRef.value) {
       dialogRef.value.title = editTitle
       dialogRef.value.dialogVisible = true
     }
-    editCallback && editCallback(item)
+    editCallback && editCallback(item, type)
   }
   return [dialogRef, infoInit, addClick, editBtnClick]
 }
