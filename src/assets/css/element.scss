@@ -54,4 +54,10 @@
     }
   }
 }
+.el-dialog__header,
+.el-message-box__header {
+  text-align: left;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--ba-bg-color);
+}
 /* dialog滚动条-e */

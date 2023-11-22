@@ -138,6 +138,16 @@
                   </template>
                 </el-select>
               </template>
+              <template v-if="item.type === 'tree'">
+                <el-tree
+                  :ref="(el) => setItemRef(el, item.field)"
+                  :data="getOptions(item)"
+                  :style="{
+                    width: '100%',
+                  }"
+                  v-bind="item.config"
+                ></el-tree>
+              </template>
               <template v-if="item.type === 'treeSelect'">
                 <el-tree-select
                   :ref="(el) => setItemRef(el, item.field)"
@@ -203,6 +213,7 @@
                     :key="option.key ?? option.value"
                     :label="option.value"
                     :disabled="allDisabled"
+                    v-bind="item.optionConfig ?? {}"
                   >
                     {{ option.label }}
                   </el-checkbox>
@@ -240,6 +251,7 @@
                     :key="option.key ?? option.value"
                     :label="option.value"
                     :disabled="allDisabled"
+                    v-bind="item.optionConfig ?? {}"
                   >
                     {{ option.label }}
                   </el-radio>
@@ -274,8 +286,12 @@
             </el-form-item>
           </el-col>
         </template>
-        <el-col v-bind="footerLayout" v-if="$slots['footer']">
-          <div class="footer" :style="itemStyle">
+        <el-col
+          v-bind="footerLayout"
+          v-if="$slots['footer']"
+          :style="itemStyle"
+        >
+          <div class="footer">
             <slot name="footer"></slot>
           </div>
         </el-col>
@@ -329,8 +345,8 @@ const props = defineProps({
     type: Object,
     default: () => ({
       xl: 3,
-      gl: 6,
-      md: 8,
+      gl: 3,
+      md: 4,
       sm: 12,
       xs: 24,
     }),

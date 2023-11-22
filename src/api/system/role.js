@@ -1,4 +1,4 @@
-import request from '@/utils/hsj/service/index'
+import { request } from '@/utils/hsj/service/index'
 
 // 查询角色列表
 export function listRole(query) {

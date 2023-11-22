@@ -1,4 +1,7 @@
 <script setup name="User">
+import { ElMessage } from 'element-plus'
+import { nextTick } from 'vue'
+import ImportDialog from '@/components/HsjComponent/importDialog/index'
 import getSearchConfig from './config/searchConfig'
 import getContentConfig from './config/contentConfig.js'
 import getDialogConfig from './config/dialogConfig.js'
@@ -11,9 +14,9 @@ import {
   deptTreeSelect,
 } from '@/api/system/user'
 import to from '@/utils/to'
-import { ElMessage } from 'element-plus'
-import { nextTick } from 'vue'
+import { getToken } from '@/utils/auth'
 
+// const router = useRouter()
 const { proxy } = getCurrentInstance()
 const { sys_normal_disable, sys_user_sex } = proxy.useDict(
   'sys_normal_disable',
@@ -24,10 +27,11 @@ const pageName = ref('user')
 const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
-const deptOptions = ref([])
-const postOptions = ref([])
 const roleOptions = ref([])
 const descConfig = ref({})
+
+const deptOptions = ref([])
+const postOptions = ref([])
 /** 查询部门下拉树结构 */
 const getDeptTree = async () => {
   const [err, res] = await to(deptTreeSelect())
@@ -145,6 +149,80 @@ const handleStatusChange = async (row) => {
     row.status = row.status === '0' ? '1' : '0'
   }
 }
+const handleResetPwd = (row) => {
+  console.log(proxy.$modal)
+  proxy.$modal
+    .prompt('请输入"' + row.userName + '"的新密码', '提示', {
+      confirmButtonText: '确定',
+      cancelButtonText: '取消',
+      closeOnClickModal: false,
+      inputPattern: /^.{5,20}$/,
+      inputErrorMessage: '用户密码长度必须介于 5 和 20 之间',
+    })
+    .then(({ value }) => {
+      resetUserPwd(row.userId, value).then((response) => {
+        proxy.$modal.msgSuccess('修改成功，新密码是：' + value)
+      })
+    })
+    .catch(() => {})
+}
+
+/** 导出按钮操作 */
+const handleExport = () => {
+  proxy.download(
+    'system/user/export',
+    {
+      ...searchData.value,
+    },
+    `user_${new Date().getTime()}.xlsx`
+  )
+}
+
+/*** 用户导入参数 */
+const uploadConfig = ref({
+  open: false,
+  // 弹出层标题（用户导入）
+  title: '',
+  // 是否禁用上传
+  isUploading: false,
+  // 是否更新已经存在的用户数据
+  updateSupport: 0,
+  // 设置上传的请求头部
+  headers: { Authorization: 'Bearer ' + getToken() },
+  // 上传的地址
+  url: import.meta.env.VITE_APP_BASE_API + '/system/user/importData',
+})
+
+const handleImport = () => {
+  uploadConfig.value.title = '用户导入'
+  uploadConfig.value.open = true
+}
+/** 下载模板操作 */
+const downloadTemplate = () => {
+  proxy.download(
+    'system/user/importTemplate',
+    {},
+    `user_template_${new Date().getTime()}.xlsx`
+  )
+}
+/**文件上传中处理 */
+const handleFileUploadProgress = () => {
+  upload.isUploading = true
+}
+
+/** 文件上传成功处理 */
+const handleFileSuccess = ({ response }) => {
+  upload.open = false
+  upload.isUploading = false
+  proxy.$alert(
+    "<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" +
+      response.msg +
+      '</div>',
+    '导入结果',
+    { dangerouslyUseHTMLString: true }
+  )
+  getList()
+}
 
 const init = () => {
   getDeptTree()
@@ -183,11 +261,16 @@ init()
           type="warning"
           class="ml12"
           v-hasPermi="['system:user:import']"
+          @click="handleImport"
         >
           <SvgIcon size="14" iconClass="upload" />
           <span class="ml6">导入</span>
         </el-button>
-        <el-button type="warning" v-hasPermi="['system:user:export']">
+        <el-button
+          type="warning"
+          v-hasPermi="['system:user:export']"
+          @click="handleExport"
+        >
           <SvgIcon size="14" iconClass="download" />
           <span class="ml6">导出</span>
         </el-button>
@@ -203,9 +286,15 @@ init()
       <template #deptSlot="{ backData }">
         <span> {{ backData.dept?.deptName }}</span>
       </template>
-      <template #todoSlotCenter="{ backData }">
-        <el-button class="ml12" size="small" type="primary">
-          <SvgIcon size="12" iconClass="key" />
+      <template #todoSlot="{ backData }">
+        <el-button
+          class="mt6 order11"
+          size="small"
+          type="primary"
+          @click="handleResetPwd(backData)"
+          v-hasPermi="['system:user:resetPwd']"
+        >
+          <SvgIcon size="11" iconClass="key" />
           <span class="ml6">重置密码</span>
         </el-button>
       </template>
@@ -221,11 +310,29 @@ init()
       @editNext="editNext"
     >
     </PageDialog>
+    <ImportDialog
+      v-model:upload="uploadConfig"
+      @progress="handleFileUploadProgress"
+      @success="handleFileSuccess"
+      @downloadTemplate="downloadTemplate"
+    ></ImportDialog>
   </div>
 </template>
 
 <style scoped lang="scss">
 .userPage {
   background-color: var(--ba-bg-color-overlay);
+}
+.userPage {
+  :deep(.statusClass .el-radio-group) {
+    width: 100%;
+    justify-content: space-between;
+    .el-radio {
+      margin-right: 0;
+    }
+  }
+  :deep(.del) {
+    margin-left: 12px;
+  }
 }
 </style>

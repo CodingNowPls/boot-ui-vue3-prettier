@@ -1,6 +1,240 @@
-<script setup></script>
+<script setup name="User">
+import { nextTick } from 'vue'
+import getSearchConfig from './config/searchConfig'
+import getContentConfig from './config/contentConfig.js'
+import getDialogConfig from './config/dialogConfig.js'
+import useDialog from '@/hooks/useDialog'
+import getComputedConfig from '@/hooks/getPageConfig'
+import to from '@/utils/to'
+import { changeRoleStatus } from '@/api/system/role'
+import { roleMenuTreeselect, treeselect } from '@/api/system/menu'
+import { getToken } from '@/utils/auth'
+
+const router = useRouter()
+const { proxy } = getCurrentInstance()
+const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
+
+const pageName = ref('role')
+const showPageSearch = ref(true)
+const pageSearchRef = ref(null)
+const pageContentRef = ref(null)
+const descConfig = ref({})
+const treeSelectInfo = ref([])
+
+const getTreeSelect = async () => {
+  const [err, res] = await to(treeselect())
+  treeSelectInfo.value = res.data ?? []
+}
+const dialogHideItems = ref([])
+const tableHideItems = ref([])
+const dictMap = {
+  status: sys_normal_disable,
+  menuIds: treeSelectInfo,
+}
+const searchConfig = getSearchConfig()
+const searchConfigComputed = computed(() => {
+  return getComputedConfig(searchConfig, dictMap)
+})
+const tableSelected = ref([])
+const tableListener = {
+  selectionChange: (selected) => {
+    tableSelected.value = selected
+  },
+}
+const contentConfig = getContentConfig()
+const contentConfigComputed = computed(() => {
+  contentConfig.hideItems = tableHideItems
+  return contentConfig
+})
+
+const dialogConfig = getDialogConfig()
+
+const dialogConfigComputed = computed(() => {
+  dialogConfig.hideItems = dialogHideItems
+  return getComputedConfig(dialogConfig, dictMap)
+})
+
+const addCallBack = () => {}
+const editCallBack = (item, type) => {
+  isEditMore.value = type
+}
+const isEditMore = ref(false)
+const editMoreClick = () => {
+  if (tableSelected.value.length > 0) {
+    const data = tableSelected.value[0]
+    pageContentRef.value?.editClick(data, true)
+    nextTick(() => {
+      const newArray = tableSelected.value.slice(1)
+      dialogRef.value?.changeSelected(newArray)
+    })
+  }
+}
+
+const editNext = (data) => {
+  pageContentRef.value?.editClick(data, true)
+}
+
+const [dialogRef, infoInit, addClick, editBtnClick] = useDialog(
+  addCallBack,
+  editCallBack,
+  '添加'
+)
+
+const dialogWidth = ref('550px')
+const searchData = computed(() => {
+  return pageContentRef.value?.finalSearchData
+})
+
+const beforeSend = (queryInfo) => {
+  if (queryInfo.dateRange && Array.isArray(queryInfo.dateRange)) {
+    const dateRange = queryInfo.dateRange
+    queryInfo['params[beginTime]'] = dateRange[0]
+    queryInfo['params[endTime]'] = dateRange[1]
+    delete queryInfo.dateRange
+  }
+}
+
+const permission = ref({
+  add: 'system:role:add',
+  edit: 'system:role:edit',
+  del: 'system:role:remove',
+})
+
+const triggerShowSearch = () => {
+  showPageSearch.value = !showPageSearch.value
+}
+
+const onChangeShowColumn = (filterArr) => {
+  tableHideItems.value = filterArr
+}
+
+/** 导出按钮操作 */
+const handleExport = () => {
+  proxy.download(
+    'system/role/export',
+    {
+      ...searchData.value,
+    },
+    `role${new Date().getTime()}.xlsx`
+  )
+}
+
+const handleStatusChange = async (row) => {
+  let text = row.status === '0' ? '启用' : '停用'
+  const [err, res] = await to(changeRoleStatus(row.userId, row.status))
+  if (res) {
+    ElMessage({
+      type: 'success',
+      message: text + '成功',
+    })
+  }
+  if (err) {
+    row.status = row.status === '0' ? '1' : '0'
+  }
+}
+
+const init = () => {
+  getTreeSelect()
+}
+
+init()
+</script>
 <template>
-  <div class="">role</div>
+  <div class="default-main userPage">
+    <PageSearch
+      v-show="showPageSearch"
+      ref="pageSearchRef"
+      :pageName="pageName"
+      :searchConfig="searchConfigComputed"
+    ></PageSearch>
+    <PageContent
+      ref="pageContentRef"
+      :pageName="pageName"
+      :contentConfig="contentConfigComputed"
+      :descConfig="descConfig"
+      :showPageSearch="showPageSearch"
+      :dictMap="dictMap"
+      :tableListener="tableListener"
+      :tableSelected="tableSelected"
+      :permission="permission"
+      @beforeSend="beforeSend"
+      @addClick="addClick"
+      @editBtnClick="editBtnClick"
+      @onChangeShowColumn="onChangeShowColumn"
+      @triggerShowSearch="triggerShowSearch"
+      @editMoreClick="editMoreClick"
+    >
+      <template #handleLeft>
+        <el-button
+          class="ml12"
+          type="warning"
+          v-hasPermi="['system:user:export']"
+          @click="handleExport"
+        >
+          <SvgIcon size="14" iconClass="download" />
+          <span class="ml6">导出</span>
+        </el-button>
+      </template>
+      <template #statusSlot="{ backData }">
+        <el-switch
+          v-model="backData.status"
+          active-value="0"
+          inactive-value="1"
+          @click="handleStatusChange(backData)"
+        ></el-switch>
+      </template>
+      <template #deptSlot="{ backData }">
+        <span> {{ backData.dept?.deptName }}</span>
+      </template>
+      <template #todoSlot="{ backData }">
+        <el-button
+          class="order6 ml12"
+          size="small"
+          type="primary"
+          @click="handleResetPwd(backData)"
+          v-hasPermi="['system:role:edit']"
+        >
+          <SvgIcon size="11" iconClass="random" />
+          <span class="ml6">数据权限</span>
+        </el-button>
+        <el-button
+          class="mt6 order11"
+          size="small"
+          type="primary"
+          @click="handleResetPwd(backData)"
+          v-hasPermi="['system:role:edit']"
+        >
+          <SvgIcon size="11" iconClass="user" />
+          <span class="ml6">分配用户</span>
+        </el-button>
+      </template>
+    </PageContent>
+    <PageDialog
+      ref="dialogRef"
+      top="8vh"
+      maxHeight="510px"
+      :width="dialogWidth"
+      :pageName="pageName"
+      :dialogConfig="dialogConfigComputed"
+      :infoInit="infoInit"
+      :searchData="searchData"
+      :isEditMore="isEditMore"
+      @editNext="editNext"
+    >
+    </PageDialog>
+  </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.userPage {
+  background-color: var(--ba-bg-color-overlay);
+}
+.userPage {
+  :deep(.statusClass .el-radio-group) {
+    width: 100%;
+  }
+  :deep(.del) {
+    margin-top: 6px;
+  }
+}
+</style>

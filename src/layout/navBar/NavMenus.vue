@@ -126,7 +126,7 @@
       <SvgIcon
         :color="configStore.getColorVal('headerBarTabColor')"
         class="nav-menu-icon icon"
-        icon-class="system"
+        iconClass="cogs"
         size="20"
       />
     </div>

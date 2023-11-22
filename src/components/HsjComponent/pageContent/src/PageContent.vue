@@ -493,8 +493,8 @@ defineExpose({
       </template>
       <template #todo="{ backData }">
         <div class="todo">
-          <slot name="todoSlotLeft" :backData="backData"></slot>
-          <div class="edit" v-if="showEdit">
+          <slot name="todoSlot" :backData="backData"></slot>
+          <div class="edit order5" v-if="showEdit">
             <el-button
               v-if="showEdit"
               v-hasPermi="[permission.edit]"
@@ -506,8 +506,12 @@ defineExpose({
               <span class="ml6">编辑</span>
             </el-button>
           </div>
-          <slot name="todoSlotCenter" :backData="backData"></slot>
-          <div class="del ml10" v-if="showDelete" v-hasPermi="[permission.del]">
+          <!-- <slot name="todoSlotCenter" :backData="backData"></slot> -->
+          <div
+            class="del order10"
+            v-if="showDelete"
+            v-hasPermi="[permission.del]"
+          >
             <el-popconfirm
               title="确定删除选中记录？"
               confirm-button-text="确认"
@@ -524,7 +528,7 @@ defineExpose({
               </template>
             </el-popconfirm>
           </div>
-          <slot name="todoSlotRight" :backData="backData"></slot>
+          <!-- <slot name="todoSlotRight" :backData="backData"></slot> -->
         </div>
       </template>
 

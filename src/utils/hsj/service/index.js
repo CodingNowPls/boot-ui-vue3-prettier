@@ -150,7 +150,7 @@ const LmwRequest = new LmwAxios({
         } else if (message.includes('Request failed with status code')) {
           message = '系统接口' + message.substr(message.length - 3) + '异常'
         }
-        if (error.response.status !== 304) {
+        if (error.response?.status !== 304) {
           ElMessage({
             message: message,
             type: 'error',
@@ -169,16 +169,17 @@ export const request = (config) => {
 }
 
 // 通用下载方法
-export function download(url, params, filename, config) {
+export function download(url, data, filename, config) {
   downloadLoadingInstance = ElLoading.service({
     text: '正在下载数据，请稍候',
     background: 'rgba(0, 0, 0, 0.7)',
   })
-  return LmwRequest.post(url, {
-    params,
+  return LmwRequest.post({
+    url,
+    data,
     transformRequest: [
-      (params) => {
-        return tansParams(params)
+      (data) => {
+        return tansParams(data)
       },
     ],
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },

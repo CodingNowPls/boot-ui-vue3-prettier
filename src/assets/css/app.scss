@@ -55,6 +55,9 @@ a {
   .pl#{$i} {
     padding-left: #{$i}px;
   }
+  .order#{$i} {
+    order: #{$i};
+  }
 }
 
 // 阿里 iconfont Symbol引用css

@@ -1,26 +1,20 @@
 export const tableItem = [
   {
-    prop: 'userId',
-    label: '用户编号',
-    hide: false,
+    prop: 'roleId',
+    label: '角色编号',
   },
   {
-    prop: 'userName',
-    label: '用户名称',
+    prop: 'roleName',
+    label: '角色名称',
   },
   {
-    prop: 'nickName',
-    label: '用户昵称',
+    prop: 'roleKey',
+    label: '权限字符',
   },
 
   {
-    slotName: 'deptSlot',
-    label: '部门',
-  },
-  {
-    prop: 'phonenumber',
-    label: '手机号码',
-    width: '120',
+    prop: 'roleSort',
+    label: '显示顺序',
   },
   {
     prop: 'status',
@@ -35,7 +29,7 @@ export const tableItem = [
   },
   {
     label: '操作',
-    width: '200',
+    width: '220',
     fixed: 'right',
     slotName: 'todo',
   },

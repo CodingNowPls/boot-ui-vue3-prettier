@@ -23,7 +23,7 @@ const props = defineProps({
   },
   width: {
     type: String,
-    default: '40%',
+    default: '600px',
   },
   top: {
     type: String,
@@ -54,6 +54,10 @@ const props = defineProps({
   },
   isEditMore: {
     type: Boolean,
+  },
+  maxHeight: {
+    type: String,
+    default: 'initial',
   },
 })
 const emits = defineEmits(['closed', 'editNext'])
@@ -161,15 +165,22 @@ defineExpose({ dialogVisible, title, formData, changeSelected })
       destroy-on-close
       @closed="dialogClosed"
     >
-      <BaseForm v-model:data="formData" v-bind="dialogConfig" ref="formRef">
-        <template
-          v-for="(value, slotName) in $slots"
-          #[slotName]="{ backData }"
+      <el-scrollbar class="ba-table-form-scrollbar">
+        <BaseForm
+          class="baseForm"
+          v-model:data="formData"
+          v-bind="dialogConfig"
+          ref="formRef"
         >
-          <slot :name="slotName" :backData="backData"></slot>
-        </template>
-      </BaseForm>
-      <slot></slot>
+          <template
+            v-for="(value, slotName) in $slots"
+            #[slotName]="{ backData }"
+          >
+            <slot :name="slotName" :backData="backData"></slot>
+          </template>
+        </BaseForm>
+        <slot></slot>
+      </el-scrollbar>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false" :loading="loading">
@@ -195,15 +206,15 @@ defineExpose({ dialogVisible, title, formData, changeSelected })
     padding-bottom: 16px;
     border-bottom: 1px solid var(--ba-bg-color);
   }
-  :deep(.el-dialog__title) {
-    font-size: 16px;
-  }
   :deep(.el-dialog__body) {
     padding: 20px 30px 0px 30px;
   }
   :deep(.el-dialog__footer) {
     text-align: right;
     padding-right: v-bind(footerPaddingRight) !important;
+  }
+  .baseForm {
+    max-height: v-bind(maxHeight);
   }
 }
 </style>
