@@ -108,6 +108,16 @@ const dialogWidth = ref('600px')
 const searchData = computed(() => {
   return pageContentRef.value?.finalSearchData
 })
+
+const beforeSend = (queryInfo) => {
+  if (queryInfo.dateRange && Array.isArray(queryInfo.dateRange)) {
+    const dateRange = queryInfo.dateRange
+    queryInfo['params[beginTime]'] = dateRange[0]
+    queryInfo['params[endTime]'] = dateRange[1]
+    delete queryInfo.dateRange
+  }
+}
+
 const permission = ref({
   add: 'system:user:add',
   edit: 'system:user:edit',
@@ -161,6 +171,7 @@ init()
       :tableListener="tableListener"
       :tableSelected="tableSelected"
       :permission="permission"
+      @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"
       @onChangeShowColumn="onChangeShowColumn"

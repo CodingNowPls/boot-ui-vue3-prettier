@@ -1,9 +1,18 @@
 import { BASE_URL, TIME_OUT } from './request/config'
 import LmwAxios from './request/index'
 import errorCode from '@/utils/errorCode'
-import { ElNotification, ElMessage } from 'element-plus'
+import {
+  ElNotification,
+  ElMessageBox,
+  ElMessage,
+  ElLoading,
+} from 'element-plus'
 import { getToken } from '@/utils/auth'
+import { tansParams, blobValidate } from '@/utils/ruoyi.js'
 import session from '@/utils/hsj/useSession'
+import useUserStore from '@/store/modules/user'
+
+let downloadLoadingInstance
 export let isRelogin = { show: false }
 const LmwRequest = new LmwAxios({
   baseURL: BASE_URL,
@@ -18,6 +27,13 @@ const LmwRequest = new LmwAxios({
       const isRepeatSubmit = (config.headers || {}).repeatSubmit === false
       if (getToken() && !isToken) {
         config.headers['Authorization'] = 'Bearer ' + getToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+      }
+      // get请求映射params参数
+      if (config.method === 'get' && config.params) {
+        let url = config.url + '?' + tansParams(config.params)
+        url = url.slice(0, -1)
+        config.params = {}
+        config.url = url
       }
       if (
         !isRepeatSubmit &&
@@ -65,7 +81,6 @@ const LmwRequest = new LmwAxios({
     },
     requestInterceptorCatch: (error) => {
       Promise.reject(error)
-      return error
     },
     //  响应拦截
     responseInterceptor: (res) => {
@@ -81,6 +96,29 @@ const LmwRequest = new LmwAxios({
         return Promise.resolve(res.data)
       }
       if (code === 401) {
+        if (!isRelogin.show) {
+          isRelogin.show = true
+          ElMessageBox.confirm(
+            '登录状态已过期，您可以继续留在该页面，或者重新登录',
+            '系统提示',
+            {
+              confirmButtonText: '重新登录',
+              cancelButtonText: '取消',
+              type: 'warning',
+            }
+          )
+            .then(() => {
+              isRelogin.show = false
+              useUserStore()
+                .logOut()
+                .then(() => {
+                  location.href = '/index'
+                })
+            })
+            .catch(() => {
+              isRelogin.show = false
+            })
+        }
         return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
       } else if (code === 500) {
         ElMessage.error({
@@ -90,6 +128,9 @@ const LmwRequest = new LmwAxios({
           grouping: true,
         })
         return Promise.reject(`msg:${msg},code:${code}`)
+      } else if (code === 601) {
+        ElMessage({ message: msg ?? '后端 601 报错', type: 'warning' })
+        return Promise.reject(new Error(msg))
       } else if (code !== 200) {
         ElNotification.error({
           title: msg,
@@ -125,4 +166,42 @@ const LmwRequest = new LmwAxios({
 export default LmwRequest
 export const request = (config) => {
   return LmwRequest.request(config)
+}
+
+// 通用下载方法
+export function download(url, params, filename, config) {
+  downloadLoadingInstance = ElLoading.service({
+    text: '正在下载数据，请稍候',
+    background: 'rgba(0, 0, 0, 0.7)',
+  })
+  return LmwRequest.post(url, {
+    params,
+    transformRequest: [
+      (params) => {
+        return tansParams(params)
+      },
+    ],
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    responseType: 'blob',
+    ...config,
+  })
+    .then(async (data) => {
+      const isLogin = await blobValidate(data)
+      if (isLogin) {
+        const blob = new Blob([data])
+        saveAs(blob, filename)
+      } else {
+        const resText = await data.text()
+        const rspObj = JSON.parse(resText)
+        const errMsg =
+          errorCode[rspObj.code] || rspObj.msg || errorCode['default']
+        ElMessage.error(errMsg)
+      }
+      downloadLoadingInstance.close()
+    })
+    .catch((r) => {
+      console.error(r)
+      ElMessage.error('下载文件出现错误，请联系管理员！')
+      downloadLoadingInstance.close()
+    })
 }

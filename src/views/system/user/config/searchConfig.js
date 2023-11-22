@@ -33,6 +33,15 @@ export default (otherConfig = {}) => {
         type: 'datepicker',
         config: {
           type: 'daterange',
+          valueFormat: 'YYYY-MM-DD',
+          format: 'YYYY/MM/DD',
+        },
+        layout: {
+          xl: 5,
+          gl: 6,
+          md: 7,
+          sm: 12,
+          xs: 24,
         },
       },
     ],

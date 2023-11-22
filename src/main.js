@@ -14,7 +14,7 @@ import directive from './directive/index'
 
 // 注册指令
 import plugins from './plugins/index.js' // plugins
-
+import { download } from '@/utils/hsj/service/index'
 // svg图标
 import 'virtual:svg-icons-register'
 import elementIcons from '@/components/SvgIcon/svgicon'
@@ -37,6 +37,7 @@ app.use(plugins)
 app.use(elementIcons)
 
 app.config.globalProperties.useDict = useDict
+app.config.globalProperties.download = download
 
 app.component('SvgIcon', SvgIcon)
 app.component('BaseForm', BaseForm)
