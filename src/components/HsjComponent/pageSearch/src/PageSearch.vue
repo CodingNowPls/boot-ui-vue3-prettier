@@ -40,6 +40,11 @@ const reset = () => {
   baseFormRef.value?.elFormRef?.resetFields()
   search()
 }
+
+const keyUpEnter = () => {
+  search()
+}
+
 onMounted(() => {
   for (const item of formItem) {
     formData.value[item.field] = item.default ?? ''
@@ -57,7 +62,12 @@ defineExpose({
 <template>
   <div class="page-search">
     <div class="search">
-      <BaseForm ref="baseFormRef" v-bind="searchConfig" v-model:data="formData">
+      <BaseForm
+        ref="baseFormRef"
+        v-bind="searchConfig"
+        v-model:data="formData"
+        @keyUpEnter="keyUpEnter"
+      >
         <template #footer>
           <div class="footer" v-if="showSearch">
             <el-button

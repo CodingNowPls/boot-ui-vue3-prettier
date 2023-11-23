@@ -122,7 +122,7 @@ defineExpose({
 
 <template>
   <div class="lmw-table">
-    <div class="header" v-if="hasSlot($slots, ['handle', 'refresh'])">
+    <div class="header" v-if="hasSlot($slots, ['handleLeft', 'handleRight'])">
       <slot name="header">
         <div class="handle">
           <slot name="handleLeft"></slot>

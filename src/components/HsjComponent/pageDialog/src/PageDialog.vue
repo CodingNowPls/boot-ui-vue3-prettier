@@ -60,7 +60,7 @@ const props = defineProps({
     default: 'initial',
   },
 })
-const emits = defineEmits(['closed', 'editNext'])
+const emits = defineEmits(['closed', 'editNext', 'beforeSave'])
 const dialogVisible = ref(false)
 const formData = ref({})
 const title = ref('')
@@ -88,13 +88,13 @@ const commitClick = async () => {
   const success = async () => {
     if (Object.keys(props.infoInit).length) {
       //编辑
+      emits('beforeSave')
       return await store.editDataAction({
         pageName: props.pageName,
         requestUrl: props.requestUrl,
         editInfo: {
           ...formData.value,
           ...props.otherInfo,
-          ...props.otherRequestOption,
         },
         searchData: { ...props.searchData, ...props.otherRequestOption },
         id:
@@ -105,13 +105,13 @@ const commitClick = async () => {
       })
     } else {
       //新建
+      emits('beforeSave')
       return await store.createDataAction({
         pageName: props.pageName,
         requestUrl: props.requestUrl,
         newData: {
           ...formData.value,
           ...props.otherInfo,
-          ...props.otherRequestOption,
         },
         searchData: { ...props.searchData, ...props.otherRequestOption },
       })
@@ -148,10 +148,21 @@ const dialogClosed = () => {
   emits('closed')
 }
 
+const setFormData = (key, value) => {
+  formData.value[key] = value
+}
+
 const changeSelected = (newValue) => {
   tableSelected.value = newValue
 }
-defineExpose({ dialogVisible, title, formData, changeSelected })
+defineExpose({
+  dialogVisible,
+  title,
+  formData,
+  setFormData,
+  changeSelected,
+  formRef,
+})
 </script>
 <template>
   <div class="page-dialog">
@@ -165,7 +176,7 @@ defineExpose({ dialogVisible, title, formData, changeSelected })
       destroy-on-close
       @closed="dialogClosed"
     >
-      <el-scrollbar class="ba-table-form-scrollbar">
+      <el-scrollbar class="ba-table-form-scrollbar" :max-height="maxHeight">
         <BaseForm
           class="baseForm"
           v-model:data="formData"
@@ -207,14 +218,14 @@ defineExpose({ dialogVisible, title, formData, changeSelected })
     border-bottom: 1px solid var(--ba-bg-color);
   }
   :deep(.el-dialog__body) {
-    padding: 20px 30px 0px 30px;
+    padding: 20px 20px 0px 20px;
   }
   :deep(.el-dialog__footer) {
     text-align: right;
     padding-right: v-bind(footerPaddingRight) !important;
   }
   .baseForm {
-    max-height: v-bind(maxHeight);
+    padding: 0 15px;
   }
 }
 </style>

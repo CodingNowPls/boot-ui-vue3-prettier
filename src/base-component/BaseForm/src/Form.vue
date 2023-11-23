@@ -38,6 +38,7 @@
                   :placeholder="'请输入' + item.label"
                   :model-value="data[`${item.field}`]"
                   @update:modelValue="handleValueChange($event, item.field)"
+                  @keyup.enter="keyUpEnter($event, item)"
                   v-bind="item.config"
                   v-on="item.eventFunction || {}"
                 >
@@ -146,6 +147,7 @@
                     width: '100%',
                   }"
                   v-bind="item.config"
+                  v-on="item.eventFunction || {}"
                 ></el-tree>
               </template>
               <template v-if="item.type === 'treeSelect'">
@@ -367,7 +369,7 @@ const props = defineProps({
     default: () => [],
   },
 })
-const emits = defineEmits(['update:data'])
+const emits = defineEmits(['update:data', 'keyUpEnter'])
 let elFormRef = ref(null)
 const allRefs = ref({})
 const setItemRef = (el, type) => {
@@ -421,6 +423,12 @@ const isHiddenItem = (item) => {
 }
 const getOptions = (item) => {
   return item.options.value ?? item.options ?? []
+}
+const keyUpEnter = ($event, current) => {
+  emits('keyUpEnter', {
+    event: $event,
+    current,
+  })
 }
 
 defineExpose({

@@ -18,8 +18,7 @@ export default (listeners = {}) => {
         type: 'input',
         label: '角色名称',
         config: {
-          clearable: false,
-          maxlength: 30,
+          disabled: true,
         },
       },
       {
@@ -27,49 +26,31 @@ export default (listeners = {}) => {
         type: 'input',
         label: '权限字符',
         config: {
-          maxlength: 30,
+          disabled: true,
         },
       },
       {
-        label: '角色顺序',
-        field: 'roleSort',
-        type: 'inputNumber',
-        config: {
-          controlsPosition: 'right',
-          min: 0,
-        },
+        label: '权限范围',
+        field: 'dataScope',
+        type: 'select',
+        options: [
+          { value: '1', label: '全部数据权限' },
+          { value: '2', label: '自定数据权限' },
+          { value: '3', label: '本部门数据权限' },
+          { value: '4', label: '本部门及以下数据权限' },
+          { value: '5', label: '仅本人数据权限' },
+        ],
       },
       {
-        field: 'status',
-        type: 'radio',
-        options: [],
-        label: '状态',
-        isGroup: true,
-        config: {
-          clearable: false,
-        },
-        optionConfig: {
-          border: true,
-        },
-      },
-      {
-        field: 'menuIds',
+        field: 'deptIds',
         type: 'tree',
-        label: '菜单权限',
+        label: '数据权限',
         options: ref([]),
         config: {
           showCheckbox: true,
           nodeKey: 'id',
           props: { label: 'label', children: 'children' },
-        },
-      },
-      {
-        field: 'remark',
-        type: 'textarea',
-        label: '备注',
-        config: {
-          clearable: false,
-          maxlength: 30,
+          defaultExpandAll: true,
         },
       },
     ],

@@ -1,4 +1,4 @@
-<script setup name="Role">
+<script setup name="User">
 import { nextTick } from 'vue'
 import getSearchConfig from './config/searchConfig'
 import getContentConfig from './config/contentConfig.js'
@@ -6,9 +6,9 @@ import getDialogConfig from './config/dialogConfig.js'
 import useDialog from '@/hooks/useDialog'
 import getComputedConfig from '@/hooks/getPageConfig'
 import to from '@/utils/to'
-import { changeRoleStatus, getRole } from '@/api/system/role'
+import { changeRoleStatus } from '@/api/system/role'
 import { roleMenuTreeselect, treeselect } from '@/api/system/menu'
-import AssignDialog from './components/AssignDialog.vue'
+import { getToken } from '@/utils/auth'
 
 const router = useRouter()
 const { proxy } = getCurrentInstance()
@@ -92,9 +92,6 @@ const dialogWidth = ref('550px')
 const searchData = computed(() => {
   return pageContentRef.value?.finalSearchData
 })
-const search = () => {
-  pageSearchRef.value?.search()
-}
 
 const beforeSend = (queryInfo) => {
   if (queryInfo.dateRange && Array.isArray(queryInfo.dateRange)) {
@@ -174,22 +171,6 @@ const getTreeData = () => {
   }
 }
 
-const handleAuthUser = (row) => {
-  router.push('/system/role-auth/user/' + row.roleId)
-}
-
-const assignInfoInit = ref({})
-const assignDialogVisible = ref(false)
-const currentRoleId = ref('')
-const handleDataScope = async (row) => {
-  currentRoleId.value = row.roleId
-  const [err, res] = await to(getRole(currentRoleId.value))
-  if (res) {
-    assignInfoInit.value = res.data
-    assignDialogVisible.value = true
-  }
-}
-
 const init = () => {}
 
 init()
@@ -246,7 +227,7 @@ init()
           class="order6 ml12"
           size="small"
           type="primary"
-          @click="handleDataScope(backData)"
+          @click="handleResetPwd(backData)"
           v-hasPermi="['system:role:edit']"
         >
           <SvgIcon size="11" iconClass="random" />
@@ -256,7 +237,7 @@ init()
           class="mt6 order11"
           size="small"
           type="primary"
-          @click="handleAuthUser(backData)"
+          @click="handleResetPwd(backData)"
           v-hasPermi="['system:role:edit']"
         >
           <SvgIcon size="11" iconClass="user" />
@@ -279,12 +260,6 @@ init()
       @beforeSave="beforeSave"
     >
     </PageDialog>
-    <AssignDialog
-      v-model="assignDialogVisible"
-      :infoInit="assignInfoInit"
-      :roleId="currentRoleId"
-      @commitClick="search"
-    ></AssignDialog>
   </div>
 </template>
 

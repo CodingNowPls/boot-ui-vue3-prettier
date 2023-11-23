@@ -339,6 +339,13 @@ onMounted(() => {
   }
   emitterListener()
 })
+
+const hasSlot = (slots, arr) => {
+  return arr.some((key) => slots.hasOwnProperty(key))
+}
+
+const showSlot = () => {}
+
 onUnmounted(() => {
   // store.resetData({ pageName: props.pageName })
   emitter.off(`search${props.pageName}Info`)
@@ -367,12 +374,14 @@ defineExpose({
       v-model:paginationInfo="paginationInfo"
       :dataList="dataList"
       :listCount="listCount"
-      v-bind="contentConfig"
       :tableListener="tableListener"
+      v-bind="contentConfig"
     >
-      <template #refresh> </template>
       <!-- 操作按钮 -->
-      <template #handleLeft>
+      <template
+        v-if="hasSlot($slots, ['handleLeft']) || headerButtons.length !== 0"
+        #handleLeft
+      >
         <div class="flex">
           <el-button
             v-if="headerButtons.includes('refresh')"
@@ -423,7 +432,10 @@ defineExpose({
           <slot name="handleLeft"></slot>
         </div>
       </template>
-      <template #handleRight>
+      <template
+        v-if="hasSlot($slots, ['handleRight']) || headerButtons.length !== 0"
+        #handleRight
+      >
         <div
           class="table-search-button-group"
           v-if="
@@ -506,7 +518,6 @@ defineExpose({
               <span class="ml6">编辑</span>
             </el-button>
           </div>
-          <!-- <slot name="todoSlotCenter" :backData="backData"></slot> -->
           <div
             class="del order10"
             v-if="showDelete"
@@ -528,7 +539,6 @@ defineExpose({
               </template>
             </el-popconfirm>
           </div>
-          <!-- <slot name="todoSlotRight" :backData="backData"></slot> -->
         </div>
       </template>
 
@@ -564,10 +574,6 @@ defineExpose({
   display: flex;
   justify-content: center;
   align-items: center;
-  /* button {
-    width: 60px;
-    text-align: center;
-  } */
 }
 .page-content :deep(.el-table__header) {
   .cell {
