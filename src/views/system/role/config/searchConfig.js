@@ -10,7 +10,7 @@ export default (otherConfig = {}) => {
           placeholder: '角色名称',
         },
         layout: {
-          xl: 3,
+          xl: 4,
           gl: 4,
           md: 4,
           sm: 12,
@@ -25,7 +25,7 @@ export default (otherConfig = {}) => {
           placeholder: '权限字符',
         },
         layout: {
-          xl: 3,
+          xl: 4,
           gl: 4,
           md: 4,
           sm: 12,
@@ -57,7 +57,7 @@ export default (otherConfig = {}) => {
       },
     ],
     colLayout: {
-      xl: 3,
+      xl: 4,
       gl: 4,
       md: 5,
       sm: 12,

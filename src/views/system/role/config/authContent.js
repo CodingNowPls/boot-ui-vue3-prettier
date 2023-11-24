@@ -33,6 +33,7 @@ export const tableItem = [
     width: '160',
     fixed: 'right',
     slotName: 'todo',
+    showOverflowTooltip: false,
   },
 ]
 export default () => {

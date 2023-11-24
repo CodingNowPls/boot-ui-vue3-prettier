@@ -117,7 +117,7 @@ const commitClick = async () => {
       })
     }
   }
-  const validate = formRef.value?.getFormValidate
+  const validate = await formRef.value?.getFormValidate()
   if (validate) {
     loading.value = true
     const [err, res] = await to(success())

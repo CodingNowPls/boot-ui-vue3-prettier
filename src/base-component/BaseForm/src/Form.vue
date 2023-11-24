@@ -279,7 +279,10 @@
                 </template>
               </template>
               <template v-if="item.type === 'custom'">
-                <slot :name="`${item.field}Custom`"></slot>
+                <slot
+                  :name="`${item.field}Custom`"
+                  :backData="{ item: item, formData: data }"
+                ></slot>
               </template>
               <slot
                 :name="`${item.field}After`"
@@ -336,7 +339,7 @@ const props = defineProps({
   colLayout: {
     type: Object,
     default: () => ({
-      xl: 3, //1920
+      xl: 4, //1920
       gl: 6, //1200
       md: 8, //992
       sm: 12, //768
@@ -347,7 +350,7 @@ const props = defineProps({
     type: Object,
     default: () => ({
       xl: 3,
-      gl: 3,
+      gl: 4,
       md: 4,
       sm: 12,
       xs: 24,
@@ -422,7 +425,7 @@ const isHiddenItem = (item) => {
   return flag
 }
 const getOptions = (item) => {
-  return item.options.value ?? item.options ?? []
+  return item.options?.value ?? item.options ?? []
 }
 const keyUpEnter = ($event, current) => {
   emits('keyUpEnter', {

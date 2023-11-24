@@ -2,9 +2,10 @@ import { createApp } from 'vue'
 import App from './App.vue'
 
 import 'normalize.css'
-import 'font-awesome/css/font-awesome.min.css'
 import 'element-plus/theme-chalk/el-message.css'
 import 'element-plus/theme-chalk/el-message-box.css'
+import 'element-plus/theme-chalk/el-notification.css'
+
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import '@/assets/css/index.scss'
 
@@ -28,6 +29,14 @@ import PageDialog from '@/components/HsjComponent/pageDialog/index'
 import PageSearch from '@/components/HsjComponent/pageSearch/index'
 
 import { useDict } from '@/utils/dict'
+import {
+  parseTime,
+  resetForm,
+  addDateRange,
+  handleTree,
+  selectDictLabel,
+  selectDictLabels,
+} from '@/utils/ruoyi'
 
 const app = createApp(App)
 
@@ -38,6 +47,12 @@ app.use(elementIcons)
 
 app.config.globalProperties.useDict = useDict
 app.config.globalProperties.download = download
+app.config.globalProperties.parseTime = parseTime
+app.config.globalProperties.resetForm = resetForm
+app.config.globalProperties.handleTree = handleTree
+app.config.globalProperties.addDateRange = addDateRange
+app.config.globalProperties.selectDictLabel = selectDictLabel
+app.config.globalProperties.selectDictLabels = selectDictLabels
 
 app.component('SvgIcon', SvgIcon)
 app.component('BaseForm', BaseForm)

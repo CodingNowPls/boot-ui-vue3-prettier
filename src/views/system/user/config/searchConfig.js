@@ -19,6 +19,7 @@ export default (otherConfig = {}) => {
         options: ref([]),
         config: {
           props: { label: 'label', value: 'id', children: 'children' },
+          clearable: true,
         },
       },
       {
@@ -46,7 +47,7 @@ export default (otherConfig = {}) => {
       },
     ],
     colLayout: {
-      xl: 3,
+      xl: 4,
       gl: 4,
       md: 7,
       sm: 12,

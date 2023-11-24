@@ -2,12 +2,8 @@
 import getSearchConfig from './config/authSearch.js'
 import getContentConfig from './config/authContent.js'
 import getComputedConfig from '@/hooks/getPageConfig'
-import {
-  allocatedUserList,
-  authUserCancel,
-  authUserCancelAll,
-} from '@/api/system/role'
-import CancelDialog from './components/CancelDialog.vue'
+import { authUserCancel, authUserCancelAll } from '@/api/system/role'
+import AuthUserDialog from './components/AuthUserDialog.vue'
 import to from '@/utils/to'
 
 const route = useRoute()
@@ -15,7 +11,7 @@ const roleId = route.params.roleId
 const { proxy } = getCurrentInstance()
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
 
-const pageName = ref('role')
+const pageName = ref('authUserRole')
 const requestUrl = ref('authUser/allocatedList')
 const otherRequestOption = ref({
   roleId: roleId,
@@ -83,7 +79,7 @@ const handleAuthUser = (row) => {
     })
     .then(() => {
       search()
-      proxy.$modal.msgSuccess('取消授权成功')
+      proxy.$modal.notifySuccess('取消授权成功')
     })
     .catch(() => {})
 }
@@ -94,6 +90,10 @@ const handleClose = () => {
 }
 
 const dialogVisible = ref(false)
+
+const saveSuccess = () => {
+  search()
+}
 
 const init = () => {}
 
@@ -179,7 +179,10 @@ init()
         </el-tag>
       </template>
     </PageContent>
-    <CancelDialog v-model="dialogVisible"></CancelDialog>
+    <AuthUserDialog
+      v-model="dialogVisible"
+      @saveSuccess="saveSuccess"
+    ></AuthUserDialog>
   </div>
 </template>
 

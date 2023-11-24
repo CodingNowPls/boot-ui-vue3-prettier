@@ -1,5 +1,5 @@
-<script setup name="User">
-import { nextTick } from 'vue'
+<script setup name="Menu">
+import { ElNotification } from 'element-plus'
 import getSearchConfig from './config/searchConfig'
 import getContentConfig from './config/contentConfig.js'
 import getDialogConfig from './config/dialogConfig.js'
@@ -7,30 +7,44 @@ import useDialog from '@/hooks/useDialog'
 import getComputedConfig from '@/hooks/getPageConfig'
 import to from '@/utils/to'
 import { changeRoleStatus } from '@/api/system/role'
-import { roleMenuTreeselect, treeselect } from '@/api/system/menu'
-import { getToken } from '@/utils/auth'
+import { getMenu, listMenu } from '@/api/system/menu'
+import IconSelector from '@/components/IconSelector/IconSelector.vue'
 
-const router = useRouter()
 const { proxy } = getCurrentInstance()
-const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
 
-const pageName = ref('role')
+const { sys_normal_disable, sys_show_hide } = proxy.useDict(
+  'sys_normal_disable',
+  'sys_show_hide'
+)
+
+const pageName = ref('menu')
 const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
 const descConfig = ref({})
 const treeSelectInfo = ref([])
+const piniaConfig = {
+  listConfig: { listKey: 'data', countKey: 'total' },
+  handleList: (list) => {
+    return proxy.handleTree(list, 'menuId')
+  },
+}
 
 const getTreeSelect = async () => {
-  const [err, res] = await to(treeselect())
-  treeSelectInfo.value = res.data ?? []
+  treeSelectInfo.value = []
+  const [err, res] = await to(listMenu())
+  const menu = { menuId: 0, menuName: '主类目', children: [] }
+  menu.children = proxy.handleTree(res.data, 'menuId')
+  treeSelectInfo.value.push(menu)
 }
 const dialogHideItems = ref([])
 const tableHideItems = ref([])
 const dictMap = {
   status: sys_normal_disable,
-  menuIds: treeSelectInfo,
+  parentId: treeSelectInfo,
+  visible: sys_show_hide,
 }
+
 const searchConfig = getSearchConfig()
 const searchConfigComputed = computed(() => {
   return getComputedConfig(searchConfig, dictMap)
@@ -47,7 +61,13 @@ const contentConfigComputed = computed(() => {
   return contentConfig
 })
 
-const dialogConfig = getDialogConfig()
+const dialogLisenter = {
+  menuTypeChange: (value) => {
+    console.log('value: ', value)
+  },
+}
+
+const dialogConfig = getDialogConfig(dialogLisenter)
 
 const dialogConfigComputed = computed(() => {
   dialogConfig.hideItems = dialogHideItems
@@ -58,11 +78,10 @@ const addCallBack = () => {
   getTreeSelect()
 }
 const editCallBack = async (item, type) => {
-  const roleId = item.roleId
-  const [err, res] = await to(getRoleMenuTreeselect(roleId))
+  const menuId = item.menuId
+  const [err, res] = await to(getMenu(menuId))
   if (res) {
-    let checkedKeys = res.checkedKeys
-    setTreeData(checkedKeys)
+    console.log(res)
   }
   isEditMore.value = type
 }
@@ -106,9 +125,9 @@ const beforeSave = () => {
 }
 
 const permission = ref({
-  add: 'system:role:add',
-  edit: 'system:role:edit',
-  del: 'system:role:remove',
+  add: 'system:menu:add',
+  edit: 'system:menu:edit',
+  del: 'system:menu:remove',
 })
 
 const triggerShowSearch = () => {
@@ -119,22 +138,11 @@ const onChangeShowColumn = (filterArr) => {
   tableHideItems.value = filterArr
 }
 
-/** 导出按钮操作 */
-const handleExport = () => {
-  proxy.download(
-    'system/role/export',
-    {
-      ...searchData.value,
-    },
-    `role${new Date().getTime()}.xlsx`
-  )
-}
-
 const handleStatusChange = async (row) => {
   let text = row.status === '0' ? '启用' : '停用'
   const [err, res] = await to(changeRoleStatus(row.userId, row.status))
   if (res) {
-    ElMessage({
+    ElNotification({
       type: 'success',
       message: text + '成功',
     })
@@ -144,20 +152,6 @@ const handleStatusChange = async (row) => {
   }
 }
 
-/** 根据角色ID查询菜单树结构 */
-const getRoleMenuTreeselect = async (roleId) => {
-  const [err, res] = await to(roleMenuTreeselect(roleId))
-  treeSelectInfo.value = res.menus
-  return res
-}
-
-const setTreeData = (checkedKeys) => {
-  nextTick(() => {
-    checkedKeys.forEach((item) => {
-      dialogRef.value?.formRef?.allRefs?.menuIds?.setChecked(item, true, false)
-    })
-  })
-}
 const otherInfo = ref({})
 const getTreeData = () => {
   const treeRef = dialogRef.value?.formRef?.allRefs?.menuIds
@@ -170,6 +164,7 @@ const getTreeData = () => {
     return []
   }
 }
+const handleAdd = () => {}
 
 const init = () => {}
 
@@ -193,6 +188,7 @@ init()
       :tableListener="tableListener"
       :tableSelected="tableSelected"
       :permission="permission"
+      :piniaConfig="piniaConfig"
       @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"
@@ -200,17 +196,6 @@ init()
       @triggerShowSearch="triggerShowSearch"
       @editMoreClick="editMoreClick"
     >
-      <template #handleLeft>
-        <el-button
-          class="ml12"
-          type="warning"
-          v-hasPermi="['system:user:export']"
-          @click="handleExport"
-        >
-          <SvgIcon size="14" iconClass="download" />
-          <span class="ml6">导出</span>
-        </el-button>
-      </template>
       <template #statusSlot="{ backData }">
         <el-switch
           v-model="backData.status"
@@ -224,25 +209,18 @@ init()
       </template>
       <template #todoSlot="{ backData }">
         <el-button
-          class="order6 ml12"
+          class="order1"
           size="small"
           type="primary"
-          @click="handleResetPwd(backData)"
-          v-hasPermi="['system:role:edit']"
+          @click="handleAdd(backData)"
+          v-hasPermi="['system:menu:add']"
         >
-          <SvgIcon size="11" iconClass="random" />
-          <span class="ml6">数据权限</span>
+          <SvgIcon size="11" iconClass="plus" />
+          <span class="ml6">添加</span>
         </el-button>
-        <el-button
-          class="mt6 order11"
-          size="small"
-          type="primary"
-          @click="handleResetPwd(backData)"
-          v-hasPermi="['system:role:edit']"
-        >
-          <SvgIcon size="11" iconClass="user" />
-          <span class="ml6">分配用户</span>
-        </el-button>
+      </template>
+      <template #iconSlot="{ backData }">
+        <SvgIcon v-if="backData.icon" :iconClass="backData.icon" :size="16" />
       </template>
     </PageContent>
     <PageDialog
@@ -259,6 +237,10 @@ init()
       @editNext="editNext"
       @beforeSave="beforeSave"
     >
+      <template #iconCustom="{ backData }">
+        {{ backData }}
+        <IconSelector v-model="backData.formData.icon"></IconSelector>
+      </template>
     </PageDialog>
   </div>
 </template>
@@ -271,8 +253,8 @@ init()
   :deep(.statusClass .el-radio-group) {
     width: 100%;
   }
-  :deep(.del) {
-    margin-top: 6px;
+  :deep(.edit) {
+    margin: 0 12px;
   }
 }
 </style>

@@ -1,5 +1,5 @@
 <script setup name="Role">
-import { nextTick } from 'vue'
+import { ElNotification } from 'element-plus'
 import getSearchConfig from './config/searchConfig'
 import getContentConfig from './config/contentConfig.js'
 import getDialogConfig from './config/dialogConfig.js'
@@ -135,9 +135,9 @@ const handleExport = () => {
 
 const handleStatusChange = async (row) => {
   let text = row.status === '0' ? '启用' : '停用'
-  const [err, res] = await to(changeRoleStatus(row.userId, row.status))
+  const [err, res] = await to(changeRoleStatus(row.roleId, row.status))
   if (res) {
-    ElMessage({
+    ElNotification({
       type: 'success',
       message: text + '成功',
     })

@@ -1,26 +1,31 @@
 export const tableItem = [
   {
-    prop: 'roleId',
-    label: '角色编号',
+    prop: 'menuName',
+    label: '菜单名称',
+    width: 180,
+    align: 'left',
   },
   {
-    prop: 'roleName',
-    label: '角色名称',
+    prop: 'icon',
+    label: '图标',
+    width: 70,
+    slotName: 'iconSlot',
   },
   {
-    prop: 'roleKey',
-    label: '权限字符',
+    prop: 'orderNum',
+    width: 70,
+    label: '排序',
   },
 
   {
-    prop: 'roleSort',
-    label: '显示顺序',
+    prop: 'perms',
+    label: '权限标识',
   },
   {
-    prop: 'status',
-    label: '状态',
-    width: '120',
-    slotName: 'statusSlot',
+    prop: 'component',
+    label: '组件路径',
+    width: 300,
+    showOverflowTooltip: false,
   },
   {
     prop: 'createTime',
@@ -29,9 +34,10 @@ export const tableItem = [
   },
   {
     label: '操作',
-    width: '220',
+    width: '260',
     fixed: 'right',
     slotName: 'todo',
+    showOverflowTooltip: false,
   },
 ]
 export default () => {
@@ -43,10 +49,13 @@ export default () => {
         effect: 'light',
       },
       maxHeight: 600,
+      rowKey: 'menuId',
+      treeProps: { children: 'children', hasChildren: 'hasChildren' },
+      stripe: false,
     },
-    showIndex: true,
+    showIndex: false,
     showChoose: true,
-    pagination: true,
+    pagination: false,
     // border: false,
   }
 }

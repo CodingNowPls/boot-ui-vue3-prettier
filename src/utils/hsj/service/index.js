@@ -1,16 +1,17 @@
 import { BASE_URL, TIME_OUT } from './request/config'
 import LmwAxios from './request/index'
 import errorCode from '@/utils/errorCode'
-import {
-  ElNotification,
-  ElMessageBox,
-  ElMessage,
-  ElLoading,
-} from 'element-plus'
+import { ElNotification, ElMessageBox, ElLoading } from 'element-plus'
 import { getToken } from '@/utils/auth'
 import { tansParams, blobValidate } from '@/utils/ruoyi.js'
 import session from '@/utils/hsj/useSession'
 import useUserStore from '@/store/modules/user'
+
+const hideElNotification = []
+
+const isHideNotify = (arr, str) => {
+  return arr.some((item) => str.includes(item))
+}
 
 let downloadLoadingInstance
 export let isRelogin = { show: false }
@@ -83,7 +84,7 @@ const LmwRequest = new LmwAxios({
       Promise.reject(error)
     },
     //  响应拦截
-    responseInterceptor: (res) => {
+    responseInterceptor: (res, info) => {
       // 未设置状态码则默认成功状态
       const code = res.data.code || 200
       // 获取错误信息
@@ -95,6 +96,19 @@ const LmwRequest = new LmwAxios({
       ) {
         return Promise.resolve(res.data)
       }
+      if (
+        msg &&
+        msg !== '查询成功' &&
+        code === 200 &&
+        !isHideNotify(hideElNotification, res.request.responseURL) &&
+        res.config.method !== 'get'
+      ) {
+        ElNotification({
+          type: 'success',
+          message: msg,
+        })
+      }
+
       if (code === 401) {
         if (!isRelogin.show) {
           isRelogin.show = true
@@ -121,15 +135,18 @@ const LmwRequest = new LmwAxios({
         }
         return Promise.reject('无效的会话，或者会话已过期，请重新登录。')
       } else if (code === 500) {
-        ElMessage.error({
+        ElNotification({
+          type: 'error',
+          duration: 4000,
           message: msg ?? '后端 500 报错',
-          showClose: true,
-          duration: 5000,
-          grouping: true,
         })
         return Promise.reject(`msg:${msg},code:${code}`)
       } else if (code === 601) {
-        ElMessage({ message: msg ?? '后端 601 报错', type: 'warning' })
+        ElNotification({
+          type: 'warning',
+          duration: 4000,
+          message: msg ?? '后端 601 报错',
+        })
         return Promise.reject(new Error(msg))
       } else if (code !== 200) {
         ElNotification.error({
@@ -151,11 +168,10 @@ const LmwRequest = new LmwAxios({
           message = '系统接口' + message.substr(message.length - 3) + '异常'
         }
         if (error.response?.status !== 304) {
-          ElMessage({
-            message: message,
+          ElNotification({
             type: 'error',
-            duration: 5 * 1000,
-            showClose: true,
+            duration: 4000,
+            message: message ?? '304',
           })
         }
       }
@@ -196,13 +212,21 @@ export function download(url, data, filename, config) {
         const rspObj = JSON.parse(resText)
         const errMsg =
           errorCode[rspObj.code] || rspObj.msg || errorCode['default']
-        ElMessage.error(errMsg)
+        ElNotification({
+          type: 'error',
+          duration: 4000,
+          message: errMsg,
+        })
       }
       downloadLoadingInstance.close()
     })
     .catch((r) => {
       console.error(r)
-      ElMessage.error('下载文件出现错误，请联系管理员！')
+      ElNotification({
+        type: 'error',
+        duration: 4000,
+        message: '下载文件出现错误，请联系管理员！',
+      })
       downloadLoadingInstance.close()
     })
 }

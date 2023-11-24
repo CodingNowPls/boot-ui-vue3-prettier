@@ -2,49 +2,90 @@ export default (listeners = {}) => {
   return {
     itemStyle: { padding: '0px 0px 0px 0px' },
     rules: {
-      roleName: [
-        { required: true, message: '角色名称不能为空', trigger: 'blur' },
+      menuName: [
+        { required: true, message: '菜单名称不能为空', trigger: 'blur' },
       ],
-      roleKey: [
-        { required: true, message: '权限字符不能为空', trigger: 'blur' },
+      orderNum: [
+        { required: true, message: '菜单顺序不能为空', trigger: 'blur' },
       ],
-      roleSort: [
-        { required: true, message: '角色顺序不能为空', trigger: 'blur' },
-      ],
+      path: [{ required: true, message: '路由地址不能为空', trigger: 'blur' }],
     },
     formItems: [
       {
-        field: 'roleName',
-        type: 'input',
-        label: '角色名称',
+        field: 'parentId',
+        type: 'treeSelect',
+        options: ref([]),
+        label: '上级菜单',
+        config: {
+          props: { value: 'menuId', label: 'menuName', children: 'children' },
+          valueKey: 'menuId',
+          checkStrictly: true,
+        },
+      },
+      {
+        field: 'menuType',
+        type: 'radio',
+        label: '菜单类型',
+        isGroup: true,
+        options: [
+          {
+            label: '目录',
+            value: 'M',
+          },
+          {
+            label: '菜单',
+            value: 'C',
+          },
+          {
+            label: '按钮',
+            value: 'F',
+          },
+        ],
         config: {
           clearable: false,
-          maxlength: 30,
+        },
+        optionConfig: {
+          border: true,
+        },
+        eventFunction: {
+          change: listeners.menuTypeChange,
         },
       },
       {
-        field: 'roleKey',
+        label: '菜单图标',
+        field: 'icon',
+        type: 'custom',
+      },
+      {
+        field: 'menuName',
         type: 'input',
-        label: '权限字符',
-        config: {
-          maxlength: 30,
-        },
+        label: '菜单名称',
       },
       {
-        label: '角色顺序',
-        field: 'roleSort',
-        type: 'inputNumber',
+        field: 'inputNumber',
+        type: 'tree',
+        label: '显示排序',
         config: {
           controlsPosition: 'right',
           min: 0,
         },
       },
+
       {
-        field: 'status',
+        field: 'isFrame',
         type: 'radio',
-        options: [],
-        label: '状态',
+        label: '是否外链',
         isGroup: true,
+        options: [
+          {
+            label: '是',
+            value: '0',
+          },
+          {
+            label: '否',
+            value: '1',
+          },
+        ],
         config: {
           clearable: false,
         },
@@ -52,24 +93,79 @@ export default (listeners = {}) => {
           border: true,
         },
       },
+
       {
-        field: 'menuIds',
-        type: 'tree',
-        label: '菜单权限',
-        options: ref([]),
-        config: {
-          showCheckbox: true,
-          nodeKey: 'id',
-          props: { label: 'label', children: 'children' },
-        },
+        field: 'path',
+        type: 'input',
+        label: '路由地址',
       },
+
       {
-        field: 'remark',
-        type: 'textarea',
-        label: '备注',
+        field: 'component',
+        type: 'input',
+        label: '组件路径',
+      },
+
+      {
+        field: 'perms',
+        type: 'input',
+        label: '权限字符',
+      },
+
+      {
+        field: 'query',
+        type: 'input',
+        label: '路由参数',
+      },
+
+      {
+        field: 'isCache',
+        type: 'radio',
+        label: '是否缓存',
+        isGroup: true,
+        options: [
+          {
+            label: '缓存',
+            value: '0',
+          },
+          {
+            label: '不缓存',
+            value: '1',
+          },
+        ],
         config: {
           clearable: false,
-          maxlength: 30,
+        },
+        optionConfig: {
+          border: true,
+        },
+      },
+
+      {
+        field: 'visible',
+        type: 'radio',
+        label: '显示状态',
+        isGroup: true,
+        options: [],
+        config: {
+          clearable: false,
+        },
+        optionConfig: {
+          border: true,
+        },
+      },
+
+      {
+        field: 'status',
+        type: 'radio',
+        label: '菜单状态',
+        isGroup: true,
+        options: [],
+        config: {
+          clearable: false,
+        },
+        optionConfig: {
+          border: true,
         },
       },
     ],

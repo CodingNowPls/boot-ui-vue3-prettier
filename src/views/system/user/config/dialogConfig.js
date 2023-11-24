@@ -143,7 +143,7 @@ export default (listeners = {}) => {
         setLabel: 'roleName',
       },
       {
-        field: 'userId',
+        field: 'remark',
         type: 'textarea',
         label: '备注',
         layout: {

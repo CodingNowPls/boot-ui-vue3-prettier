@@ -1,6 +1,6 @@
 <script setup>
 import { authUserSelectAll, unallocatedUserList } from '@/api/system/role'
-import getSearchConfig from '../config/authSearch.js'
+import getSearchConfig from '../config/authDialogSearch.js'
 import getContentConfig from '../config/authContent.js'
 import to from '@/utils/to'
 
@@ -9,10 +9,12 @@ const props = defineProps({
     type: Boolean,
   },
 })
-const emits = defineEmits(['update:modelValue'])
+const emits = defineEmits(['update:modelValue', 'saveSuccess'])
 
 const { proxy } = getCurrentInstance()
 const route = useRoute()
+const pageContentRef = ref(null)
+const pageSearchRef = ref(null)
 const pageName = ref('role')
 const requestUrl = ref('authUser/unallocatedList')
 const roleId = route.params.roleId
@@ -31,6 +33,9 @@ const tableListener = {
   selectionChange: (selected) => {
     tableSelected.value = selected
   },
+}
+const search = () => {
+  pageSearchRef.value?.search()
 }
 
 const descConfig = ref({})
@@ -55,11 +60,18 @@ const commitClick = async () => {
     authUserSelectAll({ roleId: roleId, userIds: uIds.toString() })
   )
   if (res?.code === 200) {
-    proxy.$modal.msgSuccess(res.msg)
+    proxy.$modal.notifySuccess(res.msg)
     handleValueChange(false)
+    // search()
+    emits('saveSuccess', res)
   }
   loading.value = false
 }
+
+const daliogOpen = () => {
+  search()
+}
+
 const handleCancel = () => {
   handleValueChange(false)
 }
@@ -69,12 +81,14 @@ const handleValueChange = (value) => {
 }
 </script>
 <template>
-  <div class="cancelDialog">
+  <div class="authUserDialog">
     <el-dialog
       width="850px"
       title="选择用户"
       :model-value="modelValue"
       @update:modelValue="handleValueChange($event)"
+      draggable
+      destroy-on-close
     >
       <PageSearch
         v-show="showPageSearch"
@@ -117,7 +131,7 @@ const handleValueChange = (value) => {
 </template>
 
 <style scoped lang="scss">
-.cancelDialog {
+.authUserDialog {
   :deep(.el-pagination) {
     padding-top: 20px;
   }

@@ -59,6 +59,7 @@ const props = defineProps({
     default: () => {
       return {
         listConfig: { listKey: 'rows', countKey: 'total' },
+        handleList: (list) => list,
       }
     },
   },
@@ -133,7 +134,11 @@ if (props.contentConfig?.pagination) {
 }
 
 const finalSearchData = computed(() => {
-  return { ...searchDatas.value, ...paginationInfo.value }
+  if (props.contentConfig.pagination) {
+    return { ...searchDatas.value, ...paginationInfo.value }
+  } else {
+    return { ...searchDatas.value }
+  }
 })
 
 watch(
@@ -155,7 +160,8 @@ const send = async (searchInfo) => {
         ...searchInfo,
       },
     },
-    props.piniaConfig.listConfig
+    props.piniaConfig.listConfig,
+    props.piniaConfig.handleList
   )
   if (isSuccess) {
     emit('afterSend', store[`${props.pageName}List`])
@@ -206,11 +212,12 @@ const deleteRow = async (delData) => {
 const editClick = async (item, type) => {
   isLoading.value = true
   let id = item[props.idKey] ?? item[props.pageName + 'Id'] ?? item.id
+  console.log(id)
   let url = `/${props.pageName}/${id}`
   let [err, res] = await to(getInfo(url))
 
   if (res.data) {
-    emit('editBtnClick', res.data, type)
+    emit('editBtnClick', res.data, type, res)
   }
   isLoading.value = false
 }
@@ -343,8 +350,6 @@ onMounted(() => {
 const hasSlot = (slots, arr) => {
   return arr.some((key) => slots.hasOwnProperty(key))
 }
-
-const showSlot = () => {}
 
 onUnmounted(() => {
   // store.resetData({ pageName: props.pageName })

@@ -1,5 +1,5 @@
 <script setup name="User">
-import { ElMessage } from 'element-plus'
+import { ElNotification } from 'element-plus'
 import { nextTick } from 'vue'
 import ImportDialog from '@/components/HsjComponent/importDialog/index'
 import getSearchConfig from './config/searchConfig'
@@ -16,7 +16,6 @@ import {
 import to from '@/utils/to'
 import { getToken } from '@/utils/auth'
 
-// const router = useRouter()
 const { proxy } = getCurrentInstance()
 const { sys_normal_disable, sys_user_sex } = proxy.useDict(
   'sys_normal_disable',
@@ -80,9 +79,14 @@ const dialogConfigComputed = computed(() => {
 })
 
 const addCallBack = () => {
+  getPostAndRole()
   dialogHideItems.value.length = 0
 }
-const editCallBack = (item, type) => {
+const editCallBack = (item, type, res) => {
+  infoInit.value.roleIds = res.roleIds
+  roleOptions.value = res.roles
+  infoInit.value.postIds = res.postIds
+  postOptions.value = res.posts
   dialogHideItems.value = ['password', 'userName']
   isEditMore.value = type
 }
@@ -140,7 +144,7 @@ const handleStatusChange = async (row) => {
   let text = row.status === '0' ? '启用' : '停用'
   const [err, res] = await to(changeUserStatus(row.userId, row.status))
   if (res) {
-    ElMessage({
+    ElNotification({
       type: 'success',
       message: text + '成功',
     })
@@ -150,7 +154,6 @@ const handleStatusChange = async (row) => {
   }
 }
 const handleResetPwd = (row) => {
-  console.log(proxy.$modal)
   proxy.$modal
     .prompt('请输入"' + row.userName + '"的新密码', '提示', {
       confirmButtonText: '确定',
@@ -161,7 +164,7 @@ const handleResetPwd = (row) => {
     })
     .then(({ value }) => {
       resetUserPwd(row.userId, value).then((response) => {
-        proxy.$modal.msgSuccess('修改成功，新密码是：' + value)
+        proxy.$modal.notifySuccess('修改成功，新密码是：' + value)
       })
     })
     .catch(() => {})
@@ -226,7 +229,6 @@ const handleFileSuccess = ({ response }) => {
 
 const init = () => {
   getDeptTree()
-  getPostAndRole()
 }
 
 init()

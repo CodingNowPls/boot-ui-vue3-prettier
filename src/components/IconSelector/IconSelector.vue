@@ -66,7 +66,7 @@
                 state.prependIcon ? state.prependIcon : state.defaultModelValue
               "
             />
-
+            <!-- {{ state.prependIcon }} -->
             <div v-if="showIconName" class="name">
               {{
                 state.prependIcon ? state.prependIcon : state.defaultModelValue
@@ -135,7 +135,7 @@ const state = reactive({
   fontIconNames: [],
   inputValue: '',
   prependIcon: props.modelValue,
-  defaultModelValue: props.modelValue || 'fa fa-circle-o',
+  defaultModelValue: props.modelValue || 'list',
   iconKey: 0, // 给icon标签准备个key，以随时使用 h 函数重新生成元素
 })
 

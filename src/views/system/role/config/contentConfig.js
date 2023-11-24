@@ -32,6 +32,7 @@ export const tableItem = [
     width: '220',
     fixed: 'right',
     slotName: 'todo',
+    showOverflowTooltip: false,
   },
 ]
 export default () => {

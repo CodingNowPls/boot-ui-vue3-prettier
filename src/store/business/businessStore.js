@@ -7,8 +7,11 @@ import {
 } from '@/api/business/main'
 import to from '@/utils/to'
 
-const interceptor = (pageName) => {
+export const interceptor = (pageName) => {
   let url = `/${pageName}`
+  if (pageName === 'authUserRole') {
+    url = '/role'
+  }
   return url
 }
 
@@ -41,6 +44,7 @@ const deepFindValue = (obj, key, isFirstValue = true) => {
     }
   }
   getList(obj, key)
+
   return finalData
 }
 const getConfig = (pageName, payload, requestUrl) => {
@@ -66,7 +70,8 @@ const businessStore = defineStore('business', {
   actions: {
     async getList(
       payload,
-      listConfig = { listKey: 'rows', countKey: 'total' }
+      listConfig = { listKey: 'rows', countKey: 'total' },
+      handleList = (list) => list
     ) {
       const requestUrl = payload.requestUrl ?? 'list'
       // 获取数据
@@ -82,7 +87,7 @@ const businessStore = defineStore('business', {
         const list = deepFindValue(pageData, listConfig.listKey)
         const count = deepFindValue(pageData, listConfig.countKey)
         if (list) {
-          this.listInfo[getListName] = list
+          this.listInfo[getListName] = handleList(list)
         }
         if (count) {
           this.listInfo[`${name}Count`] = count

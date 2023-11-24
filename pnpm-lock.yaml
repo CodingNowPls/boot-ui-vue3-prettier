@@ -11,7 +11,6 @@ specifiers:
   echarts: 5.4.0
   element-plus: ^2.4.2
   file-saver: 2.0.5
-  font-awesome: ^4.7.0
   fuse.js: 6.6.2
   js-cookie: 3.0.1
   jsencrypt: 3.3.1
@@ -42,7 +41,6 @@ dependencies:
   echarts: 5.4.0
   element-plus: 2.4.2_vue@3.3.4
   file-saver: 2.0.5
-  font-awesome: 4.7.0
   fuse.js: 6.6.2
   js-cookie: 3.0.1
   jsencrypt: 3.3.1
@@ -1247,11 +1245,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: false
-
-  /font-awesome/4.7.0:
-    resolution: {integrity: sha512-U6kGnykA/6bFmg1M/oT9EkFeIYv7JlX3bozwQJWiiLz6L0w3F5vBVPxHlwyX/vtNq1ckcpRKOB9f2Qal/VtFpg==}
-    engines: {node: '>=0.10.3'}
     dev: false
 
   /for-in/1.0.2:
