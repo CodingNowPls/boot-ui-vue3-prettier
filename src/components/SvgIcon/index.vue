@@ -1,11 +1,5 @@
 <script>
-import {
-  createVNode,
-  resolveComponent,
-  defineComponent,
-  computed,
-  watch,
-} from 'vue'
+import { createVNode, resolveComponent, defineComponent, computed } from 'vue'
 import svg from './useSvg.vue'
 export default defineComponent({
   props: {
@@ -35,7 +29,6 @@ export default defineComponent({
     })
     if (props.iconClass.indexOf('el-icon-') === 0) {
       const names = props.iconClass.split('el-icon-')
-      console.log(names[1])
       return () =>
         createVNode(
           'el-icon',

@@ -44,7 +44,6 @@ export default () => {
         popperClass: 'lmw_popper',
         effect: 'light',
       },
-      maxHeight: 600,
     },
     showIndex: false,
     showChoose: true,

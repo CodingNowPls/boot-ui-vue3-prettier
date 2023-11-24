@@ -212,7 +212,6 @@ const deleteRow = async (delData) => {
 const editClick = async (item, type) => {
   isLoading.value = true
   let id = item[props.idKey] ?? item[props.pageName + 'Id'] ?? item.id
-  console.log(id)
   let url = `/${props.pageName}/${id}`
   let [err, res] = await to(getInfo(url))
 
@@ -398,6 +397,7 @@ defineExpose({
           </el-button>
           <el-button
             type="primary"
+            class="order5"
             v-if="headerButtons.includes('add')"
             v-hasPermi="[permission.add]"
             @click="addClick"
@@ -407,6 +407,7 @@ defineExpose({
           </el-button>
           <el-button
             type="primary"
+            class="order10"
             v-if="headerButtons.includes('edit')"
             :disabled="tableSelected.length === 0"
             v-hasPermi="[permission.edit]"
@@ -415,7 +416,7 @@ defineExpose({
             <SvgIcon :size="14" iconClass="pencil"></SvgIcon>
             <span class="ml6">编辑</span>
           </el-button>
-          <div v-hasPermi="[permission.del]" class="ml12">
+          <div v-hasPermi="[permission.del]" class="ml12 order15">
             <el-popconfirm
               v-if="headerButtons.includes('delete')"
               title="确定删除选中记录？"

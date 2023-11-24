@@ -2,21 +2,17 @@
 import getSearchConfig from './config/searchConfig'
 import getContentConfig from './config/contentConfig.js'
 import getDialogConfig from './config/dialogConfig.js'
-import useDialog from '@/hooks/useDialog'
-import getComputedConfig from '@/hooks/getPageConfig'
-import to from '@/utils/to'
-import { listMenu } from '@/api/system/menu'
-import IconSelector from '@/components/IconSelector/IconSelector.vue'
+import useDialog from '@/hooks/useDialog.js'
+import getComputedConfig from '@/hooks/getPageConfig.js'
+import to from '@/utils/to.js'
+import { listDept } from '@/api/system/dept'
 import { nextTick } from 'vue'
 
 const { proxy } = getCurrentInstance()
 
-const { sys_normal_disable, sys_show_hide } = proxy.useDict(
-  'sys_normal_disable',
-  'sys_show_hide'
-)
+const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
 
-const pageName = ref('menu')
+const pageName = ref('dept')
 const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
@@ -25,16 +21,14 @@ const descConfig = ref({})
 // 点击保存会带上这里面的值（如果和要提交的表单键冲突那么会优先表单）
 const otherInfo = ref({})
 // 弹出层表单默认值
-const defaultData = ref({
-  menuType: 'M',
-})
+const defaultData = ref({})
 
 const treeSelectInfo = ref([])
 const tableData = ref([])
 const piniaConfig = {
   listConfig: { listKey: 'data', countKey: 'total' },
   handleList: (list) => {
-    tableData.value = proxy.handleTree(list, 'menuId')
+    tableData.value = proxy.handleTree(list, 'deptId')
     return tableData.value
   },
 }
@@ -46,7 +40,6 @@ const tableHideItems = ref([])
 const dictMap = {
   status: sys_normal_disable,
   parentId: treeSelectInfo,
-  visible: sys_show_hide,
 }
 // 搜索框配置
 const searchConfig = getSearchConfig()
@@ -66,28 +59,8 @@ const contentConfigComputed = computed(() => {
   return contentConfig
 })
 // 弹出成form配置
-const dialogLisenter = {
-  menuTypeChange: (value) => {
-    changeDialogHide(value)
-  },
-}
-const changeDialogHide = (value) => {
-  dialogHideItems.value = []
-  if (value === 'M') {
-    dialogHideItems.value = ['component', 'query', 'isCache', 'perms']
-  }
-  if (value === 'F') {
-    dialogHideItems.value = [
-      'icon',
-      'isFrame',
-      'path',
-      'component',
-      'query',
-      'isCache',
-      'visible',
-    ]
-  }
-}
+const dialogLisenter = {}
+
 const dialogWidth = ref('650px')
 const dialogConfig = getDialogConfig(dialogLisenter)
 const dialogConfigComputed = computed(() => {
@@ -96,11 +69,15 @@ const dialogConfigComputed = computed(() => {
 })
 // 点击添加的回调函数
 const addCallBack = () => {
-  changeDialogHide(defaultData.value.menuType)
+  dialogHideItems.value = []
 }
 // 点击编辑的回调函数
 const editCallBack = async (item, type) => {
-  changeDialogHide(item.menuType)
+  if (item.parentId === 0) {
+    dialogHideItems.value = ['parentId']
+  } else {
+    dialogHideItems.value = []
+  }
   isEditMore.value = type
 }
 // 是不是多选之后再点的编辑
@@ -157,18 +134,22 @@ const onChangeShowColumn = (filterArr) => {
 
 const getTreeSelect = async () => {
   treeSelectInfo.value = []
-  const [err, res] = await to(listMenu())
-  const menu = { menuId: 0, menuName: '主类目', children: [] }
-  menu.children = proxy.handleTree(res.data, 'menuId')
-  treeSelectInfo.value.push(menu)
+  const [err, res] = await to(listDept())
+  treeSelectInfo.value = proxy.handleTree(res.data, 'deptId')
 }
 const handleAdd = (row) => {
   addClick()
-  infoInit.value.parentId = row.parentId
+  if (row.parentId === 0) {
+    infoInit.value.parentId = 100
+  } else {
+    infoInit.value.parentId = row.parentId
+  }
 }
 
+let foldAll = true
 const unFoldAll = () => {
-  pageContentRef.value?.baseTabelRef.unFoldAll()
+  foldAll = !foldAll
+  pageContentRef.value?.baseTabelRef.unFoldAll(foldAll)
 }
 
 const init = () => {
@@ -208,6 +189,11 @@ init()
           展开/折叠
         </el-button>
       </template>
+      <template #statusSlot="{ backData }">
+        <el-tag :type="backData.status == 0 ? 'success' : 'danger'">
+          {{ backData.status == 0 ? '启用' : '禁用' }}
+        </el-tag>
+      </template>
       <template #todoSlot="{ backData }">
         <el-button
           class="order1"
@@ -219,9 +205,6 @@ init()
           <SvgIcon size="11" iconClass="plus" />
           <span class="ml6">添加</span>
         </el-button>
-      </template>
-      <template #iconSlot="{ backData }">
-        <SvgIcon v-if="backData.icon" :iconClass="backData.icon" :size="16" />
       </template>
     </PageContent>
     <PageDialog
@@ -239,9 +222,6 @@ init()
       @editNext="editNext"
       @beforeSave="beforeSave"
     >
-      <template #iconCustom="{ backData }">
-        <IconSelector v-model="backData.formData.icon"></IconSelector>
-      </template>
     </PageDialog>
   </div>
 </template>

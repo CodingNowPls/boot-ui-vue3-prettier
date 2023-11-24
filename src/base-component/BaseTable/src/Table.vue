@@ -48,9 +48,7 @@ const props = defineProps({
   elTableConfig: {
     type: Object,
     default: () => {
-      return {
-        maxHeight: 600,
-      }
+      return {}
     },
   },
   showExpand: {
@@ -114,9 +112,35 @@ const isHiddenItem = (item) => {
   }
   return flag
 }
+const tableHeight = () => {
+  const viewportHeight = window.innerHeight
+  return viewportHeight - 253
+}
+let maxHeight = tableHeight()
+let expandAll = false
+// 使用递归写法比设置default-expand-all来控制折叠和展开性能高很多
+const setUnFoldAll = (children, unfold) => {
+  for (const key in children) {
+    elTableRef.value.toggleRowExpansion(children[key], unfold)
+    if (children[key].children) {
+      setUnFoldAll(children[key].children, unfold)
+    }
+  }
+}
+
+const unFoldAll = (...arg) => {
+  if (arg) {
+    expandAll = arg[0]
+    setUnFoldAll(props.dataList, expandAll)
+  } else {
+    expandAll = !expandAll
+    setUnFoldAll(props.dataList, expandAll)
+  }
+}
 
 defineExpose({
   elTableRef,
+  unFoldAll,
 })
 </script>
 
@@ -137,10 +161,11 @@ defineExpose({
       ref="elTableRef"
       :data="dataList"
       :border="border"
-      @sort-change="sortChange"
+      :maxHeight="maxHeight"
       :show-overflow-tooltip="true"
       style="width: 100%"
       stripe
+      @sort-change="sortChange"
       v-on="tableListener"
       v-bind="elTableConfig"
     >

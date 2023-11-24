@@ -65,5 +65,7 @@
     font-size: 16px;
   }
 }
-
+.el-button:focus-visible {
+  outline: none !important;
+}
 /* dialog滚动条-e */

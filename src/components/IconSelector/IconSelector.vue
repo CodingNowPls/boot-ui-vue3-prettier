@@ -62,11 +62,11 @@
         <template #prepend>
           <div class="icon-prepend">
             <SvgIcon
+              :key="'icon' + state.iconKey"
               :iconClass="
                 state.prependIcon ? state.prependIcon : state.defaultModelValue
               "
             />
-            <!-- {{ state.prependIcon }} -->
             <div v-if="showIconName" class="name">
               {{
                 state.prependIcon ? state.prependIcon : state.defaultModelValue
@@ -118,7 +118,7 @@ const props = defineProps({
   },
   showIconName: {
     type: Boolean,
-    default: false,
+    default: true,
   },
 })
 

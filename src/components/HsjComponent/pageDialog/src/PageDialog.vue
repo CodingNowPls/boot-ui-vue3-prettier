@@ -93,8 +93,8 @@ const commitClick = async () => {
         pageName: props.pageName,
         requestUrl: props.requestUrl,
         editInfo: {
-          ...formData.value,
           ...props.otherInfo,
+          ...formData.value,
         },
         searchData: { ...props.searchData, ...props.otherRequestOption },
         id:
@@ -110,8 +110,8 @@ const commitClick = async () => {
         pageName: props.pageName,
         requestUrl: props.requestUrl,
         newData: {
-          ...formData.value,
           ...props.otherInfo,
+          ...formData.value,
         },
         searchData: { ...props.searchData, ...props.otherRequestOption },
       })

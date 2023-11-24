@@ -21,6 +21,13 @@ export default (listeners = {}) => {
           valueKey: 'menuId',
           checkStrictly: true,
         },
+        layout: {
+          xl: 24,
+          gl: 24,
+          md: 24,
+          sm: 24,
+          xs: 24,
+        },
       },
       {
         field: 'menuType',
@@ -50,11 +57,25 @@ export default (listeners = {}) => {
         eventFunction: {
           change: listeners.menuTypeChange,
         },
+        layout: {
+          xl: 24,
+          gl: 24,
+          md: 24,
+          sm: 24,
+          xs: 24,
+        },
       },
       {
         label: '菜单图标',
         field: 'icon',
         type: 'custom',
+        layout: {
+          xl: 24,
+          gl: 24,
+          md: 24,
+          sm: 24,
+          xs: 24,
+        },
       },
       {
         field: 'menuName',
@@ -62,8 +83,8 @@ export default (listeners = {}) => {
         label: '菜单名称',
       },
       {
-        field: 'inputNumber',
-        type: 'tree',
+        field: 'orderNum',
+        type: 'inputNumber',
         label: '显示排序',
         config: {
           controlsPosition: 'right',
@@ -170,9 +191,9 @@ export default (listeners = {}) => {
       },
     ],
     colLayout: {
-      xl: 24,
-      gl: 24,
-      md: 24,
+      xl: 12,
+      gl: 12,
+      md: 12,
       sm: 24,
       xs: 24,
     },

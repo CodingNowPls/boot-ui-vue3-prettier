@@ -1,5 +1,6 @@
 <script setup>
 import { deletData } from '@/api/business/main/index'
+import { interceptor } from '@/store/business/businessStore'
 import to from '@/utils/to'
 
 const props = defineProps({
@@ -33,8 +34,8 @@ const confirm = async () => {
   const ids = props.tabelSelection.map((item) => {
     return item[props.idKey]
   })
-
-  const [err, res] = to(await deletData(`/${props.pageName}/${ids.toString()}`))
+  const url = interceptor(props.pageName)
+  const [err, res] = to(await deletData(`${url}/${ids.toString()}`))
   delLoading.value = false
   if (res) {
     emit('delSuccess')

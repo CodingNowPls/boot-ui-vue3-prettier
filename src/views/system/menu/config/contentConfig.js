@@ -2,7 +2,7 @@ export const tableItem = [
   {
     prop: 'menuName',
     label: '菜单名称',
-    width: 180,
+    width: 160,
     align: 'left',
   },
   {
@@ -20,6 +20,7 @@ export const tableItem = [
   {
     prop: 'perms',
     label: '权限标识',
+    width: 150,
   },
   {
     prop: 'component',
@@ -33,6 +34,7 @@ export const tableItem = [
     width: '180',
   },
   {
+    prop: 'todo',
     label: '操作',
     width: '260',
     fixed: 'right',
@@ -48,7 +50,6 @@ export default () => {
         popperClass: 'lmw_popper',
         effect: 'light',
       },
-      maxHeight: 600,
       rowKey: 'menuId',
       treeProps: { children: 'children', hasChildren: 'hasChildren' },
       stripe: false,

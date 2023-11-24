@@ -42,12 +42,12 @@ const onMenuCollapse = () => {
 </script>
 <template>
   <div class="layout-logo">
-    <!-- <img
+    <img
       v-if="!config.layout.menuCollapse"
       class="logo-img"
-      src="@/assets/images/logo.png"
+      src="@/assets/icons/svg/vite.svg"
       alt="logo"
-    /> -->
+    />
     <div
       v-if="!config.layout.menuCollapse"
       :style="{ color: config.getColorVal('menuActiveColor') }"

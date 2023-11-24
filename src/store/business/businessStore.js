@@ -47,6 +47,7 @@ const deepFindValue = (obj, key, isFirstValue = true) => {
 
   return finalData
 }
+
 const getConfig = (pageName, payload, requestUrl) => {
   let url = interceptor(pageName)
   if (!payload.queryInfo) {
@@ -104,8 +105,7 @@ const businessStore = defineStore('business', {
       // 删除数据
       const fn = async () => {
         const { id, pageName, searchData } = payload
-        // const name = pageName?.toLowerCase()
-        const url = `/${deleteConfig(pageName)}/${id}`
+        const url = `${deleteConfig(pageName)}/${id}`
         let res = await deletData(url)
         if (send) {
           await this.getList({

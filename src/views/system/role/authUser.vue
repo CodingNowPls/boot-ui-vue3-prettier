@@ -100,7 +100,7 @@ const init = () => {}
 init()
 </script>
 <template>
-  <div class="default-main userPage">
+  <div class="default-main page">
     <PageSearch
       v-show="showPageSearch"
       ref="pageSearchRef"
@@ -187,10 +187,10 @@ init()
 </template>
 
 <style scoped lang="scss">
-.userPage {
+.page {
   background-color: var(--ba-bg-color-overlay);
 }
-.userPage {
+.page {
   :deep(.statusClass .el-radio-group) {
     width: 100%;
   }
