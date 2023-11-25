@@ -1,15 +1,17 @@
-<script setup name="Post">
+<script setup name="">
+import { ElNotification } from 'element-plus'
 import { nextTick } from 'vue'
 import getSearchConfig from './config/searchConfig'
 import getContentConfig from './config/contentConfig.js'
 import getDialogConfig from './config/dialogConfig.js'
 import useDialog from '@/hooks/useDialog'
 import getComputedConfig from '@/hooks/getPageConfig'
+import to from '@/utils/to'
 
 const { proxy } = getCurrentInstance()
-const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
+const { sys_yes_no } = proxy.useDict('sys_yes_no')
 
-const pageName = ref('post')
+const pageName = ref('config')
 const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
@@ -17,7 +19,7 @@ const descConfig = ref({})
 const dialogHideItems = ref([])
 const tableHideItems = ref([])
 const dictMap = {
-  status: sys_normal_disable,
+  configType: sys_yes_no,
 }
 const searchConfig = getSearchConfig()
 const searchConfigComputed = computed(() => {
@@ -81,11 +83,11 @@ const search = () => {
 
 const beforeSend = (queryInfo) => {}
 
-const permission = {
-  add: 'system:post:add',
-  edit: 'system:post:edit',
-  del: 'system:post:remove',
-}
+const permission = ref({
+  add: 'system::add',
+  edit: 'system::edit',
+  del: 'system::remove',
+})
 
 const triggerShowSearch = () => {
   showPageSearch.value = !showPageSearch.value
@@ -98,11 +100,11 @@ const onChangeShowColumn = (filterArr) => {
 /** 导出按钮操作 */
 const handleExport = () => {
   proxy.download(
-    'system/post/export',
+    'system/config/export',
     {
       ...searchData.value,
     },
-    `post_${new Date().getTime()}.xlsx`
+    `config_${new Date().getTime()}.xlsx`
   )
 }
 
@@ -139,17 +141,15 @@ init()
         <el-button
           class="order17 ml12"
           type="warning"
-          v-hasPermi="['system:post:export']"
+          v-hasPermi="['system:config:export']"
           @click="handleExport"
         >
           <SvgIcon size="14" iconClass="download" />
           <span class="ml6">导出</span>
         </el-button>
       </template>
-      <template #statusSlot="{ backData }">
-        <el-tag :type="backData.status == 0 ? 'success' : 'danger'">
-          {{ backData.status == 0 ? '启用' : '禁用' }}
-        </el-tag>
+      <template #configTypeSlot="{ backData }">
+        <dict-tag :options="sys_yes_no" :value="backData.configType" />
       </template>
     </PageContent>
     <PageDialog

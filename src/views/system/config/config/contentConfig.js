@@ -1,16 +1,30 @@
 export const tableItem = [
   {
-    prop: 'deptName',
-    label: '部门名称',
+    prop: 'configId',
+    label: '主键',
+    width: '80',
   },
   {
-    prop: 'orderNum',
-    label: '排序',
+    prop: 'configName',
+    label: '参数名称',
   },
   {
-    prop: 'status',
-    label: '状态',
-    slotName: 'statusSlot',
+    prop: 'configKey',
+    label: '参数键名',
+  },
+  {
+    prop: 'configValue',
+    label: '参数键值',
+  },
+  {
+    prop: 'configType',
+    label: '系统内置',
+    slotName: 'configTypeSlot',
+    width: '100',
+  },
+  {
+    prop: 'remark',
+    label: '备注',
   },
   {
     prop: 'createTime',
@@ -19,7 +33,7 @@ export const tableItem = [
   {
     prop: 'todo',
     label: '操作',
-    width: '250',
+    width: '200',
     fixed: 'right',
     slotName: 'todo',
     showOverflowTooltip: false,
@@ -37,6 +51,7 @@ export default () => {
       treeProps: { children: 'children', hasChildren: 'hasChildren' },
       stripe: false,
       defaultExpandAll: true,
+      showOverflowTooltip: false,
     },
     showIndex: false,
     showChoose: true,

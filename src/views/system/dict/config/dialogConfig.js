@@ -1,43 +1,23 @@
 export default (listeners = {}) => {
   return {
-    rules: {
-      postName: [
-        { required: true, message: '岗位名称不能为空', trigger: 'blur' },
-      ],
-      postCode: [
-        { required: true, message: '岗位编码不能为空', trigger: 'blur' },
-      ],
-      postSort: [
-        { required: true, message: '岗位顺序不能为空', trigger: 'blur' },
-      ],
-    },
     formItems: [
       {
-        field: 'postName',
+        field: 'dictName',
         type: 'input',
-        label: '岗位名称',
+        label: '字典名称',
         config: {
           maxlength: 30,
         },
       },
       {
-        label: '岗位编码',
-        field: 'postCode',
+        field: 'dictType',
         type: 'input',
-      },
-      {
-        field: 'postSort',
-        type: 'inputNumber',
-        label: '岗位顺序',
-        config: {
-          controlsPosition: 'right',
-          min: 0,
-        },
+        label: '字典类型',
       },
       {
         field: 'status',
         type: 'radio',
-        label: '部门状态',
+        label: '状态',
         isGroup: true,
         options: [],
         config: {

@@ -45,6 +45,10 @@ const keyUpEnter = () => {
   search()
 }
 
+const setFormData = (key, value) => {
+  formData.value[key] = value
+}
+
 onMounted(() => {
   for (const item of formItem) {
     formData.value[item.field] = item.default ?? ''
@@ -53,9 +57,11 @@ onMounted(() => {
     formData.value[key] = props.initSearch[key]
   }
 })
+
 defineExpose({
   formData,
   search,
+  setFormData,
 })
 </script>
 

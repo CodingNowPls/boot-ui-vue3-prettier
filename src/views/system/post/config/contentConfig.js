@@ -28,6 +28,7 @@ export const tableItem = [
     width: '180',
   },
   {
+    prop: 'todo',
     label: '操作',
     width: '200',
     fixed: 'right',

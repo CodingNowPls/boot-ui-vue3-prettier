@@ -1,32 +1,31 @@
 export const tableItem = [
   {
-    prop: 'userId',
-    label: '用户编号',
-    hide: false,
+    prop: 'dictCode',
+    label: '字典编码',
   },
   {
-    prop: 'userName',
-    label: '用户名称',
+    prop: 'dictLabel',
+    label: '字典标签',
+    slotName: 'dictLabelSlot',
   },
   {
-    prop: 'nickName',
-    label: '用户昵称',
+    prop: 'dictValue',
+    label: '字典键值',
   },
 
   {
-    slotName: 'deptSlot',
-    label: '部门',
-  },
-  {
-    prop: 'phonenumber',
-    label: '手机号码',
-    width: '120',
+    prop: 'dictSort',
+    label: '字典排序',
   },
   {
     prop: 'status',
     label: '状态',
-    width: '120',
     slotName: 'statusSlot',
+  },
+
+  {
+    prop: 'remark',
+    label: '备注',
   },
   {
     prop: 'createTime',
@@ -50,9 +49,8 @@ export default () => {
         popperClass: 'lmw_popper',
         effect: 'light',
       },
-      maxHeight: 600,
     },
-    showIndex: true,
+    showIndex: false,
     showChoose: true,
     pagination: true,
     // border: false,

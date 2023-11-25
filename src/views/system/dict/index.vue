@@ -1,15 +1,20 @@
-<script setup name="Post">
+<script setup name="">
 import { nextTick } from 'vue'
 import getSearchConfig from './config/searchConfig'
 import getContentConfig from './config/contentConfig.js'
 import getDialogConfig from './config/dialogConfig.js'
 import useDialog from '@/hooks/useDialog'
 import getComputedConfig from '@/hooks/getPageConfig'
+import { refreshCache } from '@/api/system/dict/type'
+import useDictStore from '@/store/modules/dict'
+import to from '@/utils/to'
 
 const { proxy } = getCurrentInstance()
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
-
-const pageName = ref('post')
+const router = useRouter()
+const pageName = ref('dict/type')
+const idKey = 'dictId'
+const sendIdKey = 'dictId'
 const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
@@ -79,13 +84,20 @@ const search = () => {
   pageSearchRef.value?.search()
 }
 
-const beforeSend = (queryInfo) => {}
-
-const permission = {
-  add: 'system:post:add',
-  edit: 'system:post:edit',
-  del: 'system:post:remove',
+const beforeSend = (queryInfo) => {
+  if (queryInfo.dateRange && Array.isArray(queryInfo.dateRange)) {
+    const dateRange = queryInfo.dateRange
+    queryInfo['params[beginTime]'] = dateRange[0]
+    queryInfo['params[endTime]'] = dateRange[1]
+    delete queryInfo.dateRange
+  }
 }
+
+const permission = ref({
+  add: 'system::add',
+  edit: 'system::edit',
+  del: 'system::remove',
+})
 
 const triggerShowSearch = () => {
   showPageSearch.value = !showPageSearch.value
@@ -98,12 +110,27 @@ const onChangeShowColumn = (filterArr) => {
 /** 导出按钮操作 */
 const handleExport = () => {
   proxy.download(
-    'system/post/export',
+    'system/dict/type/export',
     {
       ...searchData.value,
     },
-    `post_${new Date().getTime()}.xlsx`
+    `dict_${new Date().getTime()}.xlsx`
   )
+}
+const handleDictType = (row) => {
+  router.push({
+    path: '/system/dict-data/index/' + row.dictId,
+  })
+}
+const refreshLoading = ref(false)
+const handleRefreshCache = async () => {
+  refreshLoading.value = true
+  const [err, res] = await to(refreshCache())
+  if (res) {
+    proxy.$modal.notifySuccess('刷新成功')
+    useDictStore().cleanDict()
+  }
+  refreshLoading.value = false
 }
 
 const init = () => {}
@@ -128,6 +155,7 @@ init()
       :tableListener="tableListener"
       :tableSelected="tableSelected"
       :permission="permission"
+      :idKey="idKey"
       @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"
@@ -145,6 +173,21 @@ init()
           <SvgIcon size="14" iconClass="download" />
           <span class="ml6">导出</span>
         </el-button>
+        <el-button
+          class="order18 ml12"
+          type="success"
+          v-hasPermi="['system:dict:remove']"
+          @click="handleRefreshCache"
+          :loading="refreshLoading"
+        >
+          <SvgIcon size="14" iconClass="refresh" />
+          <span class="ml6">刷新缓存</span>
+        </el-button>
+      </template>
+      <template #dictTypeSlot="{ backData }">
+        <el-button link type="primary" @click="handleDictType(backData)">
+          {{ backData.dictType }}
+        </el-button>
       </template>
       <template #statusSlot="{ backData }">
         <el-tag :type="backData.status == 0 ? 'success' : 'danger'">
@@ -160,6 +203,8 @@ init()
       :infoInit="infoInit"
       :search="search"
       :isEditMore="isEditMore"
+      :idKey="idKey"
+      :sendIdKey="sendIdKey"
       @editNext="editNext"
     >
     </PageDialog>

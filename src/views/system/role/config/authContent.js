@@ -28,7 +28,7 @@ export const tableItem = [
     width: '180',
   },
   {
-    prop: 'todoSlot',
+    prop: 'todo',
     label: '操作',
     width: '160',
     fixed: 'right',

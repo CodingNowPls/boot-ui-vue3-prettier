@@ -208,7 +208,7 @@ const editClick = async (item, type) => {
   let url = `/${props.pageName}/${id}`
   let [err, res] = await to(getInfo(url))
 
-  if (res.data) {
+  if (res?.data) {
     emit('editBtnClick', res.data, type, res)
   }
   isLoading.value = false

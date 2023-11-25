@@ -1,15 +1,24 @@
-<script setup name="Post">
+<script setup name="">
+import {
+  optionselect as getDictOptionselect,
+  getType,
+} from '@/api/system/dict/type'
 import { nextTick } from 'vue'
-import getSearchConfig from './config/searchConfig'
-import getContentConfig from './config/contentConfig.js'
-import getDialogConfig from './config/dialogConfig.js'
+import getSearchConfig from './config/dataSearchConfig'
+import getContentConfig from './config/dataContentConfig.js'
+import getDialogConfig from './config/dataDialogConfig.js'
 import useDialog from '@/hooks/useDialog'
 import getComputedConfig from '@/hooks/getPageConfig'
+import to from '@/utils/to'
 
 const { proxy } = getCurrentInstance()
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
+const dictTypeList = ref([])
+const route = useRoute()
+const pageName = ref('dict/data')
+const idKey = 'dictCode'
+const sendIdKey = 'dictCode'
 
-const pageName = ref('post')
 const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
@@ -18,6 +27,7 @@ const dialogHideItems = ref([])
 const tableHideItems = ref([])
 const dictMap = {
   status: sys_normal_disable,
+  dictType: dictTypeList,
 }
 const searchConfig = getSearchConfig()
 const searchConfigComputed = computed(() => {
@@ -81,11 +91,11 @@ const search = () => {
 
 const beforeSend = (queryInfo) => {}
 
-const permission = {
-  add: 'system:post:add',
-  edit: 'system:post:edit',
-  del: 'system:post:remove',
-}
+const permission = ref({
+  add: 'system::add',
+  edit: 'system::edit',
+  del: 'system::remove',
+})
 
 const triggerShowSearch = () => {
   showPageSearch.value = !showPageSearch.value
@@ -98,15 +108,39 @@ const onChangeShowColumn = (filterArr) => {
 /** 导出按钮操作 */
 const handleExport = () => {
   proxy.download(
-    'system/post/export',
+    'system/dict/data/export',
     {
       ...searchData.value,
     },
-    `post_${new Date().getTime()}.xlsx`
+    `dict_data_${new Date().getTime()}.xlsx`
   )
 }
+/** 查询字典类型详细 */
+const getTypes = async (dictId) => {
+  const [err, res] = await to(getType(dictId))
+  if (res) {
+    const data = res.data
+    pageSearchRef.value.setFormData('dictType', data.dictType)
+    nextTick(() => {
+      search()
+    })
+  }
+}
+const getDictTypeList = async () => {
+  const [err, res] = await to(getDictOptionselect())
+  if (res) {
+    dictTypeList.value = res.data
+  }
+}
+const init = () => {
+  getDictTypeList()
+  getTypes(route.params && route.params.dictId)
+}
 
-const init = () => {}
+const handleClose = () => {
+  const obj = { path: '/system/dict' }
+  proxy.$tab.closeOpenPage(obj)
+}
 
 init()
 </script>
@@ -128,6 +162,8 @@ init()
       :tableListener="tableListener"
       :tableSelected="tableSelected"
       :permission="permission"
+      :idKey="idKey"
+      :autoSend="false"
       @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"
@@ -145,10 +181,31 @@ init()
           <SvgIcon size="14" iconClass="download" />
           <span class="ml6">导出</span>
         </el-button>
+        <el-button class="order18 ml12" type="warning" @click="handleClose">
+          <SvgIcon size="14" iconClass="times" />
+          <span class="ml6">关闭</span>
+        </el-button>
       </template>
       <template #statusSlot="{ backData }">
         <el-tag :type="backData.status == 0 ? 'success' : 'danger'">
           {{ backData.status == 0 ? '启用' : '禁用' }}
+        </el-tag>
+      </template>
+      <template #dictLabelSlot="{ backData }">
+        <span
+          v-if="
+            (backData.listClass == '' || backData.listClass == 'default') &&
+            (backData.cssClass == '' || backData.cssClass == null)
+          "
+        >
+          {{ backData.dictLabel }}
+        </span>
+        <el-tag
+          v-else
+          :type="backData.listClass == 'primary' ? '' : backData.listClass"
+          :class="backData.cssClass"
+        >
+          {{ backData.dictLabel }}
         </el-tag>
       </template>
     </PageContent>
@@ -160,6 +217,8 @@ init()
       :infoInit="infoInit"
       :search="search"
       :isEditMore="isEditMore"
+      :idKey="idKey"
+      :sendIdKey="sendIdKey"
       @editNext="editNext"
     >
     </PageDialog>
