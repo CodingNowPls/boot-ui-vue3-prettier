@@ -105,7 +105,7 @@ const beforeSend = (queryInfo) => {
   }
 }
 const beforeSave = () => {
-  otherInfo.value.menuIds = getTreeData()
+  dialogRef.value.setFormData('menuIds', getTreeData())
 }
 
 const permission = ref({
@@ -161,7 +161,6 @@ const setTreeData = (checkedKeys) => {
     })
   })
 }
-const otherInfo = ref({})
 const getTreeData = () => {
   const treeRef = dialogRef.value?.formRef?.allRefs?.menuIds
   if (treeRef) {
@@ -272,9 +271,8 @@ init()
       :pageName="pageName"
       :dialogConfig="dialogConfigComputed"
       :infoInit="infoInit"
-      :searchData="searchData"
       :isEditMore="isEditMore"
-      :otherInfo="otherInfo"
+      :search="search"
       @editNext="editNext"
       @beforeSave="beforeSave"
     >

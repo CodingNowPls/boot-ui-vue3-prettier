@@ -12,8 +12,8 @@ const title = ref(import.meta.env.VITE_APP_TITLE)
 const formRef = ref(null)
 const formData = ref({
   code: '',
-  username: 'admin123',
-  password: 'admin',
+  username: '',
+  password: '',
   uuid: '',
   rememberMe: false,
 })
@@ -34,8 +34,8 @@ const getCookie = () => {
   const password = Cookies.get('password')
   const rememberMe = Cookies.get('rememberMe')
   formData.value = {
-    username: username ?? '',
-    password: decrypt(password) ?? '',
+    username: username || 'admin',
+    password: decrypt(password) || 'admin123',
     rememberMe: rememberMe ? false : Boolean(rememberMe),
     code: '',
     uuid: '',

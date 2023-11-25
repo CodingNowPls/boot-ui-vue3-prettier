@@ -59,6 +59,9 @@ const props = defineProps({
     type: String,
     default: 'initial',
   },
+  search: {
+    type: Function,
+  },
 })
 const emits = defineEmits(['closed', 'editNext', 'beforeSave'])
 const dialogVisible = ref(false)
@@ -96,7 +99,6 @@ const commitClick = async () => {
           ...props.otherInfo,
           ...formData.value,
         },
-        searchData: { ...props.searchData, ...props.otherRequestOption },
         id:
           props.infoInit[props.idKey] ??
           props.infoInit[props.pageName + 'Id'] ??
@@ -113,7 +115,6 @@ const commitClick = async () => {
           ...props.otherInfo,
           ...formData.value,
         },
-        searchData: { ...props.searchData, ...props.otherRequestOption },
       })
     }
   }
@@ -122,6 +123,7 @@ const commitClick = async () => {
     loading.value = true
     const [err, res] = await to(success())
     if (res) {
+      props.search && props.search()
       if (props.isEditMore && tableSelected.value.length > 0) {
         const current = tableSelected.value.shift()
         emits('editNext', current)

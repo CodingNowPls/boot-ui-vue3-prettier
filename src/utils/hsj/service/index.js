@@ -7,7 +7,7 @@ import { tansParams, blobValidate } from '@/utils/ruoyi.js'
 import session from '@/utils/hsj/useSession'
 import useUserStore from '@/store/modules/user'
 
-const hideElNotification = ['login']
+const hideElNotification = ['login', 'changeStatus']
 
 const isHideNotify = (arr, str) => {
   return arr.some((item) => str.includes(item))

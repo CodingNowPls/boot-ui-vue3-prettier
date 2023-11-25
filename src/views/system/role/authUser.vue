@@ -127,6 +127,7 @@ init()
     >
       <template #handleLeft>
         <el-button
+          class="ml12"
           type="primary"
           v-hasPermi="['system:role:add']"
           @click="addClickUser"

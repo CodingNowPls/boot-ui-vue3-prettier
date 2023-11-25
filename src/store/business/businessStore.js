@@ -101,18 +101,12 @@ const businessStore = defineStore('business', {
       }
       return res
     },
-    async deletDataAction(payload, send = true) {
+    async deletDataAction(payload) {
       // 删除数据
       const fn = async () => {
-        const { id, pageName, searchData } = payload
+        const { id, pageName } = payload
         const url = `${deleteConfig(pageName)}/${id}`
         let res = await deletData(url)
-        if (send) {
-          await this.getList({
-            pageName,
-            queryInfo: searchData,
-          })
-        }
         return res
       }
       let [err, res] = await to(fn())
@@ -124,30 +118,21 @@ const businessStore = defineStore('business', {
     async createDataAction(payload, send = true) {
       // 添加数据
       const fn = async () => {
-        const { pageName, newData, searchData } = payload
+        const { pageName, newData } = payload
         const url = `/${pageName.toLowerCase()}`
         const res = await createData(url, { ...newData })
-        if (send) {
-          await this.getList({
-            pageName,
-            queryInfo: {
-              ...searchData,
-            },
-          })
-        }
         return res
       }
       let [err, res] = await to(fn())
       if (err) {
         console.log(err)
       }
-
       return res
     },
-    async editDataAction(payload, send = true) {
+    async editDataAction(payload) {
       // 编辑数据
       const fn = async () => {
-        const { pageName, editInfo, id, searchData } = payload
+        const { pageName, editInfo, id } = payload
         const url = `/${pageName.toLowerCase()}`
         let infoId
         if (payload.sendIdKey) {
@@ -161,14 +146,6 @@ const businessStore = defineStore('business', {
         }
         const info = { ...editInfo, ...infoId }
         let res = await editData(url, info)
-        if (send) {
-          await this.getList({
-            pageName,
-            queryInfo: {
-              ...searchData,
-            },
-          })
-        }
         return res
       }
       let [err, res] = await to(fn())

@@ -191,18 +191,11 @@ const deleteRow = async (delData) => {
     id = delData[props.idKey] ?? delData[props.pageName + 'Id'] ?? delData.id
   }
   await to(
-    store.deletDataAction(
-      {
-        id,
-        pageName: props.pageName,
-        requestUrl: props.requestUrl,
-        searchData: {
-          ...props.otherRequestOption,
-          ...finalSearchData.value,
-        },
-      },
-      false
-    )
+    store.deletDataAction({
+      id,
+      pageName: props.pageName,
+      requestUrl: props.requestUrl,
+    })
   )
   await to(send(finalSearchData.value))
   isLoading.value = false

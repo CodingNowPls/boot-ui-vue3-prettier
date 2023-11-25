@@ -125,10 +125,10 @@ const [dialogRef, infoInit, addClick, editBtnClick] = useDialog(
   editCallBack,
   '添加'
 )
-// 页面的搜索条件，页面的所有搜索条件都在这里
-const searchData = computed(() => {
-  return pageContentRef.value?.finalSearchData
-})
+const search = () => {
+  pageSearchRef.value?.search()
+}
+
 // 页面查询的前置函数
 const beforeSend = (queryInfo) => {
   if (queryInfo.dateRange && Array.isArray(queryInfo.dateRange)) {
@@ -164,7 +164,9 @@ const getTreeSelect = async () => {
 }
 const handleAdd = (row) => {
   addClick()
-  infoInit.value.parentId = row.parentId
+  nextTick(() => {
+    dialogRef.value?.setFormData('parentId', row.parentId)
+  })
 }
 
 const unFoldAll = () => {
@@ -232,7 +234,7 @@ init()
       :pageName="pageName"
       :dialogConfig="dialogConfigComputed"
       :infoInit="infoInit"
-      :searchData="searchData"
+      :search="search"
       :isEditMore="isEditMore"
       :otherInfo="otherInfo"
       :defaultData="defaultData"

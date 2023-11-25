@@ -117,6 +117,10 @@ const searchData = computed(() => {
   return pageContentRef.value?.finalSearchData
 })
 
+const search = () => {
+  pageSearchRef.value?.search()
+}
+
 const beforeSend = (queryInfo) => {
   if (queryInfo.dateRange && Array.isArray(queryInfo.dateRange)) {
     const dateRange = queryInfo.dateRange
@@ -261,7 +265,7 @@ init()
       <template #handleLeft>
         <el-button
           type="warning"
-          class="ml12"
+          class="ml12 order16"
           v-hasPermi="['system:user:import']"
           @click="handleImport"
         >
@@ -269,6 +273,7 @@ init()
           <span class="ml6">导入</span>
         </el-button>
         <el-button
+          class="order17"
           type="warning"
           v-hasPermi="['system:user:export']"
           @click="handleExport"
@@ -307,7 +312,7 @@ init()
       :pageName="pageName"
       :dialogConfig="dialogConfigComputed"
       :infoInit="infoInit"
-      :searchData="searchData"
+      :search="search"
       :isEditMore="isEditMore"
       @editNext="editNext"
     >
