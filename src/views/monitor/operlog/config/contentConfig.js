@@ -16,6 +16,7 @@ export const tableItem = [
   {
     prop: 'operName',
     label: '操作人员',
+    sortable: true,
   },
   {
     prop: 'operIp',
@@ -31,11 +32,13 @@ export const tableItem = [
     prop: 'operTime',
     label: '操作日期',
     width: 160,
+    sortable: true,
   },
   {
     prop: 'costTime',
     label: '消耗时间',
     slotName: 'costTimeSlot',
+    sortable: true,
   },
   {
     prop: 'todo',
@@ -61,6 +64,5 @@ export default () => {
     showIndex: false,
     showChoose: true,
     pagination: false,
-    // border: false,
   }
 }
