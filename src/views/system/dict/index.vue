@@ -1,4 +1,4 @@
-<script setup name="">
+<script setup name="Dict">
 import { nextTick } from 'vue'
 import getSearchConfig from './config/searchConfig'
 import getContentConfig from './config/contentConfig.js'
@@ -8,13 +8,15 @@ import getComputedConfig from '@/hooks/getPageConfig'
 import { refreshCache } from '@/api/system/dict/type'
 import useDictStore from '@/store/modules/dict'
 import to from '@/utils/to'
+import { systemBaseUrl } from '@/api/config/base.js'
 
 const { proxy } = getCurrentInstance()
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
 const router = useRouter()
-const pageName = ref('dict/type')
+const pageName = 'dict/type'
 const idKey = 'dictId'
 const sendIdKey = 'dictId'
+const requestBaseUrl = systemBaseUrl
 const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
@@ -156,6 +158,7 @@ init()
       :tableSelected="tableSelected"
       :permission="permission"
       :idKey="idKey"
+      :requestBaseUrl="requestBaseUrl"
       @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"
@@ -205,6 +208,7 @@ init()
       :isEditMore="isEditMore"
       :idKey="idKey"
       :sendIdKey="sendIdKey"
+      :requestBaseUrl="requestBaseUrl"
       @editNext="editNext"
     >
     </PageDialog>

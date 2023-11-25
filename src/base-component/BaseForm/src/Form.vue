@@ -282,7 +282,9 @@
                 <slot
                   :name="`${item.field}Custom`"
                   :backData="{ item: item, formData: data }"
-                ></slot>
+                >
+                  {{ data[`${item.field}`] }}
+                </slot>
               </template>
               <slot
                 :name="`${item.field}After`"

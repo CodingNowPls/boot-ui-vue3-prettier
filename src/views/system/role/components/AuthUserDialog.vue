@@ -1,8 +1,9 @@
 <script setup>
-import { authUserSelectAll, unallocatedUserList } from '@/api/system/role'
+import { authUserSelectAll } from '@/api/system/role'
 import getSearchConfig from '../config/authDialogSearch.js'
 import getContentConfig from '../config/authContent.js'
 import to from '@/utils/to'
+import { systemBaseUrl } from '@/api/config/base.js'
 
 const props = defineProps({
   modelValue: {
@@ -15,11 +16,12 @@ const { proxy } = getCurrentInstance()
 const route = useRoute()
 const pageContentRef = ref(null)
 const pageSearchRef = ref(null)
-const pageName = ref('role')
-const requestUrl = ref('authUser/unallocatedList')
+const pageName = 'authRole'
+const requestUrl = 'authUser/unallocatedList'
+const requestBaseUrl = systemBaseUrl
 const roleId = route.params.roleId
 
-const tableHideItems = ref(['todoSlot'])
+const tableHideItems = ref(['todo'])
 const searchConfig = getSearchConfig()
 const contentConfig = getContentConfig()
 
@@ -109,6 +111,7 @@ const handleValueChange = (value) => {
         :requestUrl="requestUrl"
         :otherRequestOption="otherRequestOption"
         :tableListener="tableListener"
+        :requestBaseUrl="requestBaseUrl"
       >
         <template #statusSlot="{ backData }">
           <el-tag

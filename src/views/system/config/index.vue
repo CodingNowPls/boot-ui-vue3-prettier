@@ -1,17 +1,15 @@
-<script setup name="">
-import { ElNotification } from 'element-plus'
-import { nextTick } from 'vue'
+<script setup name="Config">
 import getSearchConfig from './config/searchConfig'
 import getContentConfig from './config/contentConfig.js'
 import getDialogConfig from './config/dialogConfig.js'
 import useDialog from '@/hooks/useDialog'
 import getComputedConfig from '@/hooks/getPageConfig'
-import to from '@/utils/to'
+import { systemBaseUrl } from '@/api/config/base.js'
 
 const { proxy } = getCurrentInstance()
 const { sys_yes_no } = proxy.useDict('sys_yes_no')
-
-const pageName = ref('config')
+const pageName = 'config'
+const requestBaseUrl = systemBaseUrl
 const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
@@ -130,6 +128,7 @@ init()
       :tableListener="tableListener"
       :tableSelected="tableSelected"
       :permission="permission"
+      :requestBaseUrl="requestBaseUrl"
       @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"
@@ -160,6 +159,7 @@ init()
       :infoInit="infoInit"
       :search="search"
       :isEditMore="isEditMore"
+      :requestBaseUrl="requestBaseUrl"
       @editNext="editNext"
     >
     </PageDialog>

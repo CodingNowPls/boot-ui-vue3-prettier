@@ -7,7 +7,7 @@ import getComputedConfig from '@/hooks/getPageConfig'
 import to from '@/utils/to'
 import { listMenu } from '@/api/system/menu'
 import IconSelector from '@/components/IconSelector/IconSelector.vue'
-import { nextTick } from 'vue'
+import { systemBaseUrl } from '@/api/config/base.js'
 
 const { proxy } = getCurrentInstance()
 
@@ -16,7 +16,8 @@ const { sys_normal_disable, sys_show_hide } = proxy.useDict(
   'sys_show_hide'
 )
 
-const pageName = ref('menu')
+const pageName = 'menu'
+const requestBaseUrl = systemBaseUrl
 const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
@@ -198,6 +199,7 @@ init()
       :tableSelected="tableSelected"
       :permission="permission"
       :piniaConfig="piniaConfig"
+      :requestBaseUrl="requestBaseUrl"
       @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"
@@ -238,6 +240,7 @@ init()
       :isEditMore="isEditMore"
       :otherInfo="otherInfo"
       :defaultData="defaultData"
+      :requestBaseUrl="requestBaseUrl"
       @editNext="editNext"
       @beforeSave="beforeSave"
     >

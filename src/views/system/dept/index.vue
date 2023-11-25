@@ -1,4 +1,4 @@
-<script setup name="Menu">
+<script setup name="Dept">
 import getSearchConfig from './config/searchConfig'
 import getContentConfig from './config/contentConfig.js'
 import getDialogConfig from './config/dialogConfig.js'
@@ -6,13 +6,12 @@ import useDialog from '@/hooks/useDialog.js'
 import getComputedConfig from '@/hooks/getPageConfig.js'
 import to from '@/utils/to.js'
 import { listDept } from '@/api/system/dept'
-import { nextTick } from 'vue'
+import { systemBaseUrl } from '@/api/config/base.js'
 
 const { proxy } = getCurrentInstance()
-
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
-
-const pageName = ref('dept')
+const pageName = 'dept'
+const requestBaseUrl = systemBaseUrl
 const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
@@ -180,6 +179,7 @@ init()
       :tableSelected="tableSelected"
       :permission="permission"
       :piniaConfig="piniaConfig"
+      :requestBaseUrl="requestBaseUrl"
       @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"
@@ -222,6 +222,7 @@ init()
       :isEditMore="isEditMore"
       :otherInfo="otherInfo"
       :defaultData="defaultData"
+      :requestBaseUrl="requestBaseUrl"
       @editNext="editNext"
       @beforeSave="beforeSave"
     >

@@ -1,39 +1,46 @@
 export const tableItem = [
   {
-    prop: 'configId',
-    label: '主键',
-    width: '80',
-  },
-  {
-    prop: 'configName',
-    label: '参数名称',
-  },
-  {
-    prop: 'configKey',
-    label: '参数键名',
-  },
-  {
-    prop: 'configValue',
-    label: '参数键值',
-  },
-  {
-    prop: 'configType',
-    label: '系统内置',
-    slotName: 'configTypeSlot',
+    prop: 'operId',
+    label: '日志编号',
     width: '100',
   },
   {
-    prop: 'remark',
-    label: '备注',
+    prop: 'title',
+    label: '系统模块',
   },
   {
-    prop: 'createTime',
-    label: '创建时间',
+    prop: 'businessType',
+    label: '操作类型',
+    slotName: 'businessTypeSlot',
+  },
+  {
+    prop: 'operName',
+    label: '操作人员',
+  },
+  {
+    prop: 'operIp',
+    label: '操作地址',
+    width: 140,
+  },
+  {
+    prop: 'status',
+    label: '操作状态',
+    slotName: 'statusSlot',
+  },
+  {
+    prop: 'operTime',
+    label: '操作日期',
+    width: 160,
+  },
+  {
+    prop: 'costTime',
+    label: '消耗时间',
+    slotName: 'costTimeSlot',
   },
   {
     prop: 'todo',
     label: '操作',
-    width: '200',
+    width: '100',
     fixed: 'right',
     slotName: 'todo',
     showOverflowTooltip: false,
@@ -50,7 +57,6 @@ export default () => {
       rowKey: 'deptId',
       treeProps: { children: 'children', hasChildren: 'hasChildren' },
       defaultExpandAll: true,
-      showOverflowTooltip: false,
     },
     showIndex: false,
     showChoose: true,

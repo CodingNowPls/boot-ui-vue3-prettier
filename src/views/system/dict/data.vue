@@ -1,4 +1,4 @@
-<script setup name="">
+<script setup name="Data">
 import {
   optionselect as getDictOptionselect,
   getType,
@@ -10,6 +10,7 @@ import getDialogConfig from './config/dataDialogConfig.js'
 import useDialog from '@/hooks/useDialog'
 import getComputedConfig from '@/hooks/getPageConfig'
 import to from '@/utils/to'
+import { systemBaseUrl } from '@/api/config/base.js'
 
 const { proxy } = getCurrentInstance()
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
@@ -18,7 +19,7 @@ const route = useRoute()
 const pageName = ref('dict/data')
 const idKey = 'dictCode'
 const sendIdKey = 'dictCode'
-
+const requestBaseUrl = systemBaseUrl
 const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
@@ -164,6 +165,7 @@ init()
       :permission="permission"
       :idKey="idKey"
       :autoSend="false"
+      :requestBaseUrl="requestBaseUrl"
       @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"
@@ -219,6 +221,7 @@ init()
       :isEditMore="isEditMore"
       :idKey="idKey"
       :sendIdKey="sendIdKey"
+      :requestBaseUrl="requestBaseUrl"
       @editNext="editNext"
     >
     </PageDialog>

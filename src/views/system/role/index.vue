@@ -9,12 +9,14 @@ import to from '@/utils/to'
 import { changeRoleStatus, getRole } from '@/api/system/role'
 import { roleMenuTreeselect, treeselect } from '@/api/system/menu'
 import AssignDialog from './components/AssignDialog.vue'
+import { systemBaseUrl } from '@/api/config/base.js'
 
 const router = useRouter()
 const { proxy } = getCurrentInstance()
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
 
 const pageName = ref('role')
+const requestBaseUrl = systemBaseUrl
 const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
@@ -211,6 +213,7 @@ init()
       :tableListener="tableListener"
       :tableSelected="tableSelected"
       :permission="permission"
+      :requestBaseUrl="requestBaseUrl"
       @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"
@@ -220,7 +223,7 @@ init()
     >
       <template #handleLeft>
         <el-button
-          class="ml12"
+          class="ml12 order16"
           type="warning"
           v-hasPermi="['system:user:export']"
           @click="handleExport"
@@ -273,6 +276,7 @@ init()
       :infoInit="infoInit"
       :isEditMore="isEditMore"
       :search="search"
+      :requestBaseUrl="requestBaseUrl"
       @editNext="editNext"
       @beforeSave="beforeSave"
     >

@@ -6,7 +6,7 @@ import getDialogConfig from './config/dialogConfig.js'
 import useDialog from '@/hooks/useDialog'
 import getComputedConfig from '@/hooks/getPageConfig'
 import Editor from '@/components/Editor/index.vue'
-import to from '@/utils/to'
+import { systemBaseUrl } from '@/api/config/base.js'
 
 const { proxy } = getCurrentInstance()
 const { sys_notice_status, sys_notice_type } = proxy.useDict(
@@ -14,7 +14,8 @@ const { sys_notice_status, sys_notice_type } = proxy.useDict(
   'sys_notice_type'
 )
 
-const pageName = ref('notice')
+const pageName = 'notice'
+const requestBaseUrl = systemBaseUrl
 const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
@@ -134,6 +135,7 @@ init()
       :tableListener="tableListener"
       :tableSelected="tableSelected"
       :permission="permission"
+      :requestBaseUrl="requestBaseUrl"
       @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"
@@ -156,6 +158,7 @@ init()
       :infoInit="infoInit"
       :search="search"
       :isEditMore="isEditMore"
+      :requestBaseUrl="requestBaseUrl"
       @editNext="editNext"
     >
       <template #noticeContentCustom="{ backData }">

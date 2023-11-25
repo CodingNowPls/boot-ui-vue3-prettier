@@ -5,6 +5,7 @@ import businessStore from '@/store/business/businessStore'
 import { getInfo } from '@/api/business/main/index'
 import to from '@/utils/to'
 import DictCpn from './dictCpn.vue'
+import { interceptor } from '@/store/business/businessStore'
 const props = defineProps({
   // table的配置
   contentConfig: {
@@ -106,6 +107,10 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
+  requestBaseUrl: {
+    type: String,
+    default: '/',
+  },
 })
 const emit = defineEmits([
   'addClick',
@@ -159,6 +164,7 @@ const send = async (searchInfo) => {
         ...props.otherRequestOption,
         ...searchInfo,
       },
+      requestBaseUrl: props.requestBaseUrl,
     },
     props.piniaConfig.listConfig,
     props.piniaConfig.handleList
@@ -195,6 +201,7 @@ const deleteRow = async (delData) => {
       id,
       pageName: props.pageName,
       requestUrl: props.requestUrl,
+      requestBaseUrl: props.requestBaseUrl,
     })
   )
   await to(send(finalSearchData.value))
@@ -205,9 +212,8 @@ const deleteRow = async (delData) => {
 const editClick = async (item, type) => {
   isLoading.value = true
   let id = item[props.idKey] ?? item[props.pageName + 'Id'] ?? item.id
-  let url = `/${props.pageName}/${id}`
+  let url = `${props.requestBaseUrl}/${interceptor(props.pageName)}/${id}`
   let [err, res] = await to(getInfo(url))
-
   if (res?.data) {
     emit('editBtnClick', res.data, type, res)
   }

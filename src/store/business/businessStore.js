@@ -12,6 +12,9 @@ export const interceptor = (pageName) => {
   if (pageName === 'authUserRole') {
     url = '/role'
   }
+  if (pageName === 'authRole') {
+    url = '/role'
+  }
   return url
 }
 
@@ -48,8 +51,9 @@ const deepFindValue = (obj, key, isFirstValue = true) => {
   return finalData
 }
 
-const getConfig = (pageName, payload, requestUrl) => {
+const getConfig = (pageName, payload, requestUrl, requestBaseUrl) => {
   let url = interceptor(pageName)
+  url = `${requestBaseUrl}${url}`
   if (!payload.queryInfo) {
     payload.queryInfo = {}
   }
@@ -75,12 +79,18 @@ const businessStore = defineStore('business', {
       handleList = (list) => list
     ) {
       const requestUrl = payload.requestUrl ?? 'list'
+      const requestBaseUrl = payload.requestBaseUrl ?? '/'
       // 获取数据
       const fn = async () => {
         const name = payload.pageName
         let pageName = name
         const getListName = `${name}List`
-        let { url, payloadInfo } = getConfig(pageName, payload, requestUrl)
+        let { url, payloadInfo } = getConfig(
+          pageName,
+          payload,
+          requestUrl,
+          requestBaseUrl
+        )
 
         const pageData = await getPageListData(url, {
           ...payloadInfo.queryInfo,
@@ -104,8 +114,8 @@ const businessStore = defineStore('business', {
     async deletDataAction(payload) {
       // 删除数据
       const fn = async () => {
-        const { id, pageName } = payload
-        const url = `${deleteConfig(pageName)}/${id}`
+        const { id, pageName, requestBaseUrl = '/' } = payload
+        const url = `${requestBaseUrl}${deleteConfig(pageName)}/${id}`
         let res = await deletData(url)
         return res
       }
@@ -115,11 +125,11 @@ const businessStore = defineStore('business', {
       }
       return res
     },
-    async createDataAction(payload, send = true) {
+    async createDataAction(payload) {
       // 添加数据
       const fn = async () => {
-        const { pageName, newData } = payload
-        const url = `/${pageName.toLowerCase()}`
+        const { pageName, newData, requestBaseUrl = '/' } = payload
+        const url = `${requestBaseUrl}/${pageName.toLowerCase()}`
         const res = await createData(url, { ...newData })
         return res
       }
@@ -132,8 +142,8 @@ const businessStore = defineStore('business', {
     async editDataAction(payload) {
       // 编辑数据
       const fn = async () => {
-        const { pageName, editInfo, id } = payload
-        const url = `/${pageName.toLowerCase()}`
+        const { pageName, editInfo, id, requestBaseUrl = '/' } = payload
+        const url = `${requestBaseUrl}/${pageName.toLowerCase()}`
         let infoId
         if (payload.sendIdKey) {
           infoId = {

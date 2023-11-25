@@ -5,14 +5,16 @@ import getComputedConfig from '@/hooks/getPageConfig'
 import { authUserCancel, authUserCancelAll } from '@/api/system/role'
 import AuthUserDialog from './components/AuthUserDialog.vue'
 import to from '@/utils/to'
+import { systemBaseUrl } from '@/api/config/base.js'
 
 const route = useRoute()
 const roleId = route.params.roleId
 const { proxy } = getCurrentInstance()
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
 
-const pageName = ref('authUserRole')
-const requestUrl = ref('authUser/allocatedList')
+const pageName = 'authUserRole'
+const requestUrl = 'authUser/allocatedList'
+const requestBaseUrl = systemBaseUrl
 const otherRequestOption = ref({
   roleId: roleId,
 })
@@ -121,6 +123,7 @@ init()
       :showEdit="false"
       :showDelete="false"
       :requestUrl="requestUrl"
+      :requestBaseUrl="requestBaseUrl"
       :otherRequestOption="otherRequestOption"
       @onChangeShowColumn="onChangeShowColumn"
       @triggerShowSearch="triggerShowSearch"

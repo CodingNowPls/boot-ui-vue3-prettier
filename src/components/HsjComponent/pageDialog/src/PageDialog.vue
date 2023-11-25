@@ -62,6 +62,10 @@ const props = defineProps({
   search: {
     type: Function,
   },
+  requestBaseUrl: {
+    type: String,
+    default: '/',
+  },
 })
 const emits = defineEmits(['closed', 'editNext', 'beforeSave'])
 const dialogVisible = ref(false)
@@ -104,6 +108,7 @@ const commitClick = async () => {
           props.infoInit[props.pageName + 'Id'] ??
           props.infoInit['id'],
         sendIdKey: props.sendIdKey,
+        requestBaseUrl: props.requestBaseUrl,
       })
     } else {
       //新建
@@ -115,6 +120,7 @@ const commitClick = async () => {
           ...props.otherInfo,
           ...formData.value,
         },
+        requestBaseUrl: props.requestBaseUrl,
       })
     }
   }

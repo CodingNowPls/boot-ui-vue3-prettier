@@ -15,6 +15,7 @@ import {
 } from '@/api/system/user'
 import to from '@/utils/to'
 import { getToken } from '@/utils/auth'
+import { systemBaseUrl } from '@/api/config/base.js'
 
 const { proxy } = getCurrentInstance()
 const { sys_normal_disable, sys_user_sex } = proxy.useDict(
@@ -22,7 +23,8 @@ const { sys_normal_disable, sys_user_sex } = proxy.useDict(
   'sys_user_sex'
 )
 
-const pageName = ref('user')
+const pageName = 'user'
+const requestBaseUrl = systemBaseUrl
 const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
@@ -255,6 +257,7 @@ init()
       :tableListener="tableListener"
       :tableSelected="tableSelected"
       :permission="permission"
+      :requestBaseUrl="requestBaseUrl"
       @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"
@@ -314,6 +317,7 @@ init()
       :infoInit="infoInit"
       :search="search"
       :isEditMore="isEditMore"
+      :requestBaseUrl="requestBaseUrl"
       @editNext="editNext"
     >
     </PageDialog>
