@@ -8,13 +8,12 @@ import session from '@/utils/hsj/useSession'
 import useUserStore from '@/store/modules/user'
 
 const hideElNotification = [
-  'login',
   'changeStatus',
   'refreshCache',
-  '/authUser/cancel',
-  '/authUser/selectAll',
+  'cancel',
+  'selectAll',
+  'unlock',
 ]
-
 const isHideNotify = (arr, str) => {
   return arr.some((item) => str.includes(item))
 }

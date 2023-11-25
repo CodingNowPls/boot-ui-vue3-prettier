@@ -1,44 +1,44 @@
 export const tableItem = [
   {
-    prop: 'operId',
+    prop: 'infoId',
     label: '日志编号',
     width: '100',
   },
   {
-    prop: 'title',
-    label: '系统模块',
-  },
-  {
-    prop: 'businessType',
-    label: '操作类型',
-    slotName: 'businessTypeSlot',
-  },
-  {
-    prop: 'operName',
-    label: '操作人员',
+    prop: 'userName',
+    label: '用户名称',
     sortable: true,
   },
   {
-    prop: 'operIp',
-    label: '操作地址',
-    width: 140,
+    prop: 'ipaddr',
+    label: '地址',
+  },
+  {
+    prop: 'loginLocation',
+    label: '登录地点',
+  },
+  {
+    prop: 'os',
+    label: '操作系统',
+  },
+  {
+    prop: 'browser',
+    label: '浏览器',
   },
   {
     prop: 'status',
-    label: '操作状态',
+    label: '登录状态',
     slotName: 'statusSlot',
   },
   {
-    prop: 'operTime',
-    label: '操作日期',
-    width: 160,
-    sortable: true,
+    prop: 'msg',
+    label: '描述',
   },
   {
-    prop: 'costTime',
-    label: '消耗时间',
-    slotName: 'costTimeSlot',
+    prop: 'loginTime',
+    label: '访问时间',
     sortable: true,
+    width: 160,
   },
   {
     prop: 'todo',
@@ -57,6 +57,7 @@ export default () => {
         popperClass: 'lmw_popper',
         effect: 'light',
       },
+      showOverflowTooltip: false,
     },
     showIndex: false,
     showChoose: true,

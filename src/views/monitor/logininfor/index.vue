@@ -2,18 +2,16 @@
 import getSearchConfig from './config/searchConfig'
 import getContentConfig from './config/contentConfig.js'
 import getComputedConfig from '@/hooks/getPageConfig'
-import getDialogConfig from './config/dialogConfig'
 import { monitorBaseUrl } from '@/api/config/base.js'
+import { unlockLogininfor } from '@/api/monitor/logininfor'
+
 import to from '@/utils/to'
 
 const { proxy } = getCurrentInstance()
-const { sys_oper_type, sys_common_status } = proxy.useDict(
-  'sys_oper_type',
-  'sys_common_status'
-)
-const pageName = 'operlog'
+const { sys_common_status } = proxy.useDict('sys_common_status')
+const pageName = 'logininfor'
 const requestBaseUrl = monitorBaseUrl
-const idKey = 'operId'
+const idKey = 'infoId'
 const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
@@ -21,7 +19,6 @@ const descConfig = ref({})
 const tableHideItems = ref([])
 const headerButtons = ['refresh', 'delete', 'columnDisplay', 'comSearch']
 const dictMap = {
-  businessType: sys_oper_type,
   status: sys_common_status,
 }
 const searchConfig = getSearchConfig()
@@ -39,8 +36,6 @@ const contentConfigComputed = computed(() => {
   contentConfig.hideItems = tableHideItems
   return contentConfig
 })
-
-const dialogConfig = getDialogConfig()
 
 const searchData = computed(() => {
   return pageContentRef.value?.finalSearchData
@@ -60,7 +55,7 @@ const beforeSend = (queryInfo) => {
 }
 
 const permission = ref({
-  del: 'monitor:operlog:remove',
+  del: 'monitor:logininfor:remove',
 })
 
 const triggerShowSearch = () => {
@@ -74,27 +69,22 @@ const onChangeShowColumn = (filterArr) => {
 /** 导出按钮操作 */
 const handleExport = () => {
   proxy.download(
-    'monitor/operlog/export',
+    'monitor/logininfor/export',
     {
       ...searchData.value,
     },
-    `monitor_${new Date().getTime()}.xlsx`
+    `logininfor_${new Date().getTime()}.xlsx`
   )
 }
-const dialogVisible = ref(false)
-const viewFormData = ref({})
-const handleView = (row) => {
-  dialogVisible.value = true
-  viewFormData.value = row
+
+const handleUnlock = async (row) => {
+  const [err, res] = await to(unlockLogininfor(row.userName))
+  if (res) {
+    proxy.$modal.notifySuccess('用户' + row.userName + '解锁成功')
+    search()
+  }
 }
-const handleClose = () => {
-  dialogVisible.value = false
-  viewFormData.value = {}
-}
-/** 操作日志类型字典翻译 */
-const typeFormat = (row) => {
-  return proxy.selectDictLabel(sys_oper_type.value, row.businessType)
-}
+
 const init = () => {}
 
 init()
@@ -122,20 +112,41 @@ init()
       :showEdit="false"
       :showDelete="false"
       :idKey="idKey"
+      @onChangeShowColumn="onChangeShowColumn"
       @beforeSend="beforeSend"
       @triggerShowSearch="triggerShowSearch"
-      @onChangeShowColumn="onChangeShowColumn"
     >
       <template #handleLeft>
         <el-button
-          class="order17 ml12"
+          class="order16 ml12"
           type="warning"
-          v-hasPermi="['monitor:operlog:export']"
+          v-hasPermi="['monitor:logininfor:export']"
           @click="handleExport"
         >
           <SvgIcon size="14" iconClass="download" />
           <span class="ml6">导出</span>
         </el-button>
+      </template>
+      <template #todoSlot="{ backData }">
+        <el-popconfirm
+          title="确定解锁选中记录？"
+          confirm-button-text="确认"
+          cancel-button-text="取消"
+          confirmButtonType="primary"
+          :hide-after="0"
+          @confirm="handleUnlock(backData)"
+        >
+          <template #reference>
+            <el-button
+              type="primary"
+              size="small"
+              v-hasPermi="['monitor:logininfor:unlock']"
+            >
+              <SvgIcon size="12" iconClass="lock-open" />
+              <span class="ml6">解锁</span>
+            </el-button>
+          </template>
+        </el-popconfirm>
       </template>
       <template #businessTypeSlot="{ backData }">
         <dict-tag :options="sys_oper_type" :value="backData.businessType" />
@@ -143,48 +154,7 @@ init()
       <template #statusSlot="{ backData }">
         <dict-tag :options="sys_common_status" :value="backData.status" />
       </template>
-      <template #todoSlot="{ backData }">
-        <el-button
-          v-hasPermi="['monitor:operlog:query']"
-          type="primary"
-          size="small"
-          @click="handleView(backData)"
-        >
-          <SvgIcon size="14" iconClass="eye" />
-          <span class="ml6">详情</span>
-        </el-button>
-      </template>
     </PageContent>
-    <el-dialog title="操作日志详细" v-model="dialogVisible" draggable>
-      <el-scrollbar max-height="420px">
-        <BaseForm :data="viewFormData" v-bind="dialogConfig">
-          <template #titleCustom="{ backData }">
-            {{ backData.formData.title }} / {{ typeFormat(backData.formData) }}
-          </template>
-          <template #loginInfoCustom="{ backData }">
-            {{ backData.formData.operName }} / {{ backData.formData.operIp }} /
-            {{ backData.formData.operLocation }}
-          </template>
-          <template #statusCustom="{ backData }">
-            <div v-if="backData.formData.status === 0">正常</div>
-            <div v-else-if="backData.formData.status === 1">失败</div>
-          </template>
-          <template #costTimeCustom="{ backData }">
-            {{ backData.formData.costTime }}毫秒
-          </template>
-          <template #errorMsgCustom="{ backData }">
-            <span v-if="backData.formData.status === 1">
-              <span class="errorInfo">异常信息：</span>
-              {{ backData.formData.errorMsg }}
-            </span>
-            <span v-else></span>
-          </template>
-        </BaseForm>
-      </el-scrollbar>
-      <template #footer>
-        <el-button @click="handleClose">关 闭</el-button>
-      </template>
-    </el-dialog>
   </div>
 </template>
 

@@ -43,7 +43,7 @@ const props = defineProps({
   paginationInfo: {
     // 分页的页码和偏移
     type: Object,
-    default: () => ({ pageNum: 1, pageSize: 100 }),
+    default: () => ({ pageNum: 1, pageSize: 50 }),
   },
   elTableConfig: {
     type: Object,
@@ -230,7 +230,7 @@ defineExpose({
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="paginationInfo.pageNum"
-          :page-sizes="[100, 200, 300]"
+          :page-sizes="[50, 100, 200, 300]"
           :page-size="paginationInfo.pageSize"
           :layout="paginationLayout"
           :total="listCount"

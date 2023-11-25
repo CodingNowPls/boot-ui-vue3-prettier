@@ -128,13 +128,13 @@ const baseTabelRef = ref(null)
 const searchDatas = ref({})
 const paginationInfo = ref({
   pageNum: 1,
-  pageSize: props.contentConfig?.defaultPageSize || 100,
+  pageSize: props.contentConfig?.defaultPageSize || 50,
 })
 
 if (props.contentConfig?.pagination) {
   paginationInfo.value = {
     pageNum: 1,
-    pageSize: props.contentConfig?.defaultPageSize || 100,
+    pageSize: props.contentConfig?.defaultPageSize || 50,
   }
 }
 
