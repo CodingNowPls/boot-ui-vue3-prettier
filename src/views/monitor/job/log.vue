@@ -2,7 +2,6 @@
 import getSearchConfig from './config/logSearch.js'
 import getContentConfig from './config/logContent.js'
 import getComputedConfig from '@/hooks/getPageConfig'
-import to from '@/utils/to'
 import LogView from './cpns/LogView.vue'
 import { monitorBaseUrl } from '@/api/config/base.js'
 

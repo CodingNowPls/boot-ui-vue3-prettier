@@ -33,7 +33,7 @@
         <FullScreen></FullScreen>
       </el-icon>
     </div>
-    <div @click="terminal.toggle()" class="nav-menu-item pt2">
+    <!-- <div @click="terminal.toggle()" class="nav-menu-item pt2">
       <el-badge>
         <SvgIcon
           :color="configStore.getColorVal('headerBarTabColor')"
@@ -42,7 +42,7 @@
           size="26"
         />
       </el-badge>
-    </div>
+    </div> -->
     <el-dropdown
       @visible-change="onCurrentNavMenu($event, 'clear')"
       class="h100"

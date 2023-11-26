@@ -114,7 +114,7 @@ const isHiddenItem = (item) => {
 }
 const tableHeight = () => {
   const viewportHeight = window.innerHeight - 253
-  return 400
+  return viewportHeight
 }
 let maxHeight = tableHeight()
 let expandAll = false
