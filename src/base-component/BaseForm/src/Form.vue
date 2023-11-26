@@ -281,7 +281,11 @@
               <template v-if="item.type === 'custom'">
                 <slot
                   :name="`${item.field}Custom`"
-                  :backData="{ item: item, formData: data }"
+                  :backData="{
+                    item: item,
+                    formData: data,
+                    data: data[`${item.field}`],
+                  }"
                 >
                   {{ data[`${item.field}`] }}
                 </slot>

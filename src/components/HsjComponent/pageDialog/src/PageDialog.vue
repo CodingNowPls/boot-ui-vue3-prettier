@@ -195,7 +195,7 @@ defineExpose({
             v-for="(value, slotName) in $slots"
             #[slotName]="{ backData }"
           >
-            <slot :name="slotName" :backData="backData"></slot>
+            <slot :name="slotName" :backData="backData"> </slot>
           </template>
         </BaseForm>
         <slot></slot>

@@ -1,4 +1,4 @@
-import request from '@/utils/hsj/service/index'
+import { request } from '@/utils/hsj/service/index'
 
 // 查询定时任务调度列表
 export function listJob(query) {
