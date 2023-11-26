@@ -3,7 +3,10 @@ export const technologyStacks = [
     title: '开发工具',
     desp: 'Visual Studio Code',
   },
-
+  {
+    title: '包管理工具',
+    desp: 'pnpm',
+  },
   {
     title: '编程语言',
     desp: 'JavaScript',
