@@ -1,4 +1,4 @@
-import request from '@/utils/hsj/service/index'
+import { request } from '@/utils/hsj/service/index'
 
 // 查询生成表数据
 export function listTable(query) {

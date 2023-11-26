@@ -28,6 +28,7 @@ import PageContent from '@/components/HsjComponent/pageContent/index'
 import PageDialog from '@/components/HsjComponent/pageDialog/index'
 import PageSearch from '@/components/HsjComponent/pageSearch/index'
 import DictTag from '@/components/DictTag'
+import TreeSelect from '@/components/TreeSelect'
 
 import { useDict } from '@/utils/dict'
 import {
@@ -62,6 +63,7 @@ app.component('PageContent', PageContent)
 app.component('PageDialog', PageDialog)
 app.component('PageSearch', PageSearch)
 app.component('DictTag', DictTag)
+app.component('TreeSelect', TreeSelect)
 
 directive(app)
 
