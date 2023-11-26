@@ -13,6 +13,7 @@ const hideElNotification = [
   'cancel',
   'selectAll',
   'unlock',
+  '/monitor/online/list',
 ]
 const isHideNotify = (arr, str) => {
   return arr.some((item) => str.includes(item))
