@@ -28,7 +28,7 @@ watchEffect(() => {
 })
 </script>
 
-<style lang="less" scoped>
+<style scoped>
 .bg {
   padding: 10px;
   text-align: left;

@@ -18,7 +18,7 @@ const props = defineProps({
 })
 </script>
 
-<style scoped lang="less">
+<style scoped lang="scss">
 .text-link {
   padding: 0 15px;
   margin-bottom: 40px;

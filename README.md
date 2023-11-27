@@ -1,5 +1,9 @@
 # 若依前后端分离版本
 
+## 致谢
+
+非常感谢[BuildAdmin](https://doc.buildadmin.com/)提供的ui界面
+
 ## 前端运行
 
 ```bash
