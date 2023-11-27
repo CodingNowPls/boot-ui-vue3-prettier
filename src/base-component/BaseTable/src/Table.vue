@@ -1,4 +1,6 @@
 <script setup>
+import { computed } from 'vue'
+
 const props = defineProps({
   border: {
     type: Boolean,
@@ -75,8 +77,12 @@ const props = defineProps({
     type: [Array, Object],
     default: () => ({}),
   },
+  maxHeight: {
+    type: [Number, String],
+  },
 })
 const emit = defineEmits(['update:paginationInfo', 'sortChange'])
+const headerRef = ref(null)
 const elTableRef = ref(null)
 const handleCurrentChange = (pageNum) => {
   elTableRef.value.setScrollTop(0)
@@ -112,11 +118,18 @@ const isHiddenItem = (item) => {
   }
   return flag
 }
-const tableHeight = () => {
-  const viewportHeight = window.innerHeight - 253
-  return viewportHeight
-}
-let maxHeight = tableHeight()
+let maxHeight = computed(() => {
+  let headerHeight = 0
+  if (headerRef.value) {
+    headerHeight = headerRef.value.clientHeight
+  }
+  if (props.maxHeight) {
+    return props.maxHeight - headerHeight
+  } else {
+    const viewportHeight = window.innerHeight - 260 - headerHeight
+    return viewportHeight
+  }
+})
 let expandAll = false
 // 使用递归写法比设置default-expand-all来控制折叠和展开性能高很多
 const setUnFoldAll = (children, unfold) => {
@@ -146,7 +159,11 @@ defineExpose({
 
 <template>
   <div class="lmw-table">
-    <div class="header" v-if="hasSlot($slots, ['handleLeft', 'handleRight'])">
+    <div
+      class="header"
+      ref="headerRef"
+      v-if="hasSlot($slots, ['handleLeft', 'handleRight'])"
+    >
       <slot name="header">
         <div class="handle">
           <slot name="handleLeft"></slot>
@@ -224,7 +241,7 @@ defineExpose({
       </template>
     </el-table>
 
-    <div class="footer" v-if="pagination">
+    <div class="footer lmw-pagination-footer" v-if="pagination">
       <slot name="footer">
         <el-pagination
           @size-change="handleSizeChange"

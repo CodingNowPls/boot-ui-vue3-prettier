@@ -23,6 +23,7 @@ const props = defineProps({
     default: true,
   },
 })
+const pageSearchRef = ref(null)
 const baseFormRef = ref(null)
 const searchLoading = ref(false)
 const formItem = props.searchConfig?.formItems ?? []
@@ -48,14 +49,21 @@ const keyUpEnter = () => {
 const setFormData = (key, value) => {
   formData.value[key] = value
 }
-
+const resizeObserver = new ResizeObserver((entries) => {
+  for (let entry of entries) {
+    // 获取目标元素的新尺寸
+    const newHeight = entry.target.clientHeight
+    emitter.emit(`change${props.pageName}Size`, newHeight)
+  }
+})
 onMounted(() => {
   for (const item of formItem) {
-    formData.value[item.field] = item.default ?? ''
+    formData.value[item.field] = item.default ?? void 0
   }
   for (const key in props.initSearch) {
     formData.value[key] = props.initSearch[key]
   }
+  resizeObserver.observe(pageSearchRef.value)
 })
 
 defineExpose({
@@ -66,7 +74,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="page-search">
+  <div class="page-search" ref="pageSearchRef">
     <div class="search">
       <BaseForm
         ref="baseFormRef"

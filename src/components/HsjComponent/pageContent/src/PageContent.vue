@@ -123,6 +123,7 @@ const emit = defineEmits([
   'editMoreClick',
 ])
 const store = businessStore()
+const { proxy } = getCurrentInstance()
 const isLoading = ref(false)
 const baseTabelRef = ref(null)
 const searchDatas = ref({})
@@ -196,15 +197,19 @@ const deleteRow = async (delData) => {
   } else {
     id = delData[props.idKey] ?? delData[props.pageName + 'Id'] ?? delData.id
   }
-  await to(
-    store.deletDataAction({
-      id,
-      pageName: props.pageName,
-      requestUrl: props.requestUrl,
-      requestBaseUrl: props.requestBaseUrl,
-    })
-  )
-  await to(send(finalSearchData.value))
+  if (id || id === 0) {
+    await to(
+      store.deletDataAction({
+        id,
+        pageName: props.pageName,
+        requestUrl: props.requestUrl,
+        requestBaseUrl: props.requestBaseUrl,
+      })
+    )
+    await to(send(finalSearchData.value))
+  } else {
+    proxy.$modal.notifyWarning('未获取到有效Id')
+  }
   isLoading.value = false
 }
 
@@ -212,11 +217,16 @@ const deleteRow = async (delData) => {
 const editClick = async (item, type) => {
   isLoading.value = true
   let id = item[props.idKey] ?? item[props.pageName + 'Id'] ?? item.id
-  let url = `${props.requestBaseUrl}${interceptor(props.pageName)}/${id}`
-  let [err, res] = await to(getInfo(url))
-  if (res?.data) {
-    emit('editBtnClick', res.data, type, res)
+  if (id || id === 0) {
+    let url = `${props.requestBaseUrl}${interceptor(props.pageName)}/${id}`
+    let [err, res] = await to(getInfo(url))
+    if (res?.data) {
+      emit('editBtnClick', res.data, type, res)
+    }
+  } else {
+    proxy.$modal.notifyWarning('未获取到有效Id')
   }
+
   isLoading.value = false
 }
 
@@ -278,22 +288,22 @@ const mittFunc = async (searchFormData) => {
   await send(finalSearchData.value)
   if (searchFormData.searchLoading) searchFormData.searchLoading.value = false
 }
+const maxHeight = ref(500)
+const mittResize = (searchHeight) => {
+  const header = document.getElementsByClassName('el-header')[0]
+  const pagination = document.getElementsByClassName('lmw-pagination-footer')[0]
+  let viewportHeight = window.innerHeight - searchHeight - 34
+  if (header) {
+    viewportHeight -= header.clientHeight
+  }
+  if (pagination) {
+    viewportHeight -= pagination.clientHeight
+  }
+  maxHeight.value = viewportHeight
+}
 const emitterListener = () => {
-  const list = emitter.all.get(`search${props.pageName}Info`)
-  let flag = false
-  if (list) {
-    let fun = list.find((item) => {
-      return item === mittFunc
-    })
-    if (!fun) {
-      flag = true
-    }
-  } else {
-    flag = true
-  }
-  if (flag) {
-    emitter.on(`search${props.pageName}Info`, mittFunc)
-  }
+  emitter.on(`search${props.pageName}Info`, mittFunc)
+  emitter.on(`change${props.pageName}Size`, mittResize)
 }
 
 const columnChecked = ref([])
@@ -327,6 +337,10 @@ const editMoreClick = () => {
   emit('editMoreClick')
 }
 
+const hasSlot = (slots, arr) => {
+  return arr.some((key) => slots.hasOwnProperty(key))
+}
+
 onMounted(() => {
   if (props.autoDesc) {
     for (const [key, value] of Object.entries(props.descConfig)) {
@@ -345,19 +359,16 @@ onMounted(() => {
   emitterListener()
 })
 
-const hasSlot = (slots, arr) => {
-  return arr.some((key) => slots.hasOwnProperty(key))
-}
-
 onUnmounted(() => {
-  // store.resetData({ pageName: props.pageName })
   emitter.off(`search${props.pageName}Info`)
+  emitter.off(`change${props.pageName}Size`)
 })
 onActivated(() => {
   emitterListener()
 })
 onDeactivated(() => {
   emitter.off(`search${props.pageName}Info`)
+  emitter.off(`change${props.pageName}Size`)
 })
 defineExpose({
   finalSearchData,
@@ -378,6 +389,7 @@ defineExpose({
       :dataList="dataList"
       :listCount="listCount"
       :tableListener="tableListener"
+      :maxHeight="maxHeight"
       v-bind="contentConfig"
     >
       <!-- 操作按钮 -->
