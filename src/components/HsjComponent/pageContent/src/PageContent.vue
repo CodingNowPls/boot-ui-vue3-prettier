@@ -212,7 +212,7 @@ const deleteRow = async (delData) => {
 const editClick = async (item, type) => {
   isLoading.value = true
   let id = item[props.idKey] ?? item[props.pageName + 'Id'] ?? item.id
-  let url = `${props.requestBaseUrl}/${interceptor(props.pageName)}/${id}`
+  let url = `${props.requestBaseUrl}${interceptor(props.pageName)}/${id}`
   let [err, res] = await to(getInfo(url))
   if (res?.data) {
     emit('editBtnClick', res.data, type, res)
