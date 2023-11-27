@@ -332,8 +332,4 @@ watch(
 getMenuTreeselect()
 </script>
 
-<style lang="scss" scoped>
-.page {
-  background-color: var(--ba-bg-color-overlay);
-}
-</style>
+<style lang="scss" scoped></style>

@@ -107,9 +107,6 @@ init()
 </template>
 <style scoped lang="scss">
 .page {
-  background-color: var(--ba-bg-color-overlay);
-}
-.page {
   :deep(.statusClass .el-radio-group) {
     width: 100%;
     .el-radio {

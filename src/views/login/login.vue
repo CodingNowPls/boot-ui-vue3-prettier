@@ -175,11 +175,11 @@ init()
 .title {
   margin: 0px auto 30px auto;
   text-align: center;
-  color: #271b1b;
+  color: var(--el-text-color-primary);
 }
 .loginForm {
   border-radius: 6px;
-  background: #ffffff;
+  background-color: var(--ba-bg-color-overlay);
   width: 400px;
   padding: 25px 25px 5px 25px;
 }

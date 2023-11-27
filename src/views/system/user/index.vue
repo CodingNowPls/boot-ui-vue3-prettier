@@ -298,7 +298,7 @@ init()
       </template>
       <template #todoSlot="{ backData }">
         <el-button
-          class="mt6 order11"
+          class="ml12 order11"
           size="small"
           type="primary"
           @click="handleResetPwd(backData)"
@@ -331,9 +331,6 @@ init()
 </template>
 
 <style scoped lang="scss">
-.page {
-  background-color: var(--ba-bg-color-overlay);
-}
 .page {
   :deep(.statusClass .el-radio-group) {
     width: 100%;

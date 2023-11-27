@@ -232,8 +232,6 @@ init()
 
 <style scoped lang="scss">
 .page {
-  background-color: var(--ba-bg-color-overlay);
-
   :deep(.page-dialog .el-radio) {
     margin-right: 20px;
   }
