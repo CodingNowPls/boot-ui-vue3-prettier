@@ -1,5 +1,5 @@
 <template>
-  <div class="default-main">
+  <div class="cachePage">
     <el-row :gutter="10">
       <el-col :span="24" class="mb10">
         <el-card>
@@ -189,7 +189,7 @@ function getList() {
     const usedmemoryInstance = echarts.init(usedmemory.value, 'macarons')
     usedmemoryInstance.setOption({
       tooltip: {
-        formatter: '{b} <br/>{a} : ' + cache.value.info.used_memory_human,
+        formatter: '{b} <br/>{a} : ' + cache.value.info?.used_memory_human,
       },
       series: [
         {
@@ -198,11 +198,11 @@ function getList() {
           min: 0,
           max: 1000,
           detail: {
-            formatter: cache.value.info.used_memory_human,
+            formatter: cache.value.info?.used_memory_human,
           },
           data: [
             {
-              value: parseFloat(cache.value.info.used_memory_human),
+              value: parseFloat(cache.value.info?.used_memory_human),
               name: '内存消耗',
             },
           ],
@@ -214,3 +214,9 @@ function getList() {
 
 getList()
 </script>
+
+<style lang="scss" scoped>
+.cachePage {
+  margin: var(--ba-main-space) var(--ba-main-space) 5px var(--ba-main-space);
+}
+</style>

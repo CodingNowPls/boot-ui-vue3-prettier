@@ -16,7 +16,7 @@ const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
 const descConfig = ref({})
 const tableHideItems = ref([])
-const headerButtons = ['']
+const headerButtons = ['refresh', 'columnDisplay', 'comSearch']
 const dictMap = {}
 const searchConfig = getSearchConfig()
 const searchConfigComputed = computed(() => {

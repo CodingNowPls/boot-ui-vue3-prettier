@@ -1,5 +1,5 @@
 <template>
-  <div class="default-main">
+  <div class="serverPage">
     <el-row :gutter="10">
       <el-col :span="12" class="mb10">
         <el-card>
@@ -387,3 +387,8 @@ function getList() {
 
 getList()
 </script>
+<style lang="scss" scoped>
+.serverPage {
+  margin: var(--ba-main-space) var(--ba-main-space) 5px var(--ba-main-space);
+}
+</style>
