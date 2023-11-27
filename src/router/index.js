@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter } from 'vue-router'
 import { beforeEach, afterEach } from './routerInterceptor'
-const Layout = () => import('@/layout/index.vue')
+import Layout from '@/layout/index.vue'
+
 // 公共路由
 export const constantRoutes = [
   {

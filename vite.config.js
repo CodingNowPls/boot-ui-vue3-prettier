@@ -5,7 +5,7 @@ import createVitePlugins from './vite/plugins'
 // https://vitejs.dev/config/
 export default defineConfig(({ mode, command }) => {
   const env = loadEnv(mode, process.cwd())
-  const { VITE_APP_ENV } = env
+  const { VITE_APP_ENV, VITE_OUT_DIR } = env
   return {
     // 部署生产环境和开发环境下的URL。
     // 默认情况下，vite 会假设你的应用是被部署在一个域名的根路径上
@@ -50,6 +50,25 @@ export default defineConfig(({ mode, command }) => {
             },
           },
         ],
+      },
+    },
+    build: {
+      cssCodeSplit: false,
+      sourcemap: false,
+      outDir: VITE_OUT_DIR,
+      emptyOutDir: true,
+      chunkSizeWarningLimit: 1500,
+      rollupOptions: {
+        output: {
+          chunkFileNames: 'static/js/[name]-[hash].js',
+          entryFileNames: 'static/js/[name]-[hash].js',
+          assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
+          manualChunks: {
+            // 分包配置，配置完成自动按需加载
+            vue: ['vue', 'vue-router', 'pinia', 'element-plus'],
+            echarts: ['echarts'],
+          },
+        },
       },
     },
   }
