@@ -89,7 +89,7 @@ const LmwRequest = new LmwAxios({
       return config
     },
     requestInterceptorCatch: (error) => {
-      return Promise.reject(error)
+      return error
     },
     //  响应拦截
     responseInterceptor: (res, info) => {
