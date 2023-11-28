@@ -167,7 +167,7 @@ export const projectDir = `
 │       ├── login-background.jpg
 │       ├── logo.png
 │       └── pay.png
-├── base-component
+├── BaseComponent
 │   ├── BaseForm
 │   │   ├── index.js
 │   │   └── src

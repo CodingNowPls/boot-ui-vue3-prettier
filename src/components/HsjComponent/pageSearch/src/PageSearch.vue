@@ -1,5 +1,5 @@
 <script setup>
-import BaseForm from '@/base-component/BaseForm'
+import BaseForm from '@/BaseComponent/BaseForm'
 import emitter from '@/utils/hsj/bus'
 const props = defineProps({
   searchConfig: {

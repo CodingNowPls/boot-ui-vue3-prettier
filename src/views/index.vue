@@ -66,8 +66,8 @@
 </template>
 
 <script setup name="Index">
-import TextLink from '@/base-component/TextLink'
-import CodeInfo from '@/base-component/Code'
+import TextLink from '@/BaseComponent/TextLink'
+import CodeInfo from '@/BaseComponent/Code'
 import { technologyStacks, dependencies, projectDir } from './config'
 const fileNameInfo = [
   { name: '文件夹', description: '统一小写，多单词用驼峰' },

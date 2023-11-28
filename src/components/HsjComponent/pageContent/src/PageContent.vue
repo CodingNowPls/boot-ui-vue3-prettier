@@ -1,5 +1,5 @@
 <script setup>
-import BaseTable from '@/base-component/BaseTable/index'
+import BaseTable from '@/BaseComponent/BaseTable/index'
 import emitter from '@/utils/hsj/bus'
 import businessStore from '@/store/business/businessStore'
 import { getInfo } from '@/api/business/main/index'

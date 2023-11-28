@@ -22,8 +22,8 @@ import elementIcons from '@/components/SvgIcon/svgicon'
 
 // 全局组件
 import SvgIcon from '@/components/SvgIcon/index.vue'
-import BaseForm from '@/base-component/BaseForm/index'
-import BaseTable from '@/base-component/BaseTable/index'
+import BaseForm from '@/BaseComponent/BaseForm/index'
+import BaseTable from '@/BaseComponent/BaseTable/index'
 import PageContent from '@/components/HsjComponent/pageContent/index'
 import PageDialog from '@/components/HsjComponent/pageDialog/index'
 import PageSearch from '@/components/HsjComponent/pageSearch/index'

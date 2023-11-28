@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch } from 'vue'
-import BaseForm from '@/base-component/BaseForm'
+import BaseForm from '@/BaseComponent/BaseForm'
 import businessStore from '@/store/business/businessStore'
 import to from '@/utils/to'
 
