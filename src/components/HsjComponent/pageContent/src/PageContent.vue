@@ -509,12 +509,6 @@ defineExpose({
         </div>
         <slot name="handleRight"></slot>
       </template>
-      <template #createTime="{ backData }">
-        {{ backData.createTime }}
-      </template>
-      <template #updateTime="{ backData }">
-        {{ timeFormat(backData.updateAt) }}
-      </template>
       <template #expand="{ backData }">
         <div>
           <slot name="expand" :backData="backData"></slot>
