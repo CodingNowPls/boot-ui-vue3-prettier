@@ -1,8 +1,17 @@
 # 若依前后端分离版本
 
-## 致谢
+## 项目介绍
 
-非常感谢[BuildAdmin](https://doc.buildadmin.com/)提供的ui界面
+本项目重构了若依前后端分离版本70%的代码，代码高度内聚，并优化了界面的ui。
+
+## 技术选型
+
+- 开发语言：JavaScript
+- 基础框架：Vue3.3.4
+- 构建工具：Vite
+- 组件库：Element-Plus
+- 包管理器：pnpm
+  ...
 
 ## 前端运行
 
@@ -71,3 +80,7 @@ pnpm dev
 ## 联系本人
 
 本人微信：lmwcoder
+
+## 致谢
+
+非常感谢[BuildAdmin](https://doc.buildadmin.com/)提供的ui界面
