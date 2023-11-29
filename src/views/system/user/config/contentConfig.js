@@ -50,6 +50,7 @@ export default () => {
         popperClass: 'lmw_popper',
         effect: 'light',
       },
+      rowKey: 'userId',
       maxHeight: 600,
     },
     showIndex: true,

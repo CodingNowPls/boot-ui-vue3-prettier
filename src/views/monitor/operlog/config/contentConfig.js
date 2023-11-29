@@ -59,6 +59,7 @@ export default () => {
         popperClass: 'lmw_popper',
         effect: 'light',
       },
+      rowKey: 'operId',
     },
     showIndex: false,
     showChoose: true,

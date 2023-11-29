@@ -17,6 +17,7 @@
             ></el-button>
           </template>
           <el-table
+            row-key="path"
             v-loading="loading"
             :data="cacheNames"
             :height="tableHeight"

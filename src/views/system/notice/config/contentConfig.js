@@ -46,6 +46,7 @@ export default () => {
         effect: 'light',
       },
       stripe: false,
+      rowKey: 'noticeId',
       showOverflowTooltip: false,
     },
     showIndex: false,

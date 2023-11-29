@@ -272,7 +272,6 @@ a {
     padding: 0;
   }
 }
-/* 自适应-e */
 
 .flex {
   display: flex;
@@ -282,4 +281,8 @@ a {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.lmw_popper {
+  max-width: 600px;
 }

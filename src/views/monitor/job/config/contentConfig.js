@@ -42,6 +42,7 @@ export default () => {
         popperClass: 'lmw_popper',
         effect: 'light',
       },
+      rowKey: 'jobId',
     },
     showIndex: false,
     showChoose: true,

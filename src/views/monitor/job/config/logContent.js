@@ -48,6 +48,7 @@ export default () => {
         popperClass: 'lmw_popper',
         effect: 'light',
       },
+      rowKey: 'logId',
     },
     showIndex: false,
     showChoose: true,

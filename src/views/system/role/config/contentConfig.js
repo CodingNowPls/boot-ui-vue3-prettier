@@ -44,6 +44,7 @@ export default () => {
         popperClass: 'lmw_popper',
         effect: 'light',
       },
+      rowKey: 'roleId',
     },
     showIndex: true,
     showChoose: true,

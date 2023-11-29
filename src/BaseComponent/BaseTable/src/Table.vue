@@ -261,12 +261,6 @@ defineExpose({
 
 <style scoped lang="scss">
 .header {
-  /* display: flex;
-  background-color: var(--ba-bg-color-overlay);
-  border: 1px solid var(--ba-border-color);
-  border-bottom: none;
-  padding: 13px 15px; */
-
   position: relative;
   overflow-x: auto;
   box-sizing: border-box;

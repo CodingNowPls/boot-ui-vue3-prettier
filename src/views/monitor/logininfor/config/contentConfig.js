@@ -57,6 +57,7 @@ export default () => {
         popperClass: 'lmw_popper',
         effect: 'light',
       },
+      rowKey: 'infoId',
       showOverflowTooltip: false,
     },
     showIndex: false,

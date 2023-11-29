@@ -44,6 +44,7 @@ export default () => {
         popperClass: 'lmw_popper',
         effect: 'light',
       },
+      rowKey: 'postId',
     },
     showIndex: false,
     showChoose: true,

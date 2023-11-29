@@ -51,6 +51,7 @@ export default () => {
         popperClass: 'lmw_popper',
         effect: 'light',
       },
+      rowKey: 'tokenId',
       showOverflowTooltip: false,
     },
     showIndex: true,

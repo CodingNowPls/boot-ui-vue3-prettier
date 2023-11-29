@@ -45,6 +45,7 @@ export default () => {
         popperClass: 'lmw_popper',
         effect: 'light',
       },
+      rowKey: 'dictId',
     },
     showIndex: false,
     showChoose: true,
