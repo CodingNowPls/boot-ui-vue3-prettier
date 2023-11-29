@@ -28,6 +28,9 @@ pnpm install
 # 启动服务
 pnpm dev
 
+# 打包项目
+pnpm build:prod
+
 ```
 
 ## 常见问题
@@ -84,3 +87,7 @@ pnpm dev
 ## 致谢
 
 非常感谢[BuildAdmin](https://doc.buildadmin.com/)提供的ui界面
+
+```
+
+```
