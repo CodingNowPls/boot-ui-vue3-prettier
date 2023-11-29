@@ -17,6 +17,7 @@ export const tableItem = [
     prop: 'operName',
     label: '操作人员',
     sortable: true,
+    width: 140,
   },
   {
     prop: 'operIp',
@@ -39,11 +40,12 @@ export const tableItem = [
     label: '消耗时间',
     slotName: 'costTimeSlot',
     sortable: true,
+    width: 120,
   },
   {
     prop: 'todo',
     label: '操作',
-    width: '100',
+    width: '120',
     fixed: 'right',
     slotName: 'todo',
     showOverflowTooltip: false,

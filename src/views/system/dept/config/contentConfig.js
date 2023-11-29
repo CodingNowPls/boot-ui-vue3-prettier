@@ -20,7 +20,7 @@ export const tableItem = [
     prop: 'todo',
     label: '操作',
     width: '250',
-    fixed: 'right',
+    fixed: !window.isSmallScreen ? 'right' : false,
     slotName: 'todo',
     showOverflowTooltip: false,
   },

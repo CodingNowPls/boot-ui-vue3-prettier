@@ -38,7 +38,7 @@ export const tableItem = [
     prop: 'doSth',
     label: '操作',
     width: '100',
-    fixed: 'right',
+    fixed: !window.isSmallScreen ? 'right' : false,
     slotName: 'doSth',
     showOverflowTooltip: false,
   },
