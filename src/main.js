@@ -1,11 +1,8 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
 import 'normalize.css'
-import 'element-plus/theme-chalk/el-message.css'
-import 'element-plus/theme-chalk/el-message-box.css'
-import 'element-plus/theme-chalk/el-notification.css'
-
 import 'element-plus/theme-chalk/dark/css-vars.css'
 import '@/assets/css/index.scss'
 
@@ -64,6 +61,7 @@ app.component('PageDialog', PageDialog)
 app.component('PageSearch', PageSearch)
 app.component('DictTag', DictTag)
 app.component('TreeSelect', TreeSelect)
+app.use(ElementPlus)
 
 directive(app)
 
