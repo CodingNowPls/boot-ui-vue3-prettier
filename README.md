@@ -11,7 +11,7 @@
 - 构建工具：Vite
 - 组件库：Element-Plus
 - 包管理器：pnpm
-  ...
+- ...
 
 ## 前端运行
 
@@ -87,7 +87,3 @@ pnpm build:prod
 ## 致谢
 
 非常感谢[BuildAdmin](https://doc.buildadmin.com/)提供的ui界面
-
-```
-
-```

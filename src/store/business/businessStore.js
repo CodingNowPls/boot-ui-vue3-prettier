@@ -5,6 +5,7 @@ import {
   editData,
   getPageListData,
 } from '@/api/business/main'
+import { deepFindValue } from './utils'
 import to from '@/utils/to'
 
 export const interceptor = (pageName) => {
@@ -16,39 +17,6 @@ export const interceptor = (pageName) => {
     url = '/role'
   }
   return url
-}
-
-const deepFindValue = (obj, key, isFirstValue = true) => {
-  let finalData
-  if (isFirstValue) {
-    finalData = undefined
-  } else {
-    finalData = []
-  }
-  let isChange = false
-  function getList(obj, key) {
-    if (!isChange) {
-      if (Reflect.toString.call(obj) === '[object Object]') {
-        if (obj.hasOwnProperty(key)) {
-          if (isFirstValue) {
-            finalData = obj[key]
-            isChange = true
-          } else {
-            finalData.push(obj[key])
-          }
-          return
-        } else {
-          const objKeys = Object.keys(obj)
-          for (let objKey of objKeys) {
-            getList(obj[objKey], key)
-          }
-        }
-      }
-    }
-  }
-  getList(obj, key)
-
-  return finalData
 }
 
 const getConfig = (pageName, payload, requestUrl, requestBaseUrl) => {
@@ -63,9 +31,7 @@ const getConfig = (pageName, payload, requestUrl, requestBaseUrl) => {
     payloadInfo: payload,
   }
 }
-const deleteConfig = (pageName) => {
-  return interceptor(pageName)
-}
+
 const businessStore = defineStore('business', {
   state: () => {
     return {
@@ -115,7 +81,7 @@ const businessStore = defineStore('business', {
       // 删除数据
       const fn = async () => {
         const { id, pageName, requestBaseUrl = '/' } = payload
-        const url = `${requestBaseUrl}${deleteConfig(pageName)}/${id}`
+        const url = `${requestBaseUrl}${interceptor(pageName)}/${id}`
         let res = await deletData(url)
         return res
       }
@@ -129,7 +95,8 @@ const businessStore = defineStore('business', {
       // 添加数据
       const fn = async () => {
         const { pageName, newData, requestBaseUrl = '/' } = payload
-        const url = `${requestBaseUrl}/${pageName.toLowerCase()}`
+        const pageNameUrl = interceptor(pageName)
+        const url = `${requestBaseUrl}${pageNameUrl}`
         const res = await createData(url, { ...newData })
         return res
       }
@@ -143,7 +110,8 @@ const businessStore = defineStore('business', {
       // 编辑数据
       const fn = async () => {
         const { pageName, editInfo, id, requestBaseUrl = '/' } = payload
-        const url = `${requestBaseUrl}/${pageName.toLowerCase()}`
+        const pageNameUrl = interceptor(pageName)
+        const url = `${requestBaseUrl}${pageNameUrl}`
         let infoId
         if (payload.sendIdKey) {
           infoId = {
