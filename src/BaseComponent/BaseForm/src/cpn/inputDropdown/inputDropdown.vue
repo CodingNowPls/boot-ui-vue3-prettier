@@ -55,6 +55,15 @@ watch(
     immediate: true,
   }
 )
+watch(
+  () => props.data,
+  () => {
+    labelInfo.value = props.data
+  },
+  {
+    immediate: true,
+  }
+)
 let originArr = void 0
 const search = (value) => {
   if (!originArr || originArr.length != props.options.length) {
