@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 const props = defineProps({
   data: {
     required: true,
@@ -32,7 +32,9 @@ const dropdown = ref(null)
 
 const labelInfo = ref('')
 const inputFocus = () => {
-  dropdown.value?.handleOpen()
+  if (dropList.value.length > 0) {
+    dropdown.value?.handleOpen()
+  }
 }
 const handleValueChange = (value) => {
   labelInfo.value = value
@@ -42,54 +44,89 @@ const checkInfo = (item) => {
   labelInfo.value = item.label
   emit('update:data', item.value)
 }
+
+const dropList = ref([])
+watch(
+  () => props.options,
+  () => {
+    dropList.value = props.options
+  },
+  {
+    immediate: true,
+  }
+)
+let originArr = void 0
+const search = (value) => {
+  if (!originArr || originArr.length != props.options.length) {
+    originArr = props.options
+  }
+  if (value) {
+    const arr = props.options.filter((item) => {
+      return item.value.includes(value)
+    })
+    dropList.value = arr
+    if (dropList.value.length === 0) {
+      dropdown.value?.handleClose()
+    } else {
+      inputFocus()
+    }
+  } else {
+    dropList.value = originArr
+    inputFocus()
+  }
+}
 const emit = defineEmits(['update:data'])
 </script>
 
 <template>
   <div class="dropdownCpn">
-    <el-input
-      @update:modelValue="handleValueChange($event)"
-      :model-value="labelInfo"
-      @click="inputFocus"
-      :disabled="disabled"
-      v-on="inputEventFunction || {}"
+    <el-dropdown
+      ref="dropdown"
+      trigger="contextmenu"
+      popper-class="inputDropDown"
+      :teleported="true"
+      :max-height="300"
     >
-    </el-input>
-    <div class="dropdown" v-show="options.length !== 0">
-      <el-dropdown
-        ref="dropdown"
-        trigger="contextmenu"
-        popper-class="inputDropDown"
-        :teleported="false"
+      <el-input
+        class="input"
+        @update:modelValue="handleValueChange($event)"
+        :model-value="labelInfo"
+        @click="inputFocus"
+        :disabled="disabled"
+        @input="search"
+        v-on="inputEventFunction || {}"
       >
-        <span class="el-dropdown-link"> </span>
-        <template #dropdown>
-          <el-dropdown-menu>
-            <el-dropdown-item
-              v-for="item in options"
-              @click="checkInfo(item)"
-              :key="item.value"
-            >
-              {{ item.label }}
-            </el-dropdown-item>
-          </el-dropdown-menu>
-        </template>
-      </el-dropdown>
-    </div>
+      </el-input>
+      <template #dropdown>
+        <el-dropdown-menu>
+          <el-dropdown-item
+            v-for="item in dropList"
+            @click="checkInfo(item)"
+            :key="item.value"
+          >
+            {{ item.label }}
+          </el-dropdown-item>
+        </el-dropdown-menu>
+      </template>
+    </el-dropdown>
   </div>
 </template>
 
 <style scoped lang="scss">
 .dropdownCpn {
+  width: 100%;
   position: relative;
+  :deep(.el-dropdown) {
+    width: 100%;
+  }
 }
-.dropdown {
-  position: absolute;
+.input {
+  width: 100%;
 }
 </style>
 <style lang="scss">
 .inputDropDown {
-  min-width: 100px;
+  max-width: 200px;
   .el-popper__arrow {
     width: 100% !important;
   }

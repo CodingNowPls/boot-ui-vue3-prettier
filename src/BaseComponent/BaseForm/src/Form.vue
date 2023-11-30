@@ -194,11 +194,11 @@
               </template>
               <template v-if="item.type === 'inputSearch'">
                 <InputDropdown
-                  :ref="(el) => setItemRef(el, item.field)"
-                  :disabled="allDisabled"
-                  v-model:data="data[`${item.field}`]"
-                  :options="getOptions(item)"
-                  :inputEventFunction="item.inputEventFunction || {}"
+                  :disabled="disabled || item.disabled"
+                  :data="data[`${item.field}`]"
+                  @update:data="handleValueChange($event, item.field)"
+                  :options="item.options.value || item.options || []"
+                  :inputEventFunction="item.eventFunction || {}"
                 ></InputDropdown>
               </template>
               <template v-if="item.type === 'checkBox'">
