@@ -16,6 +16,9 @@ const hideElNotification = [
   '/monitor/cache',
   'synchDb',
   `${BASE_URL}/login`,
+  '/updatePwd',
+  '/system/user/profile/avatar',
+  '/system/user/profile',
 ]
 const isHideNotify = (arr, str) => {
   return arr.some((item) => str.includes(item))

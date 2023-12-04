@@ -135,7 +135,7 @@ function uploadImg() {
       open.value = false
       options.img = import.meta.env.VITE_APP_BASE_API + response.imgUrl
       userStore.avatar = options.img
-      proxy.$modal.msgSuccess('修改成功')
+      proxy.$modal.notifySuccess('修改成功')
       visible.value = false
     })
   })
