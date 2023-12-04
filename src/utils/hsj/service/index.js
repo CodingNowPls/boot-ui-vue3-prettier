@@ -6,7 +6,6 @@ import { getToken } from '@/utils/auth'
 import { tansParams, blobValidate } from '@/utils/ruoyi.js'
 import session from '@/utils/hsj/useSession'
 import useUserStore from '@/store/modules/user'
-
 const hideElNotification = [
   'changeStatus',
   'refreshCache',
@@ -16,6 +15,7 @@ const hideElNotification = [
   '/monitor/online/list',
   '/monitor/cache',
   'synchDb',
+  `${BASE_URL}/login`,
 ]
 const isHideNotify = (arr, str) => {
   return arr.some((item) => str.includes(item))
