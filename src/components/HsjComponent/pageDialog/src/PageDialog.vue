@@ -141,7 +141,7 @@ const commitClick = async () => {
   }
 }
 const footerPaddingRight = computed(() => {
-  let pr = 30
+  let pr = 35
   if (props.dialogConfig?.itemStyle?.padding) {
     const padding = props.dialogConfig.itemStyle.padding
     const arr = padding.split(' ')
