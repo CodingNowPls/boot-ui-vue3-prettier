@@ -20,6 +20,7 @@ const formData = ref({
 const codeUrl = ref('')
 // 验证码开关
 const captchaEnabled = ref(true)
+const hideItems = ref([])
 // 生成验证码
 const generateCode = async () => {
   const res = await getCodeImg()
@@ -53,7 +54,15 @@ const config = {
   },
 }
 const formConfig = getFormConfig(config)
-
+const formConfigComputed = computed(() => {
+  if (!captchaEnabled.value) {
+    hideItems.value = ['code']
+  } else {
+    hideItems.value = []
+  }
+  formConfig.hideItems = hideItems
+  return formConfig
+})
 const redirect = ref(undefined)
 
 watch(
@@ -112,7 +121,11 @@ init()
   <div class="login">
     <div class="loginForm">
       <h3 class="title">{{ title }}</h3>
-      <BaseForm v-bind="formConfig" v-model:data="formData" ref="formRef">
+      <BaseForm
+        v-bind="formConfigComputed"
+        v-model:data="formData"
+        ref="formRef"
+      >
         <template #usernamePrefix>
           <el-icon size="16"><User /></el-icon>
         </template>
