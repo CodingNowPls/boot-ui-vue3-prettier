@@ -51,7 +51,6 @@ export default () => {
         effect: 'light',
       },
       rowKey: 'userId',
-      maxHeight: 600,
     },
     showIndex: true,
     showChoose: true,

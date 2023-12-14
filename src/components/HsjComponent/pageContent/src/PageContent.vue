@@ -289,10 +289,14 @@ const mittFunc = async (searchFormData) => {
   if (searchFormData.searchLoading) searchFormData.searchLoading.value = false
 }
 const maxHeight = ref(500)
+let currentSearchHeight = 0
 const mittResize = (searchHeight) => {
+  if (typeof searchHeight === 'number') {
+    currentSearchHeight = searchHeight
+  }
   const header = document.getElementsByClassName('el-header')[0]
   const pagination = document.getElementsByClassName('lmw-pagination-footer')[0]
-  let viewportHeight = window.innerHeight - searchHeight - 34
+  let viewportHeight = window.innerHeight - currentSearchHeight - 34
   if (header) {
     viewportHeight -= header.clientHeight
   }
@@ -301,9 +305,15 @@ const mittResize = (searchHeight) => {
   }
   maxHeight.value = viewportHeight
 }
-const emitterListener = () => {
+const onListener = () => {
   emitter.on(`search${props.pageName}Info`, mittFunc)
   emitter.on(`change${props.pageName}Size`, mittResize)
+  window.addEventListener('resize', mittResize)
+}
+const offListener = () => {
+  emitter.off(`search${props.pageName}Info`)
+  emitter.off(`change${props.pageName}Size`)
+  window.removeEventListener('resize', mittResize)
 }
 
 const columnChecked = ref([])
@@ -356,19 +366,17 @@ onMounted(() => {
       ...obj,
     })
   }
-  emitterListener()
+  onListener()
 })
 
 onUnmounted(() => {
-  emitter.off(`search${props.pageName}Info`)
-  emitter.off(`change${props.pageName}Size`)
+  offListener()
 })
 onActivated(() => {
-  emitterListener()
+  onListener()
 })
 onDeactivated(() => {
-  emitter.off(`search${props.pageName}Info`)
-  emitter.off(`change${props.pageName}Size`)
+  offListener()
 })
 defineExpose({
   finalSearchData,
