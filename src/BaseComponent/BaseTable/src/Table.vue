@@ -178,7 +178,7 @@ defineExpose({
       ref="elTableRef"
       :data="dataList"
       :border="border"
-      :maxHeight="maxHeight"
+      :maxHeight="maxHeight > 300 ? maxHeight : 300"
       :show-overflow-tooltip="true"
       style="width: 100%"
       stripe
