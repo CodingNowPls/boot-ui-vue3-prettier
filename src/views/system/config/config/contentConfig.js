@@ -52,7 +52,7 @@ export default () => {
     },
     showIndex: false,
     showChoose: true,
-    pagination: false,
+    pagination: true,
     // border: false,
   }
 }
