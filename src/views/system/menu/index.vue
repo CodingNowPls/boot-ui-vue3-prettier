@@ -166,7 +166,7 @@ const getTreeSelect = async () => {
 const handleAdd = (row) => {
   addClick()
   nextTick(() => {
-    dialogRef.value?.setFormData('parentId', row.parentId)
+    dialogRef.value?.setFormData('parentId', row.menuId)
   })
 }
 
