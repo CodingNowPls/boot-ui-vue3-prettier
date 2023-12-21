@@ -55,6 +55,9 @@ const dialogConfigComputed = computed(() => {
 
 const addCallBack = () => {
   dialogHideItems.value.length = 0
+  nextTick(() => {
+    dialogRef.value.setFormData('dictType', dictInfo.value.dictType)
+  })
 }
 const editCallBack = (item, type, res) => {
   isEditMore.value = type
@@ -93,9 +96,9 @@ const search = () => {
 const beforeSend = (queryInfo) => {}
 
 const permission = ref({
-  add: 'system::add',
-  edit: 'system::edit',
-  del: 'system::remove',
+  add: 'system:dict:add',
+  edit: 'system:dict:edit',
+  del: 'system:dict:remove',
 })
 
 const triggerShowSearch = () => {
@@ -117,10 +120,12 @@ const handleExport = () => {
   )
 }
 /** 查询字典类型详细 */
+const dictInfo = ref({})
 const getTypes = async (dictId) => {
   const [err, res] = await to(getType(dictId))
   if (res) {
     const data = res.data
+    dictInfo.value = data
     pageSearchRef.value.setFormData('dictType', data.dictType)
     nextTick(() => {
       search()

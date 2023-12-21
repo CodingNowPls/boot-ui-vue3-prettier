@@ -96,9 +96,9 @@ const beforeSend = (queryInfo) => {
 }
 
 const permission = ref({
-  add: 'system::add',
-  edit: 'system::edit',
-  del: 'system::remove',
+  add: 'system:dict:add',
+  edit: 'system:dict:edit',
+  del: 'system:dict:remove',
 })
 
 const triggerShowSearch = () => {
