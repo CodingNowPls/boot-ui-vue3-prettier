@@ -17,6 +17,7 @@ export default (listeners = {}) => {
         type: 'input',
         label: '字典类型',
         config: {
+          disabled: true,
           maxlength: 30,
         },
       },
