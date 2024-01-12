@@ -8,7 +8,6 @@ import {
   STORE_CONFIG,
   BEFORE_RESIZE_LAYOUT,
 } from '@/store/constant/cacheKey.js'
-import Session from '@/utils/hsj/useSession.js'
 import Local from '@/utils/hsj/useStorage.js'
 
 const router = useRouter()
@@ -20,7 +19,7 @@ const onCloseDrawer = () => {
 }
 
 const setLayoutMode = (mode) => {
-  Session.set(BEFORE_RESIZE_LAYOUT, {
+  Local.set(BEFORE_RESIZE_LAYOUT, {
     layoutMode: mode,
     menuCollapse: configStore.layout.menuCollapse,
   })
@@ -45,7 +44,7 @@ const onCommitColorState = (value, name) => {
 }
 const restoreDefault = () => {
   Local.remove(STORE_CONFIG)
-  Session.remove(BEFORE_RESIZE_LAYOUT)
+  Local.remove(BEFORE_RESIZE_LAYOUT)
   router.go(0)
 }
 </script>

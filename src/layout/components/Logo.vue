@@ -1,7 +1,8 @@
 <script setup>
 import { BEFORE_RESIZE_LAYOUT } from '@/store/constant/cacheKey.js'
 import { useConfig } from '@/store/modules/layout.js'
-import Session from '@/utils/hsj/useSession'
+import Local from '@/utils/hsj/useStorage'
+
 const title = ref(import.meta.env.VITE_APP_TITLE)
 const config = useConfig()
 
@@ -29,7 +30,7 @@ const onMenuCollapse = () => {
 
   config.setLayout('menuCollapse', !config.layout.menuCollapse)
 
-  Session.set(BEFORE_RESIZE_LAYOUT, {
+  Local.set(BEFORE_RESIZE_LAYOUT, {
     layoutMode: config.layout.layoutMode,
     menuCollapse: config.layout.menuCollapse,
   })

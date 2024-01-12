@@ -1,7 +1,12 @@
 class UseStorage {
   get(key) {
     const json = window.localStorage.getItem(key)
-    return JSON.parse(json)
+
+    try {
+      return JSON.parse(json)
+    } catch (error) {
+      return json
+    }
   }
   set(key, value) {
     window.localStorage.setItem(key, JSON.stringify(value))

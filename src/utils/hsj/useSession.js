@@ -1,7 +1,11 @@
 class UseSession {
   get(key) {
     const json = window.sessionStorage.getItem(key)
-    return JSON.parse(json)
+    try {
+      return JSON.parse(json)
+    } catch (error) {
+      return json
+    }
   }
   set(key, value) {
     window.sessionStorage.setItem(key, JSON.stringify(value))

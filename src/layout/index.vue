@@ -1,7 +1,7 @@
 <script setup>
 import { useConfig } from '@/store/modules/layout.js'
 import { BEFORE_RESIZE_LAYOUT } from '@/store/constant/cacheKey'
-import Session from '@/utils/hsj/useSession'
+import Local from '@/utils/hsj/useStorage'
 import { useEventListener } from '@vueuse/core'
 import Default from './container/Default.vue'
 import Classic from './container/Classic.vue'
@@ -20,9 +20,9 @@ const onAdaptiveLayout = () => {
     layoutMode: config.layout.layoutMode,
     menuCollapse: config.layout.menuCollapse,
   }
-  let beforeResizeLayout = Session.get(BEFORE_RESIZE_LAYOUT)
+  let beforeResizeLayout = Local.get(BEFORE_RESIZE_LAYOUT)
   if (!beforeResizeLayout) {
-    Session.set(BEFORE_RESIZE_LAYOUT, defaultBeforeResizeLayout)
+    Local.set(BEFORE_RESIZE_LAYOUT, defaultBeforeResizeLayout)
   }
 
   const clientWidth = document.body.clientWidth
