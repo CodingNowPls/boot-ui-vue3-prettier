@@ -111,6 +111,18 @@ const props = defineProps({
     type: String,
     default: '/',
   },
+  handleEditShow: {
+    type: Function,
+    default: () => {
+      return true
+    },
+  },
+  handeleDeleteShow: {
+    type: Function,
+    default: () => {
+      return true
+    },
+  },
 })
 const emit = defineEmits([
   'addClick',
@@ -525,7 +537,7 @@ defineExpose({
       <template #todo="{ backData }">
         <div class="todo">
           <slot name="todoSlot" :backData="backData"></slot>
-          <div class="edit order5" v-if="showEdit">
+          <div class="edit order5" v-if="showEdit && handleEditShow(backData)">
             <el-button
               v-if="showEdit"
               v-hasPermi="[permission.edit]"
@@ -539,7 +551,7 @@ defineExpose({
           </div>
           <div
             class="del order10"
-            v-if="showDelete"
+            v-if="showDelete && handeleDeleteShow(backData)"
             v-hasPermi="[permission.del]"
           >
             <el-popconfirm

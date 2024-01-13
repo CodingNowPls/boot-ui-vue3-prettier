@@ -190,7 +190,12 @@ const handleDataScope = async (row) => {
     assignDialogVisible.value = true
   }
 }
-
+const handleEditShow = (row) => {
+  return row.roleId !== 1
+}
+const handeleDeleteShow = (row) => {
+  return row.roleId !== 1
+}
 const init = () => {}
 
 init()
@@ -214,6 +219,8 @@ init()
       :tableSelected="tableSelected"
       :permission="permission"
       :requestBaseUrl="requestBaseUrl"
+      :handleEditShow="handleEditShow"
+      :handeleDeleteShow="handeleDeleteShow"
       @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"
@@ -250,6 +257,7 @@ init()
           type="primary"
           @click="handleDataScope(backData)"
           v-hasPermi="['system:role:edit']"
+          v-if="backData.roleId !== 1"
         >
           <SvgIcon size="11" iconClass="random" />
           <span class="ml6">数据权限</span>
@@ -260,6 +268,7 @@ init()
           type="primary"
           @click="handleAuthUser(backData)"
           v-hasPermi="['system:role:edit']"
+          v-if="backData.roleId !== 1"
         >
           <SvgIcon size="11" iconClass="user" />
           <span class="ml6">分配用户</span>

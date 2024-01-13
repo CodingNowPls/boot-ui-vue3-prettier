@@ -232,7 +232,12 @@ const handleFileSuccess = ({ response }) => {
   )
   getList()
 }
-
+const handleEditShow = (row) => {
+  return row.userId !== 1
+}
+const handeleDeleteShow = (row) => {
+  return row.userId !== 1
+}
 const init = () => {
   getDeptTree()
 }
@@ -258,6 +263,8 @@ init()
       :tableSelected="tableSelected"
       :permission="permission"
       :requestBaseUrl="requestBaseUrl"
+      :handleEditShow="handleEditShow"
+      :handeleDeleteShow="handeleDeleteShow"
       @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"
@@ -303,6 +310,7 @@ init()
           type="primary"
           @click="handleResetPwd(backData)"
           v-hasPermi="['system:user:resetPwd']"
+          v-if="backData.userId !== 1"
         >
           <SvgIcon size="11" iconClass="key" />
           <span class="ml6">重置密码</span>

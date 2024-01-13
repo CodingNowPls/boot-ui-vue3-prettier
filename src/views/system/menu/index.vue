@@ -8,9 +8,7 @@ import to from '@/utils/to'
 import { listMenu } from '@/api/system/menu'
 import IconSelector from '@/components/IconSelector/IconSelector.vue'
 import { systemBaseUrl } from '@/api/config/base.js'
-
 const { proxy } = getCurrentInstance()
-
 const { sys_normal_disable, sys_show_hide } = proxy.useDict(
   'sys_normal_disable',
   'sys_show_hide'
@@ -159,9 +157,11 @@ const onChangeShowColumn = (filterArr) => {
 const getTreeSelect = async () => {
   treeSelectInfo.value = []
   const [err, res] = await to(listMenu())
-  const menu = { menuId: 0, menuName: '主类目', children: [] }
-  menu.children = proxy.handleTree(res.data, 'menuId')
-  treeSelectInfo.value.push(menu)
+  if (res) {
+    const menu = { menuId: 0, menuName: '主类目', children: [] }
+    menu.children = proxy.handleTree(res.data, 'menuId')
+    treeSelectInfo.value.push(menu)
+  }
 }
 const handleAdd = (row) => {
   addClick()

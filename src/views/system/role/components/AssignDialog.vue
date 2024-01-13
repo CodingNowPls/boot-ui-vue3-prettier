@@ -23,10 +23,23 @@ const treeSelectInfo = ref([])
 const dictMap = {
   deptIds: treeSelectInfo,
 }
-const assignConfig = getAssignConfig()
+const formHideItems = ref(['deptIds'])
+const dataScopeChange = (newValue) => {
+  if (newValue !== '2') {
+    formHideItems.value = ['deptIds']
+  } else {
+    formHideItems.value = []
+  }
+}
+const listeners = {
+  dataScopeChange,
+}
+const assignConfig = getAssignConfig(listeners)
 
 const assignConfigComputed = computed(() => {
-  return getComputedConfig(assignConfig, dictMap)
+  const config = getComputedConfig(assignConfig, dictMap)
+  config.hideItems = formHideItems
+  return config
 })
 
 const formData = ref({})
@@ -34,6 +47,7 @@ const formData = ref({})
 watch(
   () => props.infoInit,
   (newValue) => {
+    dataScopeChange(props.infoInit.dataScope)
     if (Object.keys(props.infoInit).length) {
       for (const item of assignConfig.formItems) {
         formData.value[`${item.field}`] = newValue[`${item.field}`]
@@ -50,6 +64,7 @@ const commitClick = async () => {
   const data = {
     ...formData.value,
     deptIds,
+    roleId: props.infoInit.roleId,
   }
   const [err, res] = await to(dataScope(data))
   if (res) {

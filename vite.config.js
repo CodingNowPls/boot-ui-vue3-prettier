@@ -30,8 +30,8 @@ export default defineConfig(({ mode, command }) => {
       open: false,
       proxy: {
         '/dev-api': {
-          target: 'http://vue.ruoyi.vip/prod-api/',
-          // target: 'http://192.168.0.100:8088',
+          // target: 'http://vue.ruoyi.vip/prod-api/',
+          target: 'http://yc.healthskybio.com:9991/api/',
           changeOrigin: true,
           rewrite: (p) => p.replace(/^\/dev-api/, ''),
         },
