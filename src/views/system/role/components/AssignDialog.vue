@@ -29,6 +29,7 @@ const dataScopeChange = (newValue) => {
     formHideItems.value = ['deptIds']
   } else {
     formHideItems.value = []
+    setTreeData()
   }
 }
 const listeners = {
@@ -76,20 +77,24 @@ const commitClick = async () => {
 const handleCancel = () => {
   handleValueChange(false)
 }
-
+const checkedKeys = ref([])
 const getDeptTree = async () => {
   const [err, res] = await to(deptTreeSelect(props.roleId))
-  treeSelectInfo.value = res.depts
-  let checkedKeys = res.checkedKeys
-  nextTick(() => {
-    checkedKeys.forEach((item) => {
-      setTreeData(item)
-    })
-  })
+  if (res) {
+    treeSelectInfo.value = res.depts
+    checkedKeys.value = res.checkedKeys
+    setTreeData()
+  }
 }
 
-const setTreeData = (item) => {
-  baseFormRef.value?.allRefs?.deptIds?.setChecked(item, true, false)
+const setTreeData = () => {
+  if (Array.isArray(checkedKeys.value)) {
+    nextTick(() => {
+      checkedKeys.value.forEach((item) => {
+        baseFormRef.value?.allRefs?.deptIds?.setChecked(item, true, false)
+      })
+    })
+  }
 }
 
 const getTreeData = () => {
