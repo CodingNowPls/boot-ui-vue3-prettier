@@ -7,6 +7,7 @@ import usePermission from '@/store/modules/permission'
 import {
   STORE_CONFIG,
   BEFORE_RESIZE_LAYOUT,
+  LAYOUT_KEY,
 } from '@/store/constant/cacheKey.js'
 import Local from '@/utils/hsj/useStorage.js'
 
@@ -45,6 +46,7 @@ const onCommitColorState = (value, name) => {
 const restoreDefault = () => {
   Local.remove(STORE_CONFIG)
   Local.remove(BEFORE_RESIZE_LAYOUT)
+  Local.remove(LAYOUT_KEY)
   router.go(0)
 }
 </script>
@@ -187,6 +189,12 @@ const restoreDefault = () => {
                 <el-color-picker
                   @change="onCommitColorState($event, 'menuColor')"
                   :model-value="configStore.getColorVal('menuColor')"
+                />
+              </el-form-item>
+              <el-form-item label="侧边菜单悬停背景颜色">
+                <el-color-picker
+                  @change="onCommitColorState($event, 'menuHoverBackground')"
+                  :model-value="configStore.getColorVal('menuHoverBackground')"
                 />
               </el-form-item>
               <el-form-item label="侧边菜单激活项背景色">

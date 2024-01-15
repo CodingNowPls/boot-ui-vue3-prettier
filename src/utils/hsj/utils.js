@@ -119,3 +119,19 @@ export const generateUnique = () => {
     return v.toString(16)
   })
 }
+
+// 深拷贝
+export const deepClone = (obj) => {
+  if (obj === null) return obj
+  if (obj === undefined) return obj
+  if (obj instanceof Date) return new Date(obj)
+  if (obj instanceof RegExp) return new RegExp(obj)
+  if (typeof obj !== 'object') return obj
+  let cloneObj = new obj.constructor()
+  for (let i in obj) {
+    if (obj.hasOwnProperty(i)) {
+      cloneObj[i] = deepClone(obj[i])
+    }
+  }
+  return cloneObj
+}

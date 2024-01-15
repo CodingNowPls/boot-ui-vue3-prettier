@@ -119,9 +119,9 @@ const beforeSend = (queryInfo) => {
 const beforeSave = () => {}
 // table上面的按钮权限配置
 const permission = ref({
-  add: 'system:menu:add',
-  edit: 'system:menu:edit',
-  del: 'system:menu:remove',
+  add: 'system:dept:add',
+  edit: 'system:dept:edit',
+  del: 'system:dept:remove',
 })
 // 控制搜索的显示隐藏
 const triggerShowSearch = () => {
@@ -143,7 +143,8 @@ const handleAdd = (row) => {
     if (row.parentId === 0) {
       dialogRef.value?.setFormData('parentId', 100)
     } else {
-      dialogRef.value?.setFormData('parentId', row.parentId)
+      console.log(row)
+      dialogRef.value?.setFormData('parentId', row.deptId)
     }
   })
 }

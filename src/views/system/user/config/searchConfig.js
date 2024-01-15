@@ -19,6 +19,7 @@ export default (otherConfig = {}) => {
         options: ref([]),
         config: {
           props: { label: 'label', value: 'id', children: 'children' },
+          checkStrictly: true,
           clearable: true,
         },
       },

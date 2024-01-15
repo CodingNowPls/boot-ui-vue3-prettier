@@ -110,9 +110,6 @@ const activeBoxStyle = reactive({
   transform: 'translateX(0px)',
 })
 
-const selectNavTab = (el) => {
-  console.log(el)
-}
 const activeIndex = ref()
 
 watch(activeIndex, () => {
@@ -266,7 +263,6 @@ function toLastView(visitedViews, view) {
   if (latestView) {
     router.push(latestView.fullPath)
   } else {
-    console.log(view.name)
     if (view.name === 'Index') {
       router.replace({ path: '/redirect' + view.fullPath })
     } else {

@@ -212,6 +212,7 @@ onMounted(() => {
   --el-menu-bg-color: v-bind('config.getColorVal("menuBackground")');
   --el-menu-text-color: v-bind('config.getColorVal("menuColor")');
   --el-menu-active-color: v-bind('config.getColorVal("menuActiveColor")');
+  --el-menu-hover-bg-color: v-bind('config.getColorVal("menuHoverBackground")');
 }
 
 .el-sub-menu .icon,

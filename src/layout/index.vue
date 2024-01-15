@@ -58,6 +58,7 @@ onMounted(() => {
 })
 onBeforeMount(() => {
   onAdaptiveLayout()
+  config.layoutInit()
   useEventListener(window, 'resize', onAdaptiveLayout)
 })
 </script>

@@ -56,7 +56,6 @@ const addCallBack = () => {
 }
 const editCallBack = (item, type, res) => {
   expression.value = item.cronExpression
-  console.log(expression.value)
   isEditMore.value = type
 }
 const isEditMore = ref(false)
