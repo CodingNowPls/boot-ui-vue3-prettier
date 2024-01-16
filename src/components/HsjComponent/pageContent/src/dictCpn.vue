@@ -1,25 +1,23 @@
 <script setup>
-import { selectDictLabel } from '@/utils/ruoyi'
 const props = defineProps({
   value: {
     type: [String, Number],
   },
-  dictList: {
-    type: Array,
+  options: {
+    type: [Object, Array],
     default: () => [],
   },
 })
-const data = computed(() => {
-  if (props.value) {
-    return selectDictLabel(props.list, props.value)
-  } else {
-    return ''
-  }
+const optionComputed = computed(() => {
+  return props.options || []
+})
+const valueComputed = computed(() => {
+  return props.value || ''
 })
 </script>
 
 <template>
-  <div class="dict">{{ data }}</div>
+  <DictTag :options="optionComputed" :value="valueComputed"></DictTag>
 </template>
 
 <style scoped lang="scss"></style>

@@ -584,7 +584,7 @@ defineExpose({
         <template v-if="item.isDict">
           <DictCpn
             :value="backData[item.prop]"
-            :dictList="dictMap[backData.prop]"
+            :options="dictMap[item.prop]"
           ></DictCpn>
         </template>
       </template>
