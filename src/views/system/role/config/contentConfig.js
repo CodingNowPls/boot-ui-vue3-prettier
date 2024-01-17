@@ -49,6 +49,10 @@ export default () => {
     showIndex: true,
     showChoose: true,
     pagination: true,
-    // border: false,
+    selectionConfig: {
+      selectable: (item) => {
+        return item.roleId !== 1
+      },
+    },
   }
 }

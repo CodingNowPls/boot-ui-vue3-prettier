@@ -52,9 +52,13 @@ export default () => {
       },
       rowKey: 'userId',
     },
-    showIndex: true,
+    showIndex: false,
     showChoose: true,
     pagination: true,
-    // border: false,
+    selectionConfig: {
+      selectable: (item) => {
+        return item.userId !== 1
+      },
+    },
   }
 }

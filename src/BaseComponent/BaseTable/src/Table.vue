@@ -80,6 +80,10 @@ const props = defineProps({
   maxHeight: {
     type: [Number, String],
   },
+  selectionConfig: {
+    type: Object,
+    default: () => ({}),
+  },
 })
 const emit = defineEmits(['update:paginationInfo', 'sortChange'])
 const headerRef = ref(null)
@@ -195,6 +199,7 @@ defineExpose({
         type="selection"
         width="55"
         :align="align"
+        v-bind="selectionConfig"
         v-if="showChoose"
       ></el-table-column>
       <el-table-column
