@@ -135,3 +135,7 @@ export const deepClone = (obj) => {
   }
   return cloneObj
 }
+export const isDesktop = () => {
+  const userAgent = navigator.userAgent
+  return !/(mobile|android|iphone|ipad|iemobile|ipod touch)/i.test(userAgent)
+}

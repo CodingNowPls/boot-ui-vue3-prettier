@@ -7,6 +7,9 @@ import Default from './container/Default.vue'
 import Classic from './container/Classic.vue'
 import Streamline from './container/Streamline.vue'
 import Double from './container/Double.vue'
+import { getToken, setToken } from '@/utils/auth'
+import { isDesktop } from '@/utils/hsj/utils'
+
 defineOptions({
   components: { Default, Classic, Streamline, Double },
 })
@@ -57,6 +60,13 @@ onMounted(() => {
   useEventListener(window, 'resize', setNavTabsWidth)
 })
 onBeforeMount(() => {
+  const token = getToken()
+  if (token) {
+    setToken(token)
+  }
+  if (!isDesktop()) {
+    config.setLayoutMode('Classic')
+  }
   onAdaptiveLayout()
   config.layoutInit()
   useEventListener(window, 'resize', onAdaptiveLayout)
