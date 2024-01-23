@@ -82,9 +82,9 @@ const search = () => {
 const beforeSend = (queryInfo) => {}
 
 const permission = ref({
-  add: 'system::add',
-  edit: 'system::edit',
-  del: 'system::remove',
+  add: 'system:config:add',
+  edit: 'system:config:edit',
+  del: 'system:config:remove',
 })
 
 const triggerShowSearch = () => {
