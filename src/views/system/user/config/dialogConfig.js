@@ -54,6 +54,7 @@ export default (listeners = {}) => {
         options: ref([]),
         config: {
           props: { label: 'label', value: 'id', children: 'children' },
+          checkStrictly: true,
         },
       },
       {
