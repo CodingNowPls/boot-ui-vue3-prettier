@@ -150,10 +150,7 @@ const handleStatusChange = async (row) => {
   let text = row.status === '0' ? '启用' : '停用'
   const [err, res] = await to(changeUserStatus(row.userId, row.status))
   if (res) {
-    ElNotification({
-      type: 'success',
-      message: text + '成功',
-    })
+    proxy.$modal.notifySuccess(text + '成功')
   }
   if (err) {
     row.status = row.status === '0' ? '1' : '0'
@@ -216,13 +213,13 @@ const downloadTemplate = () => {
 }
 /**文件上传中处理 */
 const handleFileUploadProgress = () => {
-  upload.isUploading = true
+  uploadConfig.value.isUploading = true
 }
 
 /** 文件上传成功处理 */
 const handleFileSuccess = ({ response }) => {
-  upload.open = false
-  upload.isUploading = false
+  uploadConfig.value.open = false
+  uploadConfig.value.isUploading = false
   proxy.$alert(
     "<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" +
       response.msg +
@@ -230,7 +227,7 @@ const handleFileSuccess = ({ response }) => {
     '导入结果',
     { dangerouslyUseHTMLString: true }
   )
-  getList()
+  search()
 }
 const handleEditShow = (row) => {
   return row.userId !== 1
@@ -312,7 +309,7 @@ init()
           v-hasPermi="['system:user:resetPwd']"
           v-if="backData.userId !== 1"
         >
-          <SvgIcon size="11" iconClass="key" />
+          <SvgIcon size="12" iconClass="key" />
           <span class="ml6">重置密码</span>
         </el-button>
       </template>
