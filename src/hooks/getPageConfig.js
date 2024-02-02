@@ -1,5 +1,5 @@
 import { isRef } from 'vue'
-
+import hasPermi from '@/utils/hasPermi'
 export default (config, dictsMap) => {
   for (const [key, dict] of Object.entries(dictsMap)) {
     const fromItem = config.formItems?.find((item) => {
@@ -13,5 +13,10 @@ export default (config, dictsMap) => {
       }
     }
   }
+  const fromItem = config.formItems.filter((item) => {
+    if (!item.permission) return true
+    return hasPermi(item.permission)
+  })
+  config.formItems = fromItem
   return config
 }
