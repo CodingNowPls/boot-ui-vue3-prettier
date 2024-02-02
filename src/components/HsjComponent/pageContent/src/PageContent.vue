@@ -362,7 +362,16 @@ const editMoreClick = () => {
 const hasSlot = (slots, arr) => {
   return arr.some((key) => slots.hasOwnProperty(key))
 }
-
+const columnsFilter = () => {
+  const tableItem = props.contentConfig.tableItem.filter((item) => {
+    if (!item.permission) return true
+    return proxy.hasPermi(item.permission)
+  })
+  props.contentConfig.tableItem = tableItem
+}
+const init = () => {
+  columnsFilter()
+}
 onMounted(() => {
   if (props.autoDesc) {
     for (const [key, value] of Object.entries(props.descConfig)) {
@@ -390,6 +399,8 @@ onActivated(() => {
 onDeactivated(() => {
   offListener()
 })
+
+init()
 defineExpose({
   finalSearchData,
   refresh,

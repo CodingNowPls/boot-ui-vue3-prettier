@@ -28,6 +28,7 @@ import DictTag from '@/components/DictTag'
 import TreeSelect from '@/components/TreeSelect'
 
 import { useDict } from '@/utils/dict'
+import hasPermi from '@/utils/hasPermi'
 import {
   parseTime,
   resetForm,
@@ -52,6 +53,7 @@ app.config.globalProperties.handleTree = handleTree
 app.config.globalProperties.addDateRange = addDateRange
 app.config.globalProperties.selectDictLabel = selectDictLabel
 app.config.globalProperties.selectDictLabels = selectDictLabels
+app.config.globalProperties.hasPermi = hasPermi
 
 app.component('SvgIcon', SvgIcon)
 app.component('BaseForm', BaseForm)

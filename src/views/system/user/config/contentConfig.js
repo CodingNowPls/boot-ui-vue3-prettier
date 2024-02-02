@@ -2,7 +2,6 @@ export const tableItem = [
   {
     prop: 'userId',
     label: '用户编号',
-    hide: false,
   },
   {
     prop: 'userName',
@@ -12,8 +11,8 @@ export const tableItem = [
     prop: 'nickName',
     label: '用户昵称',
   },
-
   {
+    prop: 'dept',
     slotName: 'deptSlot',
     label: '部门',
   },
