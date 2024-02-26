@@ -1,13 +1,5 @@
 import { request } from '@/utils/hsj/service/index'
 
-// 查询生成表数据
-export function listTable(query) {
-  return request({
-    url: '/tool/gen/list',
-    method: 'get',
-    params: query,
-  })
-}
 // 查询db数据库列表
 export function listDbTable(query) {
   return request({
@@ -48,14 +40,6 @@ export function previewTable(tableId) {
   return request({
     url: '/tool/gen/preview/' + tableId,
     method: 'get',
-  })
-}
-
-// 删除表数据
-export function delTable(tableId) {
-  return request({
-    url: '/tool/gen/' + tableId,
-    method: 'delete',
   })
 }
 

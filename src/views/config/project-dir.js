@@ -29,7 +29,6 @@ export const projectDir = `
 │   │   │   ├── data.js
 │   │   │   └── type.js
 │   │   ├── menu.js
-│   │   ├── notice.js
 │   │   ├── post.js
 │   │   ├── role.js
 │   │   └── user.js

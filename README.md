@@ -78,9 +78,29 @@ pnpm build:prod
     </tr>
 </table>
 
+## 目录结构
+
+```tree
+├── BaseComponent												//脱离所有业务的组件
+├── api																	//网络请求
+├── assets															//静态资源
+├── components													//全局业务组件
+├── directive														//全局指令
+├── hooks																//hooks
+├── layout															//布局
+├── plugins															//通用方法
+├── router															//路由
+├── store																//全局 store管理
+├── utils																//全局公用方法
+├── views																//所有页面
+├── App.vue                							// 入口页面
+└── main.js                							// 入口 加载组件 初始化等
+```
+
 ## 联系本人
 
-本人微信：lmwcoder，欢迎大家提供建议。
+本人微信：lmwcoder，欢迎大家提供建议，
+无需捐赠，如果觉得项目不错，或者已经在使用了，希望你可以去帮我点个 ⭐ Star。
 
 ## 致谢
 
