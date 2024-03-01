@@ -81,20 +81,20 @@ pnpm build:prod
 ## 目录结构
 
 ```tree
-├── BaseComponent												//脱离所有业务的组件
-├── api																	//网络请求
-├── assets															//静态资源
-├── components													//全局业务组件
-├── directive														//全局指令
-├── hooks																//hooks
-├── layout															//布局
-├── plugins															//通用方法
-├── router															//路由
-├── store																//全局 store管理
-├── utils																//全局公用方法
-├── views																//所有页面
-├── App.vue                							// 入口页面
-└── main.js                							// 入口 加载组件 初始化等
+├── BaseComponent				//脱离所有业务的组件
+├── api									//网络请求
+├── assets							//静态资源
+├── components					//全局业务组件
+├── directive						//全局指令
+├── hooks								//hooks
+├── layout							//布局
+├── plugins							//通用方法
+├── router							//路由
+├── store								//全局 store管理
+├── utils								//全局公用方法
+├── views								//所有页面
+├── App.vue             // 入口页面
+└── main.js             // 入口 加载组件 初始化等
 ```
 
 ## 联系本人

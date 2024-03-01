@@ -10,7 +10,8 @@ import to from '@/utils/to'
 const router = useRouter()
 const { proxy } = getCurrentInstance()
 
-const pageName = ref('gen')
+const pageName = 'gen'
+const idKey = 'tableId'
 const requestBaseUrl = tool
 const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
@@ -139,6 +140,7 @@ const copyTextSuccess = () => {
     <PageContent
       ref="pageContentRef"
       :pageName="pageName"
+      :idKey="idKey"
       :contentConfig="contentConfigComputed"
       :descConfig="descConfig"
       :showPageSearch="showPageSearch"
