@@ -215,22 +215,23 @@ function close() {
   }
   proxy.$tab.closeOpenPage(obj)
 }
-
 const tableId = route.params && route.params.tableId
 if (tableId) {
   // 获取表详细信息
   getGenTable(tableId).then((res) => {
     columns.value = res.data.rows
-    let obj = {}
-    for (const [key, value] of Object.entries(res.data.info)) {
-      if (value) {
-        obj[key] = value
-      } else {
-        obj[key] = ''
-      }
-    }
-    info.value = obj
+    info.value = res.data.info
     tables.value = res.data.tables
+    // let obj = {}
+    // for (const [key, value] of Object.entries(res.data.info)) {
+    //   if (value) {
+    //     obj[key] = value
+    //   } else {
+    //     obj[key] = ''
+    //   }
+    // }
+    // info.value = obj
+    // tables.value = res.data.tables
   })
   /** 查询字典下拉列表 */
   getDictOptionselect().then((response) => {
