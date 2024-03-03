@@ -163,6 +163,7 @@ const setFormData = (key, value) => {
 const changeSelected = (newValue) => {
   tableSelected.value = newValue
 }
+const isSmall = window.isSmallScreen
 defineExpose({
   dialogVisible,
   title,
@@ -178,7 +179,7 @@ defineExpose({
       v-model="dialogVisible"
       :title="title"
       :top="top"
-      :width="width"
+      :width="isSmall ? '100vw' : width"
       :close-on-click-modal="false"
       draggable
       destroy-on-close
