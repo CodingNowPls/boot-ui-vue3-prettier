@@ -45,11 +45,6 @@ const props = defineProps({
       }
     },
   },
-  // 是否需要返回查询后的数据
-  isGetListInfo: {
-    type: Boolean,
-    default: false,
-  },
   // 其他查询条件
   otherRequestOption: {
     type: Object,
@@ -117,7 +112,7 @@ const props = defineProps({
       return true
     },
   },
-  handeleDeleteShow: {
+  handleDeleteShow: {
     type: Function,
     default: () => {
       return true
@@ -562,7 +557,7 @@ defineExpose({
           </div>
           <div
             class="del order10"
-            v-if="showDelete && handeleDeleteShow(backData)"
+            v-if="showDelete && handleDeleteShow(backData)"
             v-hasPermi="[permission.del]"
           >
             <el-popconfirm

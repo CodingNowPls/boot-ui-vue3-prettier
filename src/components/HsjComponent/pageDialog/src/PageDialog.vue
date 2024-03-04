@@ -13,10 +13,6 @@ const props = defineProps({
     type: Object,
     default: () => ({}),
   },
-  searchData: {
-    type: Object,
-    default: () => ({}),
-  },
   pageName: {
     type: String,
     required: true,
@@ -34,17 +30,9 @@ const props = defineProps({
     required: true,
     default: () => [],
   },
-  otherRequestOption: {
-    type: Object,
-    default: () => {},
-  },
   defaultData: {
     type: Object,
     default: () => ({}),
-  },
-  requestUrl: {
-    type: String,
-    default: 'list',
   },
   idKey: {
     type: String,
@@ -98,7 +86,6 @@ const commitClick = async () => {
       emits('beforeSave')
       return await store.editDataAction({
         pageName: props.pageName,
-        requestUrl: props.requestUrl,
         editInfo: {
           ...props.otherInfo,
           ...formData.value,
@@ -115,7 +102,6 @@ const commitClick = async () => {
       emits('beforeSave')
       return await store.createDataAction({
         pageName: props.pageName,
-        requestUrl: props.requestUrl,
         newData: {
           ...props.otherInfo,
           ...formData.value,

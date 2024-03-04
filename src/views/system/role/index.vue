@@ -193,7 +193,7 @@ const handleDataScope = async (row) => {
 const handleEditShow = (row) => {
   return row.roleId !== 1
 }
-const handeleDeleteShow = (row) => {
+const handleDeleteShow = (row) => {
   return row.roleId !== 1
 }
 const init = () => {}
@@ -220,7 +220,7 @@ init()
       :permission="permission"
       :requestBaseUrl="requestBaseUrl"
       :handleEditShow="handleEditShow"
-      :handeleDeleteShow="handeleDeleteShow"
+      :handleDeleteShow="handleDeleteShow"
       @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"
