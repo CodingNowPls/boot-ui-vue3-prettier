@@ -65,12 +65,16 @@ export default {
     })
   },
   // 提交内容
-  prompt(content) {
-    return ElMessageBox.prompt(content, '系统提示', {
+  prompt(
+    content,
+    title = '系统提示',
+    config = {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: 'warning',
-    })
+    }
+  ) {
+    return ElMessageBox.prompt(content, title, config)
   },
   // 打开遮罩层
   loading(content) {

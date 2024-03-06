@@ -156,14 +156,16 @@ const handleStatusChange = async (row) => {
     row.status = row.status === '0' ? '1' : '0'
   }
 }
+
 const handleResetPwd = (row) => {
   proxy.$modal
     .prompt('请输入"' + row.userName + '"的新密码', '提示', {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       closeOnClickModal: false,
-      inputPattern: /^.{5,20}$/,
-      inputErrorMessage: '用户密码长度必须介于 5 和 20 之间',
+      inputPattern: /^(?!.*[<>\"'\\|])[^\s]{5,20}$/,
+      inputErrorMessage:
+        '用户密码长度必须介于 5 和 20 之间且不能包含非法字符：< > " \' \\\ |',
     })
     .then(({ value }) => {
       resetUserPwd(row.userId, value).then((response) => {
