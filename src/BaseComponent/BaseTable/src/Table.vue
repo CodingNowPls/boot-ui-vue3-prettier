@@ -61,17 +61,9 @@ const props = defineProps({
     type: String,
     default: 'center',
   },
-  changeColor: {
-    type: Boolean,
-    default: false,
-  },
   paginationLayout: {
     type: String,
     default: 'total, sizes, prev, pager, next, jumper',
-  },
-  otherStartColumn: {
-    type: Array,
-    default: () => [],
   },
   hideItems: {
     type: [Array, Object],
@@ -216,15 +208,11 @@ defineExpose({
           v-bind="item"
           v-if="!isHiddenItem(item) && !item.hide"
         >
-          <template #header v-if="!item.useOwn">
+          <template #header v-if="item.useOwn">
             <slot :name="`${item.slotName}Header`">
               {{ item.label }}
             </slot>
           </template>
-          <template v-else #header="{ column }">
-            <slot :name="item.prop" :backData="column"></slot>
-          </template>
-
           <template #default="scope">
             <slot
               :name="item.slotName"
