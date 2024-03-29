@@ -1,5 +1,4 @@
 <script setup name="User">
-import { ElNotification } from 'element-plus'
 import { nextTick } from 'vue'
 import ImportDialog from '@/components/HsjComponent/importDialog/index'
 import getSearchConfig from './config/searchConfig'
