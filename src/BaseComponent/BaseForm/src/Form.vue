@@ -23,6 +23,11 @@
               :prop="item.field"
               v-bind="item.formItemConfig"
             >
+              <template #label="{ label }" v-if="!item.hideLabel">
+                <slot :name="item.field + 'Label'" :backData="item">
+                  <span>{{ label }}</span>
+                </slot>
+              </template>
               <slot
                 :name="`${item.field}Before`"
                 :backData="{ item, data: data[`${item.field}`] }"

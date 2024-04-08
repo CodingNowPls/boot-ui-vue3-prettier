@@ -35,6 +35,7 @@ export default (listeners = {}) => {
         },
         eventFunction: listeners.listener,
         slotNames: ['prefix'],
+        hideLabel: true,
       },
       {
         field: 'password',
@@ -46,6 +47,7 @@ export default (listeners = {}) => {
         },
         eventFunction: listeners.listener,
         slotNames: ['prefix'],
+        hideLabel: true,
       },
       {
         field: 'code',
@@ -58,9 +60,9 @@ export default (listeners = {}) => {
           gl: 24,
           xl: 24,
         },
+        hideLabel: true,
       },
       {
-        // label: '记住密码',
         options: [
           {
             label: '记住密码',

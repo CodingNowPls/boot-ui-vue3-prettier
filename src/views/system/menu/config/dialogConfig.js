@@ -198,7 +198,7 @@ export default (listeners = {}) => {
       xs: 24,
     },
     elFormConfig: {
-      labelWidth: '80px',
+      labelWidth: '100px',
     },
   }
 }
