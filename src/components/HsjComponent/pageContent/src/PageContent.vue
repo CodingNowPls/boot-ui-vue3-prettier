@@ -118,6 +118,10 @@ const props = defineProps({
       return true
     },
   },
+  tableHideItems: {
+    type: Array,
+    default: () => [],
+  },
 })
 const emit = defineEmits([
   'addClick',
@@ -324,12 +328,17 @@ const offListener = () => {
 }
 
 const columnChecked = ref([])
+let filterArr = []
 watch(
   () => props.contentConfig.tableItem,
   () => {
     props.contentConfig.tableItem.forEach((item) => {
       if (item.prop) {
-        columnChecked.value.push(item.prop)
+        if (props.tableHideItems.includes(item.prop)) {
+          filterArr.push(item.prop)
+        } else {
+          columnChecked.value.push(item.prop)
+        }
       }
     })
   },
@@ -337,7 +346,6 @@ watch(
     immediate: true,
   }
 )
-let filterArr = []
 const onChangeShowColumn = (checked, prop) => {
   if (checked) {
     filterArr = filterArr.filter((item) => item !== prop)
@@ -490,6 +498,7 @@ defineExpose({
             v-if="headerButtons.includes('columnDisplay')"
             :max-height="380"
             :hide-on-click="false"
+            popper-class="columnDisplay"
           >
             <el-button
               class="table-search-button-item"
@@ -668,6 +677,18 @@ html.dark {
         color: white !important;
       }
     }
+  }
+}
+</style>
+<style lang="scss">
+.columnDisplay {
+  .el-dropdown-menu__item {
+    padding: 0;
+  }
+  .el-checkbox {
+    width: 100%;
+    padding: 5px 16px;
+    height: 32px;
   }
 }
 </style>
