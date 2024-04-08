@@ -81,7 +81,12 @@ const businessStore = defineStore('business', {
       // 删除数据
       const fn = async () => {
         const { id, pageName, requestBaseUrl = '/' } = payload
-        const url = `${requestBaseUrl}${interceptor(pageName)}/${id}`
+        let url = ''
+        if (payload.delUrl) {
+          url = `${payload.delUrl}/${id}`
+        } else {
+          url = `${requestBaseUrl}${interceptor(pageName)}/${id}`
+        }
         let res = await deletData(url)
         return res
       }

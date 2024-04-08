@@ -118,6 +118,13 @@ const props = defineProps({
       return true
     },
   },
+  delUrl: {
+    type: String,
+  },
+  maxHeightDecrement: {
+    type: Number,
+    default: 0,
+  },
   tableHideItems: {
     type: Array,
     default: () => [],
@@ -215,6 +222,7 @@ const deleteRow = async (delData) => {
         pageName: props.pageName,
         requestUrl: props.requestUrl,
         requestBaseUrl: props.requestBaseUrl,
+        delUrl: props.delUrl,
       })
     )
     await to(send(finalSearchData.value))
@@ -314,7 +322,7 @@ const mittResize = (searchHeight) => {
   if (pagination) {
     viewportHeight -= pagination.clientHeight
   }
-  maxHeight.value = viewportHeight
+  maxHeight.value = viewportHeight - props.maxHeightDecrement
 }
 const onListener = () => {
   emitter.on(`search${props.pageName}Info`, mittFunc)
