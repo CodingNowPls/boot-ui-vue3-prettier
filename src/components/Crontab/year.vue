@@ -134,8 +134,12 @@ function changeRadioValue(value) {
     radioValue.value = 3
   } else if (value.indexOf('/') > -1) {
     const indexArr = value.split('#')
-    average01.value = Number(indexArr[1])
-    average02.value = Number(indexArr[0])
+    if (Number(indexArr[1])) {
+      average01.value = Number(indexArr[1])
+    }
+    if (Number(indexArr[0])) {
+      average02.value = Number(indexArr[0])
+    }
     radioValue.value = 4
   } else {
     checkboxList.value = [
