@@ -22,7 +22,9 @@ const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
 const descConfig = ref({})
 const treeSelectInfo = ref([])
-
+const menuExpand = ref(false)
+const menuNodeAll = ref(false)
+const menuCheckStrictly = ref(true)
 const getTreeSelect = async () => {
   const [err, res] = await to(treeselect())
   treeSelectInfo.value = res.data ?? []
@@ -49,9 +51,11 @@ const contentConfigComputed = computed(() => {
   return contentConfig
 })
 
-const dialogConfig = getDialogConfig()
-
 const dialogConfigComputed = computed(() => {
+  const dialogConfig = getDialogConfig({
+    checkStrictly: !menuCheckStrictly.value,
+    defaultExpandAll: menuExpand.value,
+  })
   dialogConfig.hideItems = dialogHideItems
   return getComputedConfig(dialogConfig, dictMap)
 })
@@ -193,12 +197,20 @@ const handleDataScope = async (row) => {
 const handleEditShow = (row) => {
   return row.roleId !== 1
 }
-const handleDeleteShow = (row) => {
+const handeleDeleteShow = (row) => {
   return row.roleId !== 1
 }
-const init = () => {}
-
-init()
+const expandOrCollapseAll = (expand) => {
+  const treeRef = dialogRef.value.formRef.allRefs.menuIds
+  let treeList = treeSelectInfo.value
+  for (let i = 0; i < treeList.length; i++) {
+    treeRef.store.nodesMap[treeList[i].id].expanded = expand
+  }
+}
+const handleCheckedTreeNodeAll = (value) => {
+  const treeRef = dialogRef.value.formRef.allRefs.menuIds
+  treeRef.setCheckedNodes(value ? treeSelectInfo.value : [])
+}
 </script>
 <template>
   <div class="default-main page">
@@ -220,7 +232,7 @@ init()
       :permission="permission"
       :requestBaseUrl="requestBaseUrl"
       :handleEditShow="handleEditShow"
-      :handleDeleteShow="handleDeleteShow"
+      :handeleDeleteShow="handeleDeleteShow"
       @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"
@@ -259,7 +271,7 @@ init()
           v-hasPermi="['system:role:edit']"
           v-if="backData.roleId !== 1"
         >
-          <SvgIcon size="11" iconClass="random" />
+          <SvgIcon size="12" iconClass="random" />
           <span class="ml6">数据权限</span>
         </el-button>
         <el-button
@@ -270,7 +282,7 @@ init()
           v-hasPermi="['system:role:edit']"
           v-if="backData.roleId !== 1"
         >
-          <SvgIcon size="11" iconClass="user" />
+          <SvgIcon size="12" iconClass="user" />
           <span class="ml6">分配用户</span>
         </el-button>
       </template>
@@ -289,6 +301,18 @@ init()
       @editNext="editNext"
       @beforeSave="beforeSave"
     >
+      <template #menuIdsBefore="{ backData }">
+        <div>
+          <span>{{ backData.label }}</span>
+          <el-checkbox v-model="menuExpand" @change="expandOrCollapseAll">
+            展开/折叠
+          </el-checkbox>
+          <el-checkbox v-model="menuNodeAll" @change="handleCheckedTreeNodeAll">
+            全选/全不选
+          </el-checkbox>
+          <el-checkbox v-model="menuCheckStrictly"> 父子联动 </el-checkbox>
+        </div>
+      </template>
     </PageDialog>
     <AssignDialog
       v-model="assignDialogVisible"
@@ -306,6 +330,12 @@ init()
   }
   :deep(.del) {
     margin-top: 6px;
+  }
+  :deep(.menuIdsClass) {
+    .el-tree {
+      border: 1px solid var(--el-border-color);
+      border-radius: 4px;
+    }
   }
 }
 </style>

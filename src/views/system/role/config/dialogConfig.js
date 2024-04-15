@@ -1,4 +1,4 @@
-export default (listeners = {}) => {
+export default (config = {}) => {
   return {
     itemStyle: { padding: '0px 0px 0px 0px' },
     rules: {
@@ -61,6 +61,8 @@ export default (listeners = {}) => {
           showCheckbox: true,
           nodeKey: 'id',
           props: { label: 'label', children: 'children' },
+          checkStrictly: config.checkStrictly,
+          defaultExpandAll: config.defaultExpandAll,
         },
       },
       {
