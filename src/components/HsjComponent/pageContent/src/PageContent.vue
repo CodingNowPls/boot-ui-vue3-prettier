@@ -324,10 +324,14 @@ const mittResize = (searchHeight) => {
   }
   maxHeight.value = viewportHeight - props.maxHeightDecrement
 }
+let isListen = false
 const onListener = () => {
-  emitter.on(`search${props.pageName}Info`, mittFunc)
-  emitter.on(`change${props.pageName}Size`, mittResize)
-  window.addEventListener('resize', mittResize)
+  if (!isListen) {
+    isListen = true
+    emitter.on(`search${props.pageName}Info`, mittFunc)
+    emitter.on(`change${props.pageName}Size`, mittResize)
+    window.addEventListener('resize', mittResize)
+  }
 }
 const offListener = () => {
   emitter.off(`search${props.pageName}Info`)
