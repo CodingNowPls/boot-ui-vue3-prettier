@@ -6,6 +6,7 @@ import { getInfo } from '@/api/business/main/index'
 import to from '@/utils/to'
 import DictCpn from './dictCpn.vue'
 import { interceptor } from '@/store/business/businessStore'
+import useStorage from '@/utils/hsj/useStorage'
 const props = defineProps({
   // table的配置
   contentConfig: {
@@ -340,14 +341,50 @@ const offListener = () => {
 }
 
 const columnChecked = ref([])
-let filterArr = []
+let filterArr = ref([])
+let userHideItems = []
+const setHideColumnStorage = () => {
+  const hidenColumns = useStorage.get('hidenColumns')
+  if (hidenColumns) {
+    hidenColumns[props.pageName] = userHideItems
+    useStorage.set('hidenColumns', hidenColumns)
+  } else {
+    useStorage.set('hidenColumns', {
+      [props.pageName]: userHideItems,
+    })
+  }
+}
+
+const onChangeShowColumn = (checked, prop, handleUser) => {
+  if (checked) {
+    filterArr.value = filterArr.value.filter((item) => item !== prop)
+  } else {
+    filterArr.value = [...new Set([...filterArr.value, prop])]
+  }
+  // 是否为用户点击
+  if (handleUser) {
+    if (checked) {
+      userHideItems = userHideItems.filter((item) => item !== prop)
+    } else {
+      userHideItems = [...new Set([...userHideItems, prop])]
+    }
+    setHideColumnStorage()
+  }
+  emit('onChangeShowColumn', filterArr.value)
+}
 watch(
   () => props.contentConfig.tableItem,
   () => {
+    let hidenColumns = useStorage.get('hidenColumns')
+    if (hidenColumns) {
+      userHideItems = hidenColumns[props.pageName] ?? []
+    }
+    const tableHides = [...new Set([...userHideItems, ...props.tableHideItems])]
     props.contentConfig.tableItem.forEach((item) => {
       if (item.prop) {
-        if (props.tableHideItems.includes(item.prop)) {
-          filterArr.push(item.prop)
+        if (tableHides.includes(item.prop)) {
+          filterArr.value.push(item.prop)
+          onChangeShowColumn(false, item.prop, false)
         } else {
           columnChecked.value.push(item.prop)
         }
@@ -358,14 +395,6 @@ watch(
     immediate: true,
   }
 )
-const onChangeShowColumn = (checked, prop) => {
-  if (checked) {
-    filterArr = filterArr.filter((item) => item !== prop)
-  } else {
-    filterArr = [...filterArr, prop]
-  }
-  emit('onChangeShowColumn', filterArr)
-}
 
 const triggerShowSearch = () => {
   emit('triggerShowSearch')
@@ -384,9 +413,11 @@ const columnsFilter = () => {
   })
   props.contentConfig.tableItem = tableItem
 }
+
 const init = () => {
   columnsFilter()
 }
+
 onMounted(() => {
   if (props.autoDesc) {
     for (const [key, value] of Object.entries(props.descConfig)) {
@@ -404,7 +435,6 @@ onMounted(() => {
   }
   onListener()
 })
-
 onUnmounted(() => {
   offListener()
 })
@@ -530,7 +560,7 @@ defineExpose({
                   >
                     <el-checkbox
                       v-if="item.prop"
-                      @change="onChangeShowColumn($event, item.prop)"
+                      @change="onChangeShowColumn($event, item.prop, true)"
                       size="small"
                       :label="item.prop"
                       >{{ item.label }}

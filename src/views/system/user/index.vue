@@ -21,7 +21,6 @@ const { sys_normal_disable, sys_user_sex } = proxy.useDict(
   'sys_normal_disable',
   'sys_user_sex'
 )
-
 const pageName = 'user'
 const requestBaseUrl = systemBaseUrl
 const showPageSearch = ref(true)
@@ -263,6 +262,7 @@ init()
       :requestBaseUrl="requestBaseUrl"
       :handleEditShow="handleEditShow"
       :handleDeleteShow="handleDeleteShow"
+      :tableHideItems="tableHideItems"
       @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"
