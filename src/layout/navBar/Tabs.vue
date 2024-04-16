@@ -305,7 +305,6 @@ function closeMenu() {
   overflow-x: auto;
   overflow-y: hidden;
   margin-right: var(--ba-main-space);
-  scrollbar-width: none;
 
   &::-webkit-scrollbar {
     height: 5px;
