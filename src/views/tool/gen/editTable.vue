@@ -147,7 +147,7 @@
         </el-table>
       </el-tab-pane>
       <el-tab-pane label="生成信息" name="genInfo">
-        <GenInfoForm ref="genInfo" :info="info" :tables="tables" />
+        <GenInfoForm ref="genInfo" v-model:info="info" :tables="tables" />
       </el-tab-pane>
     </el-tabs>
     <el-form label-width="100px">
@@ -174,11 +174,11 @@ const tables = ref([])
 const columns = ref([])
 const dictOptions = ref([])
 const info = ref({})
-
+const genInfo = ref(null)
 /** 提交按钮 */
 function submitForm() {
   const basicForm = proxy.$refs.basicInfo.$refs.basicInfoForm
-  const genForm = proxy.$refs.genInfo.$refs.genInfoForm
+  const genForm = genInfo.value.baseFormRef.elFormRef
   Promise.all([basicForm, genForm].map(getFormPromise)).then((res) => {
     const validateResult = res.every((item) => !!item)
     if (validateResult) {
@@ -221,6 +221,9 @@ if (tableId) {
   getGenTable(tableId).then((res) => {
     columns.value = res.data.rows
     info.value = res.data.info
+    if (info.value.parentMenuId) {
+      info.value.parentMenuId = Number(info.value.parentMenuId)
+    }
     tables.value = res.data.tables
     // let obj = {}
     // for (const [key, value] of Object.entries(res.data.info)) {

@@ -130,7 +130,6 @@ watch(valueId, () => {
 <style lang="scss" scoped>
 .el-scrollbar .el-scrollbar__view .el-select-dropdown__item {
   padding: 0;
-  background-color: #fff;
   height: auto;
 }
 

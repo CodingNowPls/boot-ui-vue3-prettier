@@ -10,6 +10,16 @@
       <el-row v-bind="rowConfig">
         <template v-for="item in formItems">
           <el-col
+            :span="24"
+            v-if="hasSlot(`${item.field}Header`) && !isHiddenItem(item)"
+          >
+            <slot
+              :name="`${item.field}Header`"
+              :backData="{ item, data: data[`${item.field}`] }"
+            ></slot>
+          </el-col>
+          <el-col
+            :key="item.field"
             v-bind="item.layout ? item.layout : colLayout"
             :class="`${item.field}Col`"
             v-if="!isHiddenItem(item)"
@@ -26,6 +36,13 @@
               <template #label="{ label }" v-if="!item.hideLabel">
                 <slot :name="item.field + 'Label'" :backData="item">
                   <span>{{ label }}</span>
+                  <el-tooltip
+                    v-if="item.tip"
+                    :content="item.tip"
+                    v-bind="item.tipConfig"
+                  >
+                    <el-icon><question-filled /></el-icon>
+                  </el-tooltip>
                 </slot>
               </template>
               <slot
@@ -317,6 +334,7 @@
 </template>
 
 <script setup>
+import { useSlots, ref } from 'vue'
 import InputDropdown from './cpn/inputDropdown/inputDropdown.vue'
 const props = defineProps({
   // el-from的配置
@@ -384,6 +402,7 @@ const props = defineProps({
   },
 })
 const emits = defineEmits(['update:data', 'keyUpEnter'])
+const slots = useSlots()
 let elFormRef = ref(null)
 const allRefs = ref({})
 const setItemRef = (el, type) => {
@@ -443,6 +462,9 @@ const keyUpEnter = ($event, current) => {
     event: $event,
     current,
   })
+}
+const hasSlot = (slotName) => {
+  return slots[slotName] ? true : false
 }
 
 defineExpose({
