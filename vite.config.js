@@ -30,7 +30,7 @@ export default defineConfig(({ mode, command }) => {
       open: false,
       proxy: {
         '/dev-api': {
-          target: 'http://vue.ruoyi.vip/prod-api/',
+          target: 'http://localhost:8080/',
           changeOrigin: true,
           rewrite: (p) => p.replace(/^\/dev-api/, ''),
         },

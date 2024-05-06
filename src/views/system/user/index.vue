@@ -239,6 +239,7 @@ const init = () => {
   getDeptTree()
 }
 
+const formInline = ref([])
 init()
 </script>
 <template>

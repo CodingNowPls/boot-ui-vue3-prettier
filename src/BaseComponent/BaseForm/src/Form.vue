@@ -235,11 +235,11 @@
                   <el-checkbox
                     v-for="option in getOptions(item)"
                     :key="option.key ?? option.value"
-                    :label="option.value"
+                    :value="option.value"
                     :disabled="allDisabled"
                     v-bind="item.optionConfig ?? {}"
                   >
-                    {{ option.label }}
+                    {{ item.label }}
                   </el-checkbox>
                   <template v-for="slotName in item.slotNames" #[slotName]>
                     <slot
@@ -253,11 +253,12 @@
                     v-for="option in getOptions(item)"
                     v-model="data[`${item.field}`]"
                     :key="option.key ?? option.value"
-                    :label="option.label"
+                    :value="option.value"
                     :disabled="allDisabled"
                     v-bind="item.config"
                     v-on="item.eventFunction || {}"
                   >
+                    {{ option.label }}
                   </el-checkbox>
                 </template>
               </template>
@@ -273,7 +274,7 @@
                   <el-radio
                     v-for="option in getOptions(item)"
                     :key="option.key ?? option.value"
-                    :label="option.value"
+                    :value="option.value"
                     :disabled="allDisabled"
                     v-bind="item.optionConfig ?? {}"
                   >
@@ -291,7 +292,7 @@
                     v-for="option in getOptions(item)"
                     :ref="(el) => setItemRef(el, item.field)"
                     :disabled="allDisabled"
-                    :label="option.value"
+                    :value="option.value"
                     v-model="data[`${item.field}`]"
                     v-bind="item.config"
                     v-on="item.eventFunction || {}"

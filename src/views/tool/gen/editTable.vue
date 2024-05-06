@@ -51,8 +51,8 @@
           <el-table-column label="插入" min-width="6%">
             <template #default="scope">
               <el-checkbox
-                true-label="1"
-                false-label="0"
+                true-value="1"
+                false-value="0"
                 v-model="scope.row.isInsert"
               ></el-checkbox>
             </template>
@@ -60,8 +60,8 @@
           <el-table-column label="编辑" min-width="6%">
             <template #default="scope">
               <el-checkbox
-                true-label="1"
-                false-label="0"
+                true-value="1"
+                false-value="0"
                 v-model="scope.row.isEdit"
               ></el-checkbox>
             </template>
@@ -69,8 +69,8 @@
           <el-table-column label="列表" min-width="6%">
             <template #default="scope">
               <el-checkbox
-                true-label="1"
-                false-label="0"
+                true-value="1"
+                false-value="0"
                 v-model="scope.row.isList"
               ></el-checkbox>
             </template>
@@ -78,8 +78,8 @@
           <el-table-column label="查询" min-width="6%">
             <template #default="scope">
               <el-checkbox
-                true-label="1"
-                false-label="0"
+                true-value="1"
+                false-value="0"
                 v-model="scope.row.isQuery"
               ></el-checkbox>
             </template>
@@ -101,8 +101,8 @@
           <el-table-column label="必填" min-width="6%">
             <template #default="scope">
               <el-checkbox
-                true-label="1"
-                false-label="0"
+                true-value="1"
+                false-value="0"
                 v-model="scope.row.isRequired"
               ></el-checkbox>
             </template>

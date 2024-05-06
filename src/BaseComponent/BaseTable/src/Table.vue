@@ -63,7 +63,7 @@ const props = defineProps({
   },
   paginationLayout: {
     type: String,
-    default: 'total, sizes, prev, pager, next, jumper',
+    default: 'total, sizes, prev, pager, next',
   },
   hideItems: {
     type: [Array, Object],

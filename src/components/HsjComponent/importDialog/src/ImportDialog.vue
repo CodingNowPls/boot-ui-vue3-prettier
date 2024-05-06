@@ -73,8 +73,9 @@ const downloadTemplate = () => {
             <el-checkbox
               :model-value="upload.updateSupport"
               @update:modelValue="handleValueChange($event, 'updateSupport')"
-              label="是否更新已经存在的用户数据"
-            />
+            >
+              是否更新已经存在的用户数据
+            </el-checkbox>
           </div>
           <span>仅允许导入xls、xlsx格式文件。</span>
           <el-link

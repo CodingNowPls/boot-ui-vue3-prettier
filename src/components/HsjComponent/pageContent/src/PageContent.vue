@@ -562,7 +562,7 @@ defineExpose({
                       v-if="item.prop"
                       @change="onChangeShowColumn($event, item.prop, true)"
                       size="small"
-                      :label="item.prop"
+                      :value="item.prop"
                       >{{ item.label }}
                     </el-checkbox>
                   </el-dropdown-item>
