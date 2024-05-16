@@ -63,7 +63,7 @@ const props = defineProps({
   },
   paginationLayout: {
     type: String,
-    default: 'total, sizes, prev, pager, next',
+    default: 'total, sizes, prev, pager, next, jumper',
   },
   hideItems: {
     type: [Array, Object],
@@ -82,15 +82,13 @@ const headerRef = ref(null)
 const elTableRef = ref(null)
 const handleCurrentChange = (pageNum) => {
   elTableRef.value.setScrollTop(0)
-  setTimeout(() => {
-    // 让CurrentChange比sizeChange后执行
-    emit('update:paginationInfo', { ...props.paginationInfo, pageNum })
-  }, 0)
+  emit('update:paginationInfo', { ...props.paginationInfo, pageNum })
 }
 const sortChange = (order) => {
   elTableRef.value.setScrollTop(0)
   emit('sortChange', order)
 }
+
 const handleSizeChange = (pageSize) => {
   elTableRef.value.setScrollTop(0)
   emit('update:paginationInfo', {
@@ -240,8 +238,8 @@ defineExpose({
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="paginationInfo.pageNum"
-          :page-sizes="[20, 50, 100, 200, 300]"
           :page-size="paginationInfo.pageSize"
+          :page-sizes="[2, 5, 20, 50, 100, 200, 300]"
           :layout="paginationLayout"
           :total="listCount"
           background
