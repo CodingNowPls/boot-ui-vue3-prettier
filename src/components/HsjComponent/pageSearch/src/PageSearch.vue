@@ -65,6 +65,7 @@ onMounted(() => {
   }
   resizeObserver.observe(pageSearchRef.value)
 })
+
 defineExpose({
   formData,
   search,

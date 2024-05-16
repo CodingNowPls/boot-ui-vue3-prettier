@@ -7,7 +7,6 @@ import to from '@/utils/to'
 import DictCpn from './dictCpn.vue'
 import { interceptor } from '@/store/business/businessStore'
 import useStorage from '@/utils/hsj/useStorage'
-import { antiShake } from '@/utils/hsj/utils'
 const props = defineProps({
   // table的配置
   contentConfig: {
@@ -169,8 +168,8 @@ const finalSearchData = computed(() => {
 
 watch(
   () => paginationInfo.value,
-  () => {
-    antiShakeSend(finalSearchData.value)
+  (newValue) => {
+    send(finalSearchData.value)
   }
 )
 const send = async (searchInfo) => {
@@ -195,7 +194,6 @@ const send = async (searchInfo) => {
   }
   isLoading.value = false
 }
-const antiShakeSend = antiShake(send, 66)
 // 表格数据
 const dataList = computed(() => {
   const list = store.pageListData(props.pageName)
