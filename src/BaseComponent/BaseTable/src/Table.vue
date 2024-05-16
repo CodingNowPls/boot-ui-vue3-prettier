@@ -239,7 +239,7 @@ defineExpose({
           @current-change="handleCurrentChange"
           :current-page="paginationInfo.pageNum"
           :page-size="paginationInfo.pageSize"
-          :page-sizes="[2, 5, 20, 50, 100, 200, 300]"
+          :page-sizes="[20, 50, 100, 200, 300]"
           :layout="paginationLayout"
           :total="listCount"
           background
