@@ -98,10 +98,8 @@ const submit = async () => {
         Cookies.remove('password')
         Cookies.remove('rememberMe')
       }
-      loginLoading.value = false
       router.push({ path: redirect.value || '/', query: otherQueryParams })
     } catch (error) {
-      console.log(error)
       if (captchaEnabled.value) {
         generateCode()
       }
@@ -114,8 +112,10 @@ const init = () => {
   generateCode()
   getCookie()
 }
-
 init()
+onUnmounted(() => {
+  loginLoading.value = false
+})
 </script>
 <template>
   <div class="login">

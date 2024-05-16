@@ -1,5 +1,5 @@
 <template>
-  <div class="lmw-from">
+  <div class="baseFrom">
     <el-form
       ref="elFormRef"
       :rules="rules"
@@ -114,7 +114,8 @@
                   :disabled="allDisabled"
                   :placeholder="'请选择' + item.label"
                   :options="getOptions(item)"
-                  v-model="data[`${item.field}`]"
+                  :model-value="data[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
                   v-bind="item.config"
                   v-on="item.eventFunction || {}"
                 >
@@ -227,7 +228,8 @@
                 <el-checkbox-group
                   :ref="(el) => setItemRef(el, item.field)"
                   :disabled="allDisabled"
-                  v-model="data[`${item.field}`]"
+                  :model-value="data[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
                   v-bind="item.config"
                   v-on="item.eventFunction || {}"
                   v-if="item.isGroup"
@@ -251,7 +253,8 @@
                 <template v-else>
                   <el-checkbox
                     v-for="option in getOptions(item)"
-                    v-model="data[`${item.field}`]"
+                    :model-value="data[`${item.field}`]"
+                    @update:modelValue="handleValueChange($event, item.field)"
                     :key="option.key ?? option.value"
                     :value="option.value"
                     :disabled="allDisabled"
@@ -266,7 +269,8 @@
                 <el-radio-group
                   :ref="(el) => setItemRef(el, item.field)"
                   :disabled="allDisabled"
-                  v-model="data[`${item.field}`]"
+                  :model-value="data[`${item.field}`]"
+                  @update:modelValue="handleValueChange($event, item.field)"
                   v-bind="item.config"
                   v-on="item.eventFunction || {}"
                   v-if="item.isGroup"
@@ -293,7 +297,8 @@
                     :ref="(el) => setItemRef(el, item.field)"
                     :disabled="allDisabled"
                     :value="option.value"
-                    v-model="data[`${item.field}`]"
+                    :model-value="data[`${item.field}`]"
+                    @update:modelValue="handleValueChange($event, item.field)"
                     v-bind="item.config"
                     v-on="item.eventFunction || {}"
                   >
@@ -415,27 +420,6 @@ const handleValueChange = (value, field) => {
   emits('update:data', { ...props.data, [field]: value })
 }
 const optionsClick = () => {}
-let commit = async (
-  success,
-  loading = { value: false },
-  dialogVisible = { value: false },
-  autoCloseDialog = true
-) => {
-  let isSuccess = elFormRef.value.validate(async (valid) => {
-    if (valid) {
-      loading.value = true
-      success && (await success())
-      if (autoCloseDialog) {
-        dialogVisible.value = false
-      }
-      loading.value = false
-      return true
-    } else {
-      return false
-    }
-  })
-  return isSuccess
-}
 let getFormValidate = async () => {
   return elFormRef.value.validate((valid) => {
     return valid
@@ -469,7 +453,6 @@ const hasSlot = (slotName) => {
 }
 
 defineExpose({
-  commit,
   getFormValidate,
   allRefs,
   elFormRef,
@@ -477,7 +460,7 @@ defineExpose({
 </script>
 
 <style scoped lang="scss">
-.lmw-from {
+.baseFrom {
   :deep(.el-form-item__label) {
     margin: 0px !important;
     font-weight: 500;
