@@ -356,6 +356,7 @@ const handleJobLog = (row) => {
         <Crontab
           ref="crontabRef"
           @fill="crontabFill"
+          @hide="cronDialog = false"
           :expression="expression"
         ></Crontab>
       </el-scrollbar>
