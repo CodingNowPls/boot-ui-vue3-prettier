@@ -68,6 +68,8 @@ const businessStore = defineStore('business', {
         }
         if (count) {
           this.listInfo[`${name}Count`] = count
+        } else {
+          this.listInfo[`${name}Count`] = 0
         }
         return pageData
       }
