@@ -340,6 +340,7 @@ const offListener = () => {
   emitter.off(`search${props.pageName}Info`)
   emitter.off(`change${props.pageName}Size`)
   window.removeEventListener('resize', mittResize)
+  isListen = false
 }
 
 const columnChecked = ref([])
