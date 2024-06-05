@@ -40,7 +40,7 @@ import usePermissionStore from '@/store/modules/permission'
 import { useTemplateRefsList } from '@vueuse/core'
 import { nextTick } from 'vue'
 import ContextMenu from '../components/ContextMenu/index.vue'
-
+import horizontalScroll from '@/utils/horizontalScroll'
 const visible = ref(false)
 const selectedTag = ref({})
 const affixTags = ref([])
@@ -287,6 +287,11 @@ function openMenu(tag, el) {
 function closeMenu() {
   visible.value = false
 }
+onMounted(() => {
+  initTags()
+  addTags()
+  new horizontalScroll(tabScrollbarRef.value)
+})
 </script>
 
 <style scoped lang="scss">
@@ -305,26 +310,23 @@ function closeMenu() {
   overflow-x: auto;
   overflow-y: hidden;
   margin-right: var(--ba-main-space);
-
-  &::-webkit-scrollbar {
-    height: 5px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: #eaeaea;
-    border-radius: var(--el-border-radius-base);
-    box-shadow: none;
-    -webkit-box-shadow: none;
-  }
-  &::-webkit-scrollbar-track {
-    background: v-bind(
-      'config.layout.layoutMode == "Default" ? "none":config.getColorVal("headerBarBackground")'
-    );
-  }
-  &:hover {
-    &::-webkit-scrollbar-thumb:hover {
-      background: #c8c9cc;
-    }
-  }
+  scrollbar-width: none;
+  // &::-webkit-scrollbar-thumb {
+  //   background: #eaeaea;
+  //   border-radius: var(--el-border-radius-base);
+  //   box-shadow: none;
+  //   -webkit-box-shadow: none;
+  // }
+  // &::-webkit-scrollbar-track {
+  //   background: v-bind(
+  //     'config.layout.layoutMode == "Default" ? "none":config.getColorVal("headerBarBackground")'
+  //   );
+  // }
+  // &:hover {
+  //   &::-webkit-scrollbar-thumb:hover {
+  //     background: #c8c9cc;
+  //   }
+  // }
 }
 .ba-nav-tab {
   white-space: nowrap;
