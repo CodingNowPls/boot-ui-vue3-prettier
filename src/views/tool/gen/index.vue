@@ -329,7 +329,7 @@ const copyTextSuccess = () => {
 }
 .previewDialog {
   :deep(.el-dialog__body) {
-    padding-top: 10px;
+    padding: 10px 20px 20px 20px;
   }
 }
 </style>
