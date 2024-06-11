@@ -42,38 +42,38 @@ pnpm build:prod
 <table>
     <tr>
       <td>
-        <img src="https://img2.imgtp.com/2024/03/22/WuyBfPn4.png" />
-        <img src="https://img2.imgtp.com/2024/03/22/OtKdkV6c.png" />
+        <img src="https://img.picui.cn/free/2024/06/11/6667a3bf2b546.jpeg" />
+        <img src="https://img.picui.cn/free/2024/06/11/6667a3bf9240c.jpeg" />
       </td>
     </tr>
     <tr>
         <td>
-          <img src="https://img2.imgtp.com/2024/03/22/a7QwqoKL.png" />
-          <img src="https://img2.imgtp.com/2024/03/22/K6bDPhL8.png" />
+          <img src="https://img.picui.cn/free/2024/06/11/6667a3bfc84e1.jpeg" />
+          <img src="https://img.picui.cn/free/2024/06/11/6667a3bfc8f13.jpeg" />
         </td>
     </tr>
     <tr>
       <td>
-        <img src="https://img2.imgtp.com/2024/03/22/lpwYqvAf.png"/>
-        <img src="https://img2.imgtp.com/2024/03/22/ki8TVwWq.png"/>
+        <img src="https://img.picui.cn/free/2024/06/11/6667a3bf73053.jpeg"/>
+        <img src="https://img.picui.cn/free/2024/06/11/6667a3c0dabfe.jpeg"/>
       </td>
     </tr>
     <tr>
       <td>
-        <img src="https://img2.imgtp.com/2024/03/22/ofI1D9kZ.png"/>
-        <img src="https://img2.imgtp.com/2024/03/22/scTbLLzE.png"/>
+        <img src="https://img.picui.cn/free/2024/06/11/6667a3c18adee.jpeg"/>
+        <img src="https://img.picui.cn/free/2024/06/11/6667a3c2277bd.jpeg"/>
       </td>
     </tr>
     <tr>
       <td>
-        <img src="https://img2.imgtp.com/2024/03/22/yaJQbes0.png"/>
-        <img src="https://img2.imgtp.com/2024/03/22/xGVP1eb1.png"/>
+        <img src="https://img.picui.cn/free/2024/06/11/6667a3c2ec07b.jpeg"/>
+        <img src="https://img.picui.cn/free/2024/06/11/6667a3c394c2d.jpeg"/>
       </td>
     </tr>
     <tr>
       <td>
-        <img src="https://img2.imgtp.com/2024/03/22/5IbeEKRI.png"/>
-        <img src="https://img2.imgtp.com/2024/03/22/WBQOJgKr.png"/>
+        <img src="https://img.picui.cn/free/2024/06/11/6667a3c43a49c.jpeg"/>
+        <img src="https://img.picui.cn/free/2024/06/11/6667a3c4ccbea.jpeg"/>
       </td>
     </tr>
 </table>
@@ -96,6 +96,10 @@ pnpm build:prod
 ├── App.vue             // 入口页面
 └── main.js             // 入口 加载组件 初始化等
 ```
+
+## 前端页面生成模板
+
+参考ruoyi-generator文件夹
 
 ## 组件使用说明
 
