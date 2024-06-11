@@ -190,6 +190,7 @@ function submitForm() {
         treeParentCode: info.value.treeParentCode,
         parentMenuId: info.value.parentMenuId,
       }
+      genTable.tplWebType = 'lmw'
       updateGenTable(genTable).then((res) => {
         proxy.$modal.msgSuccess(res.msg)
         if (res.code === 200) {
