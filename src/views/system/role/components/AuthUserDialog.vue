@@ -4,7 +4,7 @@ import getSearchConfig from '../config/authDialogSearch.js'
 import getContentConfig from '../config/authContent.js'
 import to from '@/utils/to'
 import { systemBaseUrl } from '@/api/config/base.js'
-
+import { authRole } from '@/views/pageName'
 const props = defineProps({
   modelValue: {
     type: Boolean,
@@ -16,7 +16,7 @@ const { proxy } = getCurrentInstance()
 const route = useRoute()
 const pageContentRef = ref(null)
 const pageSearchRef = ref(null)
-const pageName = 'authRole'
+const pageName = authRole
 const requestUrl = 'authUser/unallocatedList'
 const requestBaseUrl = systemBaseUrl
 const roleId = route.params.roleId

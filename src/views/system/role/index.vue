@@ -15,7 +15,7 @@ const router = useRouter()
 const { proxy } = getCurrentInstance()
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
 
-const pageName = ref('role')
+const pageName = 'role'
 const requestBaseUrl = systemBaseUrl
 const showPageSearch = ref(true)
 const pageSearchRef = ref(null)

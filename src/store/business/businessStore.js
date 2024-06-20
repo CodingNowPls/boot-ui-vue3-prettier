@@ -7,16 +7,10 @@ import {
 } from '@/api/business/main'
 import { deepFindValue } from './utils'
 import to from '@/utils/to'
+import { getUrl } from '@/views/pageName'
 
 export const interceptor = (pageName) => {
-  let url = `/${pageName}`
-  if (pageName === 'authUserRole') {
-    url = '/role'
-  }
-  if (pageName === 'authRole') {
-    url = '/role'
-  }
-  return url
+  return getUrl(pageName) || `/${pageName}`
 }
 
 const getConfig = (pageName, payload, requestUrl, requestBaseUrl) => {
