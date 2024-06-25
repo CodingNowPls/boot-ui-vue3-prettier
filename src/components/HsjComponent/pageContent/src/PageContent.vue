@@ -375,14 +375,28 @@ const onChangeShowColumn = (checked, prop, handleUser) => {
   }
   emit('onChangeShowColumn', filterArr.value)
 }
+const propsTableHideItems = computed(() => {
+  let hideItems = props.contentConfig.hideItems
+  if (isRef(hideItems)) {
+    hideItems = hideItems.value
+  }
+  return [...new Set([...props.tableHideItems, ...hideItems])]
+})
 watch(
   () => props.contentConfig.tableItem,
   () => {
     let hidenColumns = useStorage.get('hidenColumns')
-    if (hidenColumns) {
-      userHideItems = hidenColumns[props.pageName] ?? []
+    let tableHides = []
+    // 判断用户是否对该页面进行过设置
+    if (hidenColumns && hidenColumns[props.pageName]) {
+      userHideItems = hidenColumns[props.pageName]
+      tableHides = userHideItems
+      onChangeShowColumn(false, tableHides, false)
+    } else {
+      tableHides = [
+        ...new Set([...userHideItems, ...propsTableHideItems.value]),
+      ]
     }
-    const tableHides = [...new Set([...userHideItems, ...props.tableHideItems])]
     props.contentConfig.tableItem.forEach((item) => {
       if (item.prop) {
         if (tableHides.includes(item.prop)) {
