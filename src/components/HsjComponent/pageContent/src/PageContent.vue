@@ -345,7 +345,14 @@ const offListener = () => {
 
 const columnChecked = ref([])
 let filterArr = ref([])
-let userHideItems = []
+const propsTableHideItems = computed(() => {
+  let hideItems = props.contentConfig.hideItems || []
+  if (isRef(hideItems)) {
+    hideItems = hideItems.value
+  }
+  return [...new Set([...props.tableHideItems, ...hideItems])]
+})
+let userHideItems = [...propsTableHideItems.value]
 const setHideColumnStorage = () => {
   const hidenColumns = useStorage.get('hidenColumns')
   if (hidenColumns) {
@@ -375,13 +382,7 @@ const onChangeShowColumn = (checked, prop, handleUser) => {
   }
   emit('onChangeShowColumn', filterArr.value)
 }
-const propsTableHideItems = computed(() => {
-  let hideItems = props.contentConfig.hideItems
-  if (isRef(hideItems)) {
-    hideItems = hideItems.value
-  }
-  return [...new Set([...props.tableHideItems, ...hideItems])]
-})
+
 watch(
   () => props.contentConfig.tableItem,
   () => {
