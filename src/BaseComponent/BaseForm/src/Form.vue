@@ -81,6 +81,7 @@
                 <el-input-number
                   :model-value="data[`${item.field}`]"
                   @update:modelValue="handleValueChange($event, item.field)"
+                  :disabled="allDisabled"
                   v-bind="item.config"
                   v-on="item.eventFunction || {}"
                 />
