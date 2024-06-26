@@ -94,9 +94,6 @@ const handleClose = () => {
 const typeFormat = (row) => {
   return proxy.selectDictLabel(sys_oper_type.value, row.businessType)
 }
-const init = () => {}
-
-init()
 </script>
 <template>
   <div class="default-main page">

@@ -4,6 +4,7 @@ import getContentConfig from './config/contentConfig.js'
 import getComputedConfig from '@/hooks/getPageConfig'
 import { monitorBaseUrl } from '@/api/config/base.js'
 import { unlockLogininfor } from '@/api/monitor/logininfor'
+import { timeFormat } from '@/utils/hsj/timeFormat'
 
 import to from '@/utils/to'
 
@@ -85,9 +86,11 @@ const handleUnlock = async (row) => {
   }
 }
 
-const init = () => {}
-
-init()
+onMounted(() => {
+  const now = timeFormat(new Date(), 'YYYY-MM-DD')
+  pageSearchRef.value.setFormData('dateRange', [now, now])
+  search()
+})
 </script>
 <template>
   <div class="default-main page">
@@ -112,6 +115,7 @@ init()
       :showEdit="false"
       :showDelete="false"
       :idKey="idKey"
+      :autoSend="false"
       @onChangeShowColumn="onChangeShowColumn"
       @beforeSend="beforeSend"
       @triggerShowSearch="triggerShowSearch"

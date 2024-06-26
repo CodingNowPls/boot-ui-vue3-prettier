@@ -26,10 +26,6 @@ export default (otherConfig = {}) => {
           type: 'daterange',
           valueFormat: 'YYYY-MM-DD',
           format: 'YYYY/MM/DD',
-          defaultTime: [
-            new Date(2000, 1, 1, 0, 0, 0),
-            new Date(2000, 1, 1, 23, 59, 59),
-          ],
         },
         layout: {
           xl: 5,
