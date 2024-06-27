@@ -11,7 +11,6 @@ import useDialog from '@/hooks/useDialog'
 import getComputedConfig from '@/hooks/getPageConfig'
 import to from '@/utils/to'
 import { systemBaseUrl } from '@/api/config/base.js'
-
 const { proxy } = getCurrentInstance()
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
 const dictTypeList = ref([])
@@ -147,7 +146,16 @@ const handleClose = () => {
   const obj = { path: '/system/dict' }
   proxy.$tab.closeOpenPage(obj)
 }
-
+const reset = () => {
+  for (let key of Object.keys(pageSearchRef.value.formData)) {
+    if (key !== 'dictType') {
+      pageSearchRef.value.setFormData(key, void 0)
+    } else {
+      pageSearchRef.value.setFormData(key, dictInfo.value.dictType)
+    }
+  }
+  search()
+}
 init()
 </script>
 <template>
@@ -157,6 +165,7 @@ init()
       ref="pageSearchRef"
       :pageName="pageName"
       :searchConfig="searchConfigComputed"
+      :reset="reset"
     ></PageSearch>
     <PageContent
       ref="pageContentRef"

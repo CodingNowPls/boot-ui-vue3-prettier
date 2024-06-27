@@ -22,6 +22,9 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  reset: {
+    type: Function,
+  },
 })
 const pageSearchRef = ref(null)
 const baseFormRef = ref(null)
@@ -38,8 +41,12 @@ const search = () => {
   })
 }
 const reset = () => {
-  baseFormRef.value?.elFormRef?.resetFields()
-  search()
+  if (props.reset) {
+    props.reset()
+  } else {
+    baseFormRef.value?.elFormRef?.resetFields()
+    search()
+  }
 }
 
 const keyUpEnter = () => {

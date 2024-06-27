@@ -6,9 +6,12 @@ export default (otherConfig = {}) => {
         label: '字典名称',
         field: 'dictType',
         type: 'select',
-        options: [],
+        options: ref([]),
         setLabel: 'dictName',
         setValue: 'dictType',
+        config: {
+          clearable: false,
+        },
       },
       {
         label: '字典标签',
