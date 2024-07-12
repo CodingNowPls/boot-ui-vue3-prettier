@@ -1,6 +1,6 @@
 <script setup>
 import { computed } from 'vue'
-
+import TableColumn from './TableColumn.vue'
 const props = defineProps({
   border: {
     type: Boolean,
@@ -103,15 +103,6 @@ const hasSlot = (slots, arr) => {
   return arr.some((key) => slots.hasOwnProperty(key))
 }
 
-const isHiddenItem = (item) => {
-  let flag = false
-  if (isRef(props.hideItems)) {
-    if (props.hideItems.value.includes(item.prop)) {
-      flag = true
-    }
-  }
-  return flag
-}
 let maxHeight = computed(() => {
   let headerHeight = 0
   if (headerRef.value) {
@@ -201,25 +192,16 @@ defineExpose({
       ></el-table-column>
 
       <template v-for="item in tableItem" :key="item.prop">
-        <el-table-column
-          :align="align"
-          v-bind="item"
-          v-if="!isHiddenItem(item) && !item.hide"
-        >
-          <template #header v-if="item.useOwn">
-            <slot :name="`${item.slotName}Header`">
-              {{ item.label }}
-            </slot>
-          </template>
-          <template #default="scope">
+        <TableColumn :item="item" :align="align" :hideItems="hideItems">
+          <template
+            v-for="(value, slotName) in $slots"
+            #[slotName]="{ backData, currentItem }"
+          >
             <slot
-              :name="item.slotName"
-              :backData="scope.row"
-              :currentItem="item"
+              :name="slotName"
+              :backData="backData"
+              :currentItem="currentItem"
             >
-              <template v-if="item.prop">
-                {{ scope.row[item.prop] }}
-              </template>
             </slot>
           </template>
           <template v-for="slotName in item.slotNames" #[slotName]="slotData">
@@ -228,7 +210,7 @@ defineExpose({
               :backData="slotData"
             ></slot>
           </template>
-        </el-table-column>
+        </TableColumn>
       </template>
     </el-table>
 

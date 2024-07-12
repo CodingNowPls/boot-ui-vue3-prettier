@@ -257,13 +257,25 @@ const addClick = () => {
 }
 
 // 其他的插槽
-const otherSlot = props.contentConfig?.tableItem?.filter((item) => {
-  if (item.slotName === 'createAt') return false
-  if (item.slotName === 'updateTime') return false
-  if (item.slotName === 'todo') return false
-  if (item.slotName === 'otherColumn') return false
-  return true
-})
+const exceptSlot = ['createAt', 'updateTime', 'todo', 'otherColumn']
+const collectObjectsWithSlotName = (data, collectedObjects = []) => {
+  if (Array.isArray(data)) {
+    // 如果当前层级是数组
+    data.forEach((item) => {
+      collectObjectsWithSlotName(item, collectedObjects)
+    })
+  } else if (typeof data === 'object' && data !== null) {
+    // 如果当前层级是对象
+    if ('slotName' in data && !exceptSlot.includes(data.slotName)) {
+      collectedObjects.push(data) // 当前对象有 slotName 属性，将其加入结果数组
+    }
+    Object.values(data).forEach((value) => {
+      collectObjectsWithSlotName(value, collectedObjects)
+    })
+  }
+  return collectedObjects
+}
+let otherSlot = collectObjectsWithSlotName(props.contentConfig?.tableItem)
 
 const sortChange = (shortData) => {
   let isAsc = ''
@@ -651,10 +663,14 @@ defineExpose({
       <template
         v-for="item in otherSlot"
         :key="item.prop"
-        #[item.slotName]="{ backData }"
+        #[item.slotName]="{ backData, currentItem }"
       >
         <template v-if="item.slotName">
-          <slot :name="item.slotName" :backData="backData"></slot>
+          <slot
+            :name="item.slotName"
+            :backData="backData"
+            :currentItem="currentItem"
+          ></slot>
         </template>
         <template v-if="item.isDict">
           <DictCpn
@@ -666,9 +682,9 @@ defineExpose({
       <template
         v-for="item in otherSlot"
         :key="item.prop"
-        #[`${item.slotName}Header`]
+        #[`${item.slotName}Header`]="{ backData }"
       >
-        <slot :name="item.slotName + 'Header'"></slot>
+        <slot :name="item.slotName + 'Header'" :backData="backData"></slot>
       </template>
     </BaseTable>
   </div>

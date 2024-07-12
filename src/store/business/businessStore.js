@@ -60,11 +60,7 @@ const businessStore = defineStore('business', {
         if (list) {
           this.listInfo[getListName] = handleList(list)
         }
-        if (count) {
-          this.listInfo[`${name}Count`] = count
-        } else {
-          this.listInfo[`${name}Count`] = 0
-        }
+        this.listInfo[`${name}Count`] = count || 0
         return pageData
       }
       let [err, res] = await to(fn())
