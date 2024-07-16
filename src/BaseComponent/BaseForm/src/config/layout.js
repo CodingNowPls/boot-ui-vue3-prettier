@@ -1,8 +1,5 @@
 export default (item, colLayout) => {
   let layout = {}
-  if (colLayout) {
-    layout = { ...colLayout }
-  }
   if (item.type === 'datepicker') {
     if (item.config?.type && item.config.type.includes('range')) {
       layout = {
@@ -12,7 +9,7 @@ export default (item, colLayout) => {
         sm: 12,
         xs: 24,
       }
-      return item.layout ? item.layout : layout
+      return item.layout || colLayout || layout
     }
   }
   layout = {
@@ -22,5 +19,5 @@ export default (item, colLayout) => {
     sm: 12,
     xs: 24,
   }
-  return colLayout ? colLayout : layout
+  return item.layout || colLayout || layout
 }
