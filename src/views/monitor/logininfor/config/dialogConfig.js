@@ -22,7 +22,7 @@ export default (listeners = {}) => {
         label: '操作方法：',
         layout: {
           xl: 24,
-          gl: 24,
+          lg: 24,
           md: 24,
           sm: 24,
           xs: 24,
@@ -34,7 +34,7 @@ export default (listeners = {}) => {
         label: '请求参数：',
         layout: {
           xl: 24,
-          gl: 24,
+          lg: 24,
           md: 24,
           sm: 24,
           xs: 24,
@@ -46,7 +46,7 @@ export default (listeners = {}) => {
         label: '返回参数：',
         layout: {
           xl: 24,
-          gl: 24,
+          lg: 24,
           md: 24,
           sm: 24,
           xs: 24,
@@ -58,7 +58,7 @@ export default (listeners = {}) => {
         label: '操作时间：',
         layout: {
           xl: 24,
-          gl: 24,
+          lg: 24,
           md: 24,
           sm: 24,
           xs: 24,
@@ -70,7 +70,7 @@ export default (listeners = {}) => {
         label: '操作状态：',
         layout: {
           xl: 8,
-          gl: 8,
+          lg: 8,
           md: 8,
           sm: 24,
           xs: 24,
@@ -82,7 +82,7 @@ export default (listeners = {}) => {
         label: '消耗时间：',
         layout: {
           xl: 8,
-          gl: 8,
+          lg: 8,
           md: 8,
           sm: 24,
           xs: 24,
@@ -94,7 +94,7 @@ export default (listeners = {}) => {
         hideLabel: true,
         layout: {
           xl: 24,
-          gl: 24,
+          lg: 24,
           md: 24,
           sm: 24,
           xs: 24,
@@ -103,7 +103,7 @@ export default (listeners = {}) => {
     ],
     colLayout: {
       xl: 12,
-      gl: 12,
+      lg: 12,
       md: 12,
       sm: 12,
       xs: 24,

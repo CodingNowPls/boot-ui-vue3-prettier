@@ -20,12 +20,5 @@ export default (otherConfig = {}) => {
         options: [],
       },
     ],
-    colLayout: {
-      xl: 4,
-      gl: 4,
-      md: 6,
-      sm: 12,
-      xs: 24,
-    },
   }
 }

@@ -27,7 +27,7 @@ export default (otherConfig = {}) => {
     ],
     colLayout: {
       xl: 4,
-      gl: 4,
+      lg: 4,
       md: 6,
       sm: 12,
       xs: 24,

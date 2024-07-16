@@ -20,7 +20,7 @@
           </el-col>
           <el-col
             :key="item.field"
-            v-bind="item.layout ? item.layout : colLayout"
+            v-bind="getLayout(item, colLayout)"
             :class="`${item.field}Col`"
             v-if="!isHiddenItem(item)"
           >
@@ -343,6 +343,7 @@
 <script setup>
 import { useSlots, ref } from 'vue'
 import InputDropdown from './cpn/inputDropdown/inputDropdown.vue'
+import getLayout from './config/layout.js'
 const props = defineProps({
   // el-from的配置
   elFormConfig: {
@@ -374,20 +375,13 @@ const props = defineProps({
   // 布局适配
   colLayout: {
     type: Object,
-    default: () => ({
-      xl: 4, //1920
-      gl: 6, //1200
-      md: 8, //992
-      sm: 12, //768
-      xs: 24, //<768
-    }),
   },
   footerLayout: {
     type: Object,
     default: () => ({
       xl: 3,
-      gl: 4,
-      md: 4,
+      lg: 4,
+      md: 6,
       sm: 12,
       xs: 24,
     }),

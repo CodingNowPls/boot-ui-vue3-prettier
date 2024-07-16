@@ -8,7 +8,7 @@ export default (otherConfig = {}) => {
         type: 'input',
         layout: {
           xl: 4,
-          gl: 4,
+          lg: 4,
           md: 6,
           sm: 12,
           xs: 24,
@@ -21,12 +21,5 @@ export default (otherConfig = {}) => {
         options: [],
       },
     ],
-    colLayout: {
-      xl: 3,
-      gl: 4,
-      md: 6,
-      sm: 12,
-      xs: 24,
-    },
   }
 }

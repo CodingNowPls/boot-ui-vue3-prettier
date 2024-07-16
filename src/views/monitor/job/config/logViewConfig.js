@@ -29,7 +29,7 @@ export default (listeners = {}) => {
         label: '调用方法：',
         layout: {
           xl: 24,
-          gl: 24,
+          lg: 24,
           md: 24,
           sm: 24,
           xs: 24,
@@ -41,7 +41,7 @@ export default (listeners = {}) => {
         label: '日志信息：',
         layout: {
           xl: 24,
-          gl: 24,
+          lg: 24,
           md: 24,
           sm: 24,
           xs: 24,
@@ -53,7 +53,7 @@ export default (listeners = {}) => {
         label: '调用目标方法：',
         layout: {
           xl: 24,
-          gl: 24,
+          lg: 24,
           md: 24,
           sm: 24,
           xs: 24,
@@ -65,7 +65,7 @@ export default (listeners = {}) => {
         label: '执行状态：',
         layout: {
           xl: 24,
-          gl: 24,
+          lg: 24,
           md: 24,
           sm: 24,
           xs: 24,
@@ -79,7 +79,7 @@ export default (listeners = {}) => {
     ],
     colLayout: {
       xl: 12,
-      gl: 12,
+      lg: 12,
       md: 12,
       sm: 12,
       xs: 24,

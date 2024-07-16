@@ -77,7 +77,7 @@ export default (config = {}) => {
     ],
     colLayout: {
       xl: 24,
-      gl: 24,
+      lg: 24,
       md: 24,
       sm: 24,
       xs: 24,

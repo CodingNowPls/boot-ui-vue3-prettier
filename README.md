@@ -114,8 +114,8 @@ pnpm build:prod
 | formItems    | 需要渲染的form项，具体参考下方的formItem             | `Array`      | []                                                                                        |
 | v-model:data | 表单数据                                             | `Object`     | 必填                                                                                      |
 | itemStyle    | 每个formItem的样式                                   | `Object`     | { padding: '20px 20px 0px 0px' }                                                          |
-| colLayout    | 单个formItem布局配置，参考element-plus的Layout组件   | `Object`     | { xl: 4, //1920<br/>gl: 6, //1200<br/>md: 8, //992<br/>sm: 12, //768<br/>xs: 24, //<768 } |
-| footerLayout | footer插槽的布局配置，参数同上                       | `Object`     | { xl: 3, //1920<br/>gl: 4, //1200<br/>md: 4, //992<br/>sm: 12, //768<br/>xs: 24, //<768 } |
+| colLayout    | 单个formItem布局配置，参考element-plus的Layout组件   | `Object`     | { xl: 4, //1920<br/>lg: 6, //1200<br/>md: 8, //992<br/>sm: 12, //768<br/>xs: 24, //<768 } |
+| footerLayout | footer插槽的布局配置，参数同上                       | `Object`     | { xl: 3, //1920<br/>lg: 4, //1200<br/>md: 4, //992<br/>sm: 12, //768<br/>xs: 24, //<768 } |
 | rowConfig    | 所有formItem的布局配置，参考element-plus的Layout组件 | `Object`     | {}                                                                                        |
 | rules        | 表单正则校验，参考element-plus的表单校验             | `Object`     | {}                                                                                        |
 | hideItems    | 需要隐藏的列(需要用ref包裹)                          | `ref(Array)` | []                                                                                        |

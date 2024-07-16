@@ -6,13 +6,6 @@ export default (otherConfig = {}) => {
         label: '部门名称',
         field: 'deptName',
         type: 'input',
-        layout: {
-          xl: 4,
-          gl: 4,
-          md: 6,
-          sm: 12,
-          xs: 24,
-        },
       },
       {
         label: '状态',
@@ -21,12 +14,5 @@ export default (otherConfig = {}) => {
         options: [],
       },
     ],
-    colLayout: {
-      xl: 3,
-      gl: 4,
-      md: 6,
-      sm: 12,
-      xs: 24,
-    },
   }
 }

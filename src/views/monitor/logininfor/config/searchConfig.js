@@ -27,21 +27,7 @@ export default (otherConfig = {}) => {
           valueFormat: 'YYYY-MM-DD',
           format: 'YYYY/MM/DD',
         },
-        layout: {
-          xl: 5,
-          gl: 6,
-          md: 7,
-          sm: 12,
-          xs: 24,
-        },
       },
     ],
-    colLayout: {
-      xl: 4,
-      gl: 4,
-      md: 6,
-      sm: 12,
-      xs: 24,
-    },
   }
 }

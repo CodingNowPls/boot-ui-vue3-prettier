@@ -15,14 +15,14 @@ export default (otherConfig = {}) => {
     ],
     colLayout: {
       xl: 7,
-      gl: 7,
+      lg: 7,
       md: 7,
       sm: 12,
       xs: 24,
     },
     footerLayout: {
       xl: 6,
-      gl: 7,
+      lg: 7,
       md: 7,
       sm: 12,
       xs: 24,
