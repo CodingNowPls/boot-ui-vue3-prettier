@@ -129,11 +129,10 @@ const businessStore = defineStore('business', {
       }
       return res
     },
-    resetData(payload) {
-      const { pageName } = payload
+    resetData(pageName) {
       const getListName = `${pageName}List`
-      this[getListName] = []
-      this[`${pageName}Count`] = 0
+      this.listInfo[getListName] = []
+      this.listInfo[`${pageName}Count`] = 0
     },
   },
   getters: {
