@@ -135,7 +135,13 @@ const unFoldAll = (...arg) => {
     setUnFoldAll(props.dataList, expandAll)
   }
 }
-
+const paginationLayoutComputed = computed(() => {
+  if (!window.isSmallScreen) {
+    return props.paginationLayout
+  } else {
+    return 'total, sizes, prev, next'
+  }
+})
 defineExpose({
   elTableRef,
   unFoldAll,
@@ -222,7 +228,7 @@ defineExpose({
           :current-page="paginationInfo.pageNum"
           :page-size="paginationInfo.pageSize"
           :page-sizes="[20, 50, 100, 200, 300]"
-          :layout="paginationLayout"
+          :layout="paginationLayoutComputed"
           :total="listCount"
           background
         >

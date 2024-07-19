@@ -16,7 +16,6 @@ const { sys_normal_disable, sys_show_hide } = proxy.useDict(
 
 const pageName = 'menu'
 const requestBaseUrl = systemBaseUrl
-const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
 // 控制页面排序字段
@@ -145,10 +144,7 @@ const permission = ref({
   edit: 'system:menu:edit',
   del: 'system:menu:remove',
 })
-// 控制搜索的显示隐藏
-const triggerShowSearch = () => {
-  showPageSearch.value = !showPageSearch.value
-}
+
 // 控制table每一列的显示隐藏
 const onChangeShowColumn = (filterArr) => {
   tableHideItems.value = filterArr
@@ -183,7 +179,6 @@ init()
 <template>
   <div class="default-main page">
     <PageSearch
-      v-show="showPageSearch"
       ref="pageSearchRef"
       :pageName="pageName"
       :searchConfig="searchConfigComputed"
@@ -193,7 +188,6 @@ init()
       :pageName="pageName"
       :contentConfig="contentConfigComputed"
       :descConfig="descConfig"
-      :showPageSearch="showPageSearch"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"
@@ -204,7 +198,6 @@ init()
       @addClick="addClick"
       @editBtnClick="editBtnClick"
       @onChangeShowColumn="onChangeShowColumn"
-      @triggerShowSearch="triggerShowSearch"
       @editMoreClick="editMoreClick"
     >
       <template #handleLeft>

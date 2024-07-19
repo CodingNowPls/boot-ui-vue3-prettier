@@ -13,7 +13,6 @@ const { proxy } = getCurrentInstance()
 const pageName = 'gen'
 const idKey = 'tableId'
 const requestBaseUrl = tool
-const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
 const descConfig = ref({})
@@ -59,10 +58,6 @@ const permission = ref({
 
 const deleteRow = (row) => {
   pageContentRef.value.deleteRow(row)
-}
-
-const triggerShowSearch = () => {
-  showPageSearch.value = !showPageSearch.value
 }
 
 const onChangeShowColumn = (filterArr) => {
@@ -132,7 +127,6 @@ const copyTextSuccess = () => {
 <template>
   <div class="default-main page">
     <PageSearch
-      v-show="showPageSearch"
       ref="pageSearchRef"
       :pageName="pageName"
       :searchConfig="searchConfigComputed"
@@ -143,7 +137,6 @@ const copyTextSuccess = () => {
       :idKey="idKey"
       :contentConfig="contentConfigComputed"
       :descConfig="descConfig"
-      :showPageSearch="showPageSearch"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"
@@ -152,7 +145,6 @@ const copyTextSuccess = () => {
       :headerButtons="headerButtons"
       @beforeSend="beforeSend"
       @onChangeShowColumn="onChangeShowColumn"
-      @triggerShowSearch="triggerShowSearch"
     >
       <template #handleLeft>
         <el-button

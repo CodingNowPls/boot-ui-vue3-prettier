@@ -10,7 +10,6 @@ const { proxy } = getCurrentInstance()
 const { sys_yes_no } = proxy.useDict('sys_yes_no')
 const pageName = 'config'
 const requestBaseUrl = systemBaseUrl
-const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
 const descConfig = ref({})
@@ -87,10 +86,6 @@ const permission = ref({
   del: 'system:config:remove',
 })
 
-const triggerShowSearch = () => {
-  showPageSearch.value = !showPageSearch.value
-}
-
 const onChangeShowColumn = (filterArr) => {
   tableHideItems.value = filterArr
 }
@@ -113,7 +108,6 @@ init()
 <template>
   <div class="default-main page">
     <PageSearch
-      v-show="showPageSearch"
       ref="pageSearchRef"
       :pageName="pageName"
       :searchConfig="searchConfigComputed"
@@ -123,7 +117,6 @@ init()
       :pageName="pageName"
       :contentConfig="contentConfigComputed"
       :descConfig="descConfig"
-      :showPageSearch="showPageSearch"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"
@@ -133,7 +126,6 @@ init()
       @addClick="addClick"
       @editBtnClick="editBtnClick"
       @onChangeShowColumn="onChangeShowColumn"
-      @triggerShowSearch="triggerShowSearch"
       @editMoreClick="editMoreClick"
     >
       <template #handleLeft>

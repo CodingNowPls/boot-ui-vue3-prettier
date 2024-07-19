@@ -18,7 +18,6 @@ const requestBaseUrl = systemBaseUrl
 const otherRequestOption = ref({
   roleId: roleId,
 })
-const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
 const descConfig = ref({})
@@ -48,10 +47,6 @@ const search = () => {
 }
 
 const headerButtons = ['refresh', 'columnDisplay', 'comSearch']
-
-const triggerShowSearch = () => {
-  showPageSearch.value = !showPageSearch.value
-}
 
 const onChangeShowColumn = (filterArr) => {
   tableHideItems.value = filterArr
@@ -104,7 +99,6 @@ init()
 <template>
   <div class="default-main page">
     <PageSearch
-      v-show="showPageSearch"
       ref="pageSearchRef"
       :pageName="pageName"
       :otherRequestOption="otherRequestOption"
@@ -115,7 +109,6 @@ init()
       :pageName="pageName"
       :contentConfig="contentConfigComputed"
       :descConfig="descConfig"
-      :showPageSearch="showPageSearch"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"
@@ -126,7 +119,6 @@ init()
       :requestBaseUrl="requestBaseUrl"
       :otherRequestOption="otherRequestOption"
       @onChangeShowColumn="onChangeShowColumn"
-      @triggerShowSearch="triggerShowSearch"
     >
       <template #handleLeft>
         <el-button

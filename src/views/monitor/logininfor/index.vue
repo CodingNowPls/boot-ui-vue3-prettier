@@ -13,7 +13,6 @@ const { sys_common_status } = proxy.useDict('sys_common_status')
 const pageName = 'logininfor'
 const requestBaseUrl = monitorBaseUrl
 const idKey = 'infoId'
-const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
 const descConfig = ref({})
@@ -59,10 +58,6 @@ const permission = ref({
   del: 'monitor:logininfor:remove',
 })
 
-const triggerShowSearch = () => {
-  showPageSearch.value = !showPageSearch.value
-}
-
 const onChangeShowColumn = (filterArr) => {
   tableHideItems.value = filterArr
 }
@@ -95,7 +90,6 @@ onMounted(() => {
 <template>
   <div class="default-main page">
     <PageSearch
-      v-show="showPageSearch"
       ref="pageSearchRef"
       :pageName="pageName"
       :searchConfig="searchConfigComputed"
@@ -105,7 +99,6 @@ onMounted(() => {
       :pageName="pageName"
       :contentConfig="contentConfigComputed"
       :descConfig="descConfig"
-      :showPageSearch="showPageSearch"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"
@@ -118,7 +111,6 @@ onMounted(() => {
       :autoSend="false"
       @onChangeShowColumn="onChangeShowColumn"
       @beforeSend="beforeSend"
-      @triggerShowSearch="triggerShowSearch"
     >
       <template #handleLeft>
         <el-button

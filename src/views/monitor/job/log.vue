@@ -18,7 +18,6 @@ const requestBaseUrl = monitorBaseUrl
 const otherRequestOption = ref({
   jobId: jobId ?? 0,
 })
-const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
 const descConfig = ref({})
@@ -56,10 +55,6 @@ const beforeSend = (queryInfo) => {
 }
 const headerButtons = ['refresh', 'delete', 'columnDisplay', 'comSearch']
 
-const triggerShowSearch = () => {
-  showPageSearch.value = !showPageSearch.value
-}
-
 const onChangeShowColumn = (filterArr) => {
   tableHideItems.value = filterArr
 }
@@ -90,7 +85,6 @@ const handleExport = () => {
 <template>
   <div class="default-main page">
     <PageSearch
-      v-show="showPageSearch"
       ref="pageSearchRef"
       :pageName="pageName"
       :otherRequestOption="otherRequestOption"
@@ -101,7 +95,6 @@ const handleExport = () => {
       :pageName="pageName"
       :contentConfig="contentConfigComputed"
       :descConfig="descConfig"
-      :showPageSearch="showPageSearch"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"
@@ -112,7 +105,6 @@ const handleExport = () => {
       :otherRequestOption="otherRequestOption"
       @beforeSend="beforeSend"
       @onChangeShowColumn="onChangeShowColumn"
-      @triggerShowSearch="triggerShowSearch"
     >
       <template #handleLeft>
         <el-button

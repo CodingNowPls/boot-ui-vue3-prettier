@@ -23,7 +23,6 @@ const { sys_normal_disable, sys_user_sex } = proxy.useDict(
 )
 const pageName = 'user'
 const requestBaseUrl = systemBaseUrl
-const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
 const roleOptions = ref([])
@@ -135,11 +134,6 @@ const permission = ref({
   edit: 'system:user:edit',
   del: 'system:user:remove',
 })
-
-const triggerShowSearch = () => {
-  showPageSearch.value = !showPageSearch.value
-}
-
 const onChangeShowColumn = (filterArr) => {
   tableHideItems.value = filterArr
 }
@@ -239,13 +233,11 @@ const init = () => {
   getDeptTree()
 }
 
-const formInline = ref([])
 init()
 </script>
 <template>
   <div class="default-main page">
     <PageSearch
-      v-show="showPageSearch"
       ref="pageSearchRef"
       :pageName="pageName"
       :searchConfig="searchConfigComputed"
@@ -255,7 +247,6 @@ init()
       :pageName="pageName"
       :contentConfig="contentConfigComputed"
       :descConfig="descConfig"
-      :showPageSearch="showPageSearch"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"
@@ -268,7 +259,6 @@ init()
       @addClick="addClick"
       @editBtnClick="editBtnClick"
       @onChangeShowColumn="onChangeShowColumn"
-      @triggerShowSearch="triggerShowSearch"
       @editMoreClick="editMoreClick"
     >
       <template #handleLeft>

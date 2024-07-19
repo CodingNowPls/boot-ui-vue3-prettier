@@ -18,7 +18,6 @@ const { sys_job_group, sys_job_status } = proxy.useDict(
 const router = useRouter()
 const pageName = ref('job')
 const requestBaseUrl = monitorBaseUrl
-const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
 const descConfig = ref({})
@@ -103,9 +102,6 @@ const editClick = (row) => {
 const deleteRow = (row) => {
   pageContentRef.value.deleteRow(row)
 }
-const triggerShowSearch = () => {
-  showPageSearch.value = !showPageSearch.value
-}
 
 const onChangeShowColumn = (filterArr) => {
   tableHideItems.value = filterArr
@@ -172,7 +168,6 @@ const handleJobLog = (row) => {
 <template>
   <div class="default-main page">
     <PageSearch
-      v-show="showPageSearch"
       ref="pageSearchRef"
       :pageName="pageName"
       :searchConfig="searchConfigComputed"
@@ -182,7 +177,6 @@ const handleJobLog = (row) => {
       :pageName="pageName"
       :contentConfig="contentConfigComputed"
       :descConfig="descConfig"
-      :showPageSearch="showPageSearch"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"
@@ -192,7 +186,6 @@ const handleJobLog = (row) => {
       @addClick="addClick"
       @editBtnClick="editBtnClick"
       @onChangeShowColumn="onChangeShowColumn"
-      @triggerShowSearch="triggerShowSearch"
       @editMoreClick="editMoreClick"
     >
       <template #handleLeft>

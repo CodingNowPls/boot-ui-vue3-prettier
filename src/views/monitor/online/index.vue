@@ -7,11 +7,9 @@ import { forceLogout } from '@/api/monitor/online.js'
 import to from '@/utils/to'
 
 const { proxy } = getCurrentInstance()
-// const {} = proxy.useDict()
 
 const pageName = ref('online')
 const requestBaseUrl = monitorBaseUrl
-const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
 const descConfig = ref({})
@@ -40,10 +38,6 @@ const search = () => {
 
 const beforeSend = (queryInfo) => {}
 
-const triggerShowSearch = () => {
-  showPageSearch.value = !showPageSearch.value
-}
-
 const onChangeShowColumn = (filterArr) => {
   tableHideItems.value = filterArr
 }
@@ -62,7 +56,6 @@ init()
 <template>
   <div class="default-main page">
     <PageSearch
-      v-show="showPageSearch"
       ref="pageSearchRef"
       :pageName="pageName"
       :searchConfig="searchConfigComputed"
@@ -72,7 +65,6 @@ init()
       :pageName="pageName"
       :contentConfig="contentConfigComputed"
       :descConfig="descConfig"
-      :showPageSearch="showPageSearch"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"
@@ -80,7 +72,6 @@ init()
       :headerButtons="headerButtons"
       @beforeSend="beforeSend"
       @onChangeShowColumn="onChangeShowColumn"
-      @triggerShowSearch="triggerShowSearch"
     >
       <template #loginTimeSlot="{ backData }">
         <span>{{ parseTime(backData.loginTime) }}</span>

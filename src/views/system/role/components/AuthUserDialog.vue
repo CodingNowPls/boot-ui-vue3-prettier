@@ -44,7 +44,6 @@ const descConfig = ref({})
 
 const headerButtons = []
 
-const showPageSearch = ref(true)
 const otherRequestOption = ref({
   roleId: roleId,
 })
@@ -70,10 +69,6 @@ const commitClick = async () => {
   loading.value = false
 }
 
-const daliogOpen = () => {
-  search()
-}
-
 const handleCancel = () => {
   handleValueChange(false)
 }
@@ -93,7 +88,6 @@ const handleValueChange = (value) => {
       destroy-on-close
     >
       <PageSearch
-        v-show="showPageSearch"
         ref="pageSearchRef"
         :pageName="pageName"
         :otherRequestOption="otherRequestOption"
@@ -104,7 +98,6 @@ const handleValueChange = (value) => {
         :pageName="pageName"
         :contentConfig="contentConfigComputed"
         :descConfig="descConfig"
-        :showPageSearch="showPageSearch"
         :headerButtons="headerButtons"
         :showEdit="false"
         :showDelete="false"

@@ -14,7 +14,7 @@ export const technologyStacks = [
 
   {
     title: '构建工具',
-    desp: 'vite4.x',
+    desp: 'vite5.x',
   },
 
   {

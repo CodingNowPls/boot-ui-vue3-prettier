@@ -1,6 +1,8 @@
 <script setup>
 import BaseForm from '@/BaseComponent/BaseForm'
 import emitter from '@/utils/hsj/bus'
+import businessStore from '@/store/business/businessStore'
+
 const props = defineProps({
   searchConfig: {
     type: Object,
@@ -26,6 +28,7 @@ const props = defineProps({
     type: Function,
   },
 })
+const store = businessStore()
 const pageSearchRef = ref(null)
 const baseFormRef = ref(null)
 const searchLoading = ref(false)
@@ -63,6 +66,9 @@ const resizeObserver = new ResizeObserver((entries) => {
     emitter.emit(`change${props.pageName}Size`, newHeight)
   }
 })
+const showPageSearch = computed(() => {
+  return store.pageSearchControl[`${props.pageName}SearchShow`]
+})
 onMounted(() => {
   for (const item of formItem) {
     formData.value[item.field] = item.default ?? void 0
@@ -80,7 +86,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="page-search" ref="pageSearchRef">
+  <div class="page-search" ref="pageSearchRef" v-show="showPageSearch">
     <div class="search">
       <BaseForm
         ref="baseFormRef"

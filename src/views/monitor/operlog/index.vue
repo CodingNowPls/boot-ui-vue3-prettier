@@ -13,7 +13,6 @@ const { sys_oper_type, sys_common_status } = proxy.useDict(
 const pageName = 'operlog'
 const requestBaseUrl = monitorBaseUrl
 const idKey = 'operId'
-const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
 const descConfig = ref({})
@@ -62,10 +61,6 @@ const permission = ref({
   del: 'monitor:operlog:remove',
 })
 
-const triggerShowSearch = () => {
-  showPageSearch.value = !showPageSearch.value
-}
-
 const onChangeShowColumn = (filterArr) => {
   tableHideItems.value = filterArr
 }
@@ -98,7 +93,6 @@ const typeFormat = (row) => {
 <template>
   <div class="default-main page">
     <PageSearch
-      v-show="showPageSearch"
       ref="pageSearchRef"
       :pageName="pageName"
       :searchConfig="searchConfigComputed"
@@ -108,7 +102,6 @@ const typeFormat = (row) => {
       :pageName="pageName"
       :contentConfig="contentConfigComputed"
       :descConfig="descConfig"
-      :showPageSearch="showPageSearch"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"
@@ -119,7 +112,6 @@ const typeFormat = (row) => {
       :showDelete="false"
       :idKey="idKey"
       @beforeSend="beforeSend"
-      @triggerShowSearch="triggerShowSearch"
       @onChangeShowColumn="onChangeShowColumn"
     >
       <template #handleLeft>

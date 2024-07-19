@@ -30,6 +30,7 @@ const businessStore = defineStore('business', {
   state: () => {
     return {
       listInfo: {},
+      pageSearchControl: {},
     }
   },
   actions: {
@@ -38,12 +39,15 @@ const businessStore = defineStore('business', {
       listConfig = { listKey: 'rows', countKey: 'total' },
       handleList = (list) => list
     ) {
+      const name = payload.pageName
+      let pageName = name
+      if (!Object.hasOwn(this.pageSearchControl, `${pageName}SearchShow`)) {
+        this.pageSearchControl[`${pageName}SearchShow`] = true
+      }
       const requestUrl = payload.requestUrl ?? 'list'
       const requestBaseUrl = payload.requestBaseUrl ?? '/'
       // 获取数据
       const fn = async () => {
-        const name = payload.pageName
-        let pageName = name
         const getListName = `${name}List`
         let { url, payloadInfo } = getConfig(
           pageName,
@@ -128,6 +132,10 @@ const businessStore = defineStore('business', {
         console.log(err)
       }
       return res
+    },
+    handlePageSearch(pageName) {
+      this.pageSearchControl[`${pageName}SearchShow`] =
+        !this.pageSearchControl[`${pageName}SearchShow`]
     },
     resetData(pageName) {
       const getListName = `${pageName}List`

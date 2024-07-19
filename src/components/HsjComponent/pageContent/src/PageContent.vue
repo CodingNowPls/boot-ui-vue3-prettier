@@ -93,9 +93,6 @@ const props = defineProps({
       'comSearch',
     ],
   },
-  showPageSearch: {
-    type: Boolean,
-  },
   tableSelected: {
     type: Array,
     default: () => [],
@@ -205,7 +202,9 @@ const dataList = computed(() => {
 const listCount = computed(() => {
   return store[`listCount`](props.pageName)
 })
-
+const showPageSearch = computed(() => {
+  return store.pageSearchControl[`${props.pageName}SearchShow`]
+})
 // 删除按钮
 const deleteRow = async (delData) => {
   isLoading.value = true
@@ -376,7 +375,6 @@ const setHideColumnStorage = () => {
     })
   }
 }
-
 const onChangeShowColumn = (checked, prop, handleUser) => {
   if (checked) {
     filterArr.value = filterArr.value.filter((item) => item !== prop)
@@ -394,7 +392,6 @@ const onChangeShowColumn = (checked, prop, handleUser) => {
   }
   emit('onChangeShowColumn', filterArr.value)
 }
-
 watch(
   () => props.contentConfig.tableItem,
   () => {
@@ -427,7 +424,7 @@ watch(
 )
 
 const triggerShowSearch = () => {
-  emit('triggerShowSearch')
+  store.handlePageSearch(props.pageName)
 }
 const editMoreClick = () => {
   emit('editMoreClick')

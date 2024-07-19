@@ -17,7 +17,6 @@ const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
 
 const pageName = 'role'
 const requestBaseUrl = systemBaseUrl
-const showPageSearch = ref(true)
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
 const descConfig = ref({})
@@ -120,10 +119,6 @@ const permission = ref({
   del: 'system:role:remove',
 })
 
-const triggerShowSearch = () => {
-  showPageSearch.value = !showPageSearch.value
-}
-
 const onChangeShowColumn = (filterArr) => {
   tableHideItems.value = filterArr
 }
@@ -215,7 +210,6 @@ const handleCheckedTreeNodeAll = (value) => {
 <template>
   <div class="default-main page">
     <PageSearch
-      v-show="showPageSearch"
       ref="pageSearchRef"
       :pageName="pageName"
       :searchConfig="searchConfigComputed"
@@ -225,7 +219,6 @@ const handleCheckedTreeNodeAll = (value) => {
       :pageName="pageName"
       :contentConfig="contentConfigComputed"
       :descConfig="descConfig"
-      :showPageSearch="showPageSearch"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"
@@ -237,7 +230,6 @@ const handleCheckedTreeNodeAll = (value) => {
       @addClick="addClick"
       @editBtnClick="editBtnClick"
       @onChangeShowColumn="onChangeShowColumn"
-      @triggerShowSearch="triggerShowSearch"
       @editMoreClick="editMoreClick"
     >
       <template #handleLeft>
