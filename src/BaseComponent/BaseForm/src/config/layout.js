@@ -1,6 +1,6 @@
 export default (item, colLayout) => {
   let layout = {}
-  if (item.type === 'datepicker') {
+  if (item.type.toLowerCase() === 'datepicker') {
     if (item.config?.type && item.config.type.includes('range')) {
       layout = {
         xl: 5,

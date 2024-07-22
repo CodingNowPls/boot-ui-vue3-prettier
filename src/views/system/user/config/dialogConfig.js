@@ -92,7 +92,7 @@ export default (listeners = {}) => {
 
       {
         field: 'password',
-        type: 'password',
+        type: 'input',
         label: '用户密码',
         config: {
           clearable: false,

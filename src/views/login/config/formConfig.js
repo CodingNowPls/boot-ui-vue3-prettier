@@ -39,11 +39,12 @@ export default (listeners = {}) => {
       },
       {
         field: 'password',
-        type: 'password',
+        type: 'input',
         config: {
           placeholder: '密码',
           size: 'large',
           clearable: false,
+          showPassword: true,
         },
         eventFunction: listeners.listener,
         slotNames: ['prefix'],
@@ -51,7 +52,7 @@ export default (listeners = {}) => {
       },
       {
         field: 'code',
-        type: 'custom',
+        type: 'Custom',
         isHidden: listeners.codeHide,
         layout: {
           xs: 24,

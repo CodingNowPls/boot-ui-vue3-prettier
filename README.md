@@ -147,7 +147,6 @@ pnpm build:prod
 | tree        | Tree                                                                        |
 | treeSelect  | TreeSelect                                                                  |
 | datepicker  | DatePicker                                                                  |
-| pickerColor | ColorPicker组件                                                             |
 | checkBox    | checkbox组件，具体使用可以查看BaseForm的源代码，很容易看懂                  |
 | radio       | radio，具体使用可以查看BaseForm的源代码，很容易看懂                         |
 | custom      | 自定义类型，如何type='custom'时会向外部暴露一个插槽，插槽名称为field+Custom |

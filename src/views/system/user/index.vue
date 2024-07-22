@@ -54,6 +54,9 @@ const dictMap = {
   postIds: postOptions,
   roleIds: roleOptions,
 }
+setTimeout(() => {
+  console.log(sys_normal_disable.value)
+}, 2000)
 const searchConfig = getSearchConfig()
 const searchConfigComputed = computed(() => {
   return getComputedConfig(searchConfig, dictMap)
