@@ -202,7 +202,7 @@ const slots = useSlots()
 let elFormRef = ref(null)
 const allRefs = ref({})
 const setItemRef = (el, type) => {
-  if (el) {
+  if (el && el.getRef) {
     allRefs.value[type] = el.getRef()
   }
 }
