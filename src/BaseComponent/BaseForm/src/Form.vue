@@ -253,8 +253,6 @@ defineExpose({
     margin: 0px !important;
     font-weight: 500;
     color: var(--el-text-color-primary);
-    display: flex;
-    align-items: center;
   }
   :deep(.el-cascader) {
     width: 100%;
