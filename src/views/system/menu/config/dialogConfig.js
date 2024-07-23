@@ -97,6 +97,7 @@ export default (listeners = {}) => {
         type: 'radio',
         label: '是否外链',
         isGroup: true,
+        tip: '选择是外链则路由地址需要以`http(s)://`开头',
         options: [
           {
             label: '是',
@@ -119,24 +120,28 @@ export default (listeners = {}) => {
         field: 'path',
         type: 'input',
         label: '路由地址',
+        tip: '访问的路由地址，如：`user`，如外网地址需内链访问则以`http(s)://`开头',
       },
 
       {
         field: 'component',
         type: 'input',
         label: '组件路径',
+        tip: '访问的组件路径，如：`system/user/index`，默认在`views`目录下',
       },
 
       {
         field: 'perms',
         type: 'input',
         label: '权限字符',
+        tip: "控制器中定义的权限字符，如：@PreAuthorize(`@ss.hasPermi('system:user:list')`)",
       },
 
       {
         field: 'query',
         type: 'input',
         label: '路由参数',
+        tip: '访问路由的默认传递参数，如：{"id": 1}',
       },
 
       {
@@ -160,6 +165,7 @@ export default (listeners = {}) => {
         optionConfig: {
           border: true,
         },
+        tip: '选择是则会被`keep-alive`缓存，需要匹配组件的`name`和地址保持一致',
       },
 
       {
@@ -168,6 +174,7 @@ export default (listeners = {}) => {
         label: '显示状态',
         isGroup: true,
         options: [],
+        tip: '选择隐藏则路由将不会出现在侧边栏，但仍然可以访问',
         config: {
           clearable: false,
         },
@@ -182,6 +189,7 @@ export default (listeners = {}) => {
         label: '菜单状态',
         isGroup: true,
         options: [],
+        tip: '选择停用则路由将不会出现在侧边栏，也不能被访问',
         config: {
           clearable: false,
         },

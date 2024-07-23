@@ -1,8 +1,23 @@
-<script setup></script>
+<script setup>
+const props = defineProps({
+  item: {
+    type: Object,
+    required: true,
+  },
+  allDisabled: {
+    type: Boolean,
+  },
+})
+const value = defineModel('value')
+</script>
 <template>
-  <div>
+  <div :class="`${item.field}Custom customItem`">
     <slot name="custom"> </slot>
   </div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.customItem {
+  width: 100%;
+}
+</style>
