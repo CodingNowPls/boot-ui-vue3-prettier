@@ -30,6 +30,7 @@ defineExpose({
     :placeholder="'请输入' + item.label"
     v-model="value"
     maxlength="150"
+    type="textarea"
     show-word-limit
     @keyup.enter="keyUpEnter($event, item)"
     v-bind="item.config"
