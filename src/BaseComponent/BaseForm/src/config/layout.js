@@ -14,8 +14,8 @@ export default (item, colLayout) => {
   }
   layout = {
     xl: 4,
-    lg: 5,
-    md: 7,
+    lg: 6,
+    md: 8,
     sm: 12,
     xs: 24,
   }
