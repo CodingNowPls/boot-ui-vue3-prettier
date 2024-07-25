@@ -36,16 +36,14 @@
             >
               <template #label="{ label }" v-if="!item.hideLabel">
                 <slot :name="item.field + 'CustomLabel'" :backData="item">
-                  <div class="formLabel">
-                    <el-tooltip
-                      v-if="item.tip"
-                      :content="item.tip"
-                      v-bind="item.tipConfig"
-                    >
-                      <el-icon><question-filled /></el-icon>
-                    </el-tooltip>
-                    <span>{{ label }}</span>
-                  </div>
+                  <el-tooltip
+                    v-if="item.tip"
+                    :content="item.tip"
+                    v-bind="item.tipConfig"
+                  >
+                    <el-icon><question-filled /></el-icon>
+                  </el-tooltip>
+                  <span>{{ label }}</span>
                 </slot>
               </template>
               <slot
@@ -275,10 +273,6 @@ defineExpose({
     top: 50%;
     transform: translateY(-50%);
   }
-}
-.formLabel {
-  display: flex;
-  align-items: center;
 }
 .footer {
   margin-bottom: 18px;
