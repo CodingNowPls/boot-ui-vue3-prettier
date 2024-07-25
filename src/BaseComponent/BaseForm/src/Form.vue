@@ -52,43 +52,46 @@
                 :name="`${item.field}Before`"
                 :backData="{ item, data: data[`${item.field}`] }"
               ></slot>
-              <component
-                :ref="(el) => setItemRef(el, item.field)"
-                :is="item.type"
-                :item="item"
-                :allDisabled="allDisabled"
-                :value="data[`${item.field}`]"
-                @update:value="handleValueChange($event, item.field)"
-                @keyUpEnter="keyUpEnter($event, item)"
-              >
-                <template
-                  v-for="slotName in item.slotNames"
-                  #[slotName]="slotData"
+              <template v-if="item.type">
+                <component
+                  :ref="(el) => setItemRef(el, item.field)"
+                  :is="item.type.toUpperCase()"
+                  :item="item"
+                  :allDisabled="allDisabled"
+                  :value="data[`${item.field}`]"
+                  @update:value="handleValueChange($event, item.field)"
+                  @keyUpEnter="keyUpEnter($event, item)"
                 >
-                  <slot
-                    :name="`${item.field}` + capitalizeFirstLetter(slotName)"
-                    :backData="{
-                      ...slotData,
-                      item,
-                      dataValue: data[`${item.field}`],
-                      formData: data,
-                    }"
+                  <template
+                    v-for="slotName in item.slotNames"
+                    #[slotName]="slotData"
                   >
-                  </slot>
-                </template>
-                <template v-if="item.type === 'custom'" #custom>
-                  <slot
-                    :name="`${item.field}Custom`"
-                    :backData="{
-                      item: item,
-                      formData: data,
-                      data: data[`${item.field}`],
-                    }"
-                  >
-                    {{ data[`${item.field}`] }}
-                  </slot>
-                </template>
-              </component>
+                    <slot
+                      :name="`${item.field}` + capitalizeFirstLetter(slotName)"
+                      :backData="{
+                        ...slotData,
+                        item,
+                        dataValue: data[`${item.field}`],
+                        formData: data,
+                      }"
+                    >
+                    </slot>
+                  </template>
+                  <template v-if="item.type.toUpperCase() === 'CUSTOM'" #custom>
+                    <slot
+                      :name="`${item.field}Custom`"
+                      :backData="{
+                        item: item,
+                        formData: data,
+                        data: data[`${item.field}`],
+                      }"
+                    >
+                      {{ data[`${item.field}`] }}
+                    </slot>
+                  </template>
+                </component>
+              </template>
+
               <slot
                 :name="`${item.field}After`"
                 :backData="{ item, data: data[`${item.field}`] }"
@@ -114,31 +117,31 @@
 import { useSlots, ref } from 'vue'
 import getLayout from './config/layout.js'
 import {
-  Input,
-  InputNumber,
-  Textarea,
-  Cascader,
-  Custom,
-  Select,
-  Tree,
-  TreeSelect,
-  Datepicker,
-  CheckBox,
-  Radio,
+  Input as INPUT,
+  InputNumber as INPUTNUMBER,
+  Textarea as TEXTAREA,
+  Cascader as CASCADER,
+  Custom as CUSTOM,
+  Select as SELECT,
+  Tree as TREE,
+  TreeSelect as TREESELECT,
+  Datepicker as DATEPICKER,
+  CheckBox as CHECKBOX,
+  Radio as RADIO,
 } from './cpn/index'
 defineOptions({
   components: {
-    Input,
-    InputNumber,
-    Textarea,
-    Cascader,
-    Custom,
-    Select,
-    Tree,
-    TreeSelect,
-    Datepicker,
-    CheckBox,
-    Radio,
+    INPUT,
+    INPUTNUMBER,
+    TEXTAREA,
+    CASCADER,
+    CUSTOM,
+    SELECT,
+    TREE,
+    TREESELECT,
+    DATEPICKER,
+    CHECKBOX,
+    RADIO,
   },
 })
 const props = defineProps({
