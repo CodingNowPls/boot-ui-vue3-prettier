@@ -129,7 +129,7 @@ const onChangeShowColumn = (filterArr) => {
 
 const getTreeSelect = async () => {
   treeSelectInfo.value = []
-  const [err, res] = await to(listDept())
+  const [res] = await to(listDept())
   treeSelectInfo.value = proxy.handleTree(res.data, 'deptId')
 }
 const handleAdd = (row) => {

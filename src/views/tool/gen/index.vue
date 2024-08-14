@@ -81,7 +81,7 @@ const preview = ref({
   activeName: 'domain.java',
 })
 const handlePreview = async (row) => {
-  const [err, res] = await to(previewTable(row.tableId))
+  const [res] = await to(previewTable(row.tableId))
   if (res) {
     preview.value.data = res.data
     preview.value.open = true
@@ -97,7 +97,7 @@ const handleEditTable = (row) => {
 }
 const handleSynchDb = async (row) => {
   const tableName = row.tableName
-  const [err, res] = to(synchDb(tableName))
+  const [res] = to(synchDb(tableName))
   if (res) {
     proxy.$modal.notifySuccess('同步成功')
   }

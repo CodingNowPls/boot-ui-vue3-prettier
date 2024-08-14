@@ -56,7 +56,7 @@ const deleteRow = async () => {
   let uIds = tableSelected.value.map((item) => {
     return item.userId
   })
-  const [err, res] = await to(
+  const [res] = await to(
     authUserCancelAll({ roleId: roleId, userIds: uIds.toString() })
   )
   if (res) {

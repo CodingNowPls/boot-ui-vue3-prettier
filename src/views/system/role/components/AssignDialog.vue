@@ -67,7 +67,7 @@ const commitClick = async () => {
     deptIds,
     roleId: props.infoInit.roleId,
   }
-  const [err, res] = await to(dataScope(data))
+  const [res] = await to(dataScope(data))
   if (res) {
     handleValueChange(false)
     emits('commitClick')
@@ -79,7 +79,7 @@ const handleCancel = () => {
 }
 const checkedKeys = ref([])
 const getDeptTree = async () => {
-  const [err, res] = await to(deptTreeSelect(props.roleId))
+  const [res] = await to(deptTreeSelect(props.roleId))
   if (res) {
     treeSelectInfo.value = res.depts
     checkedKeys.value = res.checkedKeys

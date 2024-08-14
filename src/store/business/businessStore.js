@@ -67,7 +67,7 @@ const businessStore = defineStore('business', {
         this.listInfo[`${name}Count`] = count || 0
         return pageData
       }
-      let [err, res] = await to(fn())
+      const [res, err] = await to(fn())
       if (err) {
         console.log(err)
       }
@@ -86,7 +86,7 @@ const businessStore = defineStore('business', {
         let res = await deletData(url)
         return res
       }
-      let [err, res] = await to(fn())
+      const [res, err] = await to(fn())
       if (err) {
         console.log(err)
       }
@@ -101,7 +101,7 @@ const businessStore = defineStore('business', {
         const res = await createData(url, { ...newData })
         return res
       }
-      let [err, res] = await to(fn())
+      const [res, err] = await to(fn())
       if (err) {
         console.log(err)
       }
@@ -127,7 +127,7 @@ const businessStore = defineStore('business', {
         let res = await editData(url, info)
         return res
       }
-      let [err, res] = await to(fn())
+      const [res, err] = await to(fn())
       if (err) {
         console.log(err)
       }

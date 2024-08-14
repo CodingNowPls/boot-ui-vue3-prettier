@@ -25,7 +25,7 @@ const menuExpand = ref(false)
 const menuNodeAll = ref(false)
 const menuCheckStrictly = ref(true)
 const getTreeSelect = async () => {
-  const [err, res] = await to(treeselect())
+  const [res] = await to(treeselect())
   treeSelectInfo.value = res.data ?? []
 }
 const dialogHideItems = ref([])
@@ -64,7 +64,7 @@ const addCallBack = () => {
 }
 const editCallBack = async (item, type) => {
   const roleId = item.roleId
-  const [err, res] = await to(getRoleMenuTreeselect(roleId))
+  const [res] = await to(getRoleMenuTreeselect(roleId))
   if (res) {
     let checkedKeys = res.checkedKeys
     setTreeData(checkedKeys)
@@ -136,7 +136,7 @@ const handleExport = () => {
 
 const handleStatusChange = async (row) => {
   let text = row.status === '0' ? '启用' : '停用'
-  const [err, res] = await to(changeRoleStatus(row.roleId, row.status))
+  const [res, err] = await to(changeRoleStatus(row.roleId, row.status))
   if (res) {
     ElNotification({
       type: 'success',
@@ -150,7 +150,7 @@ const handleStatusChange = async (row) => {
 
 /** 根据角色ID查询菜单树结构 */
 const getRoleMenuTreeselect = async (roleId) => {
-  const [err, res] = await to(roleMenuTreeselect(roleId))
+  const [res] = await to(roleMenuTreeselect(roleId))
   treeSelectInfo.value = res.menus
   return res
 }
@@ -183,7 +183,7 @@ const assignDialogVisible = ref(false)
 const currentRoleId = ref('')
 const handleDataScope = async (row) => {
   currentRoleId.value = row.roleId
-  const [err, res] = await to(getRole(currentRoleId.value))
+  const [res] = await to(getRole(currentRoleId.value))
   if (res) {
     assignInfoInit.value = res.data
     assignDialogVisible.value = true

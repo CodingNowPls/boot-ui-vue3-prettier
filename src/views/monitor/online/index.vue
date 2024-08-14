@@ -42,7 +42,7 @@ const onChangeShowColumn = (filterArr) => {
   tableHideItems.value = filterArr
 }
 const handleForceLogout = async (row) => {
-  const [err, res] = await to(forceLogout(row.tokenId))
+  const [res] = await to(forceLogout(row.tokenId))
   if (res) {
     search()
     proxy.$modal.notifySuccess('强退成功')

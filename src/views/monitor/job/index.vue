@@ -119,7 +119,7 @@ const handleExport = () => {
 }
 const handleStatusChange = async (row) => {
   let text = row.status === '0' ? '启用' : '停用'
-  const [err, res] = await to(changeJobStatus(row.jobId, row.status))
+  const [res, err] = await to(changeJobStatus(row.jobId, row.status))
   if (res) {
     proxy.$modal.notifySuccess(text + '成功')
   }
@@ -155,7 +155,7 @@ const jobGroupFormat = (row) => {
 }
 /* 立即执行一次 */
 const handleRun = async (row) => {
-  const [err, res] = await to(runJob(row.jobId, row.jobGroup))
+  const [res] = await to(runJob(row.jobId, row.jobGroup))
   if (res) {
     proxy.$modal.notifySuccess('执行成功')
   }

@@ -5,13 +5,13 @@
  */
 function to(promise, errorExt) {
   return promise
-    .then((data) => [null, data])
+    .then((data) => [data, null])
     .catch((err) => {
       if (errorExt) {
         const parsedError = Object.assign({}, err, errorExt)
-        return [parsedError, void 0]
+        return [void 0, parsedError]
       }
-      return [err, void 0]
+      return [void 0, err]
     })
 }
 

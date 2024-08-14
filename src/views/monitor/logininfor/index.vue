@@ -74,7 +74,7 @@ const handleExport = () => {
 }
 
 const handleUnlock = async (row) => {
-  const [err, res] = await to(unlockLogininfor(row.userName))
+  const [res] = await to(unlockLogininfor(row.userName))
   if (res) {
     proxy.$modal.notifySuccess('用户' + row.userName + '解锁成功')
     search()

@@ -152,7 +152,7 @@ const onChangeShowColumn = (filterArr) => {
 
 const getTreeSelect = async () => {
   treeSelectInfo.value = []
-  const [err, res] = await to(listMenu())
+  const [res] = await to(listMenu())
   if (res) {
     const menu = { menuId: 0, menuName: '主类目', children: [] }
     menu.children = proxy.handleTree(res.data, 'menuId')

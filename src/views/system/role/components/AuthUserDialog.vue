@@ -57,7 +57,7 @@ const commitClick = async () => {
   }
   loading.value = true
   const uIds = tableSelected.value.map((item) => item.userId)
-  const [err, res] = await to(
+  const [res] = await to(
     authUserSelectAll({ roleId: roleId, userIds: uIds.toString() })
   )
   if (res?.code === 200) {

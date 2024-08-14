@@ -149,7 +149,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="lmw-table">
+  <div class="baseTable">
     <div
       class="header"
       ref="headerRef"
@@ -273,7 +273,7 @@ defineExpose({
 .btns {
   display: flex;
 }
-.lmw-table {
+.baseTable {
   :deep(
       .el-table__body-wrapper .el-table-column--selection > .cell,
       .el-table__header-wrapper .el-table-column--selection > .cell

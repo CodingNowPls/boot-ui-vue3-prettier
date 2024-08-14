@@ -32,13 +32,13 @@ const deptOptions = ref([])
 const postOptions = ref([])
 /** 查询部门下拉树结构 */
 const getDeptTree = async () => {
-  const [err, res] = await to(deptTreeSelect())
+  const [res] = await to(deptTreeSelect())
   if (res) {
     deptOptions.value = res.data ?? []
   }
 }
 const getPostAndRole = async () => {
-  const [err, res] = await to(getUser())
+  const [res] = await to(getUser())
   if (res) {
     postOptions.value = res.posts ?? []
     roleOptions.value = res.roles ?? []
@@ -143,7 +143,7 @@ const onChangeShowColumn = (filterArr) => {
 
 const handleStatusChange = async (row) => {
   let text = row.status === '0' ? '启用' : '停用'
-  const [err, res] = await to(changeUserStatus(row.userId, row.status))
+  const [res, err] = await to(changeUserStatus(row.userId, row.status))
   if (res) {
     proxy.$modal.notifySuccess(text + '成功')
   }

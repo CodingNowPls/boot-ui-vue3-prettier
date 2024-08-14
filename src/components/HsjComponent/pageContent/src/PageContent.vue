@@ -188,7 +188,7 @@ const send = async (searchInfo) => {
     props.piniaConfig.handleList
   )
   if (isSuccess) {
-    emit('afterSend', store[`${props.pageName}List`])
+    emit('afterSend', store.pageListData(props.pageName))
   }
   isLoading.value = false
 }
@@ -240,7 +240,7 @@ const editClick = async (item, type) => {
   let id = item[props.idKey] ?? item[props.pageName + 'Id'] ?? item.id
   if (id || id === 0) {
     let url = `${props.requestBaseUrl}${interceptor(props.pageName)}/${id}`
-    let [err, res] = await to(getInfo(url))
+    let [res] = await to(getInfo(url))
     if (res?.data) {
       emit('editBtnClick', res.data, type, res)
     }

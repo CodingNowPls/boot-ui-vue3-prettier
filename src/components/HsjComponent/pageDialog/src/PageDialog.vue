@@ -113,7 +113,7 @@ const commitClick = async () => {
   const validate = await formRef.value?.getFormValidate()
   if (validate) {
     loading.value = true
-    const [err, res] = await to(success())
+    const [res] = await to(success())
     if (res) {
       props.search && props.search()
       if (props.isEditMore && tableSelected.value.length > 0) {

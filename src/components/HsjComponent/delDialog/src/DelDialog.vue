@@ -35,7 +35,7 @@ const confirm = async () => {
     return item[props.idKey]
   })
   const url = interceptor(props.pageName)
-  const [err, res] = to(await deletData(`${url}/${ids.toString()}`))
+  const [res] = to(await deletData(`${url}/${ids.toString()}`))
   delLoading.value = false
   if (res) {
     emit('delSuccess')

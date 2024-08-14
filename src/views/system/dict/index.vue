@@ -122,7 +122,7 @@ const handleDictType = (row) => {
 const refreshLoading = ref(false)
 const handleRefreshCache = async () => {
   refreshLoading.value = true
-  const [err, res] = await to(refreshCache())
+  const [res] = await to(refreshCache())
   if (res) {
     proxy.$modal.notifySuccess('刷新成功')
     useDictStore().cleanDict()

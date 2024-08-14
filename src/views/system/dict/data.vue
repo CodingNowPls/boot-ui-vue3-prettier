@@ -116,7 +116,7 @@ const handleExport = () => {
 /** 查询字典类型详细 */
 const dictInfo = ref({})
 const getTypes = async (dictId) => {
-  const [err, res] = await to(getType(dictId))
+  const [res] = await to(getType(dictId))
   if (res) {
     const data = res.data
     dictInfo.value = data
@@ -127,7 +127,7 @@ const getTypes = async (dictId) => {
   }
 }
 const getDictTypeList = async () => {
-  const [err, res] = await to(getDictOptionselect())
+  const [res] = await to(getDictOptionselect())
   if (res) {
     dictTypeList.value = res.data
   }
