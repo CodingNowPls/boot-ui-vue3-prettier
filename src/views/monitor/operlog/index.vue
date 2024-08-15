@@ -187,9 +187,6 @@ const typeFormat = (row) => {
   :deep(.del) {
     margin-left: 12px;
   }
-  :deep(.el-dialog__body) {
-    padding-bottom: 0;
-  }
   :deep(.errorMsgClass) {
     .el-form-item__content {
       margin-left: 20px !important;

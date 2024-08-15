@@ -127,7 +127,7 @@ const commitClick = async () => {
   }
 }
 const footerPaddingRight = computed(() => {
-  let pr = 35
+  let pr = 33
   if (props.dialogConfig?.itemStyle?.padding) {
     const padding = props.dialogConfig.itemStyle.padding
     const arr = padding.split(' ')
@@ -211,9 +211,6 @@ defineExpose({
     text-align: left;
     padding-bottom: 16px;
     border-bottom: 1px solid var(--ba-bg-color);
-  }
-  :deep(.el-dialog__body) {
-    padding: 20px 20px 0px 20px;
   }
   :deep(.el-dialog__footer) {
     text-align: right;

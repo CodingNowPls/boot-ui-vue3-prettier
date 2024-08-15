@@ -172,6 +172,24 @@ a {
 .ba-operate-form {
   padding-top: 30px;
 }
+.page {
+  .el-dialog__header {
+    font-weight: 500;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--ba-bg-color);
+  }
+  .el-dialog__body {
+    padding-top: 0;
+    padding: 18px 18px 62px 18px;
+  }
+  .el-dialog__footer {
+    padding: 10px var(--el-dialog-padding-primary);
+    box-shadow: var(--el-box-shadow);
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+  }
+}
 /* 新增/编辑表单-e */
 
 /* 全局遮罩-s */

@@ -147,8 +147,5 @@ const handleValueChange = (value) => {
   :deep(.el-pagination) {
     padding-top: 20px;
   }
-  :deep(.el-dialog__body) {
-    padding-bottom: 0px;
-  }
 }
 </style>

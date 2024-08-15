@@ -16,11 +16,11 @@ $bg-color: map.merge(
 );
 
 // --ba-border-color
-// f6f6f6
+// eaeef1
 $border-color: () !default;
 $border-color: map.merge(
   (
-    '': #eaeef1,
+    '': #f6f6f6,
   ),
   $border-color
 );
