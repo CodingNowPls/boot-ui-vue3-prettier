@@ -127,10 +127,10 @@ onUnmounted(() => {
         ref="formRef"
       >
         <template #usernamePrefix>
-          <el-icon size="16"><User /></el-icon>
+          <SvgIcon iconClass="user" size="16"></SvgIcon>
         </template>
         <template #passwordPrefix>
-          <el-icon size="16"><Lock /></el-icon>
+          <SvgIcon iconClass="unlock" size="16"></SvgIcon>
         </template>
         <template #codeCustom>
           <div class="flex code">
@@ -142,7 +142,7 @@ onUnmounted(() => {
               @keyup.enter="submit"
             >
               <template #prefix>
-                <SvgIcon iconClass="validCode" :size="16" />
+                <SvgIcon iconClass="shield-halved" :size="16" />
               </template>
             </el-input>
             <div class="img" @click="generateCode">
