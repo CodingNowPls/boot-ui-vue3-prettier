@@ -31,7 +31,47 @@
         </el-col>
       </el-row>
       <br />
-      <el-row>
+      <template #footer>
+        <el-row>
+          <el-col :lg="2" :md="2">
+            <el-upload
+              action="#"
+              :http-request="requestUpload"
+              :show-file-list="false"
+              :before-upload="beforeUpload"
+            >
+              <el-button type="warning">
+                <SvgIcon iconClass="upload"></SvgIcon>
+                <span class="ml6">选择</span>
+              </el-button>
+            </el-upload>
+          </el-col>
+          <el-col :lg="{ span: 1, offset: 2 }" :md="2">
+            <el-button @click="changeScale(1)">
+              <SvgIcon iconClass="plus"></SvgIcon>
+            </el-button>
+          </el-col>
+          <el-col :lg="{ span: 1, offset: 1 }" :md="2">
+            <el-button @click="changeScale(-1)">
+              <SvgIcon iconClass="minus"></SvgIcon>
+            </el-button>
+          </el-col>
+          <el-col :lg="{ span: 1, offset: 1 }" :md="2">
+            <el-button @click="rotateLeft()">
+              <SvgIcon iconClass="arrow-rotate-left"></SvgIcon>
+            </el-button>
+          </el-col>
+          <el-col :lg="{ span: 1, offset: 1 }" :md="2">
+            <el-button @click="rotateRight()">
+              <SvgIcon iconClass="arrow-rotate-right"></SvgIcon>
+            </el-button>
+          </el-col>
+          <el-col :lg="{ span: 2, offset: 6 }" :md="2">
+            <el-button type="primary" @click="uploadImg()">提 交</el-button>
+          </el-col>
+        </el-row>
+      </template>
+      <!-- <el-row>
         <el-col :lg="2" :md="2">
           <el-upload
             action="#"
@@ -60,7 +100,7 @@
         <el-col :lg="{ span: 2, offset: 6 }" :md="2">
           <el-button type="primary" @click="uploadImg()">提 交</el-button>
         </el-col>
-      </el-row>
+      </el-row> -->
     </el-dialog>
   </div>
 </template>
