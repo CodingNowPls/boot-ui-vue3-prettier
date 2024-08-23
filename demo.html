@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>切换主题</title>
+    <style>
+      /* 默认主题样式 */
+      html {
+        margin: 0;
+        padding: 0;
+        background-color: white;
+      }
+      html.dark {
+        background-color: #1b1b1b;
+      }
+      header {
+        text-align: left;
+        padding: 10px;
+      }
+      img {
+        width: auto;
+      }
+      /* Alternative custom animation style */
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        height: auto;
+        width: 100vw;
+        animation: none;
+        mix-blend-mode: normal;
+      }
+      html.dark::view-transition-old(root) {
+        z-index: 2147483646;
+      }
+      html.dark::view-transition-new(root) {
+        z-index: 1;
+      }
+      html::view-transition-old(root) {
+        z-index: 1;
+      }
+      html::view-transition-new(root) {
+        z-index: 2147483646;
+      }
+
+      button {
+        background-color: blue;
+        color: white;
+      }
+      button.dark {
+        background-color: white;
+        color: #000000;
+      }
+      .dark #light {
+        display: none;
+      }
+      .dark #dark {
+        display: block;
+      }
+      #dark {
+        display: none;
+      }
+      #light {
+        display: block;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <button id="themeButton">切换主题</button>
+    </header>
+    <script>
+      // 获取按钮元素
+      const themeButton = document.getElementById('themeButton')
+      let isDark = false
+      themeButton.textContent = isDark ? '白天' : '晚上'
+
+      function changeTheme() {
+        // 切换页面主题
+        isDark = !isDark
+        document.documentElement.classList.toggle('dark')
+        themeButton.textContent = isDark ? '白天' : '晚上'
+      }
+      function updateView(event) {
+        //在不支持的浏览器里不做动画
+        if (!document.startViewTransition) {
+          changeTheme()
+          return
+        }
+        // 开始一次视图过渡：
+        const transition = document.startViewTransition(() => changeTheme())
+        transition.ready.then(() => {
+          const x = event.clientX
+          const y = event.clientY
+          //计算按钮到最远点的距离用作裁剪圆形的半径
+          const endRadius = Math.hypot(
+            Math.max(x, innerWidth - x),
+            Math.max(y, innerHeight - y)
+          )
+          const clipPath = [
+            `circle(0px at ${x}px ${y}px)`,
+            `circle(${endRadius}px at ${x}px ${y}px)`,
+          ]
+          //开始动画
+          document.documentElement.animate(
+            {
+              clipPath: isDark ? [...clipPath].reverse() : clipPath,
+            },
+            {
+              duration: 400,
+              easing: 'ease-in',
+              pseudoElement: isDark
+                ? '::view-transition-old(root)'
+                : '::view-transition-new(root)',
+            }
+          )
+        })
+      }
+      // 添加点击事件监听器
+      themeButton.addEventListener('click', updateView)
+    </script>
+  </body>
+</html>

@@ -44,9 +44,11 @@ const onCommitColorState = (value, name) => {
   configStore.setLayout(name, colors)
 }
 const toggleDarkLight = (e) => {
-  const transition = document.startViewTransition(() => {
+  if (!document.startViewTransition) {
     toggleDark()
-  })
+    return
+  }
+  const transition = document.startViewTransition(() => toggleDark())
   transition.ready.then(() => {
     // 由于我们要从鼠标点击的位置开始做动画，所以我们需要先获取到鼠标的位置
     const { clientX, clientY } = e
@@ -60,16 +62,15 @@ const toggleDarkLight = (e) => {
       `circle(0% at ${clientX}px ${clientY}px)`,
       `circle(${radius}px at ${clientX}px ${clientY}px)`,
     ]
-    const isDark = configStore.isDark
+    const isDark = configStore.layout.isDark
     // 自定义动画
     document.documentElement.animate(
       {
-        // 如果要切换到暗色主题，我们在过渡的时候从半径 100% 的圆开始，到 0% 的圆结束
-        clipPath: isDark ? clipPath.reverse() : clipPath,
+        clipPath: isDark ? [...clipPath].reverse() : clipPath,
       },
       {
         duration: 500,
-        // 如果要切换到暗色主题，我们应该裁剪 view-transition-old(root) 的内容
+        easing: 'ease-in',
         pseudoElement: isDark
           ? '::view-transition-old(root)'
           : '::view-transition-new(root)',
