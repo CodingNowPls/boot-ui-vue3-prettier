@@ -1,11 +1,11 @@
 export const dependencies = [
   {
     name: 'vue',
-    description: '3.3.4',
+    description: '^3.4.21',
   },
   {
     name: 'vite',
-    description: '^4.4.5',
+    description: '^5.2.0',
   },
   {
     name: 'vue-router',
@@ -25,7 +25,7 @@ export const dependencies = [
   },
   {
     name: 'element-plus',
-    description: '^2.4.2',
+    description: '^2.8.1',
   },
   {
     name: 'lodash-es',
