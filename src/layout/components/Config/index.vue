@@ -338,7 +338,7 @@ const restoreDefault = () => {
               "
             >
               <template #reference>
-                <div class="ba-center">
+                <div class="flexCenter">
                   <el-button class="w80" type="info"> 恢复默认 </el-button>
                 </div>
               </template>
