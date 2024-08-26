@@ -135,7 +135,7 @@
 </template>
 
 <script setup>
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 import { useConfig } from '@/store/modules/layout.js'
 import screenfull from 'screenfull'
 import Avatar from '@/assets/images/avatar.png'
@@ -162,7 +162,7 @@ const fullUrl = () => {
 
 const onFullScreen = () => {
   if (!screenfull.isEnabled) {
-    ElMessage.warning('禁止全屏')
+    proxy.$modal.notifyWarning('禁止全屏')
     return false
   }
   screenfull.toggle()

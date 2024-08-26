@@ -45,7 +45,11 @@ export const beforeEach = (router) => {
               useUserStore()
                 .logOut()
                 .then(() => {
-                  ElMessage.error(err)
+                  ElMessage({
+                    message: err,
+                    type: 'error',
+                    plain: true,
+                  })
                   next({ path: '/' })
                 })
             })
