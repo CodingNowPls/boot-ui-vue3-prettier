@@ -42,20 +42,38 @@ pnpm build:prod
 <table>
     <tr>
       <td>
-        <img src="https://t.tutu.to/img/BNY15" />
-        <img src="https://t.tutu.to/img/BNxBB" />
+        <img src="./readMeImg/pic1.png" />
+        <img src="./readMeImg/pic2.png" />
       </td>
     </tr>
     <tr>
         <td>
-          <img src="https://t.tutu.to/img/BPdnG" />
-          <img src="https://t.tutu.to/img/BPvWn" />
+          <img src="./readMeImg/pic3.png" />
+          <img src="./readMeImg/pic4.png" />
         </td>
     </tr>
     <tr>
       <td>
-        <img src="https://t.tutu.to/img/BPBPH"/>
-        <img src="https://t.tutu.to/img/BPmjd"/>
+          <img src="./readMeImg/pic5.png" />
+          <img src="./readMeImg/pic6.png" />
+      </td>
+    </tr>
+        <tr>
+      <td>
+          <img src="./readMeImg/pic7.png" />
+          <img src="./readMeImg/pic8.png" />
+      </td>
+    </tr>
+        <tr>
+      <td>
+          <img src="./readMeImg/pic9.png" />
+          <img src="./readMeImg/pic10.png" />
+      </td>
+    </tr>
+        <tr>
+      <td>
+          <img src="./readMeImg/pic11.png" />
+          <img src="./readMeImg/pic12.png" />
       </td>
     </tr>
 </table>
