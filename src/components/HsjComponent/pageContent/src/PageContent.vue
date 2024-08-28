@@ -165,15 +165,11 @@ const finalSearchData = computed(() => {
 })
 
 watch(
-  () => paginationInfo.value.pageSize,
-  () => {
-    paginationInfo.value.pageNum = 1
-  }
-)
-
-watch(
   () => paginationInfo.value,
-  () => {
+  (newValue, oldValue) => {
+    if (newValue.pageSize !== oldValue.pageSize) {
+      paginationInfo.value.pageNum = 1
+    }
     antiShakeSend(finalSearchData.value)
   }
 )
