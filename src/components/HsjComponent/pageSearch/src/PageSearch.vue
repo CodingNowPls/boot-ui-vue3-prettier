@@ -35,20 +35,21 @@ const searchLoading = ref(false)
 const formItem = props.searchConfig?.formItems ?? []
 
 let formData = ref({})
-const search = () => {
+const search = (isReset = false) => {
   searchLoading.value = true
   emitter.emit(`search${props.pageName}Info`, {
     ...formData.value,
     ...props.otherRequestOption,
     searchLoading,
+    resetPaginationInfo: isReset,
   })
 }
-const reset = () => {
+const reset = (isReset) => {
   if (props.reset) {
     props.reset()
   } else {
     baseFormRef.value?.elFormRef?.resetFields()
-    search()
+    search(isReset)
   }
 }
 
@@ -99,11 +100,15 @@ defineExpose({
             <el-button
               type="primary"
               icon="Search"
-              @click="search"
+              @click="search(false)"
               :loading="searchLoading"
               >检索</el-button
             >
-            <el-button @click="reset" icon="Refresh" :loading="searchLoading">
+            <el-button
+              @click="reset(true)"
+              icon="Refresh"
+              :loading="searchLoading"
+            >
               重置
             </el-button>
           </div>

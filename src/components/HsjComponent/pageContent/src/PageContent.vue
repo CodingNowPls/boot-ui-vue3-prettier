@@ -165,11 +165,19 @@ const finalSearchData = computed(() => {
 })
 
 watch(
+  () => paginationInfo.value.pageSize,
+  () => {
+    paginationInfo.value.pageNum = 1
+  }
+)
+
+watch(
   () => paginationInfo.value,
   () => {
     antiShakeSend(finalSearchData.value)
   }
 )
+
 const send = async (searchInfo) => {
   isLoading.value = true
   emit('beforeSend', searchInfo)
@@ -317,6 +325,12 @@ const mittFunc = async (searchFormData) => {
   searchDatas.value = Object.assign({}, searchDatas.value, searchFormData)
   if (searchDatas.value.hasOwnProperty('searchLoading')) {
     delete searchDatas.value.searchLoading
+  }
+  if (searchDatas.value.hasOwnProperty('resetPaginationInfo')) {
+    delete searchDatas.value.resetPaginationInfo
+  }
+  if (searchFormData.resetPaginationInfo) {
+    paginationInfo.value.pageNum = 1
   }
   await send(finalSearchData.value)
   if (searchFormData.searchLoading) searchFormData.searchLoading.value = false
