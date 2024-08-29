@@ -6,11 +6,12 @@ import getContentConfig from './config/contentConfig.js'
 import getComputedConfig from '@/hooks/getPageConfig'
 import { tool } from '@/api/config/base.js'
 import to from '@/utils/to'
+import { gen } from '@/views/pageName.js'
 
 const router = useRouter()
 const { proxy } = getCurrentInstance()
 
-const pageName = 'gen'
+const pageName = gen
 const idKey = 'tableId'
 const requestBaseUrl = tool
 const pageSearchRef = ref(null)

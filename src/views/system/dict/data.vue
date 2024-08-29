@@ -11,11 +11,13 @@ import useDialog from '@/hooks/useDialog'
 import getComputedConfig from '@/hooks/getPageConfig'
 import to from '@/utils/to'
 import { systemBaseUrl } from '@/api/config/base.js'
+import { dictData } from '@/views/pageName.js'
+
 const { proxy } = getCurrentInstance()
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
 const dictTypeList = ref([])
 const route = useRoute()
-const pageName = ref('dict/data')
+const pageName = dictData
 const idKey = 'dictCode'
 const sendIdKey = 'dictCode'
 const requestBaseUrl = systemBaseUrl

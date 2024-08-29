@@ -4,6 +4,7 @@ import getContentConfig from './config/logContent.js'
 import getComputedConfig from '@/hooks/getPageConfig'
 import LogView from './cpns/LogView.vue'
 import { monitorBaseUrl } from '@/api/config/base.js'
+import { jobLog } from '@/views/pageName.js'
 
 const route = useRoute()
 const jobId = route.params.jobId
@@ -13,7 +14,7 @@ const { sys_common_status, sys_job_group } = proxy.useDict(
   'sys_job_group'
 )
 
-const pageName = 'jobLog'
+const pageName = jobLog
 const requestBaseUrl = monitorBaseUrl
 const otherRequestOption = ref({
   jobId: jobId ?? 0,

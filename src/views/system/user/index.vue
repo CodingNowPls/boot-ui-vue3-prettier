@@ -15,13 +15,14 @@ import {
 import to from '@/utils/to'
 import { getToken } from '@/utils/auth'
 import { systemBaseUrl } from '@/api/config/base.js'
+import { user } from '@/views/pageName.js'
 
 const { proxy } = getCurrentInstance()
 const { sys_normal_disable, sys_user_sex } = proxy.useDict(
   'sys_normal_disable',
   'sys_user_sex'
 )
-const pageName = 'user'
+const pageName = user
 const requestBaseUrl = systemBaseUrl
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)

@@ -1,14 +1,14 @@
-<script setup name="">
+<script setup name="Online">
 import getSearchConfig from './config/searchConfig'
 import getContentConfig from './config/contentConfig.js'
 import getComputedConfig from '@/hooks/getPageConfig'
 import { monitorBaseUrl } from '@/api/config/base.js'
 import { forceLogout } from '@/api/monitor/online.js'
 import to from '@/utils/to'
+import { online } from '@/views/pageName.js'
 
 const { proxy } = getCurrentInstance()
-
-const pageName = ref('online')
+const pageName = online
 const requestBaseUrl = monitorBaseUrl
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)

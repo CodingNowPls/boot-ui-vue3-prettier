@@ -7,10 +7,11 @@ import getComputedConfig from '@/hooks/getPageConfig.js'
 import to from '@/utils/to.js'
 import { listDept } from '@/api/system/dept'
 import { systemBaseUrl } from '@/api/config/base.js'
+import { dept } from '@/views/pageName.js'
 
 const { proxy } = getCurrentInstance()
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
-const pageName = 'dept'
+const pageName = dept
 const requestBaseUrl = systemBaseUrl
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)

@@ -9,6 +9,7 @@ import { monitorBaseUrl } from '@/api/config/base.js'
 import Crontab from '@/components/Crontab/index.vue'
 import to from '@/utils/to'
 import { runJob, changeJobStatus } from '@/api/monitor/job'
+import { job } from '@/views/pageName.js'
 
 const { proxy } = getCurrentInstance()
 const { sys_job_group, sys_job_status } = proxy.useDict(
@@ -16,7 +17,7 @@ const { sys_job_group, sys_job_status } = proxy.useDict(
   'sys_job_status'
 )
 const router = useRouter()
-const pageName = ref('job')
+const pageName = job
 const requestBaseUrl = monitorBaseUrl
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)

@@ -8,13 +8,14 @@ import to from '@/utils/to'
 import { listMenu } from '@/api/system/menu'
 import IconSelector from '@/components/IconSelector/IconSelector.vue'
 import { systemBaseUrl } from '@/api/config/base.js'
+import { menu } from '@/views/pageName.js'
+
 const { proxy } = getCurrentInstance()
 const { sys_normal_disable, sys_show_hide } = proxy.useDict(
   'sys_normal_disable',
   'sys_show_hide'
 )
-
-const pageName = 'menu'
+const pageName = menu
 const requestBaseUrl = systemBaseUrl
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)

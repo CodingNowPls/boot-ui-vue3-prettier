@@ -10,12 +10,13 @@ import { changeRoleStatus, getRole } from '@/api/system/role'
 import { roleMenuTreeselect, treeselect } from '@/api/system/menu'
 import AssignDialog from './components/AssignDialog.vue'
 import { systemBaseUrl } from '@/api/config/base.js'
+import { role } from '@/views/pageName.js'
 
 const router = useRouter()
 const { proxy } = getCurrentInstance()
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
 
-const pageName = 'role'
+const pageName = role
 const requestBaseUrl = systemBaseUrl
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)

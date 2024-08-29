@@ -1,4 +1,4 @@
-<script setup name="">
+<script setup name="Notice">
 import { nextTick } from 'vue'
 import getSearchConfig from './config/searchConfig'
 import getContentConfig from './config/contentConfig.js'
@@ -7,14 +7,14 @@ import useDialog from '@/hooks/useDialog'
 import getComputedConfig from '@/hooks/getPageConfig'
 import Editor from '@/components/Editor/index.vue'
 import { systemBaseUrl } from '@/api/config/base.js'
+import { notice } from '@/views/pageName.js'
 
 const { proxy } = getCurrentInstance()
 const { sys_notice_status, sys_notice_type } = proxy.useDict(
   'sys_notice_status',
   'sys_notice_type'
 )
-
-const pageName = 'notice'
+const pageName = notice
 const requestBaseUrl = systemBaseUrl
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)

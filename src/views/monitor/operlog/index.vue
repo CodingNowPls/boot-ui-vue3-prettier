@@ -4,13 +4,14 @@ import getContentConfig from './config/contentConfig.js'
 import getComputedConfig from '@/hooks/getPageConfig'
 import getDialogConfig from './config/dialogConfig'
 import { monitorBaseUrl } from '@/api/config/base.js'
+import { operlog } from '@/views/pageName.js'
 
 const { proxy } = getCurrentInstance()
 const { sys_oper_type, sys_common_status } = proxy.useDict(
   'sys_oper_type',
   'sys_common_status'
 )
-const pageName = 'operlog'
+const pageName = operlog
 const requestBaseUrl = monitorBaseUrl
 const idKey = 'operId'
 const pageSearchRef = ref(null)

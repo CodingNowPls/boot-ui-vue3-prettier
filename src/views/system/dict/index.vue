@@ -9,11 +9,12 @@ import { refreshCache } from '@/api/system/dict/type'
 import useDictStore from '@/store/modules/dict'
 import to from '@/utils/to'
 import { systemBaseUrl } from '@/api/config/base.js'
+import { dictType } from '@/views/pageName.js'
 
 const { proxy } = getCurrentInstance()
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
 const router = useRouter()
-const pageName = 'dict/type'
+const pageName = dictType
 const idKey = 'dictId'
 const sendIdKey = 'dictId'
 const requestBaseUrl = systemBaseUrl

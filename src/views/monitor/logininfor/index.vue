@@ -5,12 +5,13 @@ import getComputedConfig from '@/hooks/getPageConfig'
 import { monitorBaseUrl } from '@/api/config/base.js'
 import { unlockLogininfor } from '@/api/monitor/logininfor'
 import { timeFormat } from '@/utils/hsj/timeFormat'
+import { logininfor } from '@/views/pageName.js'
 
 import to from '@/utils/to'
 
 const { proxy } = getCurrentInstance()
 const { sys_common_status } = proxy.useDict('sys_common_status')
-const pageName = 'logininfor'
+const pageName = logininfor
 const requestBaseUrl = monitorBaseUrl
 const idKey = 'infoId'
 const pageSearchRef = ref(null)
