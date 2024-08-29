@@ -41,7 +41,7 @@ const search = (isReset = false) => {
     ...formData.value,
     ...props.otherRequestOption,
     searchLoading,
-    resetPaginationInfo: isReset,
+    resetPaginationInfo: typeof isReset === 'boolean' ? isReset : false,
   })
 }
 const reset = (isReset) => {

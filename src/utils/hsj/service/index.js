@@ -6,6 +6,8 @@ import { getToken } from '@/utils/auth'
 import { tansParams, blobValidate } from '@/utils/ruoyi.js'
 import session from '@/utils/hsj/useSession'
 import useUserStore from '@/store/modules/user'
+import { saveAs } from 'file-saver'
+
 const hideElNotification = [
   'changeStatus',
   'refreshCache',

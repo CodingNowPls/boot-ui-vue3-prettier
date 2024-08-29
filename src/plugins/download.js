@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { ElMessage } from 'element-plus'
+import { ElNotification } from 'element-plus'
 import { saveAs } from 'file-saver'
 import { getToken } from '@/utils/auth'
 import errorCode from '@/utils/errorCode'
@@ -74,6 +74,9 @@ export default {
     const resText = await data.text()
     const rspObj = JSON.parse(resText)
     const errMsg = errorCode[rspObj.code] || rspObj.msg || errorCode['default']
-    ElMessage.error(errMsg)
+    ElNotification({
+      message: errMsg,
+      type: 'error',
+    })
   },
 }
