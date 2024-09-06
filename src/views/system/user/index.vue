@@ -140,14 +140,15 @@ const onChangeShowColumn = (filterArr) => {
 }
 
 const handleStatusChange = async (row) => {
+  row.statusLoading = true
   let text = row.status === '0' ? '启用' : '停用'
   const [res, err] = await to(changeUserStatus(row.userId, row.status))
   if (res) {
     proxy.$modal.notifySuccess(text + '成功')
-  }
-  if (err) {
+  } else {
     row.status = row.status === '0' ? '1' : '0'
   }
+  row.statusLoading = false
 }
 
 const handleResetPwd = (row) => {
@@ -284,11 +285,14 @@ init()
       </template>
       <template #statusSlot="{ backData }">
         <el-switch
+          v-if="backData.userId !== 1"
           v-model="backData.status"
           active-value="0"
           inactive-value="1"
           @click="handleStatusChange(backData)"
+          :loading="backData.statusLoading"
         ></el-switch>
+        <span v-else></span>
       </template>
       <template #deptSlot="{ backData }">
         <span> {{ backData.dept?.deptName }}</span>

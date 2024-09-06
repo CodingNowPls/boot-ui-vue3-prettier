@@ -246,11 +246,13 @@ const handleCheckedTreeNodeAll = (value) => {
       </template>
       <template #statusSlot="{ backData }">
         <el-switch
+          v-if="backData.roleId !== 1"
           v-model="backData.status"
           active-value="0"
           inactive-value="1"
           @click="handleStatusChange(backData)"
         ></el-switch>
+        <span v-else></span>
       </template>
       <template #deptSlot="{ backData }">
         <span> {{ backData.dept?.deptName }}</span>
