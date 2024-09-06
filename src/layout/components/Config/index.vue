@@ -30,6 +30,9 @@ const setLayoutMode = (mode) => {
   configStore.setLayoutMode(mode)
 }
 const onCommitState = (value, name) => {
+  if (name === 'menuWidth') {
+    value = value > 350 ? 350 : value
+  }
   configStore.setLayout(name, value)
 }
 
@@ -69,8 +72,8 @@ const toggleDarkLight = (e) => {
         clipPath: isDark ? [...clipPath].reverse() : clipPath,
       },
       {
-        duration: 500,
-        easing: 'ease-in',
+        duration: 350,
+        easing: 'ease',
         pseudoElement: isDark
           ? '::view-transition-old(root)'
           : '::view-transition-new(root)',
@@ -262,7 +265,8 @@ const restoreDefault = () => {
                 <el-input
                   @input="onCommitState($event, 'menuWidth')"
                   type="number"
-                  :step="10"
+                  :step="5"
+                  :max="350"
                   :model-value="configStore.layout.menuWidth"
                 >
                   <template #append>px</template>

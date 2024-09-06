@@ -32,7 +32,7 @@ let layoutInitValue = {
   // 是否水平折叠收起菜单
   menuCollapse: false,
   // 是否只保持一个子菜单的展开(手风琴)
-  menuUniqueOpened: false,
+  menuUniqueOpened: true,
   // 显示菜单栏顶栏(LOGO)
   menuShowTopBar: true,
   /* 顶栏 */

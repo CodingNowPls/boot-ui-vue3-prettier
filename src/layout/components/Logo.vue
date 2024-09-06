@@ -85,6 +85,7 @@ const onMenuCollapse = () => {
   width: 28px;
 }
 .website-name {
+  flex: 1;
   display: block;
   width: 180px;
   padding-left: 4px;
