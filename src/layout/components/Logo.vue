@@ -87,7 +87,6 @@ const onMenuCollapse = () => {
 .website-name {
   flex: 1;
   display: block;
-  width: 180px;
   padding-left: 4px;
   font-size: var(--el-font-size-extra-large);
   font-weight: 600;
