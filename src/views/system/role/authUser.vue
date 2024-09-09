@@ -9,7 +9,7 @@ import { systemBaseUrl } from '@/api/config/base.js'
 import { authUserRole } from '@/views/pageName'
 const route = useRoute()
 const roleId = route.params.roleId
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
 
 const pageName = authUserRole

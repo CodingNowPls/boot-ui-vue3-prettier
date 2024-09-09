@@ -9,7 +9,7 @@ import to from '@/utils/to'
 import { gen } from '@/views/pageName.js'
 
 const router = useRouter()
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 
 const pageName = gen
 const idKey = 'tableId'

@@ -145,7 +145,7 @@ import { getToken, setToken } from '@/utils/auth'
 import useUsers from '@/store/modules/user'
 import Config from '../components/Config/index.vue'
 
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 const configStore = useConfig()
 const router = useRouter()
 const state = reactive({

@@ -8,11 +8,8 @@ import '@/assets/css/index.scss'
 
 import store from './store/index'
 import route from './router/index'
-import directive from './directive/index'
-
 // 注册指令
-import plugins from './plugins/index.js' // plugins
-import { download } from '@/utils/hsj/service/index'
+import directive from './directive/index'
 // svg图标
 import 'virtual:svg-icons-register'
 import elementIcons from '@/components/SvgIcon/svgicon'
@@ -26,33 +23,15 @@ import PageDialog from '@/components/HsjComponent/pageDialog/index'
 import PageSearch from '@/components/HsjComponent/pageSearch/index'
 import DictTag from '@/components/DictTag'
 
-import { useDict } from '@/utils/dict'
-import hasPermi from '@/utils/hasPermi'
-import {
-  parseTime,
-  resetForm,
-  addDateRange,
-  handleTree,
-  selectDictLabel,
-  selectDictLabels,
-} from '@/utils/ruoyi'
+import { parseTime } from '@/utils/ruoyi'
 
 const app = createApp(App)
 
 app.use(store)
 app.use(route)
-app.use(plugins)
 app.use(elementIcons)
 
-app.config.globalProperties.useDict = useDict
-app.config.globalProperties.download = download
 app.config.globalProperties.parseTime = parseTime
-app.config.globalProperties.resetForm = resetForm
-app.config.globalProperties.handleTree = handleTree
-app.config.globalProperties.addDateRange = addDateRange
-app.config.globalProperties.selectDictLabel = selectDictLabel
-app.config.globalProperties.selectDictLabels = selectDictLabels
-app.config.globalProperties.hasPermi = hasPermi
 
 app.component('SvgIcon', SvgIcon)
 app.component('BaseForm', BaseForm)
@@ -62,7 +41,5 @@ app.component('PageDialog', PageDialog)
 app.component('PageSearch', PageSearch)
 app.component('DictTag', DictTag)
 app.use(ElementPlus)
-
 directive(app)
-
 app.mount('#app')

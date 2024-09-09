@@ -12,7 +12,7 @@ const props = defineProps({
 })
 const emits = defineEmits(['update:modelValue', 'saveSuccess'])
 
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 const route = useRoute()
 const pageContentRef = ref(null)
 const pageSearchRef = ref(null)

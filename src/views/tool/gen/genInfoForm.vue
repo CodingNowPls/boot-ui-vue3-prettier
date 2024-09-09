@@ -15,7 +15,7 @@ const props = defineProps({
   },
 })
 const emits = defineEmits(['update:info'])
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 const menuOptions = ref([])
 const subColumns = ref([])
 const subTables = ref([])

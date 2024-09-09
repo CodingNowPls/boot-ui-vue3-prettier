@@ -9,7 +9,7 @@ import { logininfor } from '@/views/pageName.js'
 
 import to from '@/utils/to'
 
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 const { sys_common_status } = proxy.useDict('sys_common_status')
 const pageName = logininfor
 const requestBaseUrl = monitorBaseUrl

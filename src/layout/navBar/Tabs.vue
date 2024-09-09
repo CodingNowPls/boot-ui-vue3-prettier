@@ -46,7 +46,7 @@ const selectedTag = ref({})
 const affixTags = ref([])
 const tabScrollbarRef = ref(null)
 const config = useConfig()
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 const route = useRoute()
 const router = useRouter()
 const visitedViews = computed(() => useTagsViewStore().visitedViews)
@@ -199,7 +199,6 @@ function initTags() {
 function addTags() {
   const { name } = route
   if (name) {
-    console.log(route)
     useTagsViewStore().addView(route)
     if (route.meta.link) {
       useTagsViewStore().addIframeView(route)

@@ -7,7 +7,7 @@ import getComputedConfig from '@/hooks/getPageConfig'
 import { systemBaseUrl } from '@/api/config/base.js'
 import { config } from '@/views/pageName.js'
 
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 const { sys_yes_no } = proxy.useDict('sys_yes_no')
 const pageName = config
 const requestBaseUrl = systemBaseUrl

@@ -11,7 +11,7 @@ import to from '@/utils/to'
 import { systemBaseUrl } from '@/api/config/base.js'
 import { dictType } from '@/views/pageName.js'
 
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
 const router = useRouter()
 const pageName = dictType

@@ -31,7 +31,7 @@ const props = defineProps({
   },
 })
 
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 
 const rules = ref({
   nickName: [{ required: true, message: '用户昵称不能为空', trigger: 'blur' }],

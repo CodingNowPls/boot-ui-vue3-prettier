@@ -70,7 +70,7 @@ const total = ref(0)
 const visible = ref(false)
 const tables = ref([])
 const dbTableList = ref([])
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 
 const queryParams = reactive({
   pageNum: 1,

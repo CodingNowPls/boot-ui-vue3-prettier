@@ -9,7 +9,7 @@ import Editor from '@/components/Editor/index.vue'
 import { systemBaseUrl } from '@/api/config/base.js'
 import { notice } from '@/views/pageName.js'
 
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 const { sys_notice_status, sys_notice_type } = proxy.useDict(
   'sys_notice_status',
   'sys_notice_type'

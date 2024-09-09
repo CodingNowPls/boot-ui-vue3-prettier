@@ -1,5 +1,35 @@
 <script setup>
-import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
+import { provide } from 'vue'
+import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import { useDict } from '@/utils/dict'
+import hasPermi from '@/utils/hasPermi'
+import { download } from '@/utils/hsj/service/index'
+import {
+  parseTime,
+  resetForm,
+  handleTree,
+  selectDictLabel,
+  selectDictLabels,
+} from '@/utils/ruoyi'
+import { formatSearchTime } from '@/utils/hsj/utils'
+import { tab, auth, modal, $download, isSmallScreen } from '@/plugins/index'
+const proxy = {
+  download,
+  useDict,
+  parseTime,
+  resetForm,
+  handleTree,
+  selectDictLabel,
+  selectDictLabels,
+  hasPermi,
+  formatSearchTime,
+  $tab: tab,
+  $auth: auth,
+  $modal: modal,
+  $download: $download,
+  $isSmallScreen: isSmallScreen(),
+}
+provide('proxy', proxy)
 </script>
 
 <template>

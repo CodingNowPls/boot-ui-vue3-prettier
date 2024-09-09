@@ -8,7 +8,7 @@ import { jobLog } from '@/views/pageName.js'
 
 const route = useRoute()
 const jobId = route.params.jobId
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 const { sys_common_status, sys_job_group } = proxy.useDict(
   'sys_common_status',
   'sys_job_group'

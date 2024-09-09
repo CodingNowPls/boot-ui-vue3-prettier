@@ -6,7 +6,7 @@ import getDialogConfig from './config/dialogConfig'
 import { monitorBaseUrl } from '@/api/config/base.js'
 import { operlog } from '@/views/pageName.js'
 
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 const { sys_oper_type, sys_common_status } = proxy.useDict(
   'sys_oper_type',
   'sys_common_status'

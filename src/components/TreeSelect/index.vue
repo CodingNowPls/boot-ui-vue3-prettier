@@ -29,7 +29,7 @@
 </template>
 
 <script setup>
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 
 const props = defineProps({
   /* 配置项 */

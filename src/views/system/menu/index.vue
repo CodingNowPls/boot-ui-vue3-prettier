@@ -10,7 +10,7 @@ import IconSelector from '@/components/IconSelector/IconSelector.vue'
 import { systemBaseUrl } from '@/api/config/base.js'
 import { menu } from '@/views/pageName.js'
 
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 const { sys_normal_disable, sys_show_hide } = proxy.useDict(
   'sys_normal_disable',
   'sys_show_hide'

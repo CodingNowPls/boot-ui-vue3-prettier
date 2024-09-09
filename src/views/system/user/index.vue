@@ -17,7 +17,7 @@ import { getToken } from '@/utils/auth'
 import { systemBaseUrl } from '@/api/config/base.js'
 import { user } from '@/views/pageName.js'
 
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 const { sys_normal_disable, sys_user_sex } = proxy.useDict(
   'sys_normal_disable',
   'sys_user_sex'

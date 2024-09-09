@@ -11,7 +11,7 @@ import { ${moduleName}BaseUrl } from '@/api/config/base.js'
 import { list${BusinessName}, get${BusinessName}, del${BusinessName}, add${BusinessName}, update${BusinessName} } from "@/api/${moduleName}/${businessName}";
 
 
-const { proxy } = getCurrentInstance();
+const proxy = inject('proxy');
 #if(${dicts} != '')
 #set($dictsNoSymbol=$dicts.replace("'", ""))
 const { ${dictsNoSymbol} } = proxy.useDict(${dicts});

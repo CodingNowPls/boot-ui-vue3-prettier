@@ -13,7 +13,7 @@ import { systemBaseUrl } from '@/api/config/base.js'
 import { role } from '@/views/pageName.js'
 
 const router = useRouter()
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
 
 const pageName = role

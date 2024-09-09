@@ -158,7 +158,7 @@ import * as echarts from 'echarts'
 const cache = ref([])
 const commandstats = ref(null)
 const usedmemory = ref(null)
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 
 function getList() {
   proxy.$modal.loading('正在加载缓存监控数据，请稍候！')

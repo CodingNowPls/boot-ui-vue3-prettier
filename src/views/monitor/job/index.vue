@@ -10,8 +10,9 @@ import Crontab from '@/components/Crontab/index.vue'
 import to from '@/utils/to'
 import { runJob, changeJobStatus } from '@/api/monitor/job'
 import { job } from '@/views/pageName.js'
+import { inject } from 'vue'
 
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 const { sys_job_group, sys_job_status } = proxy.useDict(
   'sys_job_group',
   'sys_job_status'

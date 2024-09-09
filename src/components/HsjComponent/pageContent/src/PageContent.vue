@@ -140,7 +140,7 @@ const emit = defineEmits([
   'editMoreClick',
 ])
 const store = businessStore()
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 const isLoading = ref(false)
 const baseTabelRef = ref(null)
 const searchDatas = ref({})

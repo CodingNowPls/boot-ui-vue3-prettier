@@ -9,7 +9,7 @@ import { listDept } from '@/api/system/dept'
 import { systemBaseUrl } from '@/api/config/base.js'
 import { dept } from '@/views/pageName.js'
 
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
 const pageName = dept
 const requestBaseUrl = systemBaseUrl

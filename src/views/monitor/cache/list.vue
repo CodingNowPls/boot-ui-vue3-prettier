@@ -170,7 +170,7 @@ import {
   clearCacheAll,
 } from '@/api/monitor/cache'
 
-const { proxy } = getCurrentInstance()
+const proxy = inject('proxy')
 
 const cacheNames = ref([])
 const cacheKeys = ref([])

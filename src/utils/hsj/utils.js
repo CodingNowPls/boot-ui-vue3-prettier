@@ -139,3 +139,30 @@ export const isDesktop = () => {
   const userAgent = navigator.userAgent
   return !/(mobile|android|iphone|ipad|iemobile|ipod touch)/i.test(userAgent)
 }
+
+const capitalizeFirstLetter = (string) => {
+  return `${string.charAt(0).toUpperCase()}${string.slice(1)}`
+}
+export const formatSearchTime = (params, config) => {
+  if (!params) return {}
+  if (!config) return {}
+  for (const [key, value] of Object.entries(config)) {
+    const query = params[key]
+    if (query && Array.isArray(query)) {
+      if (value === 'default') {
+        params[`start${capitalizeFirstLetter(key)}`] = query[0]
+        params[`end${capitalizeFirstLetter(key)}`] = query[1]
+        delete params[key]
+      } else if (value === 'reverse') {
+        params[`${key}Start`] = query[0]
+        params[`${key}End`] = query[1]
+        delete params[key]
+      } else {
+        params[value[0]] = query[0]
+        params[value[1]] = query[1]
+        delete params[key]
+      }
+    }
+  }
+  return params
+}
