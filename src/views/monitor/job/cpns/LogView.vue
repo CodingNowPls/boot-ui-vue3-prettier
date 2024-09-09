@@ -18,7 +18,7 @@ const handleValueChange = (value) => {
 </script>
 <template>
   <el-dialog
-    width="700px"
+    :width="getWidth('700px')"
     :model-value="dialogVisible"
     @update:modelValue="handleValueChange($event)"
     title="调度日志详细"

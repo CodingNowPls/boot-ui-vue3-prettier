@@ -22,8 +22,8 @@ import PageContent from '@/components/HsjComponent/pageContent/index'
 import PageDialog from '@/components/HsjComponent/pageDialog/index'
 import PageSearch from '@/components/HsjComponent/pageSearch/index'
 import DictTag from '@/components/DictTag'
-
 import { parseTime } from '@/utils/ruoyi'
+import { getDialogWidth } from '@/utils/hsj/utils'
 
 const app = createApp(App)
 
@@ -32,6 +32,7 @@ app.use(route)
 app.use(elementIcons)
 
 app.config.globalProperties.parseTime = parseTime
+app.config.globalProperties.getWidth = getDialogWidth
 
 app.component('SvgIcon', SvgIcon)
 app.component('BaseForm', BaseForm)

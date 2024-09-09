@@ -50,7 +50,7 @@ const downloadTemplate = () => {
     :title="upload.title"
     :model-value="upload.open"
     @update:modelValue="handleValueChange($event, 'open')"
-    width="400px"
+    :width="getWidth('400px')"
     draggable
   >
     <el-upload

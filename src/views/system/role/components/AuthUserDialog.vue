@@ -80,7 +80,7 @@ const handleValueChange = (value) => {
 <template>
   <div class="authUserDialog">
     <el-dialog
-      width="850px"
+      :width="getWidth('850px')"
       title="选择用户"
       :model-value="modelValue"
       @update:modelValue="handleValueChange($event)"

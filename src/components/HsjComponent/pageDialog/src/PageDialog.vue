@@ -165,7 +165,7 @@ defineExpose({
       v-model="dialogVisible"
       :title="title"
       :top="top"
-      :width="isSmall ? '100vw' : width"
+      :width="getWidth(width)"
       :close-on-click-modal="false"
       draggable
       destroy-on-close

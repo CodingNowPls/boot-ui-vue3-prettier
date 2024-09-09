@@ -166,3 +166,19 @@ export const formatSearchTime = (params, config) => {
   }
   return params
 }
+
+export const getDialogWidth = (width) => {
+  if (typeof width !== 'number' && typeof width !== 'string') {
+    return width
+  }
+  let total = 0
+  if (typeof width === 'string') {
+    const arr = width.split('px')
+    total = arr[0]
+  }
+  if (typeof width === 'number') {
+    total = width
+  }
+  const winWidth = document.documentElement.offsetWidth
+  return winWidth < total ? '100vw' : width
+}

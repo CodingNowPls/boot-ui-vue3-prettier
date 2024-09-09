@@ -226,7 +226,7 @@ init()
       ref="dialogRef"
       top="8vh"
       maxHeight="510px"
-      :width="dialogWidth"
+      :width="getWidth(dialogWidth)"
       :pageName="pageName"
       :dialogConfig="dialogConfigComputed"
       :infoInit="infoInit"

@@ -121,7 +121,7 @@ const handleValueChange = (value) => {
   <div class="cancelDialog">
     <el-dialog
       top="10vh"
-      width="600px"
+      :width="getWidth('600px')"
       title="分配数据权限"
       :model-value="modelValue"
       @update:modelValue="handleValueChange($event)"

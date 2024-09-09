@@ -193,7 +193,7 @@ init()
     </PageContent>
     <PageDialog
       ref="dialogRef"
-      :width="dialogWidth"
+      :width="getWidth(dialogWidth)"
       :pageName="pageName"
       :dialogConfig="dialogConfigComputed"
       :infoInit="infoInit"

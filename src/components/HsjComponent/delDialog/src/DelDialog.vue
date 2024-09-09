@@ -51,7 +51,7 @@ defineExpose({
 
 <template>
   <div class="delDialog">
-    <el-dialog v-model="delDialog" title="批量删除" width="400px">
+    <el-dialog v-model="delDialog" title="批量删除" :width="getWidth('400px')">
       <div class="content">
         <span>是否批量删除{{ name }}为</span>
         <span v-for="item in tabelSelection" :key="item[idKey]" class="red">

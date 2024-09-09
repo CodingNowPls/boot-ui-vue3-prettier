@@ -3,7 +3,7 @@
   <el-dialog
     title="导入表"
     v-model="visible"
-    width="800px"
+    :width="getWidth('800px')"
     top="5vh"
     append-to-body
   >

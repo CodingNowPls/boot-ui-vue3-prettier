@@ -323,7 +323,7 @@ const handleJobLog = (row) => {
     <div class="pageDialog">
       <PageDialog
         ref="dialogRef"
-        :width="dialogWidth"
+        :width="getWidth(dialogWidth)"
         :pageName="pageName"
         :dialogConfig="dialogConfigComputed"
         :infoInit="infoInit"
