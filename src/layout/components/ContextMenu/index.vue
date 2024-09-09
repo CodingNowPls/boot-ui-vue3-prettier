@@ -66,6 +66,7 @@ const onShowContextmenu = (menu, axis) => {
 const onContextmenuItem = (item) => {
   if (item.disabled) return
   item.menu = toRaw(state.menu)
+  console.log(item.menu)
   emits('contextmenuItemClick', item)
 }
 

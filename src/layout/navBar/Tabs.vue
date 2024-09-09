@@ -199,6 +199,7 @@ function initTags() {
 function addTags() {
   const { name } = route
   if (name) {
+    console.log(route)
     useTagsViewStore().addView(route)
     if (route.meta.link) {
       useTagsViewStore().addIframeView(route)
