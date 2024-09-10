@@ -70,7 +70,7 @@ const props = defineProps({
     default: 'url',
   },
 })
-
+const uploadRef = ref(null)
 const options = ref({
   theme: 'snow',
   bounds: document.body,
@@ -123,7 +123,7 @@ onMounted(() => {
     let toolbar = quill.getModule('toolbar')
     toolbar.addHandler('image', (value) => {
       if (value) {
-        proxy.$refs.uploadRef.click()
+        uploadRef.value?.click()
       } else {
         quill.format('image', false)
       }

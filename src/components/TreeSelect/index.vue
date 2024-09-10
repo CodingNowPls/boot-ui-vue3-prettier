@@ -3,7 +3,7 @@
     <el-select
       style="width: 100%"
       v-model="valueId"
-      ref="treeSelect"
+      ref="treeSelectRef"
       :filterable="true"
       :clearable="true"
       @clear="clearHandle"
@@ -13,7 +13,7 @@
       <el-option :value="valueId" :label="valueTitle">
         <el-tree
           id="tree-option"
-          ref="selectTree"
+          ref="selectTreeRef"
           :accordion="accordion"
           :data="options"
           :props="objMap"
@@ -68,7 +68,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['update:value'])
-
+const treeSelectRef = ref(null)
+const selectTreeRef = ref(null)
 const valueId = computed({
   get: () => props.value,
   set: (val) => {
@@ -82,10 +83,10 @@ function initHandle() {
   nextTick(() => {
     const selectedValue = valueId.value
     if (selectedValue !== null && typeof selectedValue !== 'undefined') {
-      const node = proxy.$refs.selectTree.getNode(selectedValue)
+      const node = selectTreeRef.value?.getNode(selectedValue)
       if (node) {
         valueTitle.value = node.data[props.objMap.label]
-        proxy.$refs.selectTree.setCurrentKey(selectedValue) // 设置默认选中
+        selectTreeRef.value?.setCurrentKey(selectedValue) // 设置默认选中
         defaultExpandedKey.value = [selectedValue] // 设置默认展开
       }
     } else {
@@ -97,11 +98,11 @@ function handleNodeClick(node) {
   valueTitle.value = node[props.objMap.label]
   valueId.value = node[props.objMap.value]
   defaultExpandedKey.value = []
-  proxy.$refs.treeSelect.blur()
+  treeSelectRef.value.blur()
   selectFilterData('')
 }
 function selectFilterData(val) {
-  proxy.$refs.selectTree.filter(val)
+  selectTreeRef.value?.filter(val)
 }
 function filterNode(value, data) {
   if (!value) return true

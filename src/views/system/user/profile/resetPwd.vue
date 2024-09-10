@@ -35,7 +35,7 @@
 import { updateUserPwd } from '@/api/system/user'
 
 const proxy = inject('proxy')
-
+const pwdRef = ref(null)
 const user = reactive({
   oldPassword: undefined,
   newPassword: undefined,
@@ -73,7 +73,7 @@ const rules = ref({
 
 /** 提交按钮 */
 function submit() {
-  proxy.$refs.pwdRef.validate((valid) => {
+  pwdRef.value?.validate((valid) => {
     if (valid) {
       updateUserPwd(user.oldPassword, user.newPassword).then((response) => {
         proxy.$modal.notifySuccess('修改成功')

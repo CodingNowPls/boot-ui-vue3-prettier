@@ -2,7 +2,7 @@
   <el-card class="page default-main">
     <el-tabs v-model="activeName">
       <el-tab-pane label="基本信息" name="basic">
-        <basic-info-form ref="basicInfo" :info="info" />
+        <basic-info-form ref="basicInfoRef" :info="info" />
       </el-tab-pane>
       <el-tab-pane label="字段信息" name="columnInfo">
         <el-table
@@ -167,7 +167,7 @@ import GenInfoForm from './genInfoForm'
 
 const route = useRoute()
 const proxy = inject('proxy')
-
+const basicInfoRef = ref(null)
 const activeName = ref('columnInfo')
 const tableHeight = ref(document.documentElement.scrollHeight - 245 + 'px')
 const tables = ref([])
@@ -177,7 +177,7 @@ const info = ref({})
 const genInfo = ref(null)
 /** 提交按钮 */
 function submitForm() {
-  const basicForm = proxy.$refs.basicInfo.$refs.basicInfoForm
+  const basicForm = basicInfoRef.value.basicInfoFormRef
   const genForm = genInfo.value.baseFormRef.elFormRef
   Promise.all([basicForm, genForm].map(getFormPromise)).then((res) => {
     const validateResult = res.every((item) => !!item)

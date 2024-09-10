@@ -32,7 +32,7 @@ const props = defineProps({
 })
 
 const proxy = inject('proxy')
-
+const userRef = ref(null)
 const rules = ref({
   nickName: [{ required: true, message: '用户昵称不能为空', trigger: 'blur' }],
   email: [
@@ -55,7 +55,7 @@ const rules = ref({
 
 /** 提交按钮 */
 function submit() {
-  proxy.$refs.userRef.validate((valid) => {
+  userRef.value?.validate((valid) => {
     if (valid) {
       updateUserProfile(props.user).then((response) => {
         proxy.$modal.notifySuccess('修改成功')

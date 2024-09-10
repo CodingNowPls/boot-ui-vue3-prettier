@@ -12,7 +12,7 @@
       <el-row>
         <el-col :xs="24" :md="12" :style="{ height: '350px' }">
           <vue-cropper
-            ref="cropper"
+            ref="cropperRef"
             :img="options.img"
             :info="true"
             :autoCrop="options.autoCrop"
@@ -117,7 +117,7 @@ const proxy = inject('proxy')
 const open = ref(false)
 const visible = ref(false)
 const title = ref('修改头像')
-
+const cropperRef = ref(null)
 //图片裁剪数据
 const options = reactive({
   img: userStore.avatar, // 裁剪图片的地址
@@ -141,16 +141,16 @@ function modalOpened() {
 function requestUpload() {}
 /** 向左旋转 */
 function rotateLeft() {
-  proxy.$refs.cropper.rotateLeft()
+  cropperRef.value?.rotateLeft()
 }
 /** 向右旋转 */
 function rotateRight() {
-  proxy.$refs.cropper.rotateRight()
+  cropperRef.value?.rotateRight()
 }
 /** 图片缩放 */
 function changeScale(num) {
   num = num || 1
-  proxy.$refs.cropper.changeScale(num)
+  cropperRef.value?.changeScale(num)
 }
 /** 上传预处理 */
 function beforeUpload(file) {
@@ -168,7 +168,7 @@ function beforeUpload(file) {
 }
 /** 上传图片 */
 function uploadImg() {
-  proxy.$refs.cropper.getCropBlob((data) => {
+  cropperRef.value?.getCropBlob((data) => {
     let formData = new FormData()
     formData.append('avatarfile', data)
     uploadAvatar(formData).then((response) => {

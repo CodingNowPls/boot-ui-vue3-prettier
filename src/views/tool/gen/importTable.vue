@@ -34,7 +34,7 @@
     <el-row>
       <el-table
         @row-click="clickRow"
-        ref="table"
+        ref="tableRef"
         :data="dbTableList"
         @selection-change="handleSelectionChange"
         height="260px"
@@ -71,7 +71,7 @@ const visible = ref(false)
 const tables = ref([])
 const dbTableList = ref([])
 const proxy = inject('proxy')
-
+const tableRef = ref(null)
 const queryParams = reactive({
   pageNum: 1,
   pageSize: 10,
@@ -88,7 +88,7 @@ function show() {
 }
 /** 单击选择行 */
 function clickRow(row) {
-  proxy.$refs.table.toggleRowSelection(row)
+  tableRef.value?.toggleRowSelection(row)
 }
 /** 多选框选中数据 */
 function handleSelectionChange(selection) {
