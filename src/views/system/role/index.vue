@@ -284,8 +284,6 @@ const handleCheckedTreeNodeAll = (value) => {
     </PageContent>
     <PageDialog
       ref="dialogRef"
-      top="8vh"
-      maxHeight="510px"
       :width="getWidth(dialogWidth)"
       :pageName="pageName"
       :dialogConfig="dialogConfigComputed"

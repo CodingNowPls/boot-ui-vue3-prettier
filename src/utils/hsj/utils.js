@@ -182,3 +182,31 @@ export const getDialogWidth = (width) => {
   const winWidth = document.documentElement.offsetWidth
   return winWidth < total ? '100vw' : width
 }
+
+export function getElementTotalSize(element) {
+  if (!element) return
+  const style = window.getComputedStyle(element)
+  const width = style.width
+  const height = style.height
+  const marginLeft = style.marginLeft
+  const marginRight = style.marginRight
+  const marginTop = style.marginTop
+  const marginBottom = style.marginBottom
+  // 将字符串中的'px'去掉并转换为数值
+  const numericWidth = parseFloat(width)
+  const numericMarginLeft = parseFloat(marginLeft)
+  const numericMarginRight = parseFloat(marginRight)
+
+  const numericHeight = parseFloat(height)
+  const numericMarginTop = parseFloat(marginTop)
+  const numericMarginBottom = parseFloat(marginBottom)
+  // 返回元素的总宽度，包括margin
+  return {
+    marginTop: numericMarginTop,
+    marginRight: numericMarginRight,
+    marginBottom: numericMarginBottom,
+    marginLeft: numericMarginLeft,
+    width: numericWidth + numericMarginLeft + numericMarginRight,
+    height: numericHeight + numericMarginTop + numericMarginBottom,
+  }
+}

@@ -1,9 +1,9 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { nextTick, ref, watch } from 'vue'
 import BaseForm from '@/BaseComponent/BaseForm'
 import businessStore from '@/store/business/businessStore'
 import to from '@/utils/to'
-
+import { getElementTotalSize } from '@/utils/hsj/utils'
 const props = defineProps({
   infoInit: {
     type: Object,
@@ -23,7 +23,7 @@ const props = defineProps({
   },
   top: {
     type: String,
-    default: '10vh',
+    default: '7vh',
   },
   dialogConfig: {
     type: Object,
@@ -45,7 +45,6 @@ const props = defineProps({
   },
   maxHeight: {
     type: String,
-    default: 'initial',
   },
   search: {
     type: Function,
@@ -150,6 +149,23 @@ const changeSelected = (newValue) => {
   tableSelected.value = newValue
 }
 const isSmall = window.isSmallScreen
+const dialogMaxHeght = ref('')
+const getMaxHeight = () => {
+  if (props.maxHeight) {
+    dialogMaxHeght.value = props.maxHeight
+  } else {
+    const pageDialog = document.querySelector('.pageDialog')
+    const { marginTop } = getElementTotalSize(pageDialog)
+    let maxHeight = window.innerHeight - marginTop - 57 - 62 - 18
+    if (!isSmall) {
+      maxHeight -= 50
+    }
+    dialogMaxHeght.value = maxHeight
+  }
+}
+const handleOpened = () => {
+  getMaxHeight()
+}
 defineExpose({
   dialogVisible,
   title,
@@ -162,16 +178,22 @@ defineExpose({
 <template>
   <div class="page-dialog">
     <el-dialog
+      class="pageDialog"
       v-model="dialogVisible"
       :title="title"
-      :top="top"
+      :top="isSmall ? '0vh' : top"
       :width="getWidth(width)"
       :close-on-click-modal="false"
       draggable
       destroy-on-close
+      :fullscreen="isSmall"
       @closed="dialogClosed"
+      @open="handleOpened"
     >
-      <el-scrollbar class="ba-table-form-scrollbar" :max-height="maxHeight">
+      <el-scrollbar
+        class="ba-table-form-scrollbar"
+        :max-height="dialogMaxHeght"
+      >
         <BaseForm
           class="baseForm"
           v-model:data="formData"
