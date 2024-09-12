@@ -1,8 +1,9 @@
-# 若依前后端分离版本
+# 若依前后端分离版本-前端
 
 ## 项目介绍
 
-本项目重构了若依前后端分离版本70%的代码，代码高度内聚，并优化了界面的ui。
+1.  本项目可以完美的对接原版本的ruoyi前后端分离版本的后端
+2.  本项目重构了若依前后端分离版本的前端70%的代码，代码高度内聚，并优化了界面的ui。
 
 ## 技术选型
 
@@ -40,42 +41,42 @@ pnpm build:prod
 ## 演示图
 
 <table>
-    <tr>
-      <td>
-        <img src="./readMeImg/pic1.png" />
-        <img src="./readMeImg/pic2.png" />
-      </td>
-    </tr>
-    <tr>
-        <td>
-          <img src="./readMeImg/pic3.png" />
-          <img src="./readMeImg/pic4.png" />
-        </td>
-    </tr>
-    <tr>
-      <td>
-          <img src="./readMeImg/pic5.png" />
-          <img src="./readMeImg/pic6.png" />
-      </td>
-    </tr>
-        <tr>
-      <td>
-          <img src="./readMeImg/pic7.png" />
-          <img src="./readMeImg/pic8.png" />
-      </td>
-    </tr>
-        <tr>
-      <td>
-          <img src="./readMeImg/pic9.png" />
-          <img src="./readMeImg/pic10.png" />
-      </td>
-    </tr>
-        <tr>
-      <td>
-          <img src="./readMeImg/pic11.png" />
-          <img src="./readMeImg/pic12.png" />
-      </td>
-    </tr>
+  <tr>
+    <td><img src="./readMeImg/pic1.png" /></td>
+    <td><img src="./readMeImg/pic2.png" /></td>
+  </tr>
+  <tr>
+    <td><img src="./readMeImg/pic3.png" /></td>
+    <td><img src="./readMeImg/pic4.png" /></td>
+  </tr>
+  <tr>
+    <td><img src="./readMeImg/pic5.png" /></td>
+    <td><img src="./readMeImg/pic6.png" /></td>
+  </tr>
+  <tr>
+    <td><img src="./readMeImg/pic7.png" /></td>
+    <td><img src="./readMeImg/pic8.png" /></td>
+  </tr>
+  <tr>
+    <td><img src="./readMeImg/pic9.png" /></td>
+    <td><img src="./readMeImg/pic10.png" /></td>
+  </tr>
+  <tr>
+    <td><img src="./readMeImg/pic11.png" /></td>
+    <td><img src="./readMeImg/pic12.png" /></td>
+  </tr>
+  <tr>
+    <td><img src="./readMeImg/pic13.png" /></td>
+    <td><img src="./readMeImg/pic14.png" /></td>
+  </tr>
+  <tr>
+    <td><img src="./readMeImg/pic15.png" /></td>
+    <td><img src="./readMeImg/pic16.png" /></td>
+  </tr>
+  <tr>
+    <td><img src="./readMeImg/pic17.png" /></td>
+    <td><img src="./readMeImg/pic18.png" /></td>
+  </tr>
 </table>
 
 ## 目录结构
