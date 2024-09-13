@@ -1,7 +1,8 @@
 import { isRef } from 'vue'
 import hasPermi from '@/utils/hasPermi'
 export default (config, dictsMap) => {
-  for (const [key, dict] of Object.entries(dictsMap)) {
+  const dictsMapValue = isRef(dictsMap) ? dictsMap.value : dictsMap
+  for (const [key, dict] of Object.entries(dictsMapValue)) {
     const fromItem = config.formItems?.find((item) => {
       return item.field === key
     })
