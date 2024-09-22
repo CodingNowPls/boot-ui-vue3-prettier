@@ -99,7 +99,12 @@ const jump = (item) => {
   } else {
     router.push(path)
   }
-  history.unshift(item)
+  const isIncludes = history.find((current) => {
+    return current.path === item.path
+  })
+  if (!isIncludes) {
+    history.unshift(item)
+  }
   nextTick(() => {
     visible.value = false
   })
