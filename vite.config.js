@@ -27,7 +27,7 @@ export default defineConfig(({ mode, command }) => {
     server: {
       port: 80,
       host: true,
-      open: false,
+      open: true,
       proxy: {
         '/dev-api': {
           target: 'http://vue.ruoyi.vip/prod-api/',

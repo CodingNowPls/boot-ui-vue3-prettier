@@ -77,6 +77,10 @@ pnpm build:prod
     <td><img src="./readMeImg/pic17.png" /></td>
     <td><img src="./readMeImg/pic18.png" /></td>
   </tr>
+    <tr>
+    <td><img src="./readMeImg/pic19.png" /></td>
+    <td><img src="./readMeImg/pic20.png" /></td>
+  </tr>
 </table>
 
 ## 目录结构

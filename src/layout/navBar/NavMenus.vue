@@ -1,7 +1,7 @@
 <template>
   <div class="nav-menus" :class="configStore.layout.layoutMode">
     <router-link class="h100" target="_blank" title="首页" to="/">
-      <div class="nav-menu-item">
+      <div class="nav-menu-item pb1">
         <el-icon
           :color="configStore.getColorVal('headerBarTabColor')"
           size="18"
@@ -11,6 +11,14 @@
         </el-icon>
       </div>
     </router-link>
+    <div @click="handleSearch" class="nav-menu-item">
+      <SvgIcon
+        :color="configStore.getColorVal('headerBarTabColor')"
+        class="nav-menu-icon icon"
+        icon-class="el-icon-Search"
+        size="18"
+      />
+    </div>
     <div
       @click="onFullScreen"
       class="nav-menu-item"
@@ -33,16 +41,6 @@
         <FullScreen></FullScreen>
       </el-icon>
     </div>
-    <!-- <div @click="terminal.toggle()" class="nav-menu-item pt2">
-      <el-badge>
-        <SvgIcon
-          :color="configStore.getColorVal('headerBarTabColor')"
-          class="nav-menu-icon icon"
-          icon-class="terminal"
-          size="26"
-        />
-      </el-badge>
-    </div> -->
     <el-dropdown
       @visible-change="onCurrentNavMenu($event, 'clear')"
       class="h100"
@@ -112,8 +110,8 @@
           </div>
         </div>
         <div class="admin-info-footer">
-          <el-button @click="onAdminInfo" type="primary" plain
-            >个人资料
+          <el-button @click="onAdminInfo" type="primary" plain>
+            个人资料
           </el-button>
           <el-button @click="onLogout" type="danger" plain>退出登录</el-button>
         </div>
@@ -131,6 +129,7 @@
       />
     </div>
     <Config />
+    <GlobalSearch v-model:visible="searchVisable"></GlobalSearch>
   </div>
 </template>
 
@@ -144,7 +143,7 @@ import Storage from '@/utils/hsj/useStorage'
 import { getToken, setToken } from '@/utils/auth'
 import useUsers from '@/store/modules/user'
 import Config from '../components/Config/index.vue'
-
+import GlobalSearch from '../components/GlobalSearch/index.vue'
 const proxy = inject('proxy')
 const configStore = useConfig()
 const router = useRouter()
@@ -169,6 +168,10 @@ const onFullScreen = () => {
   screenfull.onchange(() => {
     state.isFullScreen = screenfull.isFullscreen
   })
+}
+const searchVisable = ref(false)
+const handleSearch = () => {
+  searchVisable.value = true
 }
 
 const onCurrentNavMenu = (status, name) => {
