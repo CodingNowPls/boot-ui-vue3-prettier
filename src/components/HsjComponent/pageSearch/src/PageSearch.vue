@@ -8,22 +8,27 @@ const props = defineProps({
     type: Object,
     default: () => {},
   },
+  // 初始化form的搜索的值
   initSearch: {
     type: Object,
     default: () => {},
   },
+  // 页面名称与PageContent和PageDialog的一致，每个页面必须唯一
   pageName: {
     type: String,
     required: true,
   },
+  // 除form表单外的其他搜索条件
   otherRequestOption: {
     type: Object,
     default: () => {},
   },
+  // 是否显示检索和重置按钮
   showSearch: {
     type: Boolean,
     default: true,
   },
+  // 自定义重置函数
   reset: {
     type: Function,
   },
@@ -45,6 +50,7 @@ const search = (isReset = false) => {
   })
 }
 const reset = (isReset) => {
+  // 判断是否传入自定义的重置函数
   if (props.reset) {
     props.reset()
   } else {
@@ -60,6 +66,7 @@ const keyUpEnter = () => {
 const setFormData = (key, value) => {
   formData.value[key] = value
 }
+// 监听dom尺寸变化
 const resizeObserver = new ResizeObserver((entries) => {
   for (let entry of entries) {
     // 获取目标元素的新尺寸
@@ -67,6 +74,7 @@ const resizeObserver = new ResizeObserver((entries) => {
     emitter.emit(`change${props.pageName}Size`, newHeight)
   }
 })
+// 是否显示组件
 const showPageSearch = computed(() => {
   return store.pageSearchControl[`${props.pageName}SearchShow`]
 })

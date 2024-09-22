@@ -19,6 +19,7 @@ const props = defineProps({
     type: Object,
     default: () => {},
   },
+  // 页面名称与PageSearch和PageDialog的一致，每个页面必须唯一
   pageName: {
     type: String,
     required: true,
@@ -56,32 +57,45 @@ const props = defineProps({
     type: Object,
     default: () => {
       return {
+        // 接口请求到数据后从哪些字段中读取数据和总条数
         listConfig: { listKey: 'rows', countKey: 'total' },
+        // 接口请求完毕后需要对请求到的list进行哪些二次处理
         handleList: (list) => list,
       }
     },
   },
+  // 删除和getInfo接口所需要传入的id需要从row的哪个字段来取
   idKey: {
     type: String,
+  },
+  // 列表请求地址
+  // 规则是 requestBaseUrl+ interceptor(pageName) + requestUrl
+  requestBaseUrl: {
+    type: String,
+    default: '/',
   },
   requestUrl: {
     type: String,
     default: 'list',
   },
+  // 显示编辑按钮
   showEdit: {
     type: Boolean,
     default: true,
   },
+  // 显示编辑删除
   showDelete: {
     type: Boolean,
     default: true,
   },
+  // 列表的数据字典反显用
   dictMap: {
     type: Object,
     default: () => {
       return {}
     },
   },
+  // header需要显示哪些按钮
   headerButtons: {
     type: Array,
     default: () => [
@@ -97,33 +111,37 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  // 权限
   permission: {
     type: Object,
     default: () => ({}),
   },
-  requestBaseUrl: {
-    type: String,
-    default: '/',
-  },
+  // 当你使用了todo的插槽后，会显示编辑和删除两个按钮。
+  // 如果你需要根据列表的状态来控制这两个按钮可以传入这个函数
   handleEditShow: {
     type: Function,
     default: () => {
       return true
     },
   },
+  // 同上
   handleDeleteShow: {
     type: Function,
     default: () => {
       return true
     },
   },
+  // 删除的url 注意只能配置前一部分url
+  // 例如 page/list/1 这个1不能在这里配置，还是需要用过配置idKey来从row中读取
   delUrl: {
     type: String,
   },
+  // 如果该组件计算的table的maxHeight不符合预期，那么可以通过这个参数来调整
   maxHeightDecrement: {
     type: Number,
     default: 0,
   },
+  // table需要隐藏的列
   tableHideItems: {
     type: Array,
     default: () => [],
@@ -155,7 +173,7 @@ if (props.contentConfig?.pagination) {
     pageSize: props.contentConfig?.defaultPageSize || 50,
   }
 }
-
+// 所有的搜索条件的汇总
 const finalSearchData = computed(() => {
   if (props.contentConfig.pagination) {
     return { ...searchDatas.value, ...paginationInfo.value }
@@ -167,6 +185,7 @@ const finalSearchData = computed(() => {
 watch(
   () => paginationInfo.value,
   (newValue, oldValue) => {
+    // 当pageSize发生变化时将pageName设置成第一页
     if (newValue.pageSize !== oldValue.pageSize) {
       paginationInfo.value.pageNum = 1
     }
@@ -241,8 +260,10 @@ const deleteRow = async (delData) => {
 // 编辑按钮
 const editClick = async (item, type) => {
   isLoading.value = true
+  // 取出当前点击这一行数据的id 优先props传入的idKey
   let id = item[props.idKey] ?? item[props.pageName + 'Id'] ?? item.id
   if (id || id === 0) {
+    // 拼接getInfo请求的url地址
     let url = `${props.requestBaseUrl}${interceptor(props.pageName)}/${id}`
     let [res] = await to(getInfo(url))
     if (res?.data) {
@@ -251,7 +272,6 @@ const editClick = async (item, type) => {
   } else {
     proxy.$modal.notifyWarning('未获取到有效Id')
   }
-
   isLoading.value = false
 }
 
@@ -260,7 +280,8 @@ const addClick = () => {
 }
 
 // 其他的插槽
-const exceptSlot = ['createAt', 'updateTime', 'todo', 'otherColumn']
+const exceptSlot = ['todo']
+// 用于收集contentConfig的所有插槽名称
 const collectObjectsWithSlotName = (data, collectedObjects = []) => {
   if (Array.isArray(data)) {
     // 如果当前层级是数组
@@ -278,8 +299,9 @@ const collectObjectsWithSlotName = (data, collectedObjects = []) => {
   }
   return collectedObjects
 }
+// 所有插槽名称
 let otherSlot = collectObjectsWithSlotName(props.contentConfig?.tableItem)
-
+// 排序发生变化触发的函数
 const sortChange = (shortData) => {
   let isAsc = ''
   let orderByColumn = 'createTime'
@@ -314,14 +336,18 @@ const sortChange = (shortData) => {
   )
   send(finalSearchData.value)
 }
+// 页面数据刷新函数
 const refresh = () => {
   send(finalSearchData.value)
 }
+// 页面的mitt监听事件
 const mittFunc = async (searchFormData) => {
   searchDatas.value = Object.assign({}, searchDatas.value, searchFormData)
+  // searchLoading是pageSearch的loading效果，这里删除是为了防止代入到查询条件中
   if (searchDatas.value.hasOwnProperty('searchLoading')) {
     delete searchDatas.value.searchLoading
   }
+  // resetPaginationInfo是用于判断是否将pageNum重置到第一页再进行搜索
   if (searchDatas.value.hasOwnProperty('resetPaginationInfo')) {
     delete searchDatas.value.resetPaginationInfo
   }
@@ -329,26 +355,37 @@ const mittFunc = async (searchFormData) => {
     paginationInfo.value.pageNum = 1
   }
   await send(finalSearchData.value)
+  // 网络请求完毕，loading设置成false
   if (searchFormData.searchLoading) searchFormData.searchLoading.value = false
 }
+// table的最大高度
 const maxHeight = ref(500)
+// 页面pageSearch的高度
 let currentSearchHeight = 0
+// 动态计算maxHeigth
 const mittResize = (searchHeight) => {
   if (typeof searchHeight === 'number') {
     currentSearchHeight = searchHeight
   }
+  // 获取头部的高度
   const header = document.getElementsByClassName('el-header')[0]
+  // 获取分页的高度
   const pagination = document.getElementsByClassName('lmw-pagination-footer')[0]
+  // 计算公式为 视口高度-搜索栏高度-margin
   let viewportHeight = window.innerHeight - currentSearchHeight - 34
+  // 如果header存在会再减去header的高度，因为某些布局没有header
   if (header) {
     viewportHeight -= header.clientHeight
   }
+  // 分页存在，减去分页的高度
   if (pagination) {
     viewportHeight -= pagination.clientHeight
   }
   maxHeight.value = viewportHeight - props.maxHeightDecrement
 }
+// 判断页面是否已经进行监听过，主要用于页面keep-alive后防止多次监听使用
 let isListen = false
+// 页面事件监听
 const onListener = () => {
   if (!isListen) {
     isListen = true
@@ -357,13 +394,14 @@ const onListener = () => {
     window.addEventListener('resize', mittResize)
   }
 }
+// 取消页面监听事件
 const offListener = () => {
   emitter.off(`search${props.pageName}Info`)
   emitter.off(`change${props.pageName}Size`)
   window.removeEventListener('resize', mittResize)
   isListen = false
 }
-
+// 记录哪些列需要展示
 const columnChecked = ref([])
 let filterArr = ref([])
 const propsTableHideItems = computed(() => {
@@ -432,18 +470,21 @@ watch(
     immediate: true,
   }
 )
-
+// 用于隐藏页面的pageSearch组件
 const triggerShowSearch = () => {
   store.handlePageSearch(props.pageName)
 }
+// 多选后的编辑按钮点击
 const editMoreClick = () => {
   emit('editMoreClick')
 }
-
+// 用于判断父组件使用是否有某插槽
 const hasSlot = (slots, arr) => {
   return arr.some((key) => slots.hasOwnProperty(key))
 }
+
 const columnsFilter = () => {
+  // 列的权限判断
   const tableItem = props.contentConfig.tableItem.filter((item) => {
     if (!item.permission) return true
     return proxy.hasPermi(item.permission)
