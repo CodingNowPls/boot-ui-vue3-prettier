@@ -1,4 +1,7 @@
 import * as echarts from 'echarts'
+import darkTheme from './dark.json'
+
+echarts.registerTheme('customDark', darkTheme)
 
 const getScale = (containRatio = true, baseWidth = 1920) => {
   const currentScale = document.documentElement.clientWidth / baseWidth
@@ -9,10 +12,10 @@ const getScale = (containRatio = true, baseWidth = 1920) => {
   return Math.ceil(resultScale)
 }
 const ratio = getScale()
-export default function (el) {
-  const eachartInstance = echarts.init(el, null, {
+export default function (el, theme) {
+  const eachartInstance = echarts.init(el, theme, {
     locale: 'ZH',
-    // renderer: 'svg',
+    renderer: 'svg',
     devicePixelRatio: ratio,
   })
   const setOption = (option, flag = false) => {
