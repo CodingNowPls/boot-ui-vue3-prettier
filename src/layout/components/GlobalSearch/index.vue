@@ -117,11 +117,22 @@ const closed = () => {
 }
 onMounted(() => {
   searchPool.value = generateRoutes(routes.value)
-  console.log(searchPool.value)
 })
 
 watchEffect(() => {
   searchPool.value = generateRoutes(routes.value)
+})
+
+let lastCtrlPressTime = 0
+const threshold = 300
+document.addEventListener('keydown', function (event) {
+  if (event.ctrlKey) {
+    const currentTime = Date.now()
+    if (currentTime - lastCtrlPressTime < threshold) {
+      visible.value = true
+    }
+    lastCtrlPressTime = currentTime
+  }
 })
 </script>
 <template>
