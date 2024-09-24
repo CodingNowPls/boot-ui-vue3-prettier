@@ -126,7 +126,7 @@ watchEffect(() => {
 let lastCtrlPressTime = 0
 const threshold = 300
 document.addEventListener('keydown', function (event) {
-  if (event.ctrlKey) {
+  if (event.key === 'Control') {
     const currentTime = Date.now()
     if (currentTime - lastCtrlPressTime < threshold) {
       visible.value = true
