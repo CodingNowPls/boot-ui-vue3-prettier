@@ -29,7 +29,11 @@ const handleValueChange = (value) => {
     append-to-body
   >
     <el-scrollbar max-height="420px">
-      <BaseForm :data="viewFormData" v-bind="viewDialogConfig">
+      <BaseForm
+        :data="viewFormData"
+        v-bind="viewDialogConfig"
+        class="mt10 mb20"
+      >
         <template #jopGroupCustom="{ backData }">
           {{ jobGroupFormat(backData.data) }}
         </template>

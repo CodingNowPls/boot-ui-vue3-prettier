@@ -80,6 +80,7 @@ const props = defineProps({
 const emit = defineEmits(['update:paginationInfo', 'sortChange'])
 const headerRef = ref(null)
 const elTableRef = ref(null)
+const slots = useSlots()
 const handleCurrentChange = (pageNum) => {
   elTableRef.value.setScrollTop(0)
   emit('update:paginationInfo', { ...props.paginationInfo, pageNum })
@@ -142,6 +143,13 @@ const paginationLayoutComputed = computed(() => {
     return 'total, sizes, prev, next'
   }
 })
+let otherSlots = []
+const filterSlot = () => {
+  const filter = ['handleLeft', 'handleRight']
+  const slotNames = Object.keys(slots)
+  otherSlots = slotNames.filter((name) => !filter.includes(name))
+}
+filterSlot()
 defineExpose({
   elTableRef,
   unFoldAll,
@@ -200,7 +208,7 @@ defineExpose({
       <template v-for="item in tableItem" :key="item.prop">
         <TableColumn :item="item" :align="align" :hideItems="hideItems">
           <template
-            v-for="(value, slotName) in $slots"
+            v-for="slotName in otherSlots"
             #[slotName]="{ backData, currentItem }"
           >
             <slot

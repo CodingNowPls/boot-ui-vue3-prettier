@@ -1,6 +1,5 @@
 export default (otherConfig = {}) => {
   return {
-    itemStyle: { padding: '15px 20px 0px 0px' },
     formItems: [
       {
         label: '登录地址',

@@ -4,8 +4,6 @@ import getContentConfig from './config/contentConfig.js'
 import getDialogConfig from './config/dialogConfig.js'
 import useDialog from '@/hooks/useDialog'
 import getComputedConfig from '@/hooks/getPageConfig'
-import to from '@/utils/to'
-import { listMenu } from '@/api/system/menu'
 import IconSelector from '@/components/IconSelector/IconSelector.vue'
 import { systemBaseUrl } from '@/api/config/base.js'
 import { menu } from '@/views/pageName.js'
@@ -27,14 +25,15 @@ const otherInfo = ref({})
 const defaultData = ref({
   menuType: 'M',
 })
-
-const treeSelectInfo = ref([])
 const tableData = ref([])
 const piniaConfig = {
   listConfig: { listKey: 'data', countKey: 'total' },
   handleList: (list) => {
-    tableData.value = proxy.handleTree(list, 'menuId')
-    return tableData.value
+    const treeList = proxy.handleTree(list, 'menuId')
+    const menu = { menuId: 0, menuName: '主类目', children: [] }
+    menu.children = treeList
+    tableData.value = [menu]
+    return treeList
   },
 }
 // 弹出层要隐藏的formItem
@@ -44,7 +43,7 @@ const tableHideItems = ref([])
 
 const dictMap = {
   status: sys_normal_disable,
-  parentId: treeSelectInfo,
+  parentId: tableData,
   visible: sys_show_hide,
 }
 // 搜索框配置
@@ -151,15 +150,6 @@ const onChangeShowColumn = (filterArr) => {
   tableHideItems.value = filterArr
 }
 
-const getTreeSelect = async () => {
-  treeSelectInfo.value = []
-  const [res] = await to(listMenu())
-  if (res) {
-    const menu = { menuId: 0, menuName: '主类目', children: [] }
-    menu.children = proxy.handleTree(res.data, 'menuId')
-    treeSelectInfo.value.push(menu)
-  }
-}
 const handleAdd = (row) => {
   addClick()
   nextTick(() => {
@@ -170,12 +160,6 @@ const handleAdd = (row) => {
 const unFoldAll = () => {
   pageContentRef.value?.baseTabelRef.unFoldAll()
 }
-
-const init = () => {
-  getTreeSelect()
-}
-
-init()
 </script>
 <template>
   <div class="default-main page">

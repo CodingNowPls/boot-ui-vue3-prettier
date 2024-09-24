@@ -6,7 +6,6 @@ import hasPermi from '@/utils/hasPermi'
 import { download } from '@/utils/hsj/service/index'
 import {
   parseTime,
-  resetForm,
   handleTree,
   selectDictLabel,
   selectDictLabels,
@@ -17,7 +16,6 @@ const proxy = {
   download,
   useDict,
   parseTime,
-  resetForm,
   handleTree,
   selectDictLabel,
   selectDictLabels,

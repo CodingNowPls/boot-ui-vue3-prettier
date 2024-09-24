@@ -167,7 +167,7 @@ const props = defineProps({
   itemStyle: {
     type: Object,
     default: () => ({
-      padding: '20px 20px 0px 0px',
+      padding: '0px 20px 0px 0px',
     }),
   },
   // 布局适配
@@ -273,9 +273,12 @@ defineExpose({
     top: 50%;
     transform: translateY(-50%);
   }
+  :deep(.el-form-item) {
+    margin: 9px 0;
+  }
 }
 .footer {
-  margin-bottom: 18px;
+  margin: 9px 0;
   display: flex;
   align-items: center;
   justify-content: flex-start;

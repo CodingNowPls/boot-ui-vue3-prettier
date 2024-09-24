@@ -78,7 +78,7 @@ const queryParams = reactive({
   tableName: undefined,
   tableComment: undefined,
 })
-
+const queryRef = ref(null)
 const emit = defineEmits(['ok'])
 
 /** 查询参数列表 */
@@ -108,7 +108,7 @@ function handleQuery() {
 }
 /** 重置按钮操作 */
 function resetQuery() {
-  proxy.resetForm('queryRef')
+  queryRef.value?.resetFields()
   handleQuery()
 }
 /** 导入按钮操作 */

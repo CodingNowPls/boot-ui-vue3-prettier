@@ -91,8 +91,3 @@
 .el-dialog__headerbtn {
   top: 6px;
 }
-
-.el-dialog__body {
-  padding: calc(var(--el-dialog-padding-primary) + 10px)
-    var(--el-dialog-padding-primary) 0 var(--el-dialog-padding-primary);
-}

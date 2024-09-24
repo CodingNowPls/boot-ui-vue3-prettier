@@ -17,7 +17,6 @@ export default (otherConfig = {}) => {
         { required: true, message: '请输入生成功能名', trigger: 'blur' },
       ],
     },
-    itemStyle: { padding: '0px 20px 0px 0px' },
     formItems: [
       {
         label: '生成模板',
