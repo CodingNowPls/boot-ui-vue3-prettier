@@ -24,7 +24,7 @@
       </template>
     </template>
     <template v-if="unmatch && showValue">
-      {{ unmatchArray | handleArray }}
+      {{ unmatchArray(handleArray) }}
     </template>
   </div>
 </template>

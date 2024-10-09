@@ -19,6 +19,7 @@ import SvgIcon from '@/components/SvgIcon/index.vue'
 import BaseForm from '@/BaseComponent/BaseForm/index'
 import BaseTable from '@/BaseComponent/BaseTable/index'
 import PageContent from '@/components/HsjComponent/pageContent/index'
+import PageContentV2 from '@/components/HsjComponent/pageContentV2/index'
 import PageDialog from '@/components/HsjComponent/pageDialog/index'
 import PageSearch from '@/components/HsjComponent/pageSearch/index'
 import DictTag from '@/components/DictTag'
@@ -38,6 +39,7 @@ app.component('SvgIcon', SvgIcon)
 app.component('BaseForm', BaseForm)
 app.component('BaseTable', BaseTable)
 app.component('PageContent', PageContent)
+app.component('PageContentV2', PageContentV2)
 app.component('PageDialog', PageDialog)
 app.component('PageSearch', PageSearch)
 app.component('DictTag', DictTag)

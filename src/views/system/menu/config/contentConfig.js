@@ -43,7 +43,7 @@ export const tableItem = [
 ]
 export default () => {
   return {
-    tableItem,
+    tableItem: tableItem,
     elTableConfig: {
       tooltipOptions: {
         popperClass: 'lmw_popper',
