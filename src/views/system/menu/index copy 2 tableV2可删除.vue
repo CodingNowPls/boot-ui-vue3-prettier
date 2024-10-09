@@ -1,13 +1,13 @@
 <script setup name="Menu" lang="jsx">
 import getSearchConfig from './config/searchConfig'
-// import getContentConfig from './config/contentConfig.js'
+import getContentConfig from './config/contentConfig.js'
 import getDialogConfig from './config/dialogConfig.js'
 import useDialog from '@/hooks/useDialog'
 import getComputedConfig from '@/hooks/getPageConfig'
 import IconSelector from '@/components/IconSelector/IconSelector.vue'
 import { systemBaseUrl } from '@/api/config/base.js'
 import { menu } from '@/views/pageName.js'
-
+import { withDirectives } from 'vue'
 const proxy = inject('proxy')
 const { sys_normal_disable, sys_show_hide } = proxy.useDict(
   'sys_normal_disable',
@@ -56,10 +56,6 @@ const tableListener = {
     tableSelected.value = selected
   },
 }
-// const contentConfig = getContentConfig()
-// const contentConfigComputed = computed(() => {
-//   return contentConfig
-// })
 // 弹出成form配置
 const dialogLisenter = {
   menuTypeChange: (value) => {
@@ -120,11 +116,11 @@ const beforeSend = (queryInfo) => {
   }
 }
 // table上面的按钮权限配置
-const permission = ref({
+const permission = {
   add: 'system:menu:add',
   edit: 'system:menu:edit',
   del: 'system:menu:remove',
-})
+}
 
 const handleAdd = (row) => {
   addClick()
@@ -145,90 +141,109 @@ const SelectionCell = ({ value, intermediate = false, onChange }) => {
     />
   )
 }
-const contentConfig = {
-  tableItem: [
-    {
-      key: 'selection',
-      align: 'center',
-      width: 50,
-      cellRenderer: ({ rowData }) => {
-        const onChange = (value) => (rowData.checked = value)
-        return <SelectionCell value={rowData.checked} onChange={onChange} />
-      },
-
-      headerCellRenderer: () => {
-        const _data = unref(tableData)
-        const onChange = (value) =>
-          (tableData.value = _data.map((row) => {
-            row.checked = value
-            return row
-          }))
-        const allSelected = _data.every((row) => row.checked)
-        const containsChecked = _data.some((row) => row.checked)
-        return (
-          <SelectionCell
-            value={allSelected}
-            intermediate={containsChecked && !allSelected}
-            onChange={onChange}
-          />
-        )
-      },
-    },
-    {
-      key: 'menuName',
-      title: '菜单名称',
-      dataKey: 'menuName',
-      width: 160,
-      align: 'left',
-    },
-    {
-      key: 'icon',
-      title: '图标',
-      width: 70,
-      align: 'center',
-      cellRenderer: ({ rowData }) => {
-        if (rowData.icon) {
-          return <SvgIcon iconClass={rowData.icon} size="16" />
-        } else {
-          return ''
-        }
-      },
-    },
-    {
-      key: 'orderNum',
-      title: '排序',
-      dataKey: 'orderNum',
-      width: 70,
-      align: 'center',
-    },
-    {
-      key: 'perms',
-      title: '权限标识',
-      dataKey: 'perms',
-      width: 150,
-      align: 'center',
-    },
-    {
-      key: 'component',
-      title: '组件路径',
-      dataKey: 'component',
-      align: 'center',
-      width: 220,
-    },
-    {
-      key: 'createTime',
-      title: '创建时间',
-      dataKey: 'createTime',
-      align: 'center',
-      width: 180,
-    },
-  ],
-  elTableConfig: {
-    expandColumnKey: 'menuName',
-    rowKey: 'menuId',
-  },
-  pagination: false,
+const editClick = (row) => {
+  pageContentRef.value?.editClick(row)
 }
+const deleteRow = (row) => {
+  pageContentRef.value?.deleteRow(row)
+}
+const hasPermi = resolveDirective('hasPermi')
+const addVnode = (rowData) => {
+  return withDirectives(
+    <ElButton
+      class="order1"
+      size="small"
+      type="primary"
+      onClick={() => handleAdd(rowData)}
+    >
+      <SvgIcon size="11" iconClass="plus" />
+      <span class="ml6">添加</span>
+    </ElButton>,
+    [[hasPermi, [permission.add]]]
+  )
+}
+const editVnode = (rowData) => {
+  return withDirectives(
+    <ElButton
+      class="order1"
+      size="small"
+      type="primary"
+      onClick={() => editClick(rowData)}
+      v-hasPermi="['system:menu:edit']"
+    >
+      <SvgIcon size="10" iconClass="pencil"></SvgIcon>
+      <span class="ml6">编辑</span>
+    </ElButton>,
+    [[hasPermi, [permission.eidt]]]
+  )
+}
+const delVnode = (rowData) => {
+  return withDirectives(
+    <ElButton type="danger" size="small">
+      <SvgIcon size="10" iconClass="trash"></SvgIcon>
+      <span class="ml6">删除</span>
+    </ElButton>,
+    [[hasPermi, [permission.del]]]
+  )
+}
+const todoCell = ({ rowData }) => {
+  return (
+    <div>
+      {addVnode(rowData)}
+      {editVnode(rowData)}
+      <ElPopconfirm
+        title="确定删除选中记录？"
+        confirm-button-text="确认"
+        cancel-button-text="取消"
+        confirmButtonType="danger"
+        hide-after={0}
+        onConfirm={() => deleteRow(rowData)}
+      >
+        {{
+          reference: () => delVnode(rowData),
+        }}
+      </ElPopconfirm>
+    </div>
+  )
+}
+const otherContentConfig = {
+  selectionCell: ({ rowData }) => {
+    const onChange = (value) => (rowData.checked = value)
+    return <SelectionCell value={rowData.checked} onChange={onChange} />
+  },
+  selectionHeader: () => {
+    const _data = unref(tableData)
+    const onChange = (value) =>
+      (tableData.value = _data.map((row) => {
+        row.checked = value
+        return row
+      }))
+    const allSelected = _data.every((row) => row.checked)
+    const containsChecked = _data.some((row) => row.checked)
+    return (
+      <SelectionCell
+        value={allSelected}
+        intermediate={containsChecked && !allSelected}
+        onChange={onChange}
+      />
+    )
+  },
+  iconCell: ({ rowData }) => {
+    if (rowData.icon) {
+      return (
+        <SvgIcon
+          iconClass={rowData.icon}
+          size="16"
+          color="var(--el-table-text-color)"
+        />
+      )
+    } else {
+      return ''
+    }
+  },
+  todoCell,
+}
+const contentConfig = getContentConfig(otherContentConfig)
 </script>
 <template>
   <div class="default-main page">
@@ -242,7 +257,6 @@ const contentConfig = {
       :pageName="pageName"
       :contentConfig="contentConfig"
       :descConfig="descConfig"
-      :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"
       :permission="permission"
@@ -250,6 +264,7 @@ const contentConfig = {
       :requestBaseUrl="requestBaseUrl"
       @beforeSend="beforeSend"
       @addClick="addClick"
+      @editBtnClick="editBtnClick"
     >
       <template #handleLeft>
         <el-button class="order16 ml12" type="info" @click="unFoldAll">

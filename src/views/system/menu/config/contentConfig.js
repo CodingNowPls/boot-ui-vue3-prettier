@@ -56,6 +56,76 @@ export default () => {
     showIndex: false,
     showChoose: true,
     pagination: false,
-    // border: false,
   }
 }
+
+// export default (otherConfig) => {
+//   return {
+//     tableItem: [
+//       {
+//         key: 'selection',
+//         align: 'center',
+//         width: 50,
+//         cellRenderer: otherConfig.selectionCell,
+//         headerCellRenderer: otherConfig.selectionHeader,
+//       },
+//       {
+//         key: 'menuName',
+//         title: '菜单名称',
+//         dataKey: 'menuName',
+//         width: 160,
+//         align: 'left',
+//       },
+//       {
+//         key: 'icon',
+//         title: '图标',
+//         width: 70,
+//         align: 'center',
+//         cellRenderer: otherConfig.iconCell,
+//       },
+//       {
+//         key: 'orderNum',
+//         title: '排序',
+//         dataKey: 'orderNum',
+//         width: 70,
+//         align: 'center',
+//       },
+//       {
+//         key: 'perms',
+//         title: '权限标识',
+//         dataKey: 'perms',
+//         width: 150,
+//         align: 'center',
+//       },
+//       {
+//         key: 'component',
+//         title: '组件路径',
+//         dataKey: 'component',
+//         align: 'center',
+//         width: 220,
+//         minWidth: 300,
+//         flexGrow: 2,
+//       },
+//       {
+//         key: 'createTime',
+//         title: '创建时间',
+//         dataKey: 'createTime',
+//         align: 'center',
+//         width: 180,
+//       },
+//       {
+//         key: 'todo',
+//         title: '操作',
+//         align: 'center',
+//         width: 260,
+//         cellRenderer: otherConfig.todoCell,
+//         fixed: 'right',
+//       },
+//     ],
+//     elTableConfig: {
+//       expandColumnKey: 'menuName',
+//       rowKey: 'menuId',
+//     },
+//     pagination: false,
+//   }
+// }

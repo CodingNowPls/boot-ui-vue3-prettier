@@ -3,6 +3,9 @@ import BaseTableV2 from '@/BaseComponent/BaseTableV2/index'
 import emitter from '@/utils/hsj/bus'
 import businessStore from '@/store/business/businessStore'
 import { antiShake } from '@/utils/hsj/utils'
+import { interceptor } from '@/store/business/businessStore'
+import { getInfo } from '@/api/business/main/index'
+import to from '@/utils/to'
 const props = defineProps({
   // table的配置
   contentConfig: {
@@ -94,6 +97,7 @@ const emit = defineEmits([
   'beforeSend',
   'afterSend',
   'triggerShowSearch',
+  'editBtnClick',
 ])
 const store = businessStore()
 const proxy = inject('proxy')
@@ -287,6 +291,51 @@ const columnsFilter = () => {
   props.contentConfig.tableItem = tableItem
 }
 
+// 编辑按钮
+const editClick = async (item, type) => {
+  isLoading.value = true
+  // 取出当前点击这一行数据的id 优先props传入的idKey
+  let id = item[props.idKey] ?? item[props.pageName + 'Id'] ?? item.id
+  if (id || id === 0) {
+    // 拼接getInfo请求的url地址
+    let url = `${props.requestBaseUrl}${interceptor(props.pageName)}/${id}`
+    let [res] = await to(getInfo(url))
+    if (res?.data) {
+      emit('editBtnClick', res.data, type, res)
+    }
+  } else {
+    proxy.$modal.notifyWarning('未获取到有效Id')
+  }
+  isLoading.value = false
+}
+// 删除按钮
+const deleteRow = async (delData) => {
+  isLoading.value = true
+  let id = ''
+  if (Array.isArray(delData)) {
+    const ids = delData.map((item) => {
+      return item[props.idKey] ?? item[props.pageName + 'Id'] ?? item.id
+    })
+    id = ids.toString()
+  } else {
+    id = delData[props.idKey] ?? delData[props.pageName + 'Id'] ?? delData.id
+  }
+  if (id || id === 0) {
+    await to(
+      store.deletDataAction({
+        id,
+        pageName: props.pageName,
+        requestUrl: props.requestUrl,
+        requestBaseUrl: props.requestBaseUrl,
+        delUrl: props.delUrl,
+      })
+    )
+    await to(send(finalSearchData.value))
+  } else {
+    proxy.$modal.notifyWarning('未获取到有效Id')
+  }
+  isLoading.value = false
+}
 const init = () => {
   columnsFilter()
 }
@@ -324,11 +373,13 @@ defineExpose({
   refresh,
   baseTabelRef,
   dataList,
+  editClick,
+  deleteRow,
 })
 </script>
 
 <template>
-  <div class="page-content" v-loading="isLoading">
+  <div class="page-content">
     <BaseTableV2
       ref="baseTabelRef"
       @sortChange="sortChange"
@@ -337,6 +388,7 @@ defineExpose({
       :listCount="listCount"
       :tableListener="tableListener"
       :maxHeight="maxHeight"
+      :isLoading="isLoading"
       v-bind="contentConfig"
     >
       <!-- 操作按钮 -->
@@ -391,16 +443,22 @@ defineExpose({
 
 <style scoped lang="scss">
 .page-content :deep(.el-table-v2__header) {
+  border-top: var(--el-table-border);
+  border-bottom: var(--el-table-border);
   .el-table-v2__header-cell {
     color: var(--el-text-color-primary);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    border-right: var(--el-table-border);
   }
 }
 .page-content :deep(.el-table-v2__body) {
   .el-table-v2__cell-text {
     color: var(--el-table-text-color);
+  }
+  .el-table-v2__row-cell {
+    border-right: var(--el-table-border);
   }
 }
 </style>

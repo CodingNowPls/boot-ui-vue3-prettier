@@ -45,6 +45,10 @@ const props = defineProps({
     type: Object,
     default: () => {},
   },
+  isLoading: {
+    type: Boolean,
+    default: false,
+  },
 })
 const emit = defineEmits(['update:paginationInfo', 'sortChange'])
 const elTableRef = ref(null)
@@ -130,14 +134,31 @@ defineExpose({
           :columns="tableItem"
           :data="dataList"
           :width="width"
-          :height="height"
-          :maxHeight="maxHeight"
+          :height="maxHeight"
           :sort-by="sortBy"
+          fixed
           @columnSort="columnSort"
           v-on="tableListener"
           v-bind="elTableConfig"
-          fixed
-        />
+        >
+          <template #overlay>
+            <div
+              class="overlay"
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              "
+            >
+              <SvgIcon
+                class="is-loading"
+                color="var(--el-color-primary)"
+                :size="26"
+                iconClass="el-icon-Loading"
+              ></SvgIcon>
+            </div>
+          </template>
+        </el-table-v2>
       </template>
     </el-auto-resizer>
 
@@ -201,5 +222,14 @@ defineExpose({
     ) {
     display: block;
   }
+}
+.overlay {
+  width: 100%;
+  height: 100%;
+}
+</style>
+<style>
+.example-showcase .el-table-v2__overlay {
+  z-index: 9;
 }
 </style>
