@@ -1,6 +1,8 @@
 export default (listeners = {}) => {
   return {
-    itemStyle: { padding: '0px 0px 0px 0px' },
+    itemStyle: {
+      padding: '0px 8px 0px 8px',
+    },
     rules: {
           #foreach ($column in $columns)
       #if($column.required)
@@ -34,6 +36,16 @@ export default (listeners = {}) => {
         type: 'input',
         label: '${comment}',
       },
+#elseif($column.htmlType == "inputNumber")
+      {
+        field: '${field}',
+        type: 'inputNumber',
+        label: '${comment}',
+        config: {
+          controlsPosition: 'right',
+          min: 0,
+        },
+      },
 #elseif($column.htmlType == "textarea")
       {
         field: '${field}',
@@ -49,34 +61,24 @@ export default (listeners = {}) => {
         #if($column.htmlType == "radio")
         isGroup: true,
         #end
-        layout: {
-          xl: 12,
-          lg: 12,
-          md: 12,
-          sm: 12,
-          xs: 24,
-        },
-        config: {
-          clearable: false,
+      },
+#elseif($column.htmlType == "datetime")
+    {
+      field: '${field}',
+      label: '${comment}',
+      config: { clearable: false },
+      type: 'datepicker',
+      config: {
+        type: 'date',
+        disabledDate: (time) => {
+          return time.getTime() > Date.now()
         },
       },
-#elseif($column.htmlType == "datetime" && $column.queryType != "BETWEEN")
-#elseif($column.htmlType == "datetime" && $column.queryType == "BETWEEN")
+    },
 #end
 #end
 #end
 #end
-
     ],
-    colLayout: {
-      xl: 24,
-      lg: 24,
-      md: 24,
-      sm: 24,
-      xs: 24,
-    },
-    elFormConfig: {
-      labelWidth: '80px',
-    },
   }
 }

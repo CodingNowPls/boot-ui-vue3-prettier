@@ -745,14 +745,6 @@ defineExpose({
   justify-content: center;
   align-items: center;
 }
-.page-content :deep(.el-table__header) {
-  .cell {
-    color: var(--el-text-color-primary);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-}
 
 .table-search-button-group {
   display: flex;

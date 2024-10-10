@@ -5,55 +5,58 @@
     v-model="visible"
     :width="getWidth('800px')"
     top="5vh"
+    draggable
     append-to-body
   >
-    <el-form :model="queryParams" ref="queryRef" :inline="true">
-      <el-form-item label="表名称" prop="tableName">
-        <el-input
-          v-model="queryParams.tableName"
-          placeholder="请输入表名称"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="表描述" prop="tableComment">
-        <el-input
-          v-model="queryParams.tableComment"
-          placeholder="请输入表描述"
-          clearable
-          @keyup.enter="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item>
-        <el-button type="primary" icon="Search" @click="handleQuery"
-          >搜索</el-button
+    <div class="ml15 mr15">
+      <el-form class="mt15" :model="queryParams" ref="queryRef" :inline="true">
+        <el-form-item label="表名称" prop="tableName">
+          <el-input
+            v-model="queryParams.tableName"
+            placeholder="请输入表名称"
+            clearable
+            @keyup.enter="handleQuery"
+          />
+        </el-form-item>
+        <el-form-item label="表描述" prop="tableComment">
+          <el-input
+            v-model="queryParams.tableComment"
+            placeholder="请输入表描述"
+            clearable
+            @keyup.enter="handleQuery"
+          />
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="Search" @click="handleQuery"
+            >搜索</el-button
+          >
+          <el-button icon="Refresh" @click="resetQuery">重置</el-button>
+        </el-form-item>
+      </el-form>
+      <el-row>
+        <el-table
+          @row-click="clickRow"
+          ref="tableRef"
+          :data="dbTableList"
+          @selection-change="handleSelectionChange"
+          height="260px"
         >
-        <el-button icon="Refresh" @click="resetQuery">重置</el-button>
-      </el-form-item>
-    </el-form>
-    <el-row>
-      <el-table
-        @row-click="clickRow"
-        ref="tableRef"
-        :data="dbTableList"
-        @selection-change="handleSelectionChange"
-        height="260px"
-      >
-        <el-table-column type="selection" width="55"></el-table-column>
-        <el-table-column
-          prop="tableName"
-          label="表名称"
-          :show-overflow-tooltip="true"
-        ></el-table-column>
-        <el-table-column
-          prop="tableComment"
-          label="表描述"
-          :show-overflow-tooltip="true"
-        ></el-table-column>
-        <el-table-column prop="createTime" label="创建时间"></el-table-column>
-        <el-table-column prop="updateTime" label="更新时间"></el-table-column>
-      </el-table>
-    </el-row>
+          <el-table-column type="selection" width="55"></el-table-column>
+          <el-table-column
+            prop="tableName"
+            label="表名称"
+            :show-overflow-tooltip="true"
+          ></el-table-column>
+          <el-table-column
+            prop="tableComment"
+            label="表描述"
+            :show-overflow-tooltip="true"
+          ></el-table-column>
+          <el-table-column prop="createTime" label="创建时间"></el-table-column>
+          <el-table-column prop="updateTime" label="更新时间"></el-table-column>
+        </el-table>
+      </el-row>
+    </div>
     <template #footer>
       <div class="dialog-footer">
         <el-button type="primary" @click="handleImportTable">确 定</el-button>
@@ -65,6 +68,7 @@
 
 <script setup>
 import { listDbTable, importTable } from '@/api/tool/gen'
+import to from '@/utils/to'
 
 const total = ref(0)
 const visible = ref(false)
@@ -112,19 +116,23 @@ function resetQuery() {
   handleQuery()
 }
 /** 导入按钮操作 */
-function handleImportTable() {
+const importLoading = ref(false)
+async function handleImportTable() {
   const tableNames = tables.value.join(',')
   if (tableNames == '') {
     proxy.$modal.msgError('请选择要导入的表')
     return
   }
-  importTable({ tables: tableNames }).then((res) => {
+  importLoading.value = true
+  const [res] = await to(importTable({ tables: tableNames }))
+  if (res) {
     proxy.$modal.msgSuccess(res.msg)
     if (res.code === 200) {
       visible.value = false
       emit('ok')
     }
-  })
+  }
+  importLoading.value = false
 }
 
 defineExpose({

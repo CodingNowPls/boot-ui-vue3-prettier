@@ -29,11 +29,11 @@ export default defineConfig(({ mode, command }) => {
       host: true,
       open: true,
       proxy: {
-        '/dev-api': {
-          target: 'http://vue.ruoyi.vip/prod-api/',
-          // target: 'http://192.168.0.100:8091/',
+        '/api': {
+          // target: 'http://vue.ruoyi.vip/prod-api/',
+          target: 'http://192.168.0.99:8080/',
           changeOrigin: true,
-          rewrite: (p) => p.replace(/^\/dev-api/, ''),
+          rewrite: (p) => p.replace(/^\/api/, ''),
         },
       },
     },

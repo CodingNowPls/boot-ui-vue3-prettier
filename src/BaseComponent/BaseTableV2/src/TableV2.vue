@@ -127,7 +127,7 @@ defineExpose({
       </slot>
     </div>
     <el-auto-resizer>
-      <template #default="{ width, height }">
+      <template #default="{ width }">
         <el-table-v2
           ref="elTableRef"
           v-model:expanded-row-keys="expandedRowKeys"
@@ -135,15 +135,16 @@ defineExpose({
           :data="dataList"
           :width="width"
           :height="maxHeight"
+          :maxHeight="maxHeight"
           :sort-by="sortBy"
           fixed
           @columnSort="columnSort"
           v-on="tableListener"
           v-bind="elTableConfig"
         >
-          <template #overlay>
+          <template #overlay v-if="isLoading">
             <div
-              class="overlay"
+              class="el-loading-mask overlay"
               style="
                 display: flex;
                 align-items: center;
@@ -226,10 +227,5 @@ defineExpose({
 .overlay {
   width: 100%;
   height: 100%;
-}
-</style>
-<style>
-.example-showcase .el-table-v2__overlay {
-  z-index: 9;
 }
 </style>

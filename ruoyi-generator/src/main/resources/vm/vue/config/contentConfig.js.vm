@@ -18,8 +18,9 @@ export const tableItem = [
   {
     prop: '${javaField}',
     label: '${comment}',
-    slotName: '${javaField}Slot',
     width: '100',
+    slotName: '${javaField}',
+    isDict: true
   },
 
 #elseif($column.list && "" != $javaField)
@@ -47,13 +48,10 @@ export default () => {
         popperClass: 'lmw_popper',
         effect: 'light',
       },
-      stripe: false,
       rowKey: '${businessName}Id',
-      showOverflowTooltip: false,
     },
     showIndex: false,
     showChoose: true,
     pagination: false,
-    // border: false,
   }
 }

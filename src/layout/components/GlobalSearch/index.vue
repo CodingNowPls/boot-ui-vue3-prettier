@@ -123,15 +123,9 @@ watchEffect(() => {
   searchPool.value = generateRoutes(routes.value)
 })
 
-let lastCtrlPressTime = 0
-const threshold = 300
 document.addEventListener('keydown', function (event) {
-  if (event.key === 'Control') {
-    const currentTime = Date.now()
-    if (currentTime - lastCtrlPressTime < threshold) {
-      visible.value = true
-    }
-    lastCtrlPressTime = currentTime
+  if (event.ctrlKey && event.key === 'k') {
+    visible.value = true
   }
 })
 </script>

@@ -132,7 +132,7 @@ public class VelocityUtils {
             useWebType = "vm/vue/v3";
         }
         if ("lmw".equals(tplWebType)) {
-            useWebType = "vm/vue/lmw";
+            useWebType = "vm/vue";
         }
         List<String> templates = new ArrayList<String>();
         templates.add("vm/java/domain.java.vm");

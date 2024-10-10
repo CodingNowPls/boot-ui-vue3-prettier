@@ -1,5 +1,5 @@
 <script setup name="Menu" lang="jsx">
-import getSearchConfig from './config/searchConfig'
+import getSearchConfig from './config/searchConfig.js'
 import getContentConfig from './config/contentConfig.js'
 import getDialogConfig from './config/dialogConfig.js'
 import useDialog from '@/hooks/useDialog'
@@ -177,7 +177,7 @@ const editVnode = (rowData) => {
     [[hasPermi, [permission.eidt]]]
   )
 }
-const delVnode = (rowData) => {
+const delVnode = () => {
   return withDirectives(
     <ElButton type="danger" size="small">
       <SvgIcon size="10" iconClass="trash"></SvgIcon>

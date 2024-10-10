@@ -1,15 +1,12 @@
 <script setup name="${BusinessName}">
-
 import { nextTick } from 'vue'
 import getSearchConfig from './config/searchConfig'
 import getContentConfig from './config/contentConfig.js'
 import getDialogConfig from './config/dialogConfig.js'
 import useDialog from '@/hooks/useDialog'
 import getComputedConfig from '@/hooks/getPageConfig'
-import Editor from '@/components/Editor/index.vue'
 import { ${moduleName}BaseUrl } from '@/api/config/base.js'
-import { list${BusinessName}, get${BusinessName}, del${BusinessName}, add${BusinessName}, update${BusinessName} } from "@/api/${moduleName}/${businessName}";
-
+import { ${businessName} } from '@/views/pageName'
 
 const proxy = inject('proxy');
 #if(${dicts} != '')
@@ -17,8 +14,7 @@ const proxy = inject('proxy');
 const { ${dictsNoSymbol} } = proxy.useDict(${dicts});
 #end
 
-
-const pageName = '${businessName}'
+const pageName = ${businessName}
 const requestBaseUrl = ${moduleName}BaseUrl
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
@@ -26,7 +22,7 @@ const descConfig = ref({})
 const dialogHideItems = ref([])
 const tableHideItems = ref([])
 
-const dictMap = {
+const dictMap = ref({
 #foreach($column in $columns)
 #set($javaField=$column.javaField)
 #set($parentheseIndex=$column.columnComment.indexOf("（"))
@@ -40,7 +36,7 @@ const dictMap = {
 #else
 #end
 #end
-}
+})
 
 const searchConfig = getSearchConfig()
 const searchConfigComputed = computed(() => {
@@ -113,21 +109,6 @@ const permission = ref({
 const onChangeShowColumn = (filterArr) => {
   tableHideItems.value = filterArr
 }
-
-/** 导出按钮操作 */
-const handleExport = () => {
-  proxy.download(
-   '${moduleName}/${businessName}/export',
-    {
-      ...searchData.value,
-    },
-    `${businessName}_#[[${new Date().getTime()}]]#.xlsx`
-  )
-}
-
-const init = () => {}
-
-init()
 </script>
 <template>
   <div class="default-main page">
@@ -152,32 +133,10 @@ init()
       @onChangeShowColumn="onChangeShowColumn"
       @editMoreClick="editMoreClick"
     >
-
-#foreach($column in $columns)
-#set($javaField=$column.javaField)
-#set($parentheseIndex=$column.columnComment.indexOf("（"))
-#if($parentheseIndex != -1)
-#set($comment=$column.columnComment.substring(0, $parentheseIndex))
-#else
-#set($comment=$column.columnComment)
-#end
-#if($column.list && "" != $column.dictType)
-      <template #${column.javaField}Slot="{ backData }">
-
-        #if($column.htmlType == "checkbox")
-                  <dict-tag :options="${column.dictType}" :value="backData.${javaField} ? backData.${javaField}.split(',') : []"/>
-        #else
-                  <dict-tag :options="${column.dictType}" :value="backData.${javaField}"/>
-        #end
-
-      </template>
-#end
-#end
-
     </PageContent>
     <PageDialog
       ref="dialogRef"
-      :width="dialogWidth"
+      :width="getWidth(dialogWidth)"
       :pageName="pageName"
       :dialogConfig="dialogConfigComputed"
       :infoInit="infoInit"
@@ -191,15 +150,4 @@ init()
 </template>
 
 <style scoped lang="scss">
-.page {
-  :deep(.statusClass .el-radio-group) {
-    width: 100%;
-    .el-radio {
-      margin-right: 16px;
-    }
-  }
-  :deep(.del) {
-    margin-left: 12px;
-  }
-}
 </style>

@@ -18,9 +18,9 @@ const pageContentRef = ref(null)
 const descConfig = ref({})
 const dialogHideItems = ref([])
 const tableHideItems = ref([])
-const dictMap = {
+const dictMap = ref({
   status: sys_normal_disable,
-}
+})
 const searchConfig = getSearchConfig()
 const searchConfigComputed = computed(() => {
   return getComputedConfig(searchConfig, dictMap)

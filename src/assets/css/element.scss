@@ -91,3 +91,17 @@
 .el-dialog__headerbtn {
   top: 6px;
 }
+
+.el-form-item__label {
+  font-weight: 500;
+  color: var(--el-text-color-primary);
+}
+
+.el-table__header {
+  .cell {
+    color: var(--el-text-color-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

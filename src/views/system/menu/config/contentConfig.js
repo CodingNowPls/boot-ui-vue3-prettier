@@ -104,7 +104,7 @@ export default () => {
 //         align: 'center',
 //         width: 220,
 //         minWidth: 300,
-//         flexGrow: 2,
+//         flexGrow:2,
 //       },
 //       {
 //         key: 'createTime',
@@ -125,6 +125,8 @@ export default () => {
 //     elTableConfig: {
 //       expandColumnKey: 'menuName',
 //       rowKey: 'menuId',
+//       // height: 256,
+//       fixed: false,
 //     },
 //     pagination: false,
 //   }

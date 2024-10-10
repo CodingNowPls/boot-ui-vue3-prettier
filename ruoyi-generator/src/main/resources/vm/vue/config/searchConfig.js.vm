@@ -25,18 +25,19 @@ export default (otherConfig = {}) => {
         options: [],
       },
 #elseif($column.htmlType == "datetime" && $column.queryType != "BETWEEN")
-#elseif($column.htmlType == "datetime" && $column.queryType == "BETWEEN")
-
+      {
+        label: '${comment}',
+        field: '${column.javaField}',
+        type: 'datepicker',
+        config: {
+          type: 'daterange',
+          valueFormat: 'YYYY-MM-DD',
+          format: 'YYYY/MM/DD',
+        },
+      },
 #end
 #end
 #end
     ],
-    colLayout: {
-      xl: 4,
-      lg: 4,
-      md: 6,
-      sm: 12,
-      xs: 24,
-    },
   }
 }

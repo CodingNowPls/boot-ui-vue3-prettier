@@ -20,7 +20,8 @@ export const tableItem = [
     prop: 'status',
     label: '状态',
     width: '120',
-    slotName: 'statusSlot',
+    isDict: true,
+    slotName: 'status',
   },
   {
     prop: 'createTime',
