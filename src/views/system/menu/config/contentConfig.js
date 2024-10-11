@@ -20,7 +20,7 @@ export const tableItem = [
   {
     prop: 'perms',
     label: '权限标识',
-    width: 150,
+    width: 180,
   },
   {
     prop: 'component',
@@ -104,7 +104,7 @@ export default () => {
 //         align: 'center',
 //         width: 220,
 //         minWidth: 300,
-//         flexGrow:2,
+//         flexGrow: 2,
 //       },
 //       {
 //         key: 'createTime',
@@ -126,7 +126,7 @@ export default () => {
 //       expandColumnKey: 'menuName',
 //       rowKey: 'menuId',
 //       // height: 256,
-//       fixed: false,
+//       // fixed: false,
 //     },
 //     pagination: false,
 //   }

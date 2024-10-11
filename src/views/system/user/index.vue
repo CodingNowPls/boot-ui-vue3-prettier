@@ -341,8 +341,5 @@ init()
       margin-right: 0;
     }
   }
-  :deep(.del) {
-    margin-left: 12px;
-  }
 }
 </style>

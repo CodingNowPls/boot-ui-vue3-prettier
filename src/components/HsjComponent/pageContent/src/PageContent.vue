@@ -672,39 +672,39 @@ defineExpose({
       <template #todo="{ backData }">
         <div class="todo">
           <slot name="todoSlot" :backData="backData"></slot>
-          <div class="edit order5" v-if="showEdit && handleEditShow(backData)">
-            <el-button
-              v-if="showEdit"
-              v-hasPermi="[permission.edit]"
-              type="primary"
-              size="small"
-              @click="editClick(backData)"
-            >
-              <SvgIcon :size="10" iconClass="pencil"></SvgIcon>
-              <span class="ml6">编辑</span>
-            </el-button>
-          </div>
-          <div
-            class="del order10"
-            v-if="showDelete && handleDeleteShow(backData)"
-            v-hasPermi="[permission.del]"
+          <el-button
+            class="edit order5"
+            v-if="showEdit && handleEditShow(backData)"
+            v-hasPermi="[permission.edit]"
+            type="primary"
+            size="small"
+            @click="editClick(backData)"
           >
-            <el-popconfirm
-              title="确定删除选中记录？"
-              confirm-button-text="确认"
-              cancel-button-text="取消"
-              confirmButtonType="danger"
-              :hide-after="0"
-              @confirm="deleteRow(backData)"
-            >
-              <template #reference>
-                <el-button type="danger" size="small">
-                  <SvgIcon :size="10" iconClass="trash"></SvgIcon>
-                  <span class="ml6">删除</span>
-                </el-button>
-              </template>
-            </el-popconfirm>
-          </div>
+            <SvgIcon :size="10" iconClass="pencil"></SvgIcon>
+            <span class="ml6">编辑</span>
+          </el-button>
+          <el-popconfirm
+            title="确定删除选中记录？"
+            confirm-button-text="确认"
+            cancel-button-text="取消"
+            confirmButtonType="danger"
+            :hide-after="0"
+            @confirm="deleteRow(backData)"
+          >
+            <template #reference>
+              <el-button
+                class="del order10"
+                type="danger"
+                size="small"
+                v-if="showDelete && handleDeleteShow(backData)"
+                v-hasPermi="[permission.del]"
+              >
+                <SvgIcon :size="10" iconClass="trash"></SvgIcon>
+                <span class="ml6">删除</span>
+              </el-button>
+              <span></span>
+            </template>
+          </el-popconfirm>
         </div>
       </template>
 
@@ -744,6 +744,9 @@ defineExpose({
   display: flex;
   justify-content: center;
   align-items: center;
+  :deep(.el-button) {
+    margin: 4px;
+  }
 }
 
 .table-search-button-group {

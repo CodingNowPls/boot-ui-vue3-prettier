@@ -72,7 +72,7 @@ const toggleDarkLight = (e) => {
         clipPath: isDark ? [...clipPath].reverse() : clipPath,
       },
       {
-        duration: 350,
+        duration: 600,
         easing: 'ease',
         pseudoElement: isDark
           ? '::view-transition-old(root)'

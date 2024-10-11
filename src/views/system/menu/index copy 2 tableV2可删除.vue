@@ -299,8 +299,5 @@ const contentConfig = getContentConfig(otherContentConfig)
   :deep(.statusClass .el-radio-group) {
     width: 100%;
   }
-  :deep(.edit) {
-    margin: 0 12px;
-  }
 }
 </style>

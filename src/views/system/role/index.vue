@@ -321,9 +321,6 @@ const handleCheckedTreeNodeAll = (value) => {
   :deep(.statusClass .el-radio-group) {
     width: 100%;
   }
-  :deep(.del) {
-    margin-top: 6px;
-  }
   :deep(.menuIdsClass) {
     .el-tree {
       border: 1px solid var(--el-border-color);

@@ -187,8 +187,5 @@ init()
   :deep(.statusClass .el-radio-group) {
     width: 100%;
   }
-  :deep(.del) {
-    margin-top: 6px;
-  }
 }
 </style>

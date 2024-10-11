@@ -185,9 +185,6 @@ const typeFormat = (row) => {
       margin-right: 16px;
     }
   }
-  :deep(.del) {
-    margin-left: 12px;
-  }
   :deep(.errorMsgClass) {
     .el-form-item__content {
       margin-left: 20px !important;

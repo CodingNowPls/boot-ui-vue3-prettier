@@ -111,7 +111,7 @@ defineExpose({
 </script>
 
 <template>
-  <div class="lmw-table-v2">
+  <div class="baseTableV2">
     <div
       class="header"
       ref="headerRef"
@@ -134,7 +134,7 @@ defineExpose({
           :columns="tableItem"
           :data="dataList"
           :width="width"
-          :height="maxHeight"
+          :height="NaN"
           :maxHeight="maxHeight"
           :sort-by="sortBy"
           fixed
@@ -144,7 +144,7 @@ defineExpose({
         >
           <template #overlay v-if="isLoading">
             <div
-              class="el-loading-mask overlay"
+              class="el-loading-mask"
               style="
                 display: flex;
                 align-items: center;
@@ -216,16 +216,13 @@ defineExpose({
 .btns {
   display: flex;
 }
-.baseTable {
-  :deep(
-      .el-table__body-wrapper .el-table-column--selection > .cell,
-      .el-table__header-wrapper .el-table-column--selection > .cell
-    ) {
-    display: block;
+.baseTableV2 {
+  :deep(.el-table-v2__main) {
+    position: initial;
   }
-}
-.overlay {
-  width: 100%;
-  height: 100%;
+  :deep(.el-table-v2__overlay) {
+    width: 100%;
+    height: 100%;
+  }
 }
 </style>
