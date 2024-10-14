@@ -156,9 +156,10 @@ const handleAdd = (row) => {
     dialogRef.value?.setFormData('parentId', row.menuId)
   })
 }
-
+const foldAll = ref(false)
 const unFoldAll = () => {
-  pageContentRef.value?.baseTabelRef.unFoldAll()
+  foldAll.value = !foldAll.value
+  pageContentRef.value?.baseTabelRef.unFoldAll(foldAll.value)
 }
 </script>
 <template>
@@ -186,8 +187,13 @@ const unFoldAll = () => {
       @editMoreClick="editMoreClick"
     >
       <template #handleLeft>
-        <el-button class="order16 ml12" type="info" @click="unFoldAll">
-          展开/折叠
+        <el-button
+          class="order16 ml12"
+          @click="unFoldAll"
+          :type="foldAll ? 'warning' : 'info'"
+        >
+          <span v-show="!foldAll">展开所有</span>
+          <span v-show="foldAll">收缩所有</span>
         </el-button>
       </template>
       <template #todoSlot="{ backData }">

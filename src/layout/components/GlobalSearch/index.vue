@@ -143,7 +143,7 @@ document.addEventListener('keydown', function (event) {
         <div class="header flexCenter">
           <el-input
             ref="inputRef"
-            placeholder="菜单搜索"
+            placeholder="菜单搜索(ctrl+k)"
             class="searchInput"
             v-model="searchValue"
           >

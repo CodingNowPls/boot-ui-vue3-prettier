@@ -145,10 +145,10 @@ const handleAdd = (row) => {
   })
 }
 
-let foldAll = true
+const foldAll = ref(true)
 const unFoldAll = () => {
-  foldAll = !foldAll
-  pageContentRef.value?.baseTabelRef.unFoldAll(foldAll)
+  foldAll.value = !foldAll.value
+  pageContentRef.value?.baseTabelRef.unFoldAll(foldAll.value)
 }
 
 const init = () => {
@@ -182,8 +182,13 @@ init()
       @editMoreClick="editMoreClick"
     >
       <template #handleLeft>
-        <el-button class="order16 ml12" type="info" @click="unFoldAll">
-          展开/折叠
+        <el-button
+          class="order16 ml12"
+          :type="foldAll ? 'warning' : 'info'"
+          @click="unFoldAll"
+        >
+          <span v-show="!foldAll">展开所有</span>
+          <span v-show="foldAll">收缩所有</span>
         </el-button>
       </template>
       <template #statusSlot="{ backData }">

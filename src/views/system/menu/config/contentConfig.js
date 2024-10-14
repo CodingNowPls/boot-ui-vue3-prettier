@@ -62,24 +62,24 @@ export default () => {
 // export default (otherConfig) => {
 //   return {
 //     tableItem: [
-//       {
-//         key: 'selection',
-//         align: 'center',
-//         width: 50,
-//         cellRenderer: otherConfig.selectionCell,
-//         headerCellRenderer: otherConfig.selectionHeader,
-//       },
+//       // {
+//       //   key: 'selection',
+//       //   align: 'center',
+//       //   width: 50,
+//       //   cellRenderer: otherConfig.selectionCell,
+//       //   headerCellRenderer: otherConfig.selectionHeader,
+//       // },
 //       {
 //         key: 'menuName',
 //         title: '菜单名称',
 //         dataKey: 'menuName',
-//         width: 160,
+//         width: 180,
 //         align: 'left',
 //       },
 //       {
 //         key: 'icon',
 //         title: '图标',
-//         width: 70,
+//         width: 80,
 //         align: 'center',
 //         cellRenderer: otherConfig.iconCell,
 //       },
@@ -87,14 +87,14 @@ export default () => {
 //         key: 'orderNum',
 //         title: '排序',
 //         dataKey: 'orderNum',
-//         width: 70,
+//         width: 80,
 //         align: 'center',
 //       },
 //       {
 //         key: 'perms',
 //         title: '权限标识',
 //         dataKey: 'perms',
-//         width: 150,
+//         width: 180,
 //         align: 'center',
 //       },
 //       {
@@ -103,8 +103,6 @@ export default () => {
 //         dataKey: 'component',
 //         align: 'center',
 //         width: 220,
-//         minWidth: 300,
-//         flexGrow: 2,
 //       },
 //       {
 //         key: 'createTime',

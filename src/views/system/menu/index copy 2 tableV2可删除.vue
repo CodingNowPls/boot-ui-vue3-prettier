@@ -207,27 +207,27 @@ const todoCell = ({ rowData }) => {
   )
 }
 const otherContentConfig = {
-  selectionCell: ({ rowData }) => {
-    const onChange = (value) => (rowData.checked = value)
-    return <SelectionCell value={rowData.checked} onChange={onChange} />
-  },
-  selectionHeader: () => {
-    const _data = unref(tableData)
-    const onChange = (value) =>
-      (tableData.value = _data.map((row) => {
-        row.checked = value
-        return row
-      }))
-    const allSelected = _data.every((row) => row.checked)
-    const containsChecked = _data.some((row) => row.checked)
-    return (
-      <SelectionCell
-        value={allSelected}
-        intermediate={containsChecked && !allSelected}
-        onChange={onChange}
-      />
-    )
-  },
+  // selectionCell: ({ rowData }) => {
+  //   const onChange = (value) => (rowData.checked = value)
+  //   return <SelectionCell value={rowData.checked} onChange={onChange} />
+  // },
+  // selectionHeader: () => {
+  //   const _data = unref(tableData)
+  //   const onChange = (value) =>
+  //     (tableData.value = _data.map((row) => {
+  //       row.checked = value
+  //       return row
+  //     }))
+  //   const allSelected = _data.every((row) => row.checked)
+  //   const containsChecked = _data.some((row) => row.checked)
+  //   return (
+  //     <SelectionCell
+  //       value={allSelected}
+  //       intermediate={containsChecked && !allSelected}
+  //       onChange={onChange}
+  //     />
+  //   )
+  // },
   iconCell: ({ rowData }) => {
     if (rowData.icon) {
       return (

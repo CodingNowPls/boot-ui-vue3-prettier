@@ -442,35 +442,18 @@ defineExpose({
 </template>
 
 <style scoped lang="scss">
-.page-content :deep(.el-table-v2__header) {
-  border-top: var(--el-table-border);
-  border-bottom: var(--el-table-border);
-  .el-table-v2__header-cell {
-    color: var(--el-text-color-primary);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    border-right: var(--el-table-border);
+.page-content {
+  :deep(.el-table-v2__header) {
+    border-top: var(--el-table-border);
+    border-bottom: var(--el-table-border);
+    .el-table-v2__header-cell {
+      color: var(--el-text-color-primary);
+    }
   }
-}
-.page-content :deep(.el-table-v2__body) {
-  .el-table-v2__cell-text {
-    color: var(--el-table-text-color);
-  }
-  .el-table-v2__row-cell {
-    border-right: var(--el-table-border);
-  }
-}
-</style>
-<style lang="scss">
-.columnDisplay {
-  .el-dropdown-menu__item {
-    padding: 0;
-  }
-  .el-checkbox {
-    width: 100%;
-    padding: 5px 16px;
-    height: 32px;
+  :deep(.el-table-v2__body) {
+    .el-table-v2__cell-text {
+      color: var(--el-table-text-color);
+    }
   }
 }
 </style>
