@@ -28,10 +28,6 @@ export const dependencies = [
     description: '^2.8.1',
   },
   {
-    name: 'lodash-es',
-    description: '^4.17.21',
-  },
-  {
     name: 'echarts',
     description: '5.4.0',
   },
