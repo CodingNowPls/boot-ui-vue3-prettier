@@ -372,7 +372,8 @@ const mittResize = (searchHeight) => {
   // 获取分页的高度
   const pagination = document.getElementsByClassName('lmw-pagination-footer')[0]
   // 计算公式为 视口高度-搜索栏高度-marginTop-marginBottom
-  let viewportHeight = window.innerHeight - currentSearchHeight - 16 - 16
+  //
+  let viewportHeight = window.innerHeight - currentSearchHeight - 16 - 16 - 1
   // 如果header存在会再减去header的高度，因为某些布局没有header
   if (header) {
     viewportHeight -= header.clientHeight
