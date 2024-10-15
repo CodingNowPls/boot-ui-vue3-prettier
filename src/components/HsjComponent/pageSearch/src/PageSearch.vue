@@ -70,7 +70,7 @@ const setFormData = (key, value) => {
 const resizeObserver = new ResizeObserver((entries) => {
   for (let entry of entries) {
     // 获取目标元素的新尺寸
-    const newHeight = entry.target.clientHeight
+    const newHeight = entry.target.getBoundingClientRect().height
     emitter.emit(`change${props.pageName}Size`, newHeight)
   }
 })

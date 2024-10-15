@@ -118,7 +118,7 @@ const gitInfo = [
   :deep(.el-card) {
     margin-bottom: 15px;
   }
-  margin: var(--ba-main-space) var(--ba-main-space) 0 var(--ba-main-space);
+  margin: var(--ba-main-space);
 }
 
 .description {
