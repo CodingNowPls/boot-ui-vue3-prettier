@@ -15,20 +15,16 @@ const pageName = dept
 const requestBaseUrl = systemBaseUrl
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
-// 控制页面排序字段
-const descConfig = ref({})
 // 点击保存会带上这里面的值（如果和要提交的表单键冲突那么会优先表单）
 const otherInfo = ref({})
 // 弹出层表单默认值
 const defaultData = ref({})
-
 const treeSelectInfo = ref([])
-const tableData = ref([])
 const piniaConfig = {
   listConfig: { listKey: 'data', countKey: 'total' },
   handleList: (list) => {
-    tableData.value = proxy.handleTree(list, 'deptId')
-    return tableData.value
+    treeSelectInfo.value = proxy.handleTree(list, 'deptId')
+    return treeSelectInfo.value
   },
 }
 // 弹出层要隐藏的formItem
@@ -128,11 +124,11 @@ const onChangeShowColumn = (filterArr) => {
   tableHideItems.value = filterArr
 }
 
-const getTreeSelect = async () => {
-  treeSelectInfo.value = []
-  const [res] = await to(listDept())
-  treeSelectInfo.value = proxy.handleTree(res.data, 'deptId')
-}
+// const getTreeSelect = async () => {
+//   treeSelectInfo.value = []
+//   const [res] = await to(listDept())
+//   treeSelectInfo.value = proxy.handleTree(res.data, 'deptId')
+// }
 const handleAdd = (row) => {
   addClick()
   nextTick(() => {
@@ -150,12 +146,6 @@ const unFoldAll = () => {
   foldAll.value = !foldAll.value
   pageContentRef.value?.baseTabelRef.unFoldAll(foldAll.value)
 }
-
-const init = () => {
-  getTreeSelect()
-}
-
-init()
 </script>
 <template>
   <div class="default-main page">
@@ -168,7 +158,7 @@ init()
       ref="pageContentRef"
       :pageName="pageName"
       :contentConfig="contentConfigComputed"
-      :descConfig="descConfig"
+      :autoDesc="false"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"

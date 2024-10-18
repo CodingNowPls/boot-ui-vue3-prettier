@@ -20,7 +20,6 @@ const pageName = role
 const requestBaseUrl = systemBaseUrl
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
-const descConfig = ref({})
 const treeSelectInfo = ref([])
 const menuExpand = ref(false)
 const menuNodeAll = ref(false)
@@ -219,7 +218,7 @@ const handleCheckedTreeNodeAll = (value) => {
       ref="pageContentRef"
       :pageName="pageName"
       :contentConfig="contentConfigComputed"
-      :descConfig="descConfig"
+      :autoDesc="false"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"

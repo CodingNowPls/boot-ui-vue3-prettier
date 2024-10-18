@@ -12,7 +12,6 @@ const pageName = online
 const requestBaseUrl = monitorBaseUrl
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
-const descConfig = ref({})
 const tableHideItems = ref([])
 const headerButtons = ['refresh', 'columnDisplay', 'comSearch']
 const dictMap = {}
@@ -64,7 +63,7 @@ init()
       ref="pageContentRef"
       :pageName="pageName"
       :contentConfig="contentConfigComputed"
-      :descConfig="descConfig"
+      :autoDesc="false"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"

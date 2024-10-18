@@ -41,12 +41,6 @@ const props = defineProps({
   // 排序的参数
   descConfig: {
     type: Object,
-    default: () => {
-      return {
-        orderByColumn: 'createTime',
-        isAsc: 'desc',
-      }
-    },
   },
   // 其他查询条件
   otherRequestOption: {
@@ -323,7 +317,7 @@ const sortChange = (shortData) => {
       orderByColumn,
       isAsc,
     }
-  } else {
+  } else if (props.descConfig) {
     // 如果没有排序就使用默认的查询条件的排序属性
     for (const [key, value] of Object.entries(props.descConfig)) {
       searchDatas.value[key] = value
@@ -497,8 +491,25 @@ const init = () => {
 }
 
 onMounted(() => {
+  // 判断是否需要自动排序
   if (props.autoDesc) {
-    for (const [key, value] of Object.entries(props.descConfig)) {
+    let shortData = {
+      orderByColumn: 'createTime',
+      isAsc: 'desc',
+    }
+    // 如果外界传入了descConfig，则使用外界的，如果没有使用elTableConfig的defaultSort，最后使用默认 { orderByColumn: 'createTime',isAsc: 'desc' }
+    if (props.descConfig) {
+      shortData = props.descConfig
+    } else if (props.contentConfig?.elTableConfig?.defaultSort) {
+      const sort = props.contentConfig.elTableConfig.defaultSort
+      shortData.orderByColumn = sort.prop
+      if (sort.order === 'ascending') {
+        shortData.isAsc = 'asc'
+      } else if (sort.order === 'descending') {
+        shortData.isAsc = 'desc'
+      }
+    }
+    for (const [key, value] of Object.entries(shortData)) {
       searchDatas.value[key] = value
     }
   }

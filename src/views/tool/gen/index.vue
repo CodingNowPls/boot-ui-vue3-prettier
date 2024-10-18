@@ -10,13 +10,11 @@ import { gen } from '@/views/pageName.js'
 
 const router = useRouter()
 const proxy = inject('proxy')
-
 const pageName = gen
 const idKey = 'tableId'
 const requestBaseUrl = tool
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
-const descConfig = ref({})
 const headerButtons = ['refresh', 'delete', 'columnDisplay', 'comSearch']
 const tableHideItems = ref([])
 const dictMap = {}
@@ -137,7 +135,7 @@ const copyTextSuccess = () => {
       :pageName="pageName"
       :idKey="idKey"
       :contentConfig="contentConfigComputed"
-      :descConfig="descConfig"
+      :autoDesc="false"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"

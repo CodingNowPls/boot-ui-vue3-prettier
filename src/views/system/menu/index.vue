@@ -17,8 +17,6 @@ const pageName = menu
 const requestBaseUrl = systemBaseUrl
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
-// 控制页面排序字段
-const descConfig = ref({})
 // 点击保存会带上这里面的值（如果和要提交的表单键冲突那么会优先表单）
 const otherInfo = ref({})
 // 弹出层表单默认值
@@ -173,7 +171,7 @@ const unFoldAll = () => {
       ref="pageContentRef"
       :pageName="pageName"
       :contentConfig="contentConfigComputed"
-      :descConfig="descConfig"
+      :autoDesc="false"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"

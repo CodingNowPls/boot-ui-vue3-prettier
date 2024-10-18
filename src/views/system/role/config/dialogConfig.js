@@ -11,6 +11,7 @@ export default (config = {}) => {
       roleSort: [
         { required: true, message: '角色顺序不能为空', trigger: 'blur' },
       ],
+      status: [{ required: true, message: '请选择状态', trigger: 'change' }],
     },
     formItems: [
       {

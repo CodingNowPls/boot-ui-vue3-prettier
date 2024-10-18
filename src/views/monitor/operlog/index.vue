@@ -16,7 +16,6 @@ const requestBaseUrl = monitorBaseUrl
 const idKey = 'operId'
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
-const descConfig = ref({})
 const tableHideItems = ref([])
 const headerButtons = ['refresh', 'delete', 'columnDisplay', 'comSearch']
 const dictMap = {
@@ -102,7 +101,7 @@ const typeFormat = (row) => {
       ref="pageContentRef"
       :pageName="pageName"
       :contentConfig="contentConfigComputed"
-      :descConfig="descConfig"
+      :autoDesc="false"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"

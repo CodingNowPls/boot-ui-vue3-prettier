@@ -27,8 +27,6 @@ const requestBaseUrl = systemBaseUrl
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
 const roleOptions = ref([])
-const descConfig = ref({})
-
 const deptOptions = ref([])
 const postOptions = ref([])
 /** 查询部门下拉树结构 */
@@ -248,7 +246,7 @@ init()
       ref="pageContentRef"
       :pageName="pageName"
       :contentConfig="contentConfigComputed"
-      :descConfig="descConfig"
+      :autoDesc="false"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"

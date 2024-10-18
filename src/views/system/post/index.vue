@@ -10,12 +10,10 @@ import { post } from '@/views/pageName.js'
 
 const proxy = inject('proxy')
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
-
 const pageName = post
 const requestBaseUrl = systemBaseUrl
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
-const descConfig = ref({})
 const dialogHideItems = ref([])
 const tableHideItems = ref([])
 const dictMap = ref({
@@ -119,7 +117,7 @@ init()
       ref="pageContentRef"
       :pageName="pageName"
       :contentConfig="contentConfigComputed"
-      :descConfig="descConfig"
+      :autoDesc="false"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"

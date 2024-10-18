@@ -22,7 +22,6 @@ const pageName = job
 const requestBaseUrl = monitorBaseUrl
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
-const descConfig = ref({})
 const dialogHideItems = ref([])
 const tableHideItems = ref([])
 const dictMap = {
@@ -178,7 +177,7 @@ const handleJobLog = (row) => {
       ref="pageContentRef"
       :pageName="pageName"
       :contentConfig="contentConfigComputed"
-      :descConfig="descConfig"
+      :autoDesc="false"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"
