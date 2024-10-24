@@ -1,5 +1,9 @@
 export const technologyStacks = [
   {
+    title: '版本',
+    desp: '1.0.0',
+  },
+  {
     title: '开发工具',
     desp: 'Visual Studio Code',
   },
