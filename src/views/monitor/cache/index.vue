@@ -124,7 +124,7 @@
         </el-card>
       </el-col>
 
-      <el-col :span="12" class="mb10">
+      <el-col v-bind="layout" class="mb10">
         <el-card>
           <template #header>
             <PieChart style="width: 1em; height: 1em; vertical-align: middle" />
@@ -136,7 +136,7 @@
         </el-card>
       </el-col>
 
-      <el-col :span="12" class="mb10">
+      <el-col v-bind="layout" class="mb10">
         <el-card>
           <template #header>
             <Odometer style="width: 1em; height: 1em; vertical-align: middle" />
@@ -159,7 +159,13 @@ const cache = ref([])
 const commandstats = ref(null)
 const usedmemory = ref(null)
 const proxy = inject('proxy')
-
+const layout = {
+  xl: 12,
+  lg: 12,
+  md: 12,
+  sm: 24,
+  xs: 24,
+}
 function getList() {
   proxy.$modal.loading('正在加载缓存监控数据，请稍候！')
   getCache().then((response) => {

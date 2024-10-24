@@ -34,7 +34,7 @@ export const tableItem = [
   {
     prop: 'todo',
     label: '操作',
-    minWidth: 160,
+    width: 160,
     fixed: !window.isSmallScreen ? 'right' : false,
     slotName: 'todo',
     showOverflowTooltip: false,

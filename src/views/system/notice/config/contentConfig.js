@@ -2,36 +2,39 @@ export const tableItem = [
   {
     prop: 'noticeId',
     label: '序号',
-    width: '80',
+    minWidth: 90,
   },
   {
     prop: 'noticeTitle',
     label: '公告标题',
+    minWidth: 160,
   },
   {
     prop: 'noticeType',
     label: '公告类型',
     slotName: 'noticeTypeSlot',
-    width: '100',
+    minWidth: 90,
   },
   {
     prop: 'status',
     label: '状态',
     slotName: 'statusSlot',
+    minWidth: 90,
   },
   {
     prop: 'createBy',
     label: '创建者',
+    minWidth: 90,
   },
   {
     prop: 'createTime',
     label: '创建时间',
+    minWidth: 160,
   },
-
   {
     prop: 'todo',
     label: '操作',
-    width: '200',
+    width: 200,
     fixed: !window.isSmallScreen ? 'right' : false,
     slotName: 'todo',
     showOverflowTooltip: false,

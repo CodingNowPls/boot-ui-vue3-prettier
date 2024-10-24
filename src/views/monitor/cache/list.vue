@@ -1,7 +1,7 @@
 <template>
-  <div class="default-main">
+  <div class="cache">
     <el-row :gutter="10">
-      <el-col :span="8">
+      <el-col v-bind="layout">
         <el-card style="height: calc(100vh - 125px)">
           <template #header>
             <Collection
@@ -63,8 +63,7 @@
           </el-table>
         </el-card>
       </el-col>
-
-      <el-col :span="8">
+      <el-col v-bind="layout">
         <el-card style="height: calc(100vh - 125px)">
           <template #header>
             <Key style="width: 1em; height: 1em; vertical-align: middle" />
@@ -115,8 +114,7 @@
           </el-table>
         </el-card>
       </el-col>
-
-      <el-col :span="8">
+      <el-col v-bind="layout">
         <el-card :bordered="false" style="height: calc(100vh - 125px)">
           <template #header>
             <Document style="width: 1em; height: 1em; vertical-align: middle" />
@@ -179,7 +177,13 @@ const loading = ref(true)
 const subLoading = ref(false)
 const nowCacheName = ref('')
 const tableHeight = ref(window.innerHeight - 200)
-
+const layout = {
+  xl: 8,
+  lg: 8,
+  md: 12,
+  sm: 12,
+  xs: 24,
+}
 /** 查询缓存名称列表 */
 function getCacheNames() {
   loading.value = true
@@ -257,3 +261,8 @@ function handleClearCacheAll() {
 
 getCacheNames()
 </script>
+<style lang="scss" scoped>
+.cache {
+  margin: var(--ba-main-space);
+}
+</style>

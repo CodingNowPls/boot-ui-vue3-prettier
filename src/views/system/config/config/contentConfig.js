@@ -2,33 +2,38 @@ export const tableItem = [
   {
     prop: 'configId',
     label: '主键',
-    width: '80',
+    minWidth: 90,
   },
   {
     prop: 'configName',
     label: '参数名称',
+    minWidth: 90,
   },
   {
     prop: 'configKey',
     label: '参数键名',
+    minWidth: 90,
   },
   {
     prop: 'configValue',
     label: '参数键值',
+    minWidth: 90,
   },
   {
     prop: 'configType',
     label: '系统内置',
     slotName: 'configTypeSlot',
-    width: '100',
+    minWidth: 90,
   },
   {
     prop: 'remark',
     label: '备注',
+    minWidth: 120,
   },
   {
     prop: 'createTime',
     label: '创建时间',
+    minWidth: 160,
   },
   {
     prop: 'todo',

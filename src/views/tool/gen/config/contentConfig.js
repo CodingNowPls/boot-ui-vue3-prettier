@@ -2,32 +2,34 @@ export const tableItem = [
   {
     prop: 'tableName',
     label: '表名称',
+    minWidth: 110,
   },
   {
     prop: 'tableComment',
     label: '表描述',
+    minWidth: 120,
   },
   {
     prop: 'className',
     label: '实体',
+    minWidth: 120,
   },
 
   {
     prop: 'createTime',
     label: '创建时间',
-    width: 160,
+    minWidth: 160,
   },
   {
     prop: 'updateTime',
     label: '更新时间',
-    width: 160,
+    minWidth: 160,
   },
   {
     prop: 'doSth',
     label: '操作',
-    width: '280',
+    width: 280,
     slotName: 'doSth',
-    showOverflowTooltip: false,
   },
 ]
 export default () => {
@@ -38,6 +40,7 @@ export default () => {
         popperClass: 'lmw_popper',
         effect: 'light',
       },
+      showOverflowTooltip: false,
     },
     showIndex: false,
     showChoose: true,

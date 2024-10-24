@@ -2,43 +2,50 @@ export const tableItem = [
   {
     prop: 'infoId',
     label: '日志编号',
-    width: '100',
+    minWidth: 100,
   },
   {
     prop: 'userName',
     label: '用户名称',
     sortable: true,
+    minWidth: 120,
   },
   {
     prop: 'ipaddr',
     label: '地址',
+    minWidth: 120,
   },
   {
     prop: 'loginLocation',
     label: '登录地点',
+    minWidth: 120,
   },
   {
     prop: 'os',
     label: '操作系统',
+    minWidth: 100,
   },
   {
     prop: 'browser',
     label: '浏览器',
+    minWidth: 100,
   },
   {
     prop: 'status',
     label: '登录状态',
     slotName: 'statusSlot',
+    minWidth: 100,
   },
   {
     prop: 'msg',
     label: '描述',
+    minWidth: 100,
   },
   {
     prop: 'loginTime',
     label: '访问时间',
     sortable: true,
-    width: 160,
+    minWidth: 160,
   },
   {
     prop: 'todo',
