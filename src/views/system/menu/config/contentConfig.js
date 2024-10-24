@@ -26,6 +26,7 @@ export const tableItem = [
     prop: 'component',
     label: '组件路径',
     showOverflowTooltip: true,
+    minWidth: 180,
   },
   {
     prop: 'createTime',

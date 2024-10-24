@@ -140,7 +140,7 @@ const paginationLayoutComputed = computed(() => {
   if (!window.isSmallScreen) {
     return props.paginationLayout
   } else {
-    return 'total, sizes, prev, next'
+    return 'total, prev, pager, next'
   }
 })
 let otherSlots = []

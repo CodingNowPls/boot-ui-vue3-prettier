@@ -106,7 +106,7 @@ const props = defineProps({
   },
   type: {
     type: String,
-    default: '',
+    default: 'local',
   },
   placement: {
     type: String,
@@ -217,7 +217,7 @@ watch(
 onMounted(() => {
   getInputWidth()
   useEventListener(document, 'click', popoverVisible)
-  getElementPlusIconfontNames().then((res) => {
+  getLocalIconfontNames().then((res) => {
     state.fontIconNames = res
   })
 })
