@@ -52,11 +52,6 @@ export const beforeEach = (router) => {
                   })
                   next({ path: '/' })
                 })
-                .catch((err) => {
-                  console.log(err)
-                  removeToken()
-                  next({ path: 'login' })
-                })
             })
         } else {
           next()
