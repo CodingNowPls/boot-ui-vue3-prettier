@@ -1,4 +1,4 @@
-export default (listeners = {}) => {
+export default (otherConfig = {}) => {
   return {
     rules: {
       postName: [

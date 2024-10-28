@@ -25,6 +25,7 @@ import PageSearch from '@/components/HsjComponent/pageSearch/index'
 import DictTag from '@/components/DictTag'
 import { parseTime } from '@/utils/ruoyi'
 import { getDialogWidth } from '@/utils/hsj/utils'
+import hasPermi from '@/utils/hasPermi'
 
 const app = createApp(App)
 
@@ -34,6 +35,7 @@ app.use(elementIcons)
 
 app.config.globalProperties.parseTime = parseTime
 app.config.globalProperties.getWidth = getDialogWidth
+app.config.globalProperties.hasPermi = hasPermi
 
 app.component('SvgIcon', SvgIcon)
 app.component('BaseForm', BaseForm)

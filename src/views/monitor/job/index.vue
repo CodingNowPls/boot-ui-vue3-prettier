@@ -221,36 +221,37 @@ const handleJobLog = (row) => {
       <template #toSth="{ backData }">
         <div class="doSth">
           <el-tooltip
+            v-if="hasPermi(permission.edit)"
             :hide-after="0"
             effect="dark"
             content="编辑"
             placement="top"
           >
-            <el-button
-              v-hasPermi="[permission.edit]"
-              type="primary"
-              size="small"
-              @click="editClick(backData)"
-            >
+            <el-button type="primary" size="small" @click="editClick(backData)">
               <SvgIcon size="12" iconClass="pencil" />
             </el-button>
           </el-tooltip>
           <el-tooltip
+            v-if="hasPermi('monitor:job:query')"
             :hide-after="0"
             effect="dark"
             content="日志详情"
             placement="top"
           >
             <el-button
-              v-hasPermi="['monitor:job:query']"
               type="primary"
               size="small"
+              class="ml12"
               @click="handleView(backData)"
             >
               <SvgIcon size="12" iconClass="eye" />
             </el-button>
           </el-tooltip>
-          <el-popconfirm title="是否执行一次?" @confirm="handleRun(backData)">
+          <el-popconfirm
+            v-if="hasPermi('monitor:job:changeStatus')"
+            title="是否执行一次?"
+            @confirm="handleRun(backData)"
+          >
             <template #reference>
               <div>
                 <el-tooltip
@@ -259,20 +260,15 @@ const handleJobLog = (row) => {
                   content="执行一次"
                   placement="top"
                 >
-                  <el-button
-                    class="ml12 order16"
-                    v-hasPermi="['monitor:job:changeStatus']"
-                    type="primary"
-                    size="small"
-                  >
+                  <el-button class="ml12 order16" type="primary" size="small">
                     <SvgIcon size="12" iconClass="caret-square-right" />
                   </el-button>
                 </el-tooltip>
               </div>
             </template>
           </el-popconfirm>
-
           <el-tooltip
+            v-if="hasPermi('monitor:job:query')"
             :hide-after="0"
             effect="dark"
             content="调度日志"
@@ -282,13 +278,13 @@ const handleJobLog = (row) => {
               class="order17 ml12"
               type="info"
               size="small"
-              v-hasPermi="['monitor:job:query']"
               @click="handleJobLog(backData)"
             >
               <SvgIcon size="12" iconClass="file-alt" />
             </el-button>
           </el-tooltip>
           <el-popconfirm
+            v-if="hasPermi(permission.del)"
             title="确定删除选中记录？"
             confirm-button-text="确认"
             cancel-button-text="取消"
@@ -304,12 +300,7 @@ const handleJobLog = (row) => {
                   content="删除"
                   placement="top"
                 >
-                  <el-button
-                    class="ml12"
-                    type="danger"
-                    size="small"
-                    v-hasPermi="[permission.del]"
-                  >
+                  <el-button class="ml12" type="danger" size="small">
                     <SvgIcon :size="10" iconClass="trash"></SvgIcon>
                   </el-button>
                 </el-tooltip>

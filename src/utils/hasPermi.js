@@ -5,7 +5,7 @@ export default (permission) => {
   if (!allPermi) {
     allPermi = useUserStore().permissions
   }
-  if (!permission) return
+  if (!permission) return true
   if (admin === allPermi[0]) return true
   let hasPermissions = false
   if (Array.isArray(permission)) {

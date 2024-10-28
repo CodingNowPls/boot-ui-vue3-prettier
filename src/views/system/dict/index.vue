@@ -129,10 +129,6 @@ const handleRefreshCache = async () => {
   }
   refreshLoading.value = false
 }
-
-const init = () => {}
-
-init()
 </script>
 <template>
   <div class="default-main page">

@@ -592,25 +592,22 @@ defineExpose({
             <SvgIcon :size="14" iconClass="pencil"></SvgIcon>
             <span class="ml6">编辑</span>
           </el-button>
-          <div v-hasPermi="[permission.del]" class="ml12 order15">
-            <el-popconfirm
-              v-if="headerButtons.includes('delete')"
-              title="确定删除选中记录？"
-              confirm-button-text="确认"
-              cancel-button-text="取消"
-              confirmButtonType="danger"
-              :hide-after="0"
-              @confirm="deleteRow(tableSelected)"
-            >
-              <template #reference>
-                <el-button type="danger" :disabled="tableSelected.length === 0">
-                  <SvgIcon :size="14" iconClass="trash"></SvgIcon>
-                  <span class="ml6">删除</span>
-                </el-button>
-              </template>
-            </el-popconfirm>
-          </div>
-
+          <el-popconfirm
+            v-if="headerButtons.includes('delete') && hasPermi(permission.del)"
+            title="确定删除选中记录？"
+            confirm-button-text="确认"
+            cancel-button-text="取消"
+            confirmButtonType="danger"
+            :hide-after="0"
+            @confirm="deleteRow(tableSelected)"
+          >
+            <template #reference>
+              <el-button type="danger" :disabled="tableSelected.length === 0">
+                <SvgIcon :size="14" iconClass="trash"></SvgIcon>
+                <span class="ml6">删除</span>
+              </el-button>
+            </template>
+          </el-popconfirm>
           <slot name="handleLeft"></slot>
         </div>
       </template>
@@ -701,6 +698,7 @@ defineExpose({
             confirmButtonType="danger"
             :hide-after="0"
             @confirm="deleteRow(backData)"
+            v-if="hasPermi(permission.del)"
           >
             <template #reference>
               <el-button
@@ -708,7 +706,6 @@ defineExpose({
                 type="danger"
                 size="small"
                 v-if="showDelete && handleDeleteShow(backData)"
-                v-hasPermi="[permission.del]"
               >
                 <SvgIcon :size="10" iconClass="trash"></SvgIcon>
                 <span class="ml6">删除</span>

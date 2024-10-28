@@ -63,16 +63,6 @@ const onChangeShowColumn = (filterArr) => {
   tableHideItems.value = filterArr
 }
 
-/** 导出按钮操作 */
-const handleExport = () => {
-  proxy.download(
-    'system/user/export',
-    {
-      ...searchData.value,
-    },
-    `user_${new Date().getTime()}.xlsx`
-  )
-}
 const preview = ref({
   open: false,
   title: '代码预览',
@@ -163,9 +153,9 @@ const copyTextSuccess = () => {
             effect="dark"
             content="预览"
             placement="top"
+            v-if="hasPermi('tool:gen:preview')"
           >
             <el-button
-              v-hasPermi="['tool:gen:preview']"
               type="primary"
               size="small"
               @click="handlePreview(backData)"
@@ -173,14 +163,16 @@ const copyTextSuccess = () => {
               <SvgIcon size="12" iconClass="eye" />
             </el-button>
           </el-tooltip>
+
           <el-tooltip
             :hide-after="0"
             effect="dark"
             content="编辑"
             placement="top"
+            v-if="hasPermi('tool:gen:edit')"
           >
             <el-button
-              v-hasPermi="['tool:gen:edit']"
+              class="ml12"
               type="primary"
               size="small"
               @click="handleEditTable(backData)"
@@ -190,6 +182,7 @@ const copyTextSuccess = () => {
           </el-tooltip>
 
           <el-popconfirm
+            v-if="hasPermi('tool:gen:edit')"
             :title="`确认要强制同步${backData.tableName}表结构吗？`"
             @confirm="handleSynchDb(backData)"
           >
@@ -201,12 +194,7 @@ const copyTextSuccess = () => {
                   content="同步"
                   placement="top"
                 >
-                  <el-button
-                    class="ml12 order16"
-                    type="primary"
-                    size="small"
-                    v-hasPermi="['tool:gen:edit']"
-                  >
+                  <el-button class="ml12 order16" type="primary" size="small">
                     <SvgIcon size="12" iconClass="refresh" />
                   </el-button>
                 </el-tooltip>
@@ -215,6 +203,7 @@ const copyTextSuccess = () => {
           </el-popconfirm>
 
           <el-tooltip
+            v-if="hasPermi('tool:gen:code')"
             :hide-after="0"
             effect="dark"
             content="生成代码"
@@ -224,13 +213,14 @@ const copyTextSuccess = () => {
               class="order17 ml12"
               type="primary"
               size="small"
-              v-hasPermi="['tool:gen:code']"
               @click="handleGenTable(backData)"
             >
               <SvgIcon size="12" iconClass="download" />
             </el-button>
           </el-tooltip>
+
           <el-popconfirm
+            v-if="hasPermi('tool:gen:remove')"
             title="确定删除选中记录？"
             confirm-button-text="确认"
             cancel-button-text="取消"
@@ -246,12 +236,7 @@ const copyTextSuccess = () => {
                   content="删除"
                   placement="top"
                 >
-                  <el-button
-                    class="ml12"
-                    type="danger"
-                    size="small"
-                    v-hasPermi="['tool:gen:remove']"
-                  >
+                  <el-button class="ml12" type="danger" size="small">
                     <SvgIcon :size="10" iconClass="trash"></SvgIcon>
                   </el-button>
                 </el-tooltip>

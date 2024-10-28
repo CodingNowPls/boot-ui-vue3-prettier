@@ -76,10 +76,6 @@ const [dialogRef, infoInit, addClick, editBtnClick] = useDialog(
 )
 
 const dialogWidth = ref('700px')
-const searchData = computed(() => {
-  return pageContentRef.value?.finalSearchData
-})
-
 const search = () => {
   pageSearchRef.value?.search()
 }
@@ -95,21 +91,6 @@ const permission = ref({
 const onChangeShowColumn = (filterArr) => {
   tableHideItems.value = filterArr
 }
-
-/** 导出按钮操作 */
-const handleExport = () => {
-  proxy.download(
-    'system/user/export',
-    {
-      ...searchData.value,
-    },
-    `user_${new Date().getTime()}.xlsx`
-  )
-}
-
-const init = () => {}
-
-init()
 </script>
 <template>
   <div class="default-main page">

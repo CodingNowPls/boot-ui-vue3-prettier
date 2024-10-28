@@ -4,8 +4,6 @@ import getContentConfig from './config/contentConfig.js'
 import getDialogConfig from './config/dialogConfig.js'
 import useDialog from '@/hooks/useDialog.js'
 import getComputedConfig from '@/hooks/getPageConfig.js'
-import to from '@/utils/to.js'
-import { listDept } from '@/api/system/dept'
 import { systemBaseUrl } from '@/api/config/base.js'
 import { dept } from '@/views/pageName.js'
 
@@ -123,12 +121,6 @@ const permission = ref({
 const onChangeShowColumn = (filterArr) => {
   tableHideItems.value = filterArr
 }
-
-// const getTreeSelect = async () => {
-//   treeSelectInfo.value = []
-//   const [res] = await to(listDept())
-//   treeSelectInfo.value = proxy.handleTree(res.data, 'deptId')
-// }
 const handleAdd = (row) => {
   addClick()
   nextTick(() => {
