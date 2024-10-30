@@ -2,7 +2,7 @@ export const tableItem = [
   {
     prop: 'menuName',
     label: '菜单名称',
-    width: 160,
+    width: 140,
     align: 'left',
   },
   {

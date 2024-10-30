@@ -11,6 +11,7 @@ import {
 } from '@/store/constant/cacheKey.js'
 import Local from '@/utils/hsj/useStorage.js'
 
+const proxy = inject('proxy')
 const router = useRouter()
 const configStore = useConfig()
 const permissionStore = usePermission()
@@ -102,7 +103,7 @@ const restoreDefault = () => {
             <el-divider border-style="dashed"> 布局方式 </el-divider>
             <div class="layout-mode-box-style">
               <el-row class="layout-mode-box-style-row" :gutter="10">
-                <el-col :span="12">
+                <el-col :span="12" v-if="!proxy.$isSmallScreen">
                   <div
                     @click="setLayoutMode('Default')"
                     class="layout-mode-style default"
@@ -139,7 +140,7 @@ const restoreDefault = () => {
                   </div>
                 </el-col>
               </el-row>
-              <el-row :gutter="10">
+              <el-row :gutter="10" v-if="!proxy.$isSmallScreen">
                 <el-col :span="12">
                   <div
                     @click="setLayoutMode('Streamline')"

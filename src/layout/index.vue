@@ -8,12 +8,11 @@ import Classic from './container/Classic.vue'
 import Streamline from './container/Streamline.vue'
 import Double from './container/Double.vue'
 import { getToken, setToken } from '@/utils/auth'
-import { isDesktop } from '@/utils/hsj/utils'
 
 defineOptions({
   components: { Default, Classic, Streamline, Double },
 })
-
+const proxy = inject('proxy')
 const config = useConfig()
 const state = reactive({
   autoMenuCollapseLock: false,
@@ -64,7 +63,7 @@ onBeforeMount(() => {
   if (token) {
     setToken(token)
   }
-  if (!isDesktop()) {
+  if (proxy.$isSmallScreen) {
     config.setLayoutMode('Classic')
   }
   onAdaptiveLayout()
