@@ -602,7 +602,11 @@ defineExpose({
             @confirm="deleteRow(tableSelected)"
           >
             <template #reference>
-              <el-button type="danger" :disabled="tableSelected.length === 0">
+              <el-button
+                class="order15"
+                type="danger"
+                :disabled="tableSelected.length === 0"
+              >
                 <SvgIcon :size="14" iconClass="trash"></SvgIcon>
                 <span class="ml6">删除</span>
               </el-button>
