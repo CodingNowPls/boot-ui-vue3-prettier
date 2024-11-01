@@ -485,22 +485,25 @@ const columnsFilter = () => {
   })
   // 排序
   const orderColumns = useStorage.get('orderColumns')
-  if (orderColumns) {
-    const pageColumns = orderColumns[props.pageName]
-    // 创建一个映射（Map），将每个对象的 prop 作为键，整个对象作为值
-    const itemMap = new Map(tableItem.map((item) => [item.prop, item]))
-    // 使用 map 方法根据 sortOrder 重新排列 items
-    const sortedItems = pageColumns.map((key) => itemMap.get(key))
-    // 找出不在 sortOrder 中的项
-    const remainingItems = tableItem.filter(
-      (item) => !pageColumns.includes(item.prop)
-    )
-    // 将已排序的项和剩余的项合并
-    const sortedTableItem = [...sortedItems, ...remainingItems]
-    props.contentConfig.tableItem = sortedTableItem
-  } else {
+  if (!orderColumns) {
     props.contentConfig.tableItem = tableItem
+    return
   }
+  const pageColumns = orderColumns[props.pageName]
+  if (!pageColumns) {
+    props.contentConfig.tableItem = tableItem
+    return
+  }
+  const itemMap = new Map(tableItem.map((item) => [item.prop, item]))
+  // 使用 map 方法根据 sortOrder 重新排列 items
+  const sortedItems = pageColumns.map((key) => itemMap.get(key))
+  // 找出不在 sortOrder 中的项
+  const remainingItems = tableItem.filter(
+    (item) => !pageColumns.includes(item.prop)
+  )
+  // 将已排序的项和剩余的项合并
+  const sortedTableItem = [...sortedItems, ...remainingItems]
+  props.contentConfig.tableItem = sortedTableItem
 }
 
 const dragUpdate = () => {
