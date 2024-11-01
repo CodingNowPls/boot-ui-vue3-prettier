@@ -182,11 +182,7 @@ const sortChange = (shortData) => {
     isAsc = 'desc'
   }
   if (shortData.prop) {
-    if (shortData.prop === 'createTimeString') {
-      orderByColumn = 'createTime'
-    } else {
-      orderByColumn = shortData.prop
-    }
+    orderByColumn = shortData.prop
   }
   let orderObj = {}
   if (isAsc && isAsc != '') {

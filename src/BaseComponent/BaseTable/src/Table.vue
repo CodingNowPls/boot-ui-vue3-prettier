@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, watch } from 'vue'
 import TableColumn from './TableColumn.vue'
 const props = defineProps({
   border: {
@@ -150,6 +150,7 @@ const filterSlot = () => {
   otherSlots = slotNames.filter((name) => !filter.includes(name))
 }
 filterSlot()
+
 defineExpose({
   elTableRef,
   unFoldAll,

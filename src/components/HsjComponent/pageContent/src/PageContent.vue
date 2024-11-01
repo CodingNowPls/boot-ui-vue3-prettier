@@ -8,6 +8,8 @@ import DictCpn from './dictCpn.vue'
 import { interceptor } from '@/store/business/businessStore'
 import useStorage from '@/utils/hsj/useStorage'
 import { antiShake } from '@/utils/hsj/utils'
+import { VueDraggable } from 'vue-draggable-plus'
+
 const props = defineProps({
   // table的配置
   contentConfig: {
@@ -41,6 +43,12 @@ const props = defineProps({
   // 排序的参数
   descConfig: {
     type: Object,
+    default: () => {
+      return {
+        orderByColumn: 'createTime',
+        isAsc: 'desc',
+      }
+    },
   },
   // 其他查询条件
   otherRequestOption: {
@@ -297,37 +305,29 @@ const collectObjectsWithSlotName = (data, collectedObjects = []) => {
 let otherSlot = collectObjectsWithSlotName(props.contentConfig?.tableItem)
 // 排序发生变化触发的函数
 const sortChange = (shortData) => {
-  let isAsc = ''
-  let orderByColumn = 'createTime'
-  if (shortData.order === 'ascending') {
+  const { order, prop } = shortData
+  let isAsc = void 0
+  if (order === 'ascending') {
     isAsc = 'asc'
-  } else if (shortData.order === 'descending') {
+  } else if (order === 'descending') {
     isAsc = 'desc'
   }
-  if (shortData.prop) {
-    if (shortData.prop === 'createTimeString') {
-      orderByColumn = 'createTime'
-    } else {
-      orderByColumn = shortData.prop
-    }
+  let orderObj = {
+    orderByColumn: void 0,
+    isAsc: void 0,
   }
-  let orderObj = {}
-  if (isAsc && isAsc != '') {
+  if (isAsc) {
     orderObj = {
-      orderByColumn,
+      orderByColumn: prop,
       isAsc,
     }
-  } else if (props.descConfig) {
+  } else if (props.descConfig && props.autoDesc) {
     // 如果没有排序就使用默认的查询条件的排序属性
     for (const [key, value] of Object.entries(props.descConfig)) {
-      searchDatas.value[key] = value
+      orderObj[key] = value
     }
   }
-  searchDatas.value = Object.assign(
-    {},
-    { ...searchDatas.value },
-    { ...orderObj }
-  )
+  searchDatas.value = Object.assign({ ...searchDatas.value }, { ...orderObj })
   send(finalSearchData.value)
 }
 // 页面数据刷新函数
@@ -435,7 +435,7 @@ const onChangeShowColumn = (checked, prop, handleUser) => {
   emit('onChangeShowColumn', filterArr.value)
 }
 watch(
-  () => props.contentConfig.tableItem,
+  () => props.contentConfig,
   () => {
     let hidenColumns = useStorage.get('hidenColumns')
     let tableHides = []
@@ -483,9 +483,49 @@ const columnsFilter = () => {
     if (!item.permission) return true
     return proxy.hasPermi(item.permission)
   })
-  props.contentConfig.tableItem = tableItem
+  // 排序
+  const orderColumns = useStorage.get('orderColumns')
+  if (orderColumns) {
+    const pageColumns = orderColumns[props.pageName]
+    // 创建一个映射（Map），将每个对象的 prop 作为键，整个对象作为值
+    const itemMap = new Map(tableItem.map((item) => [item.prop, item]))
+    // 使用 map 方法根据 sortOrder 重新排列 items
+    const sortedItems = pageColumns.map((key) => itemMap.get(key))
+    // 找出不在 sortOrder 中的项
+    const remainingItems = tableItem.filter(
+      (item) => !pageColumns.includes(item.prop)
+    )
+    // 将已排序的项和剩余的项合并
+    const sortedTableItem = [...sortedItems, ...remainingItems]
+    props.contentConfig.tableItem = sortedTableItem
+  } else {
+    props.contentConfig.tableItem = tableItem
+  }
 }
 
+const dragUpdate = () => {
+  // 重新渲染列表
+  const getListName = `${props.pageName}List`
+  const list = store.listInfo[getListName]
+  store.$patch((state) => {
+    state.listInfo[getListName] = [...list]
+  })
+  const tableItem = props.contentConfig.tableItem
+  // 本地存储排序
+  const order = []
+  for (const item of tableItem) {
+    order.push(item.prop)
+  }
+  const orderColumns = useStorage.get('orderColumns')
+  if (orderColumns) {
+    orderColumns[props.pageName] = order
+    useStorage.set('orderColumns', orderColumns)
+  } else {
+    useStorage.set('orderColumns', {
+      [props.pageName]: order,
+    })
+  }
+}
 const init = () => {
   columnsFilter()
 }
@@ -493,14 +533,9 @@ const init = () => {
 onMounted(() => {
   // 判断是否需要自动排序
   if (props.autoDesc) {
-    let shortData = {
-      orderByColumn: 'createTime',
-      isAsc: 'desc',
-    }
-    // 如果外界传入了descConfig，则使用外界的，如果没有使用elTableConfig的defaultSort，最后使用默认 { orderByColumn: 'createTime',isAsc: 'desc' }
-    if (props.descConfig) {
-      shortData = props.descConfig
-    } else if (props.contentConfig?.elTableConfig?.defaultSort) {
+    let shortData = {}
+    // 默认使用elTableConfig的defaultSort，再使用外界传入了descConfig
+    if (props.contentConfig?.elTableConfig?.defaultSort) {
       const sort = props.contentConfig.elTableConfig.defaultSort
       shortData.orderByColumn = sort.prop
       if (sort.order === 'ascending') {
@@ -508,6 +543,8 @@ onMounted(() => {
       } else if (sort.order === 'descending') {
         shortData.isAsc = 'desc'
       }
+    } else if (props.descConfig) {
+      shortData = props.descConfig
     }
     for (const [key, value] of Object.entries(shortData)) {
       searchDatas.value[key] = value
@@ -644,18 +681,26 @@ defineExpose({
             <template #dropdown>
               <el-dropdown-menu>
                 <el-checkbox-group v-model="columnChecked">
-                  <el-dropdown-item
-                    v-for="(item, idx) in contentConfig.tableItem"
-                    :key="idx"
+                  <VueDraggable
+                    ref="el"
+                    v-model="contentConfig.tableItem"
+                    :animation="150"
+                    ghostClass="ghost"
+                    @update="dragUpdate"
                   >
-                    <el-checkbox
-                      v-if="item.prop"
-                      @change="onChangeShowColumn($event, item.prop, true)"
-                      size="small"
-                      :value="item.prop"
-                      >{{ item.label }}
-                    </el-checkbox>
-                  </el-dropdown-item>
+                    <el-dropdown-item
+                      v-for="(item, idx) in contentConfig.tableItem"
+                      :key="idx"
+                    >
+                      <el-checkbox
+                        v-if="item.prop"
+                        @change="onChangeShowColumn($event, item.prop, true)"
+                        size="small"
+                        :value="item.prop"
+                        >{{ item.label }}
+                      </el-checkbox>
+                    </el-dropdown-item>
+                  </VueDraggable>
                 </el-checkbox-group>
               </el-dropdown-menu>
             </template>
@@ -682,7 +727,7 @@ defineExpose({
         </div>
       </template>
       <template #todo="{ backData }">
-        <div class="todo">
+        <div class="todo flexCenter">
           <slot name="todoSlot" :backData="backData"></slot>
           <el-button
             class="edit order5"
@@ -719,7 +764,6 @@ defineExpose({
           </el-popconfirm>
         </div>
       </template>
-
       <template
         v-for="item in otherSlot"
         :key="item.prop"
@@ -753,9 +797,6 @@ defineExpose({
 <style scoped lang="scss">
 .todo {
   flex-wrap: wrap;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   :deep(.el-button) {
     margin: 4px;
   }

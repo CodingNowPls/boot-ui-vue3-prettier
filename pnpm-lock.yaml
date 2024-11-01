@@ -62,6 +62,9 @@ dependencies:
   vue-cropper:
     specifier: 1.0.3
     version: 1.0.3
+  vue-draggable-plus:
+    specifier: ^0.5.4
+    version: 0.5.4(@types/sortablejs@1.15.8)
   vue-router:
     specifier: 4.1.4
     version: 4.1.4(vue@3.5.12)
@@ -816,6 +819,10 @@ packages:
     dependencies:
       undici-types: 6.19.8
     dev: true
+
+  /@types/sortablejs@1.15.8:
+    resolution: {integrity: sha512-b79830lW+RZfwaztgs1aVPgbasJ8e7AXtZYHTELNXZPsERt4ymJdjV4OccDbHQAvHrCcFpbF78jkm0R6h/pZVg==}
+    dev: false
 
   /@types/svgo@2.6.4:
     resolution: {integrity: sha512-l4cmyPEckf8moNYHdJ+4wkHvFxjyW6ulm9l4YGaOxeyBWPhBOT0gvni1InpFPdzx1dKf/2s62qGITwxNWnPQng==, tarball: https://registry.npmmirror.com/@types/svgo/-/svgo-2.6.4.tgz}
@@ -3603,6 +3610,18 @@ packages:
         optional: true
     dependencies:
       vue: 3.5.12
+
+  /vue-draggable-plus@0.5.4(@types/sortablejs@1.15.8):
+    resolution: {integrity: sha512-7YXbRu6HFL5c0ELP07nNZPGyXmvD8o7Ny7Dj53l9u0sBTjVmHkgr3+/aXgUO1w2bIwE8f6GhaVmLxd7nhqQ0wg==}
+    peerDependencies:
+      '@types/sortablejs': ^1.15.0
+      '@vue/composition-api': '*'
+    peerDependenciesMeta:
+      '@vue/composition-api':
+        optional: true
+    dependencies:
+      '@types/sortablejs': 1.15.8
+    dev: false
 
   /vue-router@4.1.4(vue@3.5.12):
     resolution: {integrity: sha512-UgYen33gOtwT3cOG1+yRen+Brk9py8CSlC9LEa3UjvKZ4EAoSo8NjZPDeDnmNerfazorHIJG1NC7qdi1SuQJnQ==, tarball: https://registry.npmmirror.com/vue-router/-/vue-router-4.1.4.tgz}
