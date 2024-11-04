@@ -44,7 +44,7 @@ function copyTextToClipboard(textToCopy, { target = document.body } = {}) {
         isSuccess = document.execCommand('copy')
       } catch (err) {
         console.log('copy失败: ', err)
-        resolve(false)
+        isSuccess = false
       }
       document.body.removeChild(textarea)
       resolve(isSuccess)
