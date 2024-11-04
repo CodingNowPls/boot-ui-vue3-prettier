@@ -21,7 +21,7 @@ export default {
   },
 }
 function copyTextToClipboard(textToCopy, { target = document.body } = {}) {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     if (navigator.clipboard && window.isSecureContext) {
       // 使用现代 Clipboard API
       navigator.clipboard
@@ -31,7 +31,7 @@ function copyTextToClipboard(textToCopy, { target = document.body } = {}) {
         })
         .catch((err) => {
           console.log('copy失败: ', err)
-          reject(false)
+          resolve(false)
         })
     } else {
       // 回退方案：创建一个隐藏的 <textarea> 元素
@@ -44,7 +44,7 @@ function copyTextToClipboard(textToCopy, { target = document.body } = {}) {
         isSuccess = document.execCommand('copy')
       } catch (err) {
         console.log('copy失败: ', err)
-        reject(false)
+        resolve(false)
       }
       document.body.removeChild(textarea)
       resolve(isSuccess)
