@@ -1,19 +1,19 @@
 export const dependencies = [
   {
     name: 'vue',
-    description: '^3.4.21',
+    description: '^3.5.12',
   },
   {
     name: 'vite',
-    description: '^5.2.0',
+    description: '^5.4.1',
   },
   {
     name: 'vue-router',
-    description: '4.1.4',
+    description: '^4.4.5',
   },
   {
     name: 'pinia',
-    description: '2.0.22',
+    description: '^2.2.5',
   },
   {
     name: 'mitt',
@@ -25,7 +25,7 @@ export const dependencies = [
   },
   {
     name: 'element-plus',
-    description: '^2.8.1',
+    description: '^2.8.7',
   },
   {
     name: 'echarts',

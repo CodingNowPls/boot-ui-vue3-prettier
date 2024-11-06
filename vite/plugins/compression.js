@@ -1,4 +1,4 @@
-import compression from 'vite-plugin-compression'
+import { compression } from 'vite-plugin-compression2'
 
 export default function createCompression(env) {
   const { VITE_BUILD_COMPRESS } = env
@@ -8,24 +8,23 @@ export default function createCompression(env) {
     if (compressList.includes('gzip')) {
       plugin.push(
         compression({
-          // 生成文件后缀
-          ext: '.gz',
-          // 体积大于threshold则进行压缩，单位为b
-          threshold: 1024 * 10,
+          algorithm: 'gzip',
+          // 体积大于threshold则进行压缩，单位为bytes
+          threshold: 1024 * 50,
           // 压缩后是否删除源文件
-          deleteOriginFile: false,
+          deleteOriginalAssets: false,
         })
       )
     }
     if (compressList.includes('brotli')) {
       plugin.push(
         compression({
-          // 生成文件后缀
-          ext: '.br',
           // 压缩算法
           algorithm: 'brotliCompress',
+          // 体积大于threshold则进行压缩，单位为bytes
+          threshold: 1024 * 50,
           // 压缩后是否删除源文件
-          deleteOriginFile: false,
+          deleteOriginalAssets: false,
         })
       )
     }

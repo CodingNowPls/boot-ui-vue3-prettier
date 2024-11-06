@@ -1,7 +1,7 @@
 export const technologyStacks = [
   {
     title: '版本',
-    desp: '1.1.0',
+    desp: '1.1.1',
   },
   {
     title: '开发工具',
