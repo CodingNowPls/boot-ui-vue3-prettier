@@ -27,6 +27,7 @@ const proxy = {
   $download: $download,
   $isSmallScreen: isSmallScreen(),
 }
+// 使用provide可以清晰的知道proxy中放了哪些方法，如果挂载在globalProperties中出现问题很难进行追溯
 provide('proxy', proxy)
 </script>
 

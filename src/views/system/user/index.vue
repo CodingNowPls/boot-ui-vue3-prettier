@@ -214,10 +214,8 @@ const handleFileUploadProgress = () => {
 const handleFileSuccess = ({ response }) => {
   uploadConfig.value.open = false
   uploadConfig.value.isUploading = false
-  proxy.$alert(
-    "<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>" +
-      response.msg +
-      '</div>',
+  proxy.$modal.alert(
+    `<div style='overflow: auto;overflow-x: hidden;max-height: 70vh;padding: 10px 20px 0;'>${response.msg}</div>`,
     '导入结果',
     { dangerouslyUseHTMLString: true }
   )

@@ -25,20 +25,20 @@ export default {
     ElMessage.warning(content)
   },
   // 弹出提示
-  alert(content) {
-    ElMessageBox.alert(content, '系统提示')
+  alert(content, title = '系统提示', config = {}) {
+    ElMessageBox.alert(content, title, config)
   },
   // 错误提示
-  alertError(content) {
-    ElMessageBox.alert(content, '系统提示', { type: 'error' })
+  alertError(content, title = '系统提示', config = {}) {
+    ElMessageBox.alert(content, title, { type: 'error', ...config })
   },
   // 成功提示
-  alertSuccess(content) {
-    ElMessageBox.alert(content, '系统提示', { type: 'success' })
+  alertSuccess(content, title = '系统提示', config = {}) {
+    ElMessageBox.alert(content, title, { type: 'success', ...config })
   },
   // 警告提示
-  alertWarning(content) {
-    ElMessageBox.alert(content, '系统提示', { type: 'warning' })
+  alertWarning(content, title = '系统提示', config = {}) {
+    ElMessageBox.alert(content, title, { type: 'warning', ...config })
   },
   // 通知提示
   notify(content) {
@@ -57,24 +57,22 @@ export default {
     ElNotification.warning(content)
   },
   // 确认窗体
-  confirm(content) {
-    return ElMessageBox.confirm(content, '系统提示', {
+  confirm(content, title = '系统提示', config = {}) {
+    return ElMessageBox.confirm(content, title, {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: 'warning',
+      ...config,
     })
   },
   // 提交内容
-  prompt(
-    content,
-    title = '系统提示',
-    config = {
+  prompt(content, title = '系统提示', config = {}) {
+    return ElMessageBox.prompt(content, title, {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       type: 'warning',
-    }
-  ) {
-    return ElMessageBox.prompt(content, title, config)
+      ...config,
+    })
   },
   // 打开遮罩层
   loading(content) {
