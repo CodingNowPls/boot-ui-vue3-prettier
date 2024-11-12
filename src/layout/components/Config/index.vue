@@ -7,7 +7,6 @@ import usePermission from '@/store/modules/permission'
 import {
   STORE_CONFIG,
   BEFORE_RESIZE_LAYOUT,
-  LAYOUT_KEY,
 } from '@/store/constant/cacheKey.js'
 import Local from '@/utils/hsj/useStorage.js'
 
@@ -85,7 +84,6 @@ const toggleDarkLight = (e) => {
 const restoreDefault = () => {
   Local.remove(STORE_CONFIG)
   Local.remove(BEFORE_RESIZE_LAYOUT)
-  Local.remove(LAYOUT_KEY)
   router.go(0)
 }
 </script>

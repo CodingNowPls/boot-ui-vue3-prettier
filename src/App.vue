@@ -37,4 +37,4 @@ provide('proxy', proxy)
   </el-config-provider>
 </template>
 
-<style scoped></style>
+<style scoped lang="sass"></style>

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
-import { STORE_CONFIG, LAYOUT_KEY } from '@/store/constant/cacheKey.js'
-import useLocal from '@/utils/hsj/useStorage'
+import { STORE_CONFIG } from '@/store/constant/cacheKey.js'
+// import useLocal from '@/utils/hsj/useStorage'
 let layoutInitValue = {
   /* 全局 */
   showDrawer: false,
@@ -50,8 +50,7 @@ let layoutInitValue = {
 export const useConfig = defineStore(
   'config',
   () => {
-    let localLayout = useLocal.get(LAYOUT_KEY)
-    const layout = reactive(localLayout ?? layoutInitValue)
+    const layout = reactive(layoutInitValue)
     function menuWidth() {
       if (layout.shrink) {
         return layout.menuCollapse ? '0px' : layout.menuWidth + 'px'
@@ -81,7 +80,6 @@ export const useConfig = defineStore(
     }
     const setLayout = (name, value) => {
       layout[name] = value
-      useLocal.set(LAYOUT_KEY, layout)
     }
     function setLayoutMode(data) {
       layout.layoutMode = data
@@ -95,14 +93,6 @@ export const useConfig = defineStore(
         return colors[0]
       }
     }
-    const layoutInit = () => {
-      const localLayout = useLocal.get(LAYOUT_KEY)
-      if (localLayout) {
-        for (const [key, value] of Object.entries(localLayout)) {
-          layout[key] = value
-        }
-      }
-    }
     return {
       layout,
       menuWidth,
@@ -110,7 +100,6 @@ export const useConfig = defineStore(
       setLayout,
       getColorVal,
       onSetLayoutColor,
-      layoutInit,
     }
   },
   {

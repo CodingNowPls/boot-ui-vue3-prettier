@@ -13,7 +13,7 @@ export default defineConfig(({ mode, command }) => {
     base: VITE_APP_ENV === 'production' ? '/' : '/',
     plugins: createVitePlugins(env, command === 'build'),
     resolve: {
-      // https://cn.vitejs.dev/config/#resolve-alias
+      // https://cn.vitejs.dev/config/#resolve-alias 
       alias: {
         // 设置路径
         '~': path.resolve(__dirname, './'),
