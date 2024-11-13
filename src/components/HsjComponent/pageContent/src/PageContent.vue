@@ -562,6 +562,7 @@ onMounted(() => {
       ...obj,
     })
   }
+  mittResize()
   onListener()
 })
 onUnmounted(() => {
