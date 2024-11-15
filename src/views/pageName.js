@@ -26,14 +26,12 @@ map.set([authUserRole, authRole, role], '/role')
 export const getUrl = (pageName) => {
   const mapSize = map.size
   const iterator = map.keys()
+  const name = pageName.split(appIdPrefix)
   for (let i = 0; i < mapSize; i++) {
     const key = iterator.next().value
-    const name = pageName.split('appIdPrefix')
     if (key.includes(name[0])) {
       return map.get(key)
     }
-    if (key.done) {
-      return false
-    }
   }
+  return name[0]
 }
