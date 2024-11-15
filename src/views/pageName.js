@@ -33,5 +33,5 @@ export const getUrl = (pageName) => {
       return map.get(key)
     }
   }
-  return name[0]
+  return `/${name[0]}`
 }
