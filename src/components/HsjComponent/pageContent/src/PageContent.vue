@@ -9,7 +9,7 @@ import { interceptor } from '@/store/business/businessStore'
 import useStorage from '@/utils/hsj/useStorage'
 import { antiShake } from '@/utils/hsj/utils'
 import { VueDraggable } from 'vue-draggable-plus'
-
+import { appIdPrefix } from '@/views/pageName'
 const props = defineProps({
   // table的配置
   contentConfig: {
@@ -233,14 +233,15 @@ const showPageSearch = computed(() => {
 // 删除按钮
 const deleteRow = async (delData) => {
   isLoading.value = true
+  const name = props.pageName.split(appIdPrefix)
   let id = ''
   if (Array.isArray(delData)) {
     const ids = delData.map((item) => {
-      return item[props.idKey] ?? item[props.pageName + 'Id'] ?? item.id
+      return item[props.idKey] ?? item[name[0] + 'Id'] ?? item.id
     })
     id = ids.toString()
   } else {
-    id = delData[props.idKey] ?? delData[props.pageName + 'Id'] ?? delData.id
+    id = delData[props.idKey] ?? delData[name[0] + 'Id'] ?? delData.id
   }
   if (id || id === 0) {
     await to(
@@ -262,8 +263,9 @@ const deleteRow = async (delData) => {
 // 编辑按钮
 const editClick = async (item, type) => {
   isLoading.value = true
+  const name = props.pageName.split(appIdPrefix)
   // 取出当前点击这一行数据的id 优先props传入的idKey
-  let id = item[props.idKey] ?? item[props.pageName + 'Id'] ?? item.id
+  let id = item[props.idKey] ?? item[name[0] + 'Id'] ?? item.id
   if (id || id === 0) {
     // 拼接getInfo请求的url地址
     let url = `${props.requestBaseUrl}${interceptor(props.pageName)}/${id}`
