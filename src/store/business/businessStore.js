@@ -8,6 +8,7 @@ import {
 import { deepFindValue } from './utils'
 import to from '@/utils/to'
 import { getUrl } from '@/views/pageName'
+import { appIdPrefix } from '@/views/pageName'
 
 export const interceptor = (pageName) => {
   return getUrl(pageName) || `/${pageName}`
@@ -104,8 +105,9 @@ const businessStore = defineStore('business', {
           [`${payload.sendIdKey}`]: id,
         }
       } else {
+        const name = pageName.split(appIdPrefix)
         infoId = {
-          [`${pageName}Id`]: id,
+          [`${name[0]}Id`]: id,
         }
       }
       const info = { ...editInfo, ...infoId }
