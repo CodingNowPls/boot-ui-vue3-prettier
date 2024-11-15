@@ -1,3 +1,5 @@
+export const appIdPrefix = 'appIdPrefix'
+
 // 请务必保证pageName在整个项目中是唯一的
 export const authUserRole = 'authUserRole'
 export const authRole = 'authRole'
@@ -26,7 +28,8 @@ export const getUrl = (pageName) => {
   const iterator = map.keys()
   for (let i = 0; i < mapSize; i++) {
     const key = iterator.next().value
-    if (key.includes(pageName)) {
+    const name = pageName.split('appIdPrefix')
+    if (key.includes(name[0])) {
       return map.get(key)
     }
     if (key.done) {

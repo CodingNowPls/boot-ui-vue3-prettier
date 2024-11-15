@@ -134,7 +134,7 @@ const props = defineProps({
     },
   },
   // 删除的url 注意只能配置前一部分url
-  // 例如 page/list/1 这个1不能在这里配置，还是需要用过配置idKey来从row中读取
+  // 例如 page/list/1 这个id 1 不能在这里配置，还是需要用过配置idKey来从row中读取
   delUrl: {
     type: String,
   },
@@ -187,7 +187,7 @@ const finalSearchData = computed(() => {
 watch(
   () => paginationInfo.value,
   (newValue, oldValue) => {
-    // 当pageSize发生变化时将pageName设置成第一页
+    // 当pageSize发生变化时将pageNum设置成第一页
     if (newValue.pageSize !== oldValue.pageSize) {
       paginationInfo.value.pageNum = 1
     }

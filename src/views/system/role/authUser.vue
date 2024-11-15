@@ -7,12 +7,13 @@ import AuthUserDialog from './components/AuthUserDialog.vue'
 import to from '@/utils/to'
 import { systemBaseUrl } from '@/api/config/base.js'
 import { authUserRole } from '@/views/pageName'
+
 const route = useRoute()
 const roleId = route.params.roleId
 const proxy = inject('proxy')
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
-
-const pageName = authUserRole
+const pageId = useId()
+const pageName = authUserRole + pageId
 const requestUrl = 'authUser/allocatedList'
 const requestBaseUrl = systemBaseUrl
 const otherRequestOption = ref({

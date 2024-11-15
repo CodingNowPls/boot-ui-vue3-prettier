@@ -26,7 +26,7 @@ import DictTag from '@/components/DictTag'
 import { parseTime } from '@/utils/ruoyi'
 import { getDialogWidth } from '@/utils/hsj/utils'
 import hasPermi from '@/utils/hasPermi'
-
+import { appIdPrefix } from '@/views/pageName'
 const app = createApp(App)
 
 app.use(store)
@@ -36,6 +36,7 @@ app.use(elementIcons)
 app.config.globalProperties.parseTime = parseTime
 app.config.globalProperties.getWidth = getDialogWidth
 app.config.globalProperties.hasPermi = hasPermi
+app.config.idPrefix = appIdPrefix
 
 app.component('SvgIcon', SvgIcon)
 app.component('BaseForm', BaseForm)

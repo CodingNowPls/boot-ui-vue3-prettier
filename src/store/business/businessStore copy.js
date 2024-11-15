@@ -12,6 +12,7 @@ import { getUrl } from '@/views/pageName'
 export const interceptor = (pageName) => {
   return getUrl(pageName) || `/${pageName}`
 }
+
 const getConfig = (pageName, payload, requestUrl, requestBaseUrl) => {
   let url = interceptor(pageName)
   url = `${requestBaseUrl}${url}`
@@ -38,13 +39,15 @@ const businessStore = defineStore('business', {
       listConfig = { listKey: 'rows', countKey: 'total' },
       handleList = (list) => list
     ) {
-      const { pageName, requestUrl = 'list', requestBaseUrl = '/' } = payload
-      // let pageName = name
+      const name = payload.pageName
+      let pageName = name
       if (!Object.hasOwn(this.pageSearchControl, `${pageName}SearchShow`)) {
         this.pageSearchControl[`${pageName}SearchShow`] = true
       }
+      const requestUrl = payload.requestUrl ?? 'list'
+      const requestBaseUrl = payload.requestBaseUrl ?? '/'
       // 获取数据
-      const getListName = `${pageName}List`
+      const getListName = `${name}List`
       let { url, payloadInfo } = getConfig(
         pageName,
         payload,
@@ -61,7 +64,7 @@ const businessStore = defineStore('business', {
       if (list) {
         this.listInfo[getListName] = handleList(list)
       }
-      this.listInfo[`${pageName}Count`] = count || 0
+      this.listInfo[`${name}Count`] = count || 0
       if (err) {
         console.log(err)
       }
