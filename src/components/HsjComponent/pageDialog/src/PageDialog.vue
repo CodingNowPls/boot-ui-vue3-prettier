@@ -4,6 +4,8 @@ import BaseForm from '@/BaseComponent/BaseForm'
 import businessStore from '@/store/business/businessStore'
 import to from '@/utils/to'
 import { getElementTotalSize } from '@/utils/hsj/utils'
+import { appIdPrefix } from '@/views/pageName'
+
 const props = defineProps({
   // 用于form反显
   infoInit: {
