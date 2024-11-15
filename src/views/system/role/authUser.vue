@@ -104,6 +104,7 @@ init()
       :pageName="pageName"
       :otherRequestOption="otherRequestOption"
       :searchConfig="searchConfigComputed"
+      :cacheKey="cacheKey"
     ></PageSearch>
     <PageContent
       ref="pageContentRef"

@@ -28,6 +28,7 @@ const getListInfoKeys = (pageName, cacheKey = '') => {
   return {
     listName: `${pageName}${cacheKey}List`,
     countName: `${pageName}${cacheKey}Count`,
+    searchShowName: `${pageName}${cacheKey}SearchShow`,
   }
 }
 const businessStore = defineStore('business', {
@@ -49,12 +50,15 @@ const businessStore = defineStore('business', {
         requestBaseUrl = '/',
         cacheKey = '',
       } = payload
-      // let pageName = name
-      if (!Object.hasOwn(this.pageSearchControl, `${pageName}SearchShow`)) {
-        this.pageSearchControl[`${pageName}SearchShow`] = true
-      }
+
       // 获取数据
-      const { listName, countName } = getListInfoKeys(pageName, cacheKey)
+      const { listName, countName, searchShowName } = getListInfoKeys(
+        pageName,
+        cacheKey
+      )
+      if (!Object.hasOwn(this.pageSearchControl, searchShowName)) {
+        this.pageSearchControl[searchShowName] = true
+      }
       let { url, payloadInfo } = getConfig(
         pageName,
         payload,
@@ -125,9 +129,10 @@ const businessStore = defineStore('business', {
       }
       return res
     },
-    handlePageSearch(pageName) {
-      this.pageSearchControl[`${pageName}SearchShow`] =
-        !this.pageSearchControl[`${pageName}SearchShow`]
+    handlePageSearch(pageName, cacheKey) {
+      const { searchShowName } = getListInfoKeys(pageName, cacheKey)
+      this.pageSearchControl[searchShowName] =
+        !this.pageSearchControl[searchShowName]
     },
     resetData(pageName) {
       const { listName, countName } = getListInfoKeys(pageName, cacheKey)

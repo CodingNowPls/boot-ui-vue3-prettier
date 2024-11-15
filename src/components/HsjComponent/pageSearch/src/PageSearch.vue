@@ -32,6 +32,11 @@ const props = defineProps({
   reset: {
     type: Function,
   },
+  // 当页面会存在打开多个的时候会出现缓存问题，可以用这个区分缓存
+  cacheKey: {
+    type: [String, Number],
+    default: '',
+  },
 })
 const store = businessStore()
 const pageSearchRef = ref(null)
@@ -76,7 +81,7 @@ const resizeObserver = new ResizeObserver((entries) => {
 })
 // 是否显示组件
 const showPageSearch = computed(() => {
-  return store.pageSearchControl[`${props.pageName}SearchShow`]
+  return store.pageSearchControl[`${props.pageName}${props.cacheKey}SearchShow`]
 })
 onMounted(() => {
   for (const item of formItem) {

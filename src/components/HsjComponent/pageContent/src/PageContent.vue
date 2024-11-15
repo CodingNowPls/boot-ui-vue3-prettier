@@ -471,7 +471,7 @@ watch(
 )
 // 用于隐藏页面的pageSearch组件
 const triggerShowSearch = () => {
-  store.handlePageSearch(props.pageName)
+  store.handlePageSearch(props.pageName, props.cacheKey)
 }
 // 多选后的编辑按钮点击
 const editMoreClick = () => {
