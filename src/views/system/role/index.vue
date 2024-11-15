@@ -11,7 +11,6 @@ import { roleMenuTreeselect, treeselect } from '@/api/system/menu'
 import AssignDialog from './components/AssignDialog.vue'
 import { systemBaseUrl } from '@/api/config/base.js'
 import { role } from '@/views/pageName.js'
-const pageId = useId()
 const router = useRouter()
 const proxy = inject('proxy')
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')

@@ -4,7 +4,6 @@ import BaseForm from '@/BaseComponent/BaseForm'
 import businessStore from '@/store/business/businessStore'
 import to from '@/utils/to'
 import { getElementTotalSize } from '@/utils/hsj/utils'
-import { appIdPrefix } from '@/views/pageName'
 
 const props = defineProps({
   // 用于form反显
@@ -104,7 +103,6 @@ watch(
 const commitClick = async () => {
   const success = async () => {
     if (isEdit.value) {
-      const name = props.pageName.split(appIdPrefix)
       //编辑
       emits('beforeSave')
       return await store.editDataAction({
@@ -115,7 +113,7 @@ const commitClick = async () => {
         },
         id:
           props.infoInit[props.idKey] ??
-          props.infoInit[name[0] + 'Id'] ??
+          props.infoInit[props.pageName + 'Id'] ??
           props.infoInit['id'],
         sendIdKey: props.sendIdKey,
         requestBaseUrl: props.requestBaseUrl,

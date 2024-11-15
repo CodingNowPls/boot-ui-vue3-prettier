@@ -9,7 +9,6 @@ import { interceptor } from '@/store/business/businessStore'
 import useStorage from '@/utils/hsj/useStorage'
 import { antiShake } from '@/utils/hsj/utils'
 import { VueDraggable } from 'vue-draggable-plus'
-import { appIdPrefix } from '@/views/pageName'
 const props = defineProps({
   // table的配置
   contentConfig: {
@@ -148,6 +147,11 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  // 当页面会存在打开多个的时候会出现缓存问题，可以用这个区分缓存
+  cacheKey: {
+    type: [String, Number],
+    default: '',
+  },
 })
 const emit = defineEmits([
   'addClick',
@@ -207,6 +211,7 @@ const send = async (searchInfo) => {
         ...props.otherRequestOption,
         ...searchInfo,
       },
+      cacheKey: props.cacheKey,
       requestBaseUrl: props.requestBaseUrl,
     },
     props.piniaConfig.listConfig,
@@ -220,12 +225,12 @@ const send = async (searchInfo) => {
 const antiShakeSend = antiShake(send, 66)
 // 表格数据
 const dataList = computed(() => {
-  const list = store.pageListData(props.pageName)
+  const list = store.pageListData(props.pageName, props.cacheKey)
   return list ? list : []
 })
 // 总数量
 const listCount = computed(() => {
-  return store[`listCount`](props.pageName)
+  return store.listCount(props.pageName, props.cacheKey) ?? 0
 })
 const showPageSearch = computed(() => {
   return store.pageSearchControl[`${props.pageName}SearchShow`]
@@ -233,15 +238,14 @@ const showPageSearch = computed(() => {
 // 删除按钮
 const deleteRow = async (delData) => {
   isLoading.value = true
-  const name = props.pageName.split(appIdPrefix)
   let id = ''
   if (Array.isArray(delData)) {
     const ids = delData.map((item) => {
-      return item[props.idKey] ?? item[name[0] + 'Id'] ?? item.id
+      return item[props.idKey] ?? item[props.pageName + 'Id'] ?? item.id
     })
     id = ids.toString()
   } else {
-    id = delData[props.idKey] ?? delData[name[0] + 'Id'] ?? delData.id
+    id = delData[props.idKey] ?? delData[props.pageName + 'Id'] ?? delData.id
   }
   if (id || id === 0) {
     await to(
@@ -263,9 +267,8 @@ const deleteRow = async (delData) => {
 // 编辑按钮
 const editClick = async (item, type) => {
   isLoading.value = true
-  const name = props.pageName.split(appIdPrefix)
   // 取出当前点击这一行数据的id 优先props传入的idKey
-  let id = item[props.idKey] ?? item[name[0] + 'Id'] ?? item.id
+  let id = item[props.idKey] ?? item[props.pageName + 'Id'] ?? item.id
   if (id || id === 0) {
     // 拼接getInfo请求的url地址
     let url = `${props.requestBaseUrl}${interceptor(props.pageName)}/${id}`

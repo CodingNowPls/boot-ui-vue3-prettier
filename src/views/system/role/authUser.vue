@@ -12,8 +12,8 @@ const route = useRoute()
 const roleId = route.params.roleId
 const proxy = inject('proxy')
 const { sys_normal_disable } = proxy.useDict('sys_normal_disable')
-const pageId = useId()
-const pageName = authUserRole + pageId
+const cacheKey = route.params.roleId
+const pageName = authUserRole
 const requestUrl = 'authUser/allocatedList'
 const requestBaseUrl = systemBaseUrl
 const otherRequestOption = ref({
@@ -119,6 +119,7 @@ init()
       :requestUrl="requestUrl"
       :requestBaseUrl="requestBaseUrl"
       :otherRequestOption="otherRequestOption"
+      :cacheKey="cacheKey"
       @onChangeShowColumn="onChangeShowColumn"
     >
       <template #handleLeft>

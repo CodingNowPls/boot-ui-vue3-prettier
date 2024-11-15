@@ -8,7 +8,6 @@ import {
 import { deepFindValue } from './utils'
 import to from '@/utils/to'
 import { getUrl } from '@/views/pageName'
-import { appIdPrefix } from '@/views/pageName'
 
 export const interceptor = (pageName) => {
   return getUrl(pageName) || `/${pageName}`
@@ -25,7 +24,12 @@ const getConfig = (pageName, payload, requestUrl, requestBaseUrl) => {
     payloadInfo: payload,
   }
 }
-
+const getListInfoKeys = (pageName, cacheKey = '') => {
+  return {
+    listName: `${pageName}${cacheKey}List`,
+    countName: `${pageName}${cacheKey}Count`,
+  }
+}
 const businessStore = defineStore('business', {
   state: () => {
     return {
@@ -39,13 +43,18 @@ const businessStore = defineStore('business', {
       listConfig = { listKey: 'rows', countKey: 'total' },
       handleList = (list) => list
     ) {
-      const { pageName, requestUrl = 'list', requestBaseUrl = '/' } = payload
+      const {
+        pageName,
+        requestUrl = 'list',
+        requestBaseUrl = '/',
+        cacheKey = '',
+      } = payload
       // let pageName = name
       if (!Object.hasOwn(this.pageSearchControl, `${pageName}SearchShow`)) {
         this.pageSearchControl[`${pageName}SearchShow`] = true
       }
       // 获取数据
-      const getListName = `${pageName}List`
+      const { listName, countName } = getListInfoKeys(pageName, cacheKey)
       let { url, payloadInfo } = getConfig(
         pageName,
         payload,
@@ -60,9 +69,9 @@ const businessStore = defineStore('business', {
       const list = deepFindValue(pageData, listConfig.listKey)
       const count = deepFindValue(pageData, listConfig.countKey)
       if (list) {
-        this.listInfo[getListName] = handleList(list)
+        this.listInfo[listName] = handleList(list)
       }
-      this.listInfo[`${pageName}Count`] = count || 0
+      this.listInfo[countName] = count || 0
       if (err) {
         console.log(err)
       }
@@ -105,9 +114,8 @@ const businessStore = defineStore('business', {
           [`${payload.sendIdKey}`]: id,
         }
       } else {
-        const name = pageName.split(appIdPrefix)
         infoId = {
-          [`${name[0]}Id`]: id,
+          [`${pageName}Id`]: id,
         }
       }
       const info = { ...editInfo, ...infoId }
@@ -122,20 +130,22 @@ const businessStore = defineStore('business', {
         !this.pageSearchControl[`${pageName}SearchShow`]
     },
     resetData(pageName) {
-      const getListName = `${pageName}List`
-      this.listInfo[getListName] = []
-      this.listInfo[`${pageName}Count`] = 0
+      const { listName, countName } = getListInfoKeys(pageName, cacheKey)
+      this.listInfo[listName] = []
+      this.listInfo[countName] = 0
     },
   },
   getters: {
     pageListData(state) {
-      return (pageName) => {
-        return state.listInfo[`${pageName}List`]
+      return (pageName, cacheKey) => {
+        const { listName } = getListInfoKeys(pageName, cacheKey)
+        return state.listInfo[listName]
       }
     },
     listCount() {
-      return (pageName) => {
-        return this.listInfo[`${pageName}Count`]
+      return (pageName, cacheKey) => {
+        const { countName } = getListInfoKeys(pageName, cacheKey)
+        return this.listInfo[countName]
       }
     },
   },
