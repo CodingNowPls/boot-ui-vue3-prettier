@@ -233,7 +233,7 @@ const listCount = computed(() => {
   return store.listCount(props.pageName, props.cacheKey) ?? 0
 })
 const showPageSearch = computed(() => {
-  return store.pageSearchControl[`${props.pageName}SearchShow`]
+  return store.pageSearchControl[`${props.pageName}${props.cacheKey}SearchShow`]
 })
 // 删除按钮
 const deleteRow = async (delData) => {
