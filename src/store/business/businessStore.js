@@ -134,7 +134,7 @@ const businessStore = defineStore('business', {
       this.pageSearchControl[searchShowName] =
         !this.pageSearchControl[searchShowName]
     },
-    resetData(pageName) {
+    resetData(pageName, cacheKey) {
       const { listName, countName } = getListInfoKeys(pageName, cacheKey)
       this.listInfo[listName] = []
       this.listInfo[countName] = 0
