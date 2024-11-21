@@ -28,7 +28,6 @@
             <el-form-item
               class="form-item"
               :class="`${item.field}Class`"
-              v-show="!item.isHidden"
               :label="item.hideLabel ? '' : item.label"
               :style="itemStyle"
               :prop="item.field"
@@ -223,9 +222,16 @@ const capitalizeFirstLetter = (str) => {
 }
 
 const isHiddenItem = (item) => {
+  if (item.isHidden) {
+    return false
+  }
   let flag = false
   if (isRef(props.hideItems)) {
     if (props.hideItems.value.includes(item.field)) {
+      flag = true
+    }
+  } else if (Array.isArray(hideItems)) {
+    if (props.hideItems.includes(item.field)) {
       flag = true
     }
   }
