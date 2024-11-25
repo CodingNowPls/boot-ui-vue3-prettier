@@ -230,7 +230,7 @@ const isHiddenItem = (item) => {
     if (props.hideItems.value.includes(item.field)) {
       flag = true
     }
-  } else if (Array.isArray(hideItems)) {
+  } else if (Array.isArray(props.hideItems)) {
     if (props.hideItems.includes(item.field)) {
       flag = true
     }
