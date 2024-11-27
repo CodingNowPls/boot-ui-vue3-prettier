@@ -81,7 +81,13 @@ const resizeObserver = new ResizeObserver((entries) => {
 })
 // 是否显示组件
 const showPageSearch = computed(() => {
-  return store.pageSearchControl[`${props.pageName}${props.cacheKey}SearchShow`]
+  const key = `${props.pageName}${props.cacheKey}SearchShow`
+  if (typeof store.pageSearchControl[key] !== 'boolean') {
+    {
+      return true
+    }
+  }
+  return store.pageSearchControl[key]
 })
 onMounted(() => {
   for (const item of formItem) {
