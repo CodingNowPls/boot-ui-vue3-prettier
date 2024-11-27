@@ -534,6 +534,15 @@ const dragUpdate = () => {
     })
   }
 }
+const handleDefaultSort = () => {
+  const orderColumns = useStorage.get('orderColumns')
+  const pageColumns = orderColumns[props.pageName]
+  if (pageColumns) {
+    delete orderColumns[props.pageName]
+    useStorage.set('orderColumns', orderColumns)
+    proxy.$tab.refreshPage()
+  }
+}
 const init = () => {
   columnsFilter()
 }
@@ -711,6 +720,13 @@ defineExpose({
                     </el-dropdown-item>
                   </VueDraggable>
                 </el-checkbox-group>
+                <el-dropdown-item divided class="dropBtnItem">
+                  <div class="dropBtns">
+                    <el-button size="small" @click="handleDefaultSort">
+                      恢复默认排序
+                    </el-button>
+                  </div>
+                </el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
@@ -842,7 +858,9 @@ defineExpose({
     outline-offset: 0;
   }
 }
-
+.dropBtns {
+  padding: 5px 16px;
+}
 html.dark {
   .table-search-button-group {
     button:focus,
@@ -870,6 +888,9 @@ html.dark {
     width: 100%;
     padding: 5px 16px;
     height: 32px;
+  }
+  .dropBtnItem {
+    background-color: transparent !important;
   }
 }
 </style>
