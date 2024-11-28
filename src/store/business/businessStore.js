@@ -56,7 +56,7 @@ const businessStore = defineStore('business', {
         pageName,
         cacheKey
       )
-      if (!Object.hasOwn(this.pageSearchControl, searchShowName)) {
+      if (typeof this.pageSearchControl[searchShowName] !== 'boolean') {
         this.pageSearchControl[searchShowName] = true
       }
       let { url, payloadInfo } = getConfig(
