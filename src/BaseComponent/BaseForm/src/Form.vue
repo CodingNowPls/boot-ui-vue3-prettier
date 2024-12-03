@@ -74,6 +74,21 @@
                     >
                     </slot>
                   </template>
+                  <template
+                    v-for="slotName in item.optionSlots"
+                    #[`${item.field}${capitalizeFirstLetter(slotName)}Option`]="slotData"
+                  >
+                    <slot
+                      :name="`${item.field}${capitalizeFirstLetter(slotName)}Option`"
+                      :backData="{
+                        ...slotData,
+                        item,
+                        dataValue: data[`${item.field}`],
+                        formData: data,
+                      }"
+                    >
+                    </slot>
+                  </template>
                   <template v-if="item.type.toUpperCase() === 'CUSTOM'" #custom>
                     <slot
                       :name="`${item.field}Custom`"
@@ -126,6 +141,8 @@ import {
   CheckBox as CHECKBOX,
   Radio as RADIO,
 } from './cpn/index'
+import { capitalizeFirstLetter } from './utils/index.js'
+
 defineOptions({
   components: {
     INPUT,
@@ -215,10 +232,6 @@ let getFormValidate = async () => {
   return elFormRef.value.validate((valid) => {
     return valid
   })
-}
-
-const capitalizeFirstLetter = (str) => {
-  return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
 const isHiddenItem = (item) => {

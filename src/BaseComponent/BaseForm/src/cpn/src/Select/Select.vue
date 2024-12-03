@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { getOptions } from '../../../utils/index.js'
+import { getOptions, capitalizeFirstLetter } from '../../../utils/index.js'
 const props = defineProps({
   item: {
     type: Object,
@@ -37,6 +37,13 @@ defineExpose({
       :key="option.key ?? option.value"
       v-on="item.optionFunction || {}"
     >
+      <template v-for="slotName in item.optionSlots" #[slotName]>
+        <slot
+          :name="item.field + capitalizeFirstLetter(slotName) + 'Option'"
+          :slotData="{ ...item, option }"
+        >
+        </slot>
+      </template>
     </el-option>
     <template v-for="slotName in item.slotNames" #[slotName]="slotData">
       <slot :name="slotName" :slotData="slotData"> </slot>
