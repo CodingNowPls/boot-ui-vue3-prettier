@@ -236,7 +236,7 @@ let getFormValidate = async () => {
 
 const isHiddenItem = (item) => {
   if (item.isHidden) {
-    return false
+    return true
   }
   let flag = false
   if (isRef(props.hideItems)) {
