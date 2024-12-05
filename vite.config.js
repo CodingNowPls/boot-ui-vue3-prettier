@@ -31,7 +31,7 @@ export default defineConfig(({ mode, command }) => {
       proxy: {
         '/api': {
           target: 'http://vue.ruoyi.vip/prod-api/',
-          // target: 'http://192.168.0.99:8080/',
+          // target: 'http://192.168.0.100:8081/',
           changeOrigin: true,
           rewrite: (p) => p.replace(/^\/api/, ''),
         },

@@ -301,7 +301,7 @@ const handleJobLog = (row) => {
                   placement="top"
                 >
                   <el-button class="ml12" type="danger" size="small">
-                    <SvgIcon :size="10" iconClass="trash"></SvgIcon>
+                    <SvgIcon :size="12" iconClass="trash"></SvgIcon>
                   </el-button>
                 </el-tooltip>
               </div>

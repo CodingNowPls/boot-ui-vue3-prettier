@@ -762,7 +762,7 @@ defineExpose({
             size="small"
             @click="editClick(backData)"
           >
-            <SvgIcon :size="10" iconClass="pencil"></SvgIcon>
+            <SvgIcon :size="12" iconClass="pencil"></SvgIcon>
             <span class="ml6">编辑</span>
           </el-button>
           <el-popconfirm
@@ -781,7 +781,7 @@ defineExpose({
                 size="small"
                 v-if="showDelete && handleDeleteShow(backData)"
               >
-                <SvgIcon :size="10" iconClass="trash"></SvgIcon>
+                <SvgIcon :size="12" iconClass="trash"></SvgIcon>
                 <span class="ml6">删除</span>
               </el-button>
               <span></span>

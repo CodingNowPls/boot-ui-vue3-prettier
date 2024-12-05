@@ -1,4 +1,4 @@
-<script setup name="AuthUser">
+<script setup name="JobLog">
 import getSearchConfig from './config/logSearch.js'
 import getContentConfig from './config/logContent.js'
 import getComputedConfig from '@/hooks/getPageConfig'
@@ -13,7 +13,7 @@ const { sys_common_status, sys_job_group } = proxy.useDict(
   'sys_common_status',
   'sys_job_group'
 )
-
+console.log(111)
 const pageName = jobLog
 const requestBaseUrl = monitorBaseUrl
 const otherRequestOption = ref({
@@ -90,6 +90,7 @@ const handleExport = () => {
       :pageName="pageName"
       :otherRequestOption="otherRequestOption"
       :searchConfig="searchConfigComputed"
+      :cacheKey="jobId"
     ></PageSearch>
     <PageContent
       ref="pageContentRef"
@@ -104,6 +105,7 @@ const handleExport = () => {
       :showDelete="false"
       :requestBaseUrl="requestBaseUrl"
       :otherRequestOption="otherRequestOption"
+      :cacheKey="jobId"
       @beforeSend="beforeSend"
       @onChangeShowColumn="onChangeShowColumn"
     >
@@ -126,10 +128,11 @@ const handleExport = () => {
         <el-button
           size="small"
           type="primary"
-          icon="eye"
           @click="handleView(backData)"
           v-hasPermi="['monitor:job:query']"
-          >详细
+        >
+          <SvgIcon size="12" iconClass="eye"></SvgIcon>
+          <span class="ml6">详细</span>
         </el-button>
       </template>
       <template #statusSlot="{ backData }">
@@ -139,7 +142,8 @@ const handleExport = () => {
         <dict-tag :options="sys_job_group" :value="backData.jobGroup" />
       </template>
       <template #createTimeSlot="{ backData }">
-        <span>{{ parseTime(backData.createTime) }}</span>
+        {{ backData.createTime }}
+        <!-- <span>{{ parseTime(backData.createTime) }}</span> -->
       </template>
     </PageContent>
     <LogView
