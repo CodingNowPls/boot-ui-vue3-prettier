@@ -218,7 +218,7 @@ const send = async (searchInfo) => {
     props.piniaConfig.handleList
   )
   if (isSuccess) {
-    emit('afterSend', store.pageListData(props.pageName))
+    emit('afterSend', store.pageListData(props.pageName, props.cacheKey))
   }
   isLoading.value = false
 }
