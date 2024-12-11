@@ -1,6 +1,6 @@
 import { login, logout, getInfo } from '@/api/login.js'
 import { getToken, setToken, removeToken } from '@/utils/auth.js'
-import { timeFormat } from '@/utils/hsj/timeFormat'
+import { parseTime } from '@/utils/hsj/timeFormat'
 import defAva from '@/assets/images/avatar.png'
 
 const useUserStore = defineStore('user', {
@@ -53,7 +53,7 @@ const useUserStore = defineStore('user', {
             this.name = user.userName
             this.nickName = user.nickName
             this.avatar = avatar
-            this.loginTime = timeFormat(new Date().getTime())
+            this.loginTime = parseTime(new Date().getTime())
             resolve(res)
           })
           .catch((error) => {

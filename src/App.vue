@@ -4,13 +4,9 @@ import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import { useDict } from '@/utils/dict'
 import hasPermi from '@/utils/hasPermi'
 import { download } from '@/utils/hsj/service/index'
-import {
-  parseTime,
-  handleTree,
-  selectDictLabel,
-  selectDictLabels,
-} from '@/utils/ruoyi'
+import { handleTree, selectDictLabel, selectDictLabels } from '@/utils/ruoyi'
 import { formatSearchTime } from '@/utils/hsj/utils'
+import { parseTime } from '@/utils/hsj/timeFormat'
 import { tab, auth, modal, $download, isSmallScreen } from '@/plugins/index'
 const proxy = {
   download,

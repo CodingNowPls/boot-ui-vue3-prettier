@@ -7,7 +7,7 @@
   </el-container>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import Header from '../components/Header.vue'
 import Main from '../components/Main.vue'
 </script>

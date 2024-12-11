@@ -4,7 +4,7 @@ import getContentConfig from './config/contentConfig.js'
 import getComputedConfig from '@/hooks/getPageConfig'
 import { monitorBaseUrl } from '@/api/config/base.js'
 import { unlockLogininfor } from '@/api/monitor/logininfor'
-import { timeFormat } from '@/utils/hsj/timeFormat'
+import { parseTime } from '@/utils/hsj/timeFormat'
 import { logininfor } from '@/views/pageName.js'
 
 import to from '@/utils/to'
@@ -82,7 +82,7 @@ const handleUnlock = async (row) => {
 }
 
 onMounted(() => {
-  const now = timeFormat(new Date(), 'YYYY-MM-DD')
+  const now = parseTime(new Date(), 'YYYY-MM-DD')
   pageSearchRef.value.setFormData('dateRange', [now, now])
   search()
 })

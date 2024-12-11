@@ -6,7 +6,7 @@
       :key="tag.path"
       :data-path="tag.path"
       :class="isActive(tag, index) ? 'active' : ''"
-      :to="{ path: tag.path, query: tag.query, fullPath: tag.fullPath }"
+      :to="{ path: tag.path, query: tag.query }"
       :ref="tabsRefs.set"
       @click.middle="!isAffix(tag) ? closeSelectedTag(tag) : ''"
       @contextmenu.prevent="openMenu(tag, $event)"
@@ -58,7 +58,6 @@ const state = reactive({
   contextmenuItems: [
     { name: 'refresh', label: '重新加载', icon: 'refresh' },
     { name: 'close', label: '关闭标签', icon: 'times' },
-    // { name: 'fullScreen', label: '当前标签全屏', icon: 'el-icon-FullScreen' },
     { name: 'closeOther', label: '关闭其他标签', icon: 'minus' },
     { name: 'closeAll', label: '关闭全部标签', icon: 'stop' },
   ],
@@ -80,12 +79,6 @@ const onContextmenuItem = (item) => {
     case 'closeAll':
       closeAllTags(selectedTag.value)
       break
-    // case 'fullScreen':
-    //   if (route.path !== menu?.path) {
-    //     router.push(menu?.path)
-    //   }
-    //   navTabs.setFullScreen(true)
-    //   break
   }
 }
 
@@ -145,26 +138,6 @@ function isActive(r, index) {
 
 function isAffix(tag) {
   return tag.meta && tag.meta.affix
-}
-function isFirstView() {
-  try {
-    return (
-      selectedTag.value.fullPath === '/index' ||
-      selectedTag.value.fullPath === visitedViews.value[1].fullPath
-    )
-  } catch (err) {
-    return false
-  }
-}
-function isLastView() {
-  try {
-    return (
-      selectedTag.value.fullPath ===
-      visitedViews.value[visitedViews.value.length - 1].fullPath
-    )
-  } catch (err) {
-    return false
-  }
 }
 function filterAffixTags(routes, basePath = '') {
   let tags = []
@@ -227,20 +200,6 @@ function closeSelectedTag(view) {
   proxy.$tab.closePage(view).then(({ visitedViews }) => {
     if (isActive(view)) {
       toLastView(visitedViews, view)
-    }
-  })
-}
-function closeRightTags() {
-  proxy.$tab.closeRightPage(selectedTag.value).then((visitedViews) => {
-    if (!visitedViews.find((i) => i.fullPath === route.fullPath)) {
-      toLastView(visitedViews)
-    }
-  })
-}
-function closeLeftTags() {
-  proxy.$tab.closeLeftPage(selectedTag.value).then((visitedViews) => {
-    if (!visitedViews.find((i) => i.fullPath === route.fullPath)) {
-      toLastView(visitedViews)
     }
   })
 }
@@ -311,22 +270,6 @@ onMounted(() => {
   overflow-y: hidden;
   margin-right: var(--ba-main-space);
   scrollbar-width: none;
-  // &::-webkit-scrollbar-thumb {
-  //   background: #eaeaea;
-  //   border-radius: var(--el-border-radius-base);
-  //   box-shadow: none;
-  //   -webkit-box-shadow: none;
-  // }
-  // &::-webkit-scrollbar-track {
-  //   background: v-bind(
-  //     'config.layout.layoutMode == "Default" ? "none":config.getColorVal("headerBarBackground")'
-  //   );
-  // }
-  // &:hover {
-  //   &::-webkit-scrollbar-thumb:hover {
-  //     background: #c8c9cc;
-  //   }
-  // }
 }
 .ba-nav-tab {
   white-space: nowrap;

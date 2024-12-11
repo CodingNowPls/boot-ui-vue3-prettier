@@ -30,7 +30,6 @@ export const tableItem = [
     prop: 'createTime',
     label: '执行时间',
     width: 180,
-    slotName: 'createTimeSlot',
   },
   {
     label: '操作',

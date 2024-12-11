@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, useTemplateRef } from 'vue'
 import TableColumn from './TableColumn.vue'
 const props = defineProps({
   border: {
@@ -80,6 +80,7 @@ const props = defineProps({
 const emit = defineEmits(['update:paginationInfo', 'sortChange'])
 const headerRef = ref(null)
 const elTableRef = ref(null)
+const footerRef = useTemplateRef('footerRef')
 const slots = useSlots()
 const handleCurrentChange = (pageNum) => {
   elTableRef.value.setScrollTop(0)
@@ -104,15 +105,17 @@ const hasSlot = (slots, arr) => {
   return arr.some((key) => slots.hasOwnProperty(key))
 }
 
-let maxHeight = computed(() => {
+const maxHeight = computed(() => {
   let headerHeight = 0
+  const footerHeight = footerRef.value?.clientHeight ?? 0
   if (headerRef.value) {
     headerHeight = headerRef.value.clientHeight
   }
   if (props.maxHeight) {
-    return props.maxHeight - headerHeight
+    return props.maxHeight - headerHeight - footerHeight
   } else {
-    const viewportHeight = window.innerHeight - 260 - headerHeight
+    const viewportHeight =
+      window.innerHeight - 260 - headerHeight - footerHeight
     return viewportHeight
   }
 })
@@ -229,7 +232,7 @@ defineExpose({
       </template>
     </el-table>
 
-    <div class="footer lmw-pagination-footer" v-if="pagination">
+    <div class="footer lmw-pagination-footer" v-if="pagination" ref="footerRef">
       <slot name="footer">
         <el-pagination
           @size-change="handleSizeChange"

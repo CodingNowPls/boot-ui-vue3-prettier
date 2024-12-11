@@ -141,10 +141,6 @@ const handleExport = () => {
       <template #jobGroupSlot="{ backData }">
         <dict-tag :options="sys_job_group" :value="backData.jobGroup" />
       </template>
-      <template #createTimeSlot="{ backData }">
-        {{ backData.createTime }}
-        <!-- <span>{{ parseTime(backData.createTime) }}</span> -->
-      </template>
     </PageContent>
     <LogView
       v-model:dialogVisible="viewDialog"

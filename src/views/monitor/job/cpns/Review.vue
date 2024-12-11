@@ -38,7 +38,7 @@ const handleValueChange = (value) => {
           {{ jobGroupFormat(backData.data) }}
         </template>
         <template #nextValidTimeCustom="{ backData }">
-          {{ parseTime(backData.data) }}
+          {{ backData.data }}
         </template>
         <template #statusCustom="{ backData }">
           <div v-if="backData.data == 0">正常</div>

@@ -6,7 +6,7 @@ import { monitorBaseUrl } from '@/api/config/base.js'
 import { forceLogout } from '@/api/monitor/online.js'
 import to from '@/utils/to'
 import { online } from '@/views/pageName.js'
-
+import { parseTime } from '@/utils/hsj/timeFormat'
 const proxy = inject('proxy')
 const pageName = online
 const requestBaseUrl = monitorBaseUrl
