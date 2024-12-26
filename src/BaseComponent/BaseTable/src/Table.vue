@@ -233,7 +233,14 @@ defineExpose({
       </template>
     </el-table>
 
-    <div class="footer lmw-pagination-footer" v-if="pagination" ref="footerRef">
+    <div
+      class="footer lmw-pagination-footer"
+      :class="{
+        isSmall: isSmall,
+      }"
+      v-if="pagination"
+      ref="footerRef"
+    >
       <slot name="footer">
         <el-pagination
           @size-change="handleSizeChange"
@@ -272,20 +279,29 @@ defineExpose({
   }
 }
 .footer {
+  background-color: var(--ba-bg-color-overlay);
   :deep(.el-pagination) {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: flex-end;
     box-sizing: border-box;
-    width: 100%;
-    max-width: 100%;
-    background-color: var(--ba-bg-color-overlay);
     padding: 13px 15px;
   }
 }
-.btns {
-  display: flex;
+.isSmall {
+  :deep(.btn-prev) {
+    margin: 0 2px;
+  }
+  :deep(.btn-next) {
+    margin: 0 0 0 2px;
+  }
+  :deep(.el-pager li) {
+    margin: 0 1px;
+  }
+  :deep(.el-pagination) {
+    padding: 10px;
+  }
 }
 .baseTable {
   :deep(
