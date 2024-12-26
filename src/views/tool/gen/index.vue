@@ -86,7 +86,7 @@ const handleEditTable = (row) => {
 }
 const handleSynchDb = async (row) => {
   const tableName = row.tableName
-  const [res] = to(synchDb(tableName))
+  const [res] = await to(synchDb(tableName))
   if (res) {
     proxy.$modal.notifySuccess('同步成功')
   }

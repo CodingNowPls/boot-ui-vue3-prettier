@@ -1,10 +1,12 @@
-# 若依前后端分离版本-前端
+# 若依前后端分离-js版本-前端
 
 ## 项目介绍
 
 1. 本项目可以完美的对接原版本的ruoyi前后端分离版本的后端
 
 2. 本项目重构了若依前后端分离版本的前端70%的代码，代码高度内聚，并优化了界面的ui。
+
+3. 提供了技术栈<a href="https://gitee.com/codelm/ruoyi-vue3-lmw-ts">vue3+ts</a> 版本，保持同步更新。
 
 ## 联系本人
 
@@ -118,49 +120,49 @@ pnpm build:prod
 
 #### 属性
 
-| 属性名       | 说明                                                         | 类型         | 默认值                                                       |
-| ------------ | ------------------------------------------------------------ | ------------ | ------------------------------------------------------------ |
-| elFormConfig | element-plus的Form组件参数                                   | `Object`     | {}                                                           |
-| allDisabled  | 是否禁用所有操作框                                           | `boolean`    | false                                                        |
-| formItems    | 需要渲染的form项，具体参考下方的formItem                     | `Array`      | []                                                           |
-| v-model:data | 表单数据                                                     | `Object`     | 必填                                                         |
-| itemStyle    | 每个formItem的样式                                           | `Object`     | { padding: '0px 20px 0px 0px' }                              |
-| colLayout    | 单个formItem布局配置，参考element-plus的<a href="https://element-plus.org/zh-CN/component/layout.html#col-api">Layout组件</a> | `Object`     |                                                              |
-| footerLayout | footer插槽的布局配置，参数同上                               | `Object`     | { xl: 3, //1920<br/>lg: 4, //1200<br/>md: 6, //992<br/>sm: 12, //768<br/>xs: 24, //<768 } |
-| rowConfig    | 所有formItem的布局配置，参考element-plus的Layout组件中<a href="https://element-plus.org/zh-CN/component/layout.html#row-api">el-row的配置</a> | `Object`     | {}                                                           |
-| rules        | 表单正则校验，参考element-plus的<a href="https://element-plus.org/zh-CN/component/form.html#%E8%A1%A8%E5%8D%95%E6%A0%A1%E9%AA%8C">表单校验</a> | `Object`     | {}                                                           |
-| hideItems    | 需要隐藏的列(需要用ref包裹)                                  | `ref(Array)` | []                                                           |
+| 属性名       | 说明                                                                                                                                           | 类型         | 默认值                                                                                    |
+| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ----------------------------------------------------------------------------------------- |
+| elFormConfig | element-plus的Form组件参数                                                                                                                     | `Object`     | {}                                                                                        |
+| allDisabled  | 是否禁用所有操作框                                                                                                                             | `boolean`    | false                                                                                     |
+| formItems    | 需要渲染的form项，具体参考下方的formItem                                                                                                       | `Array`      | []                                                                                        |
+| v-model:data | 表单数据                                                                                                                                       | `Object`     | 必填                                                                                      |
+| itemStyle    | 每个formItem的样式                                                                                                                             | `Object`     | { padding: '0px 20px 0px 0px' }                                                           |
+| colLayout    | 单个formItem布局配置，参考element-plus的<a href="https://element-plus.org/zh-CN/component/layout.html#col-api">Layout组件</a>                  | `Object`     |                                                                                           |
+| footerLayout | footer插槽的布局配置，参数同上                                                                                                                 | `Object`     | { xl: 3, //1920<br/>lg: 4, //1200<br/>md: 6, //992<br/>sm: 12, //768<br/>xs: 24, //<768 } |
+| rowConfig    | 所有formItem的布局配置，参考element-plus的Layout组件中<a href="https://element-plus.org/zh-CN/component/layout.html#row-api">el-row的配置</a>  | `Object`     | {}                                                                                        |
+| rules        | 表单正则校验，参考element-plus的<a href="https://element-plus.org/zh-CN/component/form.html#%E8%A1%A8%E5%8D%95%E6%A0%A1%E9%AA%8C">表单校验</a> | `Object`     | {}                                                                                        |
+| hideItems    | 需要隐藏的列(需要用ref包裹)                                                                                                                    | `ref(Array)` | []                                                                                        |
 
 ##### formItem
 
-| 属性名         | 说明                                                         | 类型      | 默认值 |
-| -------------- | ------------------------------------------------------------ | --------- | ------ |
-| field          | data的键名                                                   | `String`  | —      |
-| isHidden       | 是否隐藏该列                                                 | `Boolean` | false  |
-| hideLabel      | 是否隐藏label                                                | `Boolean` | false  |
-| label          | 标签文本                                                     | `String`  | —      |
+| 属性名         | 说明                                                                                                         | 类型      | 默认值 |
+| -------------- | ------------------------------------------------------------------------------------------------------------ | --------- | ------ |
+| field          | data的键名                                                                                                   | `String`  | —      |
+| isHidden       | 是否隐藏该列                                                                                                 | `Boolean` | false  |
+| hideLabel      | 是否隐藏label                                                                                                | `Boolean` | false  |
+| label          | 标签文本                                                                                                     | `String`  | —      |
 | formItemConfig | 参考element-plus的<a href="https://element-plus.org/zh-CN/component/form.html#formitem-api">formItem</a>配置 | `Object`  | —      |
-| type           | 参考下方的type                                               | `String`  | —      |
-| config         | 根据type的选择配置不同的config，可以根据type的类型去查看element-plus的文档 | `Object`  | —      |
-| eventFunction  | 组件的监听事件，根据type的类型去查看element-plus的文档       | `Object`  | —      |
-| slotNames      | 根据type类型去查看对应element-plus组件的插槽配置，对外暴露的插槽名称为field+驼峰的slotName | `Array`   |        |
+| type           | 参考下方的type                                                                                               | `String`  | —      |
+| config         | 根据type的选择配置不同的config，可以根据type的类型去查看element-plus的文档                                   | `Object`  | —      |
+| eventFunction  | 组件的监听事件，根据type的类型去查看element-plus的文档                                                       | `Object`  | —      |
+| slotNames      | 根据type类型去查看对应element-plus组件的插槽配置，对外暴露的插槽名称为field+驼峰的slotName                   | `Array`   |        |
 
 ##### type
 
-| 属性名称    | 说明                                                         |
-| ----------- | ------------------------------------------------------------ |
-| input       | 参考element-plus的<a href="https://element-plus.org/zh-CN/component/input.html">input</a>，下面所有的type都可参考element-plus |
-| password    | <a href="https://element-plus.org/zh-CN/component/input.html">input</a> |
-| inputNumber | <a href="https://element-plus.org/zh-CN/component/input-number.html">input</a> |
-| textarea    | <a href="https://element-plus.org/zh-CN/component/input.html#%E6%96%87%E6%9C%AC%E5%9F%9F">Input</a> |
-| cascader    | <a href="https://element-plus.org/zh-CN/component/cascader.html">cascader</a> |
-| select      | <a href="https://element-plus.org/zh-CN/component/select.html">select</a> |
-| tree        | <a href="https://element-plus.org/zh-CN/component/tree.html">Tree</a> |
-| treeSelect  | <a href="https://element-plus.org/zh-CN/component/tree-select.html">TreeSelect</a> |
-| datepicker  | <a href="https://element-plus.org/zh-CN/component/date-picker.html">DatePicker</a> |
+| 属性名称    | 说明                                                                                                                             |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| input       | 参考element-plus的<a href="https://element-plus.org/zh-CN/component/input.html">input</a>，下面所有的type都可参考element-plus    |
+| password    | <a href="https://element-plus.org/zh-CN/component/input.html">input</a>                                                          |
+| inputNumber | <a href="https://element-plus.org/zh-CN/component/input-number.html">input</a>                                                   |
+| textarea    | <a href="https://element-plus.org/zh-CN/component/input.html#%E6%96%87%E6%9C%AC%E5%9F%9F">Input</a>                              |
+| cascader    | <a href="https://element-plus.org/zh-CN/component/cascader.html">cascader</a>                                                    |
+| select      | <a href="https://element-plus.org/zh-CN/component/select.html">select</a>                                                        |
+| tree        | <a href="https://element-plus.org/zh-CN/component/tree.html">Tree</a>                                                            |
+| treeSelect  | <a href="https://element-plus.org/zh-CN/component/tree-select.html">TreeSelect</a>                                               |
+| datepicker  | <a href="https://element-plus.org/zh-CN/component/date-picker.html">DatePicker</a>                                               |
 | checkBox    | checkbox组件，具体使用可以查看BaseForm的源代码，很容易看懂，路径：`src/BaseComponent/BaseForm/src/cpn/src/CheckBox/CheckBox.vue` |
-| radio       | radio，具体使用可以查看BaseForm的源代码，很容易看懂，路径：`src/BaseComponent/BaseForm/src/cpn/src/Radio/Radio.vue` |
-| custom      | 自定义类型，当type='custom'时会向外部暴露一个插槽，插槽名称为field+Custom |
+| radio       | radio，具体使用可以查看BaseForm的源代码，很容易看懂，路径：`src/BaseComponent/BaseForm/src/cpn/src/Radio/Radio.vue`              |
+| custom      | 自定义类型，当type='custom'时会向外部暴露一个插槽，插槽名称为field+Custom                                                        |
 
 #### 插槽
 
@@ -175,44 +177,44 @@ pnpm build:prod
 
 #### 属性
 
-| 属性名           | 说明                                                         | 类型             | 默认值                                    |
-| ---------------- | ------------------------------------------------------------ | ---------------- | ----------------------------------------- |
-| dataList         | 表数据                                                       | `Array`          | []                                        |
-| tableItem        | 参考下方的tableItem                                          | `Array`          | []                                        |
+| 属性名           | 说明                                                                                                                                             | 类型             | 默认值                                    |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------- | ----------------------------------------- |
+| dataList         | 表数据                                                                                                                                           | `Array`          | []                                        |
+| tableItem        | 参考下方的tableItem                                                                                                                              | `Array`          | []                                        |
 | tableListener    | table的监听事件参考element-plus的 <a href="https://element-plus.org/zh-CN/component/table.html#table-%E4%BA%8B%E4%BB%B6">table组件的监听事件</a> | `Object`         | {}                                        |
-| showChoose       | 是否展示复选框                                               | `Boolean`        | false                                     |
-| showIndex        | 是否展示序号                                                 | `Boolean`        | false                                     |
-| pagination       | 是否显示分页                                                 | `Boolean`        | true                                      |
-| listCount        | 总条数                                                       | `Number`         | 0                                         |
-| paginationInfo   | 分页的页码和偏移                                             | `Object`         | { pageNum: 1, pageSize: 50 }              |
-| elTableConfig    | element-plus的<a href="https://element-plus.org/zh-CN/component/table.html#table-api">table组件的参数配置</a> | `Object`         | {}                                        |
-| showExpand       | 列表是否可展开                                               | `Boolean`        | false                                     |
-| align            | 列布局，参考element-plus的align                              | `String`         | center                                    |
-| paginationLayout | 参考 element-plus中pagination的layout属性                    | `String`         | 'total, sizes, prev, pager, next, jumper' |
-| hideItems        | 需要隐藏的列(需要用ref包裹)                                  | `ref(Array)`     | []                                        |
-| maxHeight        | 参考element-plus的table的max-height                          | `Number, String` |                                           |
-| selectionConfig  | element-plus的table复选框的配置                              | `Object`         | {}                                        |
+| showChoose       | 是否展示复选框                                                                                                                                   | `Boolean`        | false                                     |
+| showIndex        | 是否展示序号                                                                                                                                     | `Boolean`        | false                                     |
+| pagination       | 是否显示分页                                                                                                                                     | `Boolean`        | true                                      |
+| listCount        | 总条数                                                                                                                                           | `Number`         | 0                                         |
+| paginationInfo   | 分页的页码和偏移                                                                                                                                 | `Object`         | { pageNum: 1, pageSize: 50 }              |
+| elTableConfig    | element-plus的<a href="https://element-plus.org/zh-CN/component/table.html#table-api">table组件的参数配置</a>                                    | `Object`         | {}                                        |
+| showExpand       | 列表是否可展开                                                                                                                                   | `Boolean`        | false                                     |
+| align            | 列布局，参考element-plus的align                                                                                                                  | `String`         | center                                    |
+| paginationLayout | 参考 element-plus中pagination的layout属性                                                                                                        | `String`         | 'total, sizes, prev, pager, next, jumper' |
+| hideItems        | 需要隐藏的列(需要用ref包裹)                                                                                                                      | `ref(Array)`     | []                                        |
+| maxHeight        | 参考element-plus的table的max-height                                                                                                              | `Number, String` |                                           |
+| selectionConfig  | element-plus的table复选框的配置                                                                                                                  | `Object`         | {}                                        |
 
 ##### tableItem
 
-| 属性名           | 说明                                                         |
-| ---------------- | ------------------------------------------------------------ |
+| 属性名           | 说明                                                                                                                     |
+| ---------------- | ------------------------------------------------------------------------------------------------------------------------ |
 | 参考element-plus | 与element-plus的<a href="https://element-plus.org/zh-CN/component/table.html#table-column-api"> table-column参数一致</a> |
-| slotName         | 对应element-plus中Table-column的default插槽                  |
-| useOwn           | 是否使用element-plus的Table-column的header插槽，如果为true时会向外暴露一个名称为slotName+Header的插槽 |
+| slotName         | 对应element-plus中Table-column的default插槽                                                                              |
+| useOwn           | 是否使用element-plus的Table-column的header插槽，如果为true时会向外暴露一个名称为slotName+Header的插槽                    |
 
 ### 3、pageSearch
 
 #### 属性
 
-| 属性名             | 说明                                                         | 类型            | 默认值 |
-| ------------------ | ------------------------------------------------------------ | --------------- | ------ |
-| searchConfig       | 参考BaseForm组件的所有属性                                   | `Object`        | {}     |
-| initSearch         | 搜索参数初始化的值                                           | `Object`        | {}     |
-| otherRequestOption | 除form表单外的其他搜索条件                                   | `Object`        | {}     |
-| showSearch         | 是否展示检索和重置按钮                                       | `Boolean`       | true   |
-| pageName           | 点击搜索时会使用mitt库发送一个名称为search+pageName+Info的事件，用于查询 | `String`        | 必填   |
-| cacheKey           | 当页面会存在打开多个的时候会出现缓存问题，可以用这个区分缓存 | `String|Number` |        |
+| 属性名             | 说明                                                                     | 类型      | 默认值  |
+| ------------------ | ------------------------------------------------------------------------ | --------- | ------- | --- |
+| searchConfig       | 参考BaseForm组件的所有属性                                               | `Object`  | {}      |
+| initSearch         | 搜索参数初始化的值                                                       | `Object`  | {}      |
+| otherRequestOption | 除form表单外的其他搜索条件                                               | `Object`  | {}      |
+| showSearch         | 是否展示检索和重置按钮                                                   | `Boolean` | true    |
+| pageName           | 点击搜索时会使用mitt库发送一个名称为search+pageName+Info的事件，用于查询 | `String`  | 必填    |
+| cacheKey           | 当页面会存在打开多个的时候会出现缓存问题，可以用这个区分缓存             | `String   | Number` |     |
 
 #### Exposes
 
