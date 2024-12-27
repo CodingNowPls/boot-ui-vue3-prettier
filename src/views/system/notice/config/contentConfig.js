@@ -8,6 +8,7 @@ export const tableItem = [
     prop: 'noticeTitle',
     label: '公告标题',
     minWidth: 160,
+    mobileSlot: 'header',
   },
   {
     prop: 'noticeType',

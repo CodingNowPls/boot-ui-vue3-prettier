@@ -8,6 +8,7 @@ export const tableItem = [
     prop: 'configName',
     label: '参数名称',
     minWidth: 90,
+    mobileSlot: 'header',
   },
   {
     prop: 'configKey',

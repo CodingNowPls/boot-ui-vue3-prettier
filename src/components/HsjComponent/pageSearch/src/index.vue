@@ -11,6 +11,10 @@ const setFormData = (key, value) => {
 const search = (isReset = false) => {
   pageSearchRef.value.search(isReset)
 }
+defineExpose({
+  setFormData,
+  search,
+})
 </script>
 <template>
   <MobileSearch

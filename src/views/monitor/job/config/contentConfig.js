@@ -8,6 +8,7 @@ export const tableItem = [
     prop: 'jobName',
     label: '任务名称',
     minWidth: 100,
+    mobileSlot: 'header',
   },
   {
     prop: 'jobGroup',
@@ -33,9 +34,11 @@ export const tableItem = [
     minWidth: 100,
   },
   {
+    prop: 'doSth',
     label: '操作',
     width: 280,
     slotName: 'toSth',
+    mobileSlot: 'footer',
   },
 ]
 export default () => {

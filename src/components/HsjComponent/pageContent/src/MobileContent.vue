@@ -346,7 +346,11 @@ const columnsFilter = () => {
       headerItem.push(item)
     }
     if (item.mobileSlot === 'footer') {
-      footerSlot.push(item.prop + 'Slot')
+      if (item.slotName) {
+        footerSlot.push(item.slotName)
+      } else {
+        footerSlot.push(item.prop + 'Slot')
+      }
     }
     if (item.prop === 'todo') {
       hasTodo = true
@@ -408,7 +412,13 @@ onActivated(() => {
 onDeactivated(() => {
   offListener()
 })
-
+const vShowFooter = {
+  mounted: (el) => {
+    if (el.children.length === 1) {
+      el.parentNode && el.parentNode.removeChild(el)
+    }
+  },
+}
 init()
 defineExpose({
   finalSearchData,
@@ -430,10 +440,10 @@ defineExpose({
       <div class="card-header" v-for="field in headerItem">
         <div class="order-number">
           <slot :name="field.slotName + 'Header'" :backData="row">
-            <span class="label"> {{ field.label }}： </span>
+            <div class="label">{{ field.label }}：</div>
           </slot>
           <slot :name="field.slotName" :backData="row">
-            <span class="value">{{ row[field.prop] }}</span>
+            <div class="value">{{ row[field.prop] }}</div>
           </slot>
         </div>
       </div>
@@ -462,7 +472,7 @@ defineExpose({
           </div>
         </div>
       </div>
-      <div class="card-footer mobileFooter">
+      <div class="card-footer mobileFooter" v-show-footer>
         <template v-if="hasTodo">
           <el-button
             class="edit order5"
@@ -503,7 +513,7 @@ defineExpose({
         </template>
       </div>
     </div>
-    <!-- <el-empty v-if="listCount" description="暂无数据" /> -->
+    <el-empty class="empty" v-if="listCount === 0" description="暂无数据" />
     <el-backtop
       target=".el-main"
       :right="10"
@@ -514,9 +524,7 @@ defineExpose({
       class="footer lmw-pagination-footer"
       v-if="contentConfig.pagination && listCount > paginationInfo.pageSize"
     >
-      <span>
-        <span class="primary"> {{ listCount }}条 </span>
-      </span>
+      <span class="mr2"> {{ listCount }}条 </span>
       <el-pagination
         @size-change="handleToTop"
         @current-change="handleToTop"
@@ -537,6 +545,9 @@ defineExpose({
 .pageContent {
   background-color: var(--ba-bg-color);
 }
+.empty {
+  background: var(--ba-bg-color-overlay);
+}
 .data-card {
   position: relative;
   background: var(--ba-bg-color-overlay);
@@ -554,14 +565,17 @@ defineExpose({
     padding: 12px 16px;
     border-bottom: 1px solid var(--el-border-color);
     .order-number {
+      display: flex;
       font-size: 15px;
       .label {
+        width: 76px;
         color: var(--el-text-color-primary);
         font-weight: 500;
       }
       .value {
         color: var(--el-color-primary);
         font-weight: 500;
+        flex: 1;
       }
     }
   }
@@ -638,19 +652,23 @@ defineExpose({
   display: flex;
   align-items: center;
   flex-wrap: wrap;
+  :deep(.el-pager) {
+    li {
+      margin: 0 1px;
+    }
+  }
   :deep(.btn-prev) {
     margin: 0 2px;
   }
   :deep(.btn-next) {
     margin: 0 0 0 2px;
   }
-  :deep(.el-pager li) {
-    margin: 0 1px;
-  }
   :deep(.el-pagination) {
     padding: 0px;
+    --el-pagination-button-height: 28px;
+    --el-pagination-button-width: 28px;
   }
   background-color: var(--ba-bg-color-overlay);
-  padding: 10px 10px;
+  padding: 8px;
 }
 </style>

@@ -3,6 +3,7 @@ export const tableItem = [
     prop: 'tableName',
     label: '表名称',
     minWidth: 110,
+    mobileSlot: 'header',
   },
   {
     prop: 'tableComment',
@@ -30,6 +31,7 @@ export const tableItem = [
     label: '操作',
     width: 280,
     slotName: 'doSth',
+    mobileSlot: 'footer',
   },
 ]
 export default () => {

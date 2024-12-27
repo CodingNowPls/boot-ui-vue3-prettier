@@ -1,13 +1,14 @@
 export const tableItem = [
-  {
-    prop: 'roleId',
-    label: '角色编号',
-    minWidth: 90,
-  },
+  // {
+  //   prop: 'roleId',
+  //   label: '角色编号',
+  //   minWidth: 90,
+  // },
   {
     prop: 'roleName',
     label: '角色名称',
     minWidth: 90,
+    mobileSlot: 'header',
   },
   {
     prop: 'roleKey',

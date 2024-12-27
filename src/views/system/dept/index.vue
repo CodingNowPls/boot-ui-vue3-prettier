@@ -4,6 +4,7 @@ import getContentConfig from './config/contentConfig.js'
 import getDialogConfig from './config/dialogConfig.js'
 import useDialog from '@/hooks/useDialog.js'
 import getComputedConfig from '@/hooks/getPageConfig.js'
+import { PageContent } from '@/components/HsjComponent/pageContent/index'
 import { systemBaseUrl } from '@/api/config/base.js'
 import { dept } from '@/views/pageName.js'
 
