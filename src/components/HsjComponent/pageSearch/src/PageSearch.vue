@@ -44,7 +44,7 @@ const baseFormRef = ref(null)
 const searchLoading = ref(false)
 const formItem = props.searchConfig?.formItems ?? []
 
-let formData = ref({})
+const formData = ref({})
 const search = (isReset = false) => {
   searchLoading.value = true
   emitter.emit(`search${props.pageName}Info`, {

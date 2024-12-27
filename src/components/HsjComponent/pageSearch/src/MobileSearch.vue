@@ -1,7 +1,6 @@
 <script setup>
 import BaseForm from '@/BaseComponent/BaseForm'
 import emitter from '@/utils/hsj/bus'
-import businessStore from '@/store/business/businessStore'
 
 const props = defineProps({
   searchConfig: {
@@ -32,13 +31,7 @@ const props = defineProps({
   reset: {
     type: Function,
   },
-  // 当页面会存在打开多个的时候会出现缓存问题，可以用这个区分缓存
-  cacheKey: {
-    type: [String, Number],
-    default: '',
-  },
 })
-const store = businessStore()
 const pageSearchRef = ref(null)
 const baseFormRef = ref(null)
 const searchLoading = ref(false)
@@ -79,6 +72,7 @@ const resizeObserver = new ResizeObserver((entries) => {
     emitter.emit(`change${props.pageName}Size`, newHeight)
   }
 })
+
 onMounted(() => {
   for (const item of formItem) {
     formData.value[item.field] = item.default ?? void 0
@@ -97,19 +91,53 @@ defineExpose({
 
 <template>
   <div class="page-search" ref="pageSearchRef">
-    <div class="search"></div>
+    <div class="search">
+      <BaseForm
+        ref="baseFormRef"
+        v-bind="searchConfig"
+        v-model:data="formData"
+        @keyUpEnter="keyUpEnter"
+      >
+        <template #footer>
+          <div class="footer" v-if="showSearch">
+            <el-button
+              type="primary"
+              icon="Search"
+              @click="search(false)"
+              :loading="searchLoading"
+              >检索</el-button
+            >
+            <el-button
+              @click="reset(true)"
+              icon="Refresh"
+              :loading="searchLoading"
+            >
+              重置
+            </el-button>
+          </div>
+        </template>
+      </BaseForm>
+    </div>
   </div>
+  <div class="bg"></div>
 </template>
 
 <style scoped lang="scss">
+.bg {
+  height: 12px;
+  background-color: var(--ba-bg-color);
+}
 .page-search {
   box-sizing: border-box;
   width: 100%;
   max-width: 100%;
   background-color: var(--ba-bg-color-overlay);
-  // border: 1px solid var(--ba-border-color);
-  border-bottom: none;
+  border: 1px solid var(--ba-border-color);
+  padding: 13px 15px;
   font-size: 14px;
+  :deep(.footer) {
+    justify-content: flex-end;
+  }
 }
 .footer {
   text-align: right;

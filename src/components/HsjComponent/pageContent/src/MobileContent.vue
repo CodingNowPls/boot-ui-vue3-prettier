@@ -5,7 +5,7 @@ import { getInfo } from '@/api/business/main/index'
 import to from '@/utils/to'
 import { interceptor } from '@/store/business/businessStore'
 import { antiShake } from '@/utils/hsj/utils'
-import MobileItem from './mobileItem.vue'
+import DictCpn from './dictCpn.vue'
 
 const props = defineProps({
   // table的配置
@@ -167,13 +167,13 @@ const baseTabelRef = ref(null)
 const searchDatas = ref({})
 const paginationInfo = ref({
   pageNum: 1,
-  pageSize: props.contentConfig?.defaultPageSize || 20,
+  pageSize: props.contentConfig?.defaultPageSize || 10,
 })
 
 if (props.contentConfig?.pagination) {
   paginationInfo.value = {
     pageNum: 1,
-    pageSize: props.contentConfig?.defaultPageSize || 20,
+    pageSize: props.contentConfig?.defaultPageSize || 10,
   }
 }
 // 所有的搜索条件的汇总
@@ -188,11 +188,15 @@ const finalSearchData = computed(() => {
 watch(
   () => paginationInfo.value,
   (newValue, oldValue) => {
+    console.log(1111)
     // 当pageSize发生变化时将pageNum设置成第一页
     if (newValue.pageSize !== oldValue.pageSize) {
       paginationInfo.value.pageNum = 1
     }
     antiShakeSend(finalSearchData.value)
+  },
+  {
+    deep: true,
   }
 )
 
@@ -302,24 +306,11 @@ const mittFunc = async (searchFormData) => {
   // 网络请求完毕，loading设置成false
   if (searchFormData.searchLoading) searchFormData.searchLoading.value = false
 }
-// table的最大高度
-const maxHeight = ref(500)
-// 页面pageSearch的高度
-let currentSearchHeight = 0
-// 动态计算maxHeigth
+const visibilityHeight = ref(100)
 const mittResize = (searchHeight) => {
   if (typeof searchHeight === 'number') {
-    currentSearchHeight = searchHeight
+    visibilityHeight.value = searchHeight
   }
-  // 获取头部的高度
-  const header = document.getElementsByClassName('el-header')[0]
-  // 计算公式为 视口高度-搜索栏高度-margin
-  let viewportHeight = window.innerHeight - currentSearchHeight - 34
-  // 如果header存在会再减去header的高度，因为某些布局没有header
-  if (header) {
-    viewportHeight -= header.clientHeight
-  }
-  maxHeight.value = viewportHeight - props.maxHeightDecrement
 }
 // 判断页面是否已经进行监听过，主要用于页面keep-alive后防止多次监听使用
 let isListen = false
@@ -367,11 +358,14 @@ const columnsFilter = () => {
   })
   props.contentConfig.tableItem = tableItem
 }
-
+const handleToTop = () => {
+  const main = document.querySelector('.el-main')
+  main?.scrollTo(0, 0)
+}
 const init = () => {
   columnsFilter()
 }
-
+let mainEl = null
 onMounted(() => {
   // 判断是否需要自动排序
   if (props.autoDesc) {
@@ -401,6 +395,7 @@ onMounted(() => {
       ...obj,
     })
   }
+  mainEl = document.querySelector('.el-main')
   mittResize()
   onListener()
 })
@@ -455,17 +450,85 @@ defineExpose({
                 <span class="label"> {{ field.label }}： </span>
               </slot>
               <slot :name="field.slotName" :backData="row">
-                <span class="value">{{ row[field.prop] }}</span>
+                <template v-if="field.isDict">
+                  <DictCpn
+                    :value="row[field.prop]"
+                    :options="dictMap[field.prop]"
+                  ></DictCpn>
+                </template>
+                <span v-else class="value">{{ row[field.prop] }}</span>
               </slot>
             </template>
           </div>
         </div>
       </div>
       <div class="card-footer mobileFooter">
+        <template v-if="hasTodo">
+          <el-button
+            class="edit order5"
+            v-if="showEdit && handleEditShow(row)"
+            v-hasPermi="[permission.edit]"
+            type="primary"
+            size="small"
+            @click="editClick(row)"
+          >
+            <SvgIcon :size="12" iconClass="pencil"></SvgIcon>
+            <span class="ml6">编辑</span>
+          </el-button>
+          <el-popconfirm
+            title="确定删除选中记录？"
+            confirm-button-text="确认"
+            cancel-button-text="取消"
+            confirmButtonType="danger"
+            :hide-after="0"
+            @confirm="deleteRow(row)"
+            v-if="hasPermi(permission.del)"
+          >
+            <template #reference>
+              <el-button
+                class="del order10"
+                type="danger"
+                size="small"
+                v-if="showDelete && handleDeleteShow(row)"
+              >
+                <SvgIcon :size="12" iconClass="trash"></SvgIcon>
+                <span class="ml6">删除</span>
+              </el-button>
+              <span></span>
+            </template>
+          </el-popconfirm>
+        </template>
         <template v-for="slotName in footerSlot">
           <slot :name="slotName" :backData="row"></slot>
         </template>
       </div>
+    </div>
+    <!-- <el-empty v-if="listCount" description="暂无数据" /> -->
+    <el-backtop
+      target=".el-main"
+      :right="10"
+      :bottom="60"
+      :visibility-height="visibilityHeight"
+    />
+    <div
+      class="footer lmw-pagination-footer"
+      v-if="contentConfig.pagination && listCount > paginationInfo.pageSize"
+    >
+      <span>
+        <span class="primary"> {{ listCount }}条 </span>
+      </span>
+      <el-pagination
+        @size-change="handleToTop"
+        @current-change="handleToTop"
+        v-model:current-page="paginationInfo.pageNum"
+        v-model:page-size="paginationInfo.pageSize"
+        layout="prev, pager, next"
+        :total="listCount"
+        :pager-count="5"
+        background
+        hide-on-single-page
+      >
+      </el-pagination>
     </div>
   </div>
 </template>
@@ -474,18 +537,15 @@ defineExpose({
 .pageContent {
   background-color: var(--ba-bg-color);
 }
-
 .data-card {
   position: relative;
   background: var(--ba-bg-color-overlay);
   border-radius: 12px;
   margin-bottom: 12px;
-
   .card-content {
     display: flex;
     flex-direction: column;
   }
-
   // 头部样式
   .card-header {
     display: flex;
@@ -493,32 +553,26 @@ defineExpose({
     align-items: center;
     padding: 12px 16px;
     border-bottom: 1px solid var(--el-border-color);
-
     .order-number {
       font-size: 15px;
-
       .label {
         color: var(--el-text-color-primary);
         font-weight: 500;
       }
-
       .value {
         color: var(--el-color-primary);
         font-weight: 500;
       }
     }
   }
-
   // 信息列表样式
   .info-list {
     padding: 16px;
-
     .info-row {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 12px 24px;
     }
-
     .info-item {
       display: flex;
       align-items: center;
@@ -526,17 +580,14 @@ defineExpose({
       line-height: 1.5;
       white-space: nowrap;
       overflow: hidden;
-
       &.full-width {
         grid-column: 1 / -1;
         white-space: normal;
       }
-
       .label {
         color: #666;
         margin-right: 4px;
       }
-
       .value {
         color: var(--el-text-color-primary);
         flex: 1;
@@ -545,39 +596,36 @@ defineExpose({
       }
     }
   }
-
   // 底部操作区
   .card-footer {
     display: flex;
     justify-content: flex-end;
-    gap: 8px;
+    flex-wrap: wrap;
     padding: 12px 16px;
+    :deep(.el-button) {
+      margin: 4px !important;
+    }
   }
 }
-
 // 响应式处理
 @media screen and (max-width: 768px) {
   .data-card {
     .info-list {
       padding: 12px;
-
       .info-row {
         grid-template-columns: repeat(2, 1fr);
-        gap: 8px 16px;
+        gap: 8px;
       }
     }
-
     .info-item {
       font-size: 13px;
     }
-
     .card-footer {
       padding: 12px;
       flex-wrap: wrap;
     }
   }
 }
-
 // 超窄屏幕处理
 @media screen and (max-width: 375px) {
   .data-card {
@@ -585,5 +633,24 @@ defineExpose({
       grid-template-columns: 1fr;
     }
   }
+}
+.footer {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  :deep(.btn-prev) {
+    margin: 0 2px;
+  }
+  :deep(.btn-next) {
+    margin: 0 0 0 2px;
+  }
+  :deep(.el-pager li) {
+    margin: 0 1px;
+  }
+  :deep(.el-pagination) {
+    padding: 0px;
+  }
+  background-color: var(--ba-bg-color-overlay);
+  padding: 10px 10px;
 }
 </style>
