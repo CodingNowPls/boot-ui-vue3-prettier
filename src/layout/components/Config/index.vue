@@ -1,6 +1,5 @@
 <script setup>
 import DarkSwitch from '../DarkSwitch/index.vue'
-
 import toggleDark from '@/utils/useDark'
 import { useConfig } from '@/store/modules/layout.js'
 import usePermission from '@/store/modules/permission'
@@ -182,6 +181,19 @@ const restoreDefault = () => {
             <div class="layout-config-global">
               <el-form-item size="large" label="暗黑模式">
                 <DarkSwitch @click="toggleDarkLight" />
+              </el-form-item>
+              <el-form-item label="移动端">
+                <el-switch
+                  @change="onCommitState($event, 'isMobile')"
+                  :model-value="configStore.layout.isMobile"
+                >
+                  <template #active-action>
+                    <SvgIcon size="11" iconClass="mobile-screen"></SvgIcon>
+                  </template>
+                  <template #inactive-action>
+                    <SvgIcon size="11" iconClass="desktop"></SvgIcon>
+                  </template>
+                </el-switch>
               </el-form-item>
               <el-form-item label="后台页面切换动画">
                 <el-select

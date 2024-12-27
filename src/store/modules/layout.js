@@ -12,6 +12,8 @@ let layoutInitValue = {
   mainAnimation: 'el-fade-in-linear',
   // 是否暗黑模式
   isDark: false,
+  // 是否开启移动端展示
+  isMobile: false,
   /* 侧边菜单 */
   // 侧边菜单背景色
   menuBackground: ['#ffffff', '#1d1e1f'],
