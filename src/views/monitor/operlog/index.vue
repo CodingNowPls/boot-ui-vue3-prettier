@@ -152,7 +152,7 @@ const isSmall = window.isSmallScreen
       :fullscreen="isSmall"
       :width="getWidth(1000)"
     >
-      <el-scrollbar max-height="420px">
+      <el-scrollbar :max-height="isSmall ? '520px' : '420px'">
         <BaseForm :data="viewFormData" v-bind="dialogConfig">
           <template #titleCustom="{ backData }">
             {{ backData.formData.title }} / {{ typeFormat(backData.formData) }}
