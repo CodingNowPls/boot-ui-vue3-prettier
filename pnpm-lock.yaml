@@ -27,8 +27,8 @@ dependencies:
     specifier: 5.4.0
     version: 5.4.0
   element-plus:
-    specifier: ^2.9.0
-    version: 2.9.0(vue@3.5.12)
+    specifier: ^2.9.1
+    version: 2.9.1(vue@3.5.12)
   file-saver:
     specifier: 2.0.5
     version: 2.0.5
@@ -1646,8 +1646,8 @@ packages:
     resolution: {integrity: sha512-xtoijJTZ+qeucLBDNztDOuQBE1ksqjvNjvqFoST3nGC7fSpqJ+X6BdTBaY5BHG+IhWWmpc6b/KfpeuEDupEPOQ==}
     dev: false
 
-  /element-plus@2.9.0(vue@3.5.12):
-    resolution: {integrity: sha512-ccOFXKsauo2dtokAr4OX7gZsb7TuAoVxA2zGRZo5o2yyDDBLBaZxOoFQPoxITSLcHbBfQuNDGK5Iag5hnyKkZA==}
+  /element-plus@2.9.1(vue@3.5.12):
+    resolution: {integrity: sha512-9Agqf/jt4Ugk7EZ6C5LME71sgkvauPCsnvJN12Xid2XVobjufxMGpRE4L7pS4luJMOmFAH3J0NgYEGZT5r+NDg==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:

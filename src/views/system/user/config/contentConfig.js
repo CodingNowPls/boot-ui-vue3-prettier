@@ -42,7 +42,7 @@ export const tableItem = [
     label: '操作',
     width: 280,
     fixed: !window.isSmallScreen ? 'right' : false,
-    slotName: 'todoSlot',
+    slotName: 'todo',
     showOverflowTooltip: false,
   },
 ]

@@ -223,6 +223,7 @@ defineExpose({
     >
       <el-scrollbar
         class="ba-table-form-scrollbar"
+        always
         :max-height="dialogMaxHeght"
       >
         <BaseForm

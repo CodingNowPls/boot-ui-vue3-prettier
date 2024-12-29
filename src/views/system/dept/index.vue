@@ -4,7 +4,6 @@ import getContentConfig from './config/contentConfig.js'
 import getDialogConfig from './config/dialogConfig.js'
 import useDialog from '@/hooks/useDialog.js'
 import getComputedConfig from '@/hooks/getPageConfig.js'
-import { PageContent } from '@/components/HsjComponent/pageContent/index'
 import { systemBaseUrl } from '@/api/config/base.js'
 import { dept } from '@/views/pageName.js'
 
@@ -145,6 +144,7 @@ const unFoldAll = () => {
     <PageSearch
       ref="pageSearchRef"
       :pageName="pageName"
+      :useMobile="false"
       :searchConfig="searchConfigComputed"
     ></PageSearch>
     <PageContent
@@ -158,6 +158,7 @@ const unFoldAll = () => {
       :permission="permission"
       :piniaConfig="piniaConfig"
       :requestBaseUrl="requestBaseUrl"
+      :useMobile="false"
       @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"

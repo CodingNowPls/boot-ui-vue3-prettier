@@ -1,6 +1,7 @@
 <script setup>
 import BaseForm from '@/BaseComponent/BaseForm'
 import emitter from '@/utils/hsj/bus'
+import businessStore from '@/store/business/businessStore'
 
 const props = defineProps({
   searchConfig: {
@@ -31,12 +32,18 @@ const props = defineProps({
   reset: {
     type: Function,
   },
+  // 当页面会存在打开多个的时候会出现缓存问题，可以用这个区分缓存
+  cacheKey: {
+    type: [String, Number],
+    default: '',
+  },
 })
 const pageSearchRef = ref(null)
 const baseFormRef = ref(null)
 const searchLoading = ref(false)
 const formItem = props.searchConfig?.formItems ?? []
-
+const store = businessStore()
+const hideItems = ref([])
 let formData = ref({})
 const search = (isReset = false) => {
   searchLoading.value = true
@@ -73,6 +80,20 @@ const resizeObserver = new ResizeObserver((entries) => {
   }
 })
 
+const isOpen = computed(() => {
+  return store.pageSearchControl[`${props.pageName}${props.cacheKey}SearchShow`]
+})
+const triggerSearch = () => {
+  store.handlePageSearch(props.pageName, props.cacheKey)
+  if (!isOpen.value) {
+    const formItems = props.searchConfig.formItems
+    hideItems.value = formItems
+      .filter((item, index) => index !== 0)
+      .map((item) => item.field)
+  } else {
+    hideItems.value = []
+  }
+}
 onMounted(() => {
   for (const item of formItem) {
     formData.value[item.field] = item.default ?? void 0
@@ -96,10 +117,18 @@ defineExpose({
         ref="baseFormRef"
         v-bind="searchConfig"
         v-model:data="formData"
+        :hideItems="hideItems"
         @keyUpEnter="keyUpEnter"
       >
         <template #footer>
           <div class="footer" v-if="showSearch">
+            <el-button
+              :icon="isOpen ? 'ArrowUp' : 'ArrowDown'"
+              @click="triggerSearch"
+              type="warning"
+            >
+              {{ isOpen ? '收缩' : '展开' }}
+            </el-button>
             <el-button
               type="primary"
               icon="Search"
@@ -119,14 +148,9 @@ defineExpose({
       </BaseForm>
     </div>
   </div>
-  <div class="bg"></div>
 </template>
 
 <style scoped lang="scss">
-.bg {
-  height: 12px;
-  background-color: var(--ba-bg-color);
-}
 .page-search {
   box-sizing: border-box;
   width: 100%;

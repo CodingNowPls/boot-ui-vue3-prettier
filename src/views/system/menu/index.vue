@@ -7,7 +7,6 @@ import getComputedConfig from '@/hooks/getPageConfig'
 import IconSelector from '@/components/IconSelector/IconSelector.vue'
 import { systemBaseUrl } from '@/api/config/base.js'
 import { menu } from '@/views/pageName.js'
-import { PageContent } from '@/components/HsjComponent/pageContent/index'
 
 const proxy = inject('proxy')
 const { sys_normal_disable, sys_show_hide } = proxy.useDict(
@@ -167,6 +166,7 @@ const unFoldAll = () => {
       ref="pageSearchRef"
       :pageName="pageName"
       :searchConfig="searchConfigComputed"
+      :useMobile="false"
     ></PageSearch>
     <PageContent
       ref="pageContentRef"
@@ -179,6 +179,7 @@ const unFoldAll = () => {
       :permission="permission"
       :piniaConfig="piniaConfig"
       :requestBaseUrl="requestBaseUrl"
+      :useMobile="false"
       @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"

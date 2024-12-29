@@ -431,95 +431,136 @@ defineExpose({
 </script>
 
 <template>
-  <div class="pageContent" v-loading="isLoading">
-    <div
-      class="data-card mb12"
-      v-for="row in dataList"
-      :key="row[idKey] ?? row[pageName + 'Id'] ?? row.id"
-    >
-      <div class="card-header" v-for="field in headerItem">
-        <div class="order-number">
-          <slot :name="field.slotName + 'Header'" :backData="row">
-            <div class="label">{{ field.label }}：</div>
-          </slot>
-          <slot :name="field.slotName" :backData="row">
-            <div class="value">{{ row[field.prop] }}</div>
-          </slot>
-        </div>
-      </div>
-      <div class="info-list">
-        <div class="info-row">
-          <div
-            v-for="field in centerItem"
-            :key="field.prop"
-            class="info-item"
-            :class="{ 'full-width': field.width >= 180 }"
-          >
-            <template v-if="field.prop !== 'todo'">
-              <slot :name="field.slotName + 'Header'" :backData="row">
-                <span class="label"> {{ field.label }}： </span>
-              </slot>
-              <slot :name="field.slotName" :backData="row">
-                <template v-if="field.isDict">
-                  <DictCpn
-                    :value="row[field.prop]"
-                    :options="dictMap[field.prop]"
-                  ></DictCpn>
-                </template>
-                <span v-else class="value">{{ row[field.prop] }}</span>
-              </slot>
-            </template>
+  <div class="page-content pt12" v-loading="isLoading">
+    <div class="mb12 overlayColor">
+      <el-scrollbar always>
+        <div class="headerContent">
+          <div class="flex left">
+            <el-button
+              type="primary"
+              class="order5"
+              v-if="headerButtons.includes('add')"
+              v-hasPermi="[permission.add]"
+              @click="addClick"
+            >
+              <SvgIcon :size="14" iconClass="plus"></SvgIcon>
+              <span class="ml6">添加</span>
+            </el-button>
+            <el-popconfirm
+              v-if="
+                headerButtons.includes('delete') && hasPermi(permission.del)
+              "
+              title="确定删除选中记录？"
+              confirm-button-text="确认"
+              cancel-button-text="取消"
+              confirmButtonType="danger"
+              :hide-after="0"
+              @confirm="deleteRow(tableSelected)"
+            >
+              <template #reference>
+                <el-button
+                  class="order15"
+                  type="danger"
+                  :disabled="tableSelected.length === 0"
+                >
+                  <SvgIcon :size="14" iconClass="trash"></SvgIcon>
+                  <span class="ml6">删除</span>
+                </el-button>
+              </template>
+            </el-popconfirm>
+            <slot name="handleLeft"></slot>
+          </div>
+          <div class="flex right">
+            <slot name="handleRight"></slot>
           </div>
         </div>
-      </div>
-      <div class="card-footer mobileFooter" v-show-footer>
-        <template v-if="hasTodo">
-          <el-button
-            class="edit order5"
-            v-if="showEdit && handleEditShow(row)"
-            v-hasPermi="[permission.edit]"
-            type="primary"
-            size="small"
-            @click="editClick(row)"
-          >
-            <SvgIcon :size="12" iconClass="pencil"></SvgIcon>
-            <span class="ml6">编辑</span>
-          </el-button>
-          <el-popconfirm
-            title="确定删除选中记录？"
-            confirm-button-text="确认"
-            cancel-button-text="取消"
-            confirmButtonType="danger"
-            :hide-after="0"
-            @confirm="deleteRow(row)"
-            v-if="hasPermi(permission.del)"
-          >
-            <template #reference>
-              <el-button
-                class="del order10"
-                type="danger"
-                size="small"
-                v-if="showDelete && handleDeleteShow(row)"
-              >
-                <SvgIcon :size="12" iconClass="trash"></SvgIcon>
-                <span class="ml6">删除</span>
-              </el-button>
-              <span></span>
-            </template>
-          </el-popconfirm>
-        </template>
-        <template v-for="slotName in footerSlot">
-          <slot :name="slotName" :backData="row"></slot>
-        </template>
+      </el-scrollbar>
+    </div>
+
+    <div class="dataList" v-if="dataList.length !== 0">
+      <div
+        class="data-card overlayColor mb12"
+        v-for="row in dataList"
+        :key="row[idKey] ?? row[pageName + 'Id'] ?? row.id"
+      >
+        <div class="card-header" v-for="field in headerItem">
+          <div class="order-number">
+            <slot :name="field.slotName + 'Header'" :backData="row">
+              <div class="label">{{ field.label }}：</div>
+            </slot>
+            <slot :name="field.slotName" :backData="row">
+              <div class="value">{{ row[field.prop] }}</div>
+            </slot>
+          </div>
+        </div>
+        <div class="info-list">
+          <div class="info-row">
+            <div
+              v-for="field in centerItem"
+              :key="field.prop"
+              class="info-item"
+              :class="{ 'full-width': field.width >= 180 }"
+            >
+              <template v-if="field.prop !== 'todo'">
+                <slot :name="field.slotName + 'Header'" :backData="row">
+                  <span class="label"> {{ field.label }}： </span>
+                </slot>
+                <slot :name="field.slotName" :backData="row">
+                  <template v-if="field.isDict">
+                    <DictCpn
+                      :value="row[field.prop]"
+                      :options="dictMap[field.prop]"
+                    ></DictCpn>
+                  </template>
+                  <span v-else class="value">{{ row[field.prop] }}</span>
+                </slot>
+              </template>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer mobileFooter" v-show-footer>
+          <template v-if="hasTodo">
+            <el-button
+              class="edit order5"
+              v-if="showEdit && handleEditShow(row)"
+              v-hasPermi="[permission.edit]"
+              type="primary"
+              size="small"
+              @click="editClick(row)"
+            >
+              <SvgIcon :size="12" iconClass="pencil"></SvgIcon>
+              <span class="ml6">编辑</span>
+            </el-button>
+            <el-popconfirm
+              title="确定删除选中记录？"
+              confirm-button-text="确认"
+              cancel-button-text="取消"
+              confirmButtonType="danger"
+              :hide-after="0"
+              @confirm="deleteRow(row)"
+              v-if="hasPermi(permission.del)"
+            >
+              <template #reference>
+                <el-button
+                  class="del order10"
+                  type="danger"
+                  size="small"
+                  v-if="showDelete && handleDeleteShow(row)"
+                >
+                  <SvgIcon :size="12" iconClass="trash"></SvgIcon>
+                  <span class="ml6">删除</span>
+                </el-button>
+                <span></span>
+              </template>
+            </el-popconfirm>
+          </template>
+          <template v-for="slotName in footerSlot">
+            <slot :name="slotName" :backData="row"></slot>
+          </template>
+        </div>
       </div>
     </div>
-    <el-empty class="empty" v-if="listCount === 0" description="暂无数据" />
-    <el-backtop
-      target=".el-main"
-      :right="10"
-      :bottom="60"
-      :visibility-height="visibilityHeight"
-    />
+    <el-empty class="overlayColor" v-else description="暂无数据" />
     <div
       class="footer lmw-pagination-footer"
       v-if="contentConfig.pagination && listCount > paginationInfo.pageSize"
@@ -538,114 +579,121 @@ defineExpose({
       >
       </el-pagination>
     </div>
+    <el-backtop
+      target=".el-main"
+      :right="10"
+      :bottom="60"
+      :visibility-height="visibilityHeight"
+    />
   </div>
 </template>
 
 <style lang="scss" scoped>
-.pageContent {
+.page-content {
   background-color: var(--ba-bg-color);
 }
-.empty {
-  background: var(--ba-bg-color-overlay);
+.headerContent {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px;
 }
 .data-card {
   position: relative;
-  background: var(--ba-bg-color-overlay);
   border-radius: 12px;
-  margin-bottom: 12px;
-  .card-content {
-    display: flex;
-    flex-direction: column;
+  /* 手机端按钮不能太小 */
+  :deep(.el-button--small) {
+    padding: 8px 15px;
+    font-size: 14px;
+    height: 32px;
   }
-  // 头部样式
-  .card-header {
+  :deep(.svg-icon) {
+    font-size: 14px !important;
+  }
+}
+// 头部样式
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border-bottom: 1px solid var(--el-border-color);
+  .order-number {
     display: flex;
-    justify-content: space-between;
+    font-size: 15px;
+    .label {
+      width: 76px;
+      color: var(--el-text-color-primary);
+      font-weight: 500;
+    }
+    .value {
+      color: var(--el-color-primary);
+      font-weight: 500;
+      flex: 1;
+    }
+  }
+}
+// 信息列表样式
+.info-list {
+  padding: 16px;
+  .info-row {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px 24px;
+  }
+  .info-item {
+    display: flex;
     align-items: center;
-    padding: 12px 16px;
-    border-bottom: 1px solid var(--el-border-color);
-    .order-number {
-      display: flex;
-      font-size: 15px;
-      .label {
-        width: 76px;
-        color: var(--el-text-color-primary);
-        font-weight: 500;
-      }
-      .value {
-        color: var(--el-color-primary);
-        font-weight: 500;
-        flex: 1;
-      }
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: nowrap;
+    overflow: hidden;
+    &.full-width {
+      grid-column: 1 / -1;
+      white-space: normal;
     }
-  }
-  // 信息列表样式
-  .info-list {
-    padding: 16px;
-    .info-row {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 12px 24px;
+    .label {
+      color: #666;
+      margin-right: 4px;
     }
-    .info-item {
-      display: flex;
-      align-items: center;
-      font-size: 14px;
-      line-height: 1.5;
-      white-space: nowrap;
+    .value {
+      color: var(--el-text-color-primary);
+      flex: 1;
       overflow: hidden;
-      &.full-width {
-        grid-column: 1 / -1;
-        white-space: normal;
-      }
-      .label {
-        color: #666;
-        margin-right: 4px;
-      }
-      .value {
-        color: var(--el-text-color-primary);
-        flex: 1;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
+      text-overflow: ellipsis;
     }
   }
-  // 底部操作区
-  .card-footer {
-    display: flex;
-    justify-content: flex-end;
-    flex-wrap: wrap;
-    padding: 12px 16px;
-    :deep(.el-button) {
-      margin: 4px !important;
-    }
+}
+// 底部操作区
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  :deep(.el-button) {
+    margin: 4px !important;
   }
 }
 // 响应式处理
 @media screen and (max-width: 768px) {
-  .data-card {
-    .info-list {
-      padding: 12px;
-      .info-row {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 8px;
-      }
+  .info-list {
+    padding: 12px;
+    .info-row {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
     }
-    .info-item {
-      font-size: 13px;
-    }
-    .card-footer {
-      padding: 12px;
-      flex-wrap: wrap;
-    }
+  }
+  .info-item {
+    font-size: 13px;
+  }
+  .card-footer {
+    padding: 12px;
+    flex-wrap: wrap;
   }
 }
 // 超窄屏幕处理
 @media screen and (max-width: 375px) {
-  .data-card {
-    .info-list .info-row {
-      grid-template-columns: 1fr;
-    }
+  .info-list .info-row {
+    grid-template-columns: 1fr;
   }
 }
 .footer {
