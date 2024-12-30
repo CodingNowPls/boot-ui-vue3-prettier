@@ -1,6 +1,20 @@
 <template>
   <div class="nav-menus" :class="configStore.layout.layoutMode">
-    <router-link class="h100" target="_blank" title="首页" to="/">
+    <el-tag
+      class="currentTag"
+      v-if="configStore.layout.isMobile && route.meta?.title"
+      effect="dark"
+      type="info"
+    >
+      {{ route.meta?.title }}
+    </el-tag>
+    <router-link
+      class="h100"
+      target="_blank"
+      title="首页"
+      to="/"
+      v-if="!configStore.layout.isMobile"
+    >
       <div class="nav-menu-item pb1">
         <el-icon
           :color="configStore.getColorVal('headerBarTabColor')"
@@ -23,6 +37,7 @@
       @click="onFullScreen"
       class="nav-menu-item"
       :class="state.isFullScreen ? 'hover' : ''"
+      v-if="!configStore.layout.isMobile"
     >
       <svg-icon
         :color="configStore.getColorVal('headerBarTabColor')"
@@ -145,8 +160,10 @@ import useUsers from '@/store/modules/user'
 import Config from '../components/Config/index.vue'
 import GlobalSearch from '../components/GlobalSearch/index.vue'
 const proxy = inject('proxy')
-const configStore = useConfig()
+const route = useRoute()
 const router = useRouter()
+const configStore = useConfig()
+
 const state = reactive({
   isFullScreen: false,
   currentNavMenu: '',
@@ -216,6 +233,14 @@ const onAdminInfo = () => {
 .nav-menus.Default {
   border-radius: var(--el-border-radius-base);
   box-shadow: var(--el-box-shadow-light);
+}
+.currentTag {
+  :deep(.el-tag__content) {
+    max-width: 100px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
 }
 .nav-menus {
   display: flex;

@@ -25,7 +25,7 @@ export const dependencies = [
   },
   {
     name: 'element-plus',
-    description: '^2.8.7',
+    description: '^2.9.1',
   },
   {
     name: 'echarts',

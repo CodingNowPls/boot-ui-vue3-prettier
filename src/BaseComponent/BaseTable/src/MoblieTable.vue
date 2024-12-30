@@ -54,6 +54,10 @@ const props = defineProps({
     type: Number,
     default: 100,
   },
+  selectionConfig: {
+    type: Object,
+    default: () => ({}),
+  },
 })
 const emits = defineEmits([
   'cardHeaderClick',
@@ -175,7 +179,14 @@ const checkList = ref([])
                   </div>
                 </slot>
               </div>
-              <el-checkbox :value="row" class="checkSize" v-if="showChoose" />
+              <el-checkbox
+                :value="row"
+                class="checkSize"
+                v-if="showChoose"
+                :disabled="
+                  selectionConfig.selectable && !selectionConfig.selectable(row)
+                "
+              />
             </div>
           </template>
 
@@ -293,7 +304,6 @@ const checkList = ref([])
       color: var(--el-color-primary);
       font-weight: 500;
       flex: 1;
-      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
