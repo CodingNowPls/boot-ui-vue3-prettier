@@ -1,6 +1,6 @@
 import { ElMessage } from 'element-plus'
 import loading from '@/utils/loading.js'
-import { getToken, removeToken } from '@/utils/auth'
+import { getToken } from '@/utils/auth'
 import { isHttp } from '@/utils/validate'
 import useUserStore from '@/store/modules/user.js'
 import usePermissionStore from '@/store/modules/permission.js'

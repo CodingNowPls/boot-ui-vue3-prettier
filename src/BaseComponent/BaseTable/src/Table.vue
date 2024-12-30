@@ -250,7 +250,7 @@ defineExpose({
           :page-sizes="[20, 50, 100, 200, 300]"
           :layout="paginationLayoutComputed"
           :total="listCount"
-          :pager-count="isSmall ? 3 : 7"
+          :pager-count="isSmall ? 5 : 7"
           background
         >
         </el-pagination>

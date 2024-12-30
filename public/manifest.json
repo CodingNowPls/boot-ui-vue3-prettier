@@ -1,0 +1,31 @@
+{
+  "name": "若依管理系统",
+  "short_name": "若依",
+  "description": "若依管理系统",
+  "background_color": "#fff",
+  "display": "standalone",
+  "orientation": "portrait",
+  "start_url": "/",
+  "icons": [
+    {
+      "src": "/vite.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
+      "src": "/vite.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "/vite.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/vite.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

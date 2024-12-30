@@ -26,6 +26,7 @@ defineExpose({
     :placeholder="'请选择' + item.label"
     v-model="value"
     valueFormat="YYYY-MM-DD"
+    :editable="false"
     v-bind="item.config"
     v-on="item.eventFunction || {}"
   >

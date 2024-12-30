@@ -212,3 +212,11 @@ a {
 .lmw_popper {
   max-width: 600px;
 }
+.mobileFooter {
+  border-top: 1px solid var(--el-border-color);
+  background-color: var(--ba-bg-color-overlay);
+}
+
+.overlayColor {
+  background: var(--ba-bg-color-overlay);
+}

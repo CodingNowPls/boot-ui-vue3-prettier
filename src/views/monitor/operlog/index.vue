@@ -5,7 +5,7 @@ import getComputedConfig from '@/hooks/getPageConfig'
 import getDialogConfig from './config/dialogConfig'
 import { monitorBaseUrl } from '@/api/config/base.js'
 import { operlog } from '@/views/pageName.js'
-
+// 操作日志
 const proxy = inject('proxy')
 const { sys_oper_type, sys_common_status } = proxy.useDict(
   'sys_oper_type',
@@ -89,6 +89,7 @@ const handleClose = () => {
 const typeFormat = (row) => {
   return proxy.selectDictLabel(sys_oper_type.value, row.businessType)
 }
+const isSmall = window.isSmallScreen
 </script>
 <template>
   <div class="default-main page">
@@ -143,8 +144,15 @@ const typeFormat = (row) => {
         </el-button>
       </template>
     </PageContent>
-    <el-dialog title="操作日志详细" v-model="dialogVisible" draggable>
-      <el-scrollbar max-height="420px">
+    <el-dialog
+      title="操作日志详细"
+      v-model="dialogVisible"
+      draggable
+      :top="isSmall ? '0vh' : '11vh'"
+      :fullscreen="isSmall"
+      :width="getWidth(1000)"
+    >
+      <el-scrollbar :max-height="isSmall ? '520px' : '420px'">
         <BaseForm :data="viewFormData" v-bind="dialogConfig">
           <template #titleCustom="{ backData }">
             {{ backData.formData.title }} / {{ typeFormat(backData.formData) }}

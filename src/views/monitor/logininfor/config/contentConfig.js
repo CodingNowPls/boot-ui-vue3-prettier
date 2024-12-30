@@ -9,6 +9,7 @@ export const tableItem = [
     label: '用户名称',
     sortable: true,
     minWidth: 120,
+    mobileSlot: 'header',
   },
   {
     prop: 'ipaddr',

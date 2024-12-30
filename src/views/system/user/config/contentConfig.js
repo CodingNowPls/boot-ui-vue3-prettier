@@ -1,13 +1,14 @@
 export const tableItem = [
-  {
-    prop: 'userId',
-    label: '用户编号',
-    minWidth: 90,
-  },
+  // {
+  //   prop: 'userId',
+  //   label: '用户编号',
+  //   minWidth: 90,
+  // },
   {
     prop: 'userName',
     label: '用户名称',
     minWidth: 90,
+    mobileSlot: 'header',
   },
   {
     prop: 'nickName',
@@ -16,8 +17,8 @@ export const tableItem = [
   },
   {
     prop: 'dept',
-    slotName: 'deptSlot',
     label: '部门',
+    slotName: 'deptSlot',
     minWidth: 120,
   },
   {

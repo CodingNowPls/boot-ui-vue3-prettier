@@ -1,3 +1,3 @@
-import PageSearch from './src/PageSearch.vue'
+import PageSearch from './src/index.vue'
 
 export default PageSearch

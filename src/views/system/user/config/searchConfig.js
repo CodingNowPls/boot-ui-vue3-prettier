@@ -39,5 +39,6 @@ export default (otherConfig = {}) => {
         },
       },
     ],
+    elFormConfig: {},
   }
 }

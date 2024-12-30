@@ -288,7 +288,11 @@ init()
           @click="handleStatusChange(backData)"
           :loading="backData.statusLoading"
         ></el-switch>
-        <span v-else></span>
+        <DictTag
+          v-else
+          :value="backData.status"
+          :options="sys_normal_disable"
+        ></DictTag>
       </template>
       <template #deptSlot="{ backData }">
         <span> {{ backData.dept?.deptName }}</span>

@@ -8,6 +8,7 @@ export const tableItem = [
     prop: 'dictName',
     label: '字典名称',
     minWidth: 120,
+    mobileSlot: 'header',
   },
   {
     prop: 'dictType',

@@ -85,9 +85,28 @@ pnpm build:prod
     <td><img src="./readMeImg/pic17.png" /></td>
     <td><img src="./readMeImg/pic18.png" /></td>
   </tr>
-    <tr>
     <td><img src="./readMeImg/pic19.png" /></td>
     <td><img src="./readMeImg/pic20.png" /></td>
+  </tr>
+    </tr>
+    <td><img src="./readMeImg/pic21.png" /></td>
+    <td><img src="./readMeImg/pic22.png" /></td>
+  </tr>
+  </tr>
+    <td><img src="./readMeImg/pic23.png" /></td>
+    <td><img src="./readMeImg/pic24.png" /></td>
+  </tr>
+  </tr>
+    <td><img src="./readMeImg/pic25.png" /></td>
+    <td><img src="./readMeImg/pic26.png" /></td>
+  </tr>
+  </tr>
+    <td><img src="./readMeImg/pic27.png" /></td>
+    <td><img src="./readMeImg/pic28.png" /></td>
+  </tr>
+  </tr>
+    <td><img src="./readMeImg/pic29.png" /></td>
+    <td><img src="./readMeImg/pic30.png" /></td>
   </tr>
 </table>
 

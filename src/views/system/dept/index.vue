@@ -144,6 +144,7 @@ const unFoldAll = () => {
     <PageSearch
       ref="pageSearchRef"
       :pageName="pageName"
+      :useMobile="false"
       :searchConfig="searchConfigComputed"
     ></PageSearch>
     <PageContent
@@ -157,6 +158,7 @@ const unFoldAll = () => {
       :permission="permission"
       :piniaConfig="piniaConfig"
       :requestBaseUrl="requestBaseUrl"
+      :useMobile="false"
       @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"

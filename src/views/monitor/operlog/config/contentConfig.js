@@ -8,6 +8,7 @@ export const tableItem = [
     prop: 'title',
     label: '系统模块',
     minWidth: 120,
+    mobileSlot: 'header',
   },
   {
     prop: 'businessType',

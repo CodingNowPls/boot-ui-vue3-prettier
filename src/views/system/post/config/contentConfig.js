@@ -13,6 +13,7 @@ export const tableItem = [
     prop: 'postName',
     label: '岗位名称',
     minWidth: 100,
+    mobileSlot: 'header',
   },
 
   {

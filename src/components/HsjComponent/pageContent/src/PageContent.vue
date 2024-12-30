@@ -9,6 +9,7 @@ import { interceptor } from '@/store/business/businessStore'
 import useStorage from '@/utils/hsj/useStorage'
 import { antiShake } from '@/utils/hsj/utils'
 import { VueDraggable } from 'vue-draggable-plus'
+import { collectObjectsWithSlotName, hasSlot } from './utils'
 const props = defineProps({
   // table的配置
   contentConfig: {
@@ -288,26 +289,11 @@ const addClick = () => {
 
 // 其他的插槽
 const exceptSlot = ['todo']
-// 用于收集contentConfig的所有插槽名称
-const collectObjectsWithSlotName = (data, collectedObjects = []) => {
-  if (Array.isArray(data)) {
-    // 如果当前层级是数组
-    data.forEach((item) => {
-      collectObjectsWithSlotName(item, collectedObjects)
-    })
-  } else if (typeof data === 'object' && data !== null) {
-    // 如果当前层级是对象
-    if ('slotName' in data && !exceptSlot.includes(data.slotName)) {
-      collectedObjects.push(data) // 当前对象有 slotName 属性，将其加入结果数组
-    }
-    Object.values(data).forEach((value) => {
-      collectObjectsWithSlotName(value, collectedObjects)
-    })
-  }
-  return collectedObjects
-}
 // 所有插槽名称
-let otherSlot = collectObjectsWithSlotName(props.contentConfig?.tableItem)
+let otherSlot = collectObjectsWithSlotName(
+  props.contentConfig?.tableItem,
+  exceptSlot
+)
 // 排序发生变化触发的函数
 const sortChange = (shortData) => {
   const { order, prop } = shortData
@@ -470,10 +456,6 @@ const triggerShowSearch = () => {
 // 多选后的编辑按钮点击
 const editMoreClick = () => {
   emit('editMoreClick')
-}
-// 用于判断父组件使用是否有某插槽
-const hasSlot = (slots, arr) => {
-  return arr.some((key) => slots.hasOwnProperty(key))
 }
 
 const columnsFilter = () => {
@@ -766,19 +748,17 @@ defineExpose({
             confirmButtonType="danger"
             :hide-after="0"
             @confirm="deleteRow(backData)"
-            v-if="hasPermi(permission.del)"
+            v-if="
+              hasPermi(permission.del) &&
+              showDelete &&
+              handleDeleteShow(backData)
+            "
           >
             <template #reference>
-              <el-button
-                class="del order10"
-                type="danger"
-                size="small"
-                v-if="showDelete && handleDeleteShow(backData)"
-              >
+              <el-button class="del order10" type="danger" size="small">
                 <SvgIcon :size="12" iconClass="trash"></SvgIcon>
                 <span class="ml6">删除</span>
               </el-button>
-              <span></span>
             </template>
           </el-popconfirm>
         </div>

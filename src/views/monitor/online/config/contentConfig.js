@@ -3,6 +3,7 @@ export const tableItem = [
     prop: 'tokenId',
     label: '会话编号',
     minWidth: 160,
+    mobileSlot: 'header',
   },
   {
     prop: 'userName',
@@ -48,6 +49,7 @@ export const tableItem = [
     fixed: !window.isSmallScreen ? 'right' : false,
     slotName: 'doSth',
     showOverflowTooltip: false,
+    mobileSlot: 'footer',
   },
 ]
 export default () => {

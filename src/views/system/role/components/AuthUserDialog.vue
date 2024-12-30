@@ -76,6 +76,7 @@ const handleCancel = () => {
 const handleValueChange = (value) => {
   emits('update:modelValue', value)
 }
+const isSmall = window.isSmallScreen
 </script>
 <template>
   <div class="authUserDialog">
@@ -86,6 +87,7 @@ const handleValueChange = (value) => {
       @update:modelValue="handleValueChange($event)"
       draggable
       destroy-on-close
+      :fullscreen="isSmall"
     >
       <PageSearch
         ref="pageSearchRef"

@@ -8,6 +8,7 @@ export const tableItem = [
     prop: 'configName',
     label: '参数名称',
     minWidth: 90,
+    mobileSlot: 'header',
   },
   {
     prop: 'configKey',
@@ -28,7 +29,7 @@ export const tableItem = [
   {
     prop: 'remark',
     label: '备注',
-    minWidth: 120,
+    minWidth: 160,
   },
   {
     prop: 'createTime',

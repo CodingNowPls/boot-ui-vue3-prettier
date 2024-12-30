@@ -9,6 +9,8 @@ const isDark = useDark({
       updateHtmlDarkClass(dark)
       config.setLayout('isDark', dark)
       config.onSetLayoutColor()
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]')
+      metaThemeColor.content = dark ? '#1d1e1f' : '#ffffff'
     })
   },
 })
