@@ -1,5 +1,4 @@
 <script setup>
-import { useTemplateRef } from 'vue'
 import MobileSearch from './MobileSearch.vue'
 import PageSearch from './PageSearch.vue'
 import { useConfig } from '@/store/modules/layout'
@@ -22,6 +21,9 @@ const setFormData = (key, value) => {
 const search = (isReset = false) => {
   pageSearchRef.value?.search(isReset)
 }
+const getFormData = (isReset = false) => {
+  pageSearchRef.value?.getFormData(isReset)
+}
 const config = useConfig()
 const layoutType = computed(() => {
   if (props.useMobile && config.layout.isMobile) {
@@ -31,6 +33,7 @@ const layoutType = computed(() => {
   }
 })
 defineExpose({
+  getFormData,
   setFormData,
   search,
 })

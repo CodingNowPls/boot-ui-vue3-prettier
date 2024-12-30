@@ -103,8 +103,11 @@ onMounted(() => {
   }
   resizeObserver.observe(pageSearchRef.value)
 })
+const getFormData = () => {
+  return formData.value
+}
 defineExpose({
-  formData,
+  getFormData,
   search,
   setFormData,
 })
@@ -152,7 +155,6 @@ defineExpose({
 
 <style scoped lang="scss">
 .page-search {
-  box-sizing: border-box;
   width: 100%;
   max-width: 100%;
   background-color: var(--ba-bg-color-overlay);

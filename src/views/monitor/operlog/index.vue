@@ -148,7 +148,7 @@ const isSmall = window.isSmallScreen
       title="操作日志详细"
       v-model="dialogVisible"
       draggable
-      :top="isSmall ? '0vh' : top"
+      :top="isSmall ? '0vh' : '11vh'"
       :fullscreen="isSmall"
       :width="getWidth(1000)"
     >

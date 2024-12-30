@@ -26,8 +26,8 @@ defineExpose({
     :placeholder="'请选择' + item.label"
     v-model="value"
     valueFormat="YYYY-MM-DD"
-    v-bind="item.config"
     :editable="false"
+    v-bind="item.config"
     v-on="item.eventFunction || {}"
   >
     <template v-for="slotName in item.slotNames" #[slotName]="slotData">

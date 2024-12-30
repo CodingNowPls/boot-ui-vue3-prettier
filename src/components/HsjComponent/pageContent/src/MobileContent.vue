@@ -9,6 +9,8 @@ import DictCpn from './dictCpn.vue'
 import { MoblieTable } from '@/BaseComponent/BaseTable/index'
 import { collectObjectsWithSlotName, hasSlot } from './utils'
 import InfoDialog from './InfoDialog.vue'
+import { useSlots } from 'vue'
+
 const props = defineProps({
   // table的配置
   contentConfig: {
@@ -18,7 +20,7 @@ const props = defineProps({
   // table的事件监听
   tableListener: {
     type: Object,
-    default: () => {},
+    default: () => ({}),
   },
   // 页面名称与PageSearch和PageDialog的一致，每个页面必须唯一
   pageName: {
@@ -73,7 +75,7 @@ const props = defineProps({
   // 规则是 requestBaseUrl+ interceptor(pageName) + requestUrl
   requestBaseUrl: {
     type: String,
-    default: '/',
+    default: '',
   },
   requestUrl: {
     type: String,
@@ -358,6 +360,13 @@ const columnsFilter = () => {
 const init = () => {
   columnsFilter()
 }
+const showHeader = () => {
+  const slots = useSlots()
+  const btns = props.headerButtons.some(
+    (item) => item === 'add' || item === 'delete'
+  )
+  return hasSlot(slots, ['handleLeft']) || btns
+}
 onMounted(() => {
   // 判断是否需要自动排序
   if (props.autoDesc) {
@@ -407,22 +416,22 @@ defineExpose({
   deleteRow,
   editClick,
   dataList,
+  mittResize,
 })
 </script>
 
 <template>
-  <div class="page-content pt12" v-loading="isLoading">
+  <div class="page-content page pt12" v-loading="isLoading">
     <MoblieTable
       v-bind="contentConfig"
       :visibilityHeight="visibilityHeight"
       :dataList="dataList"
       :listCount="listCount"
+      :paginationInfo="paginationInfo"
       @cardHeaderClick="cardHeaderClick"
+      v-on="tableListener"
     >
-      <template
-        v-if="hasSlot($slots, ['handleLeft']) || headerButtons.length !== 0"
-        #handleLeft
-      >
+      <template v-if="showHeader()" #handleLeft>
         <div class="flex headerBtn">
           <el-button
             type="primary"
@@ -520,6 +529,7 @@ defineExpose({
       v-model="infoDialog"
       :row="infoCurrent"
       :config="contentConfig.tableItem"
+      :dictMap="dictMap"
     >
       <template
         v-for="item in otherSlot"

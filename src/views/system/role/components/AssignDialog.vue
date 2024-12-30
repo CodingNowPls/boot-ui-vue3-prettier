@@ -116,6 +116,7 @@ const dialogOpen = () => {
 const handleValueChange = (value) => {
   emits('update:modelValue', value)
 }
+const isSmall = window.isSmallScreen
 </script>
 <template>
   <div class="cancelDialog">
@@ -126,6 +127,8 @@ const handleValueChange = (value) => {
       :model-value="modelValue"
       @update:modelValue="handleValueChange($event)"
       @open="dialogOpen"
+      destroy-on-close
+      :fullscreen="isSmall"
     >
       <BaseForm
         ref="baseFormRef"

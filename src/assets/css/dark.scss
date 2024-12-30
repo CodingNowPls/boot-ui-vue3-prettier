@@ -25,9 +25,6 @@ html.dark {
   @include set-component-css-var('bg-color', $bg-color);
   @include set-component-css-var('border-color', $border-color);
 }
-html.dark .mobileFooter {
-  background-color: #2d3238;
-}
 
 ::view-transition-old(root),
 ::view-transition-new(root) {

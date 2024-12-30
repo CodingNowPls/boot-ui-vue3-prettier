@@ -29,7 +29,7 @@ export const tableItem = [
   {
     prop: 'remark',
     label: '备注',
-    minWidth: 120,
+    minWidth: 160,
   },
   {
     prop: 'createTime',

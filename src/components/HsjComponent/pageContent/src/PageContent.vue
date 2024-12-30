@@ -9,7 +9,7 @@ import { interceptor } from '@/store/business/businessStore'
 import useStorage from '@/utils/hsj/useStorage'
 import { antiShake } from '@/utils/hsj/utils'
 import { VueDraggable } from 'vue-draggable-plus'
-import { collectObjectsWithSlotName } from './utils'
+import { collectObjectsWithSlotName, hasSlot } from './utils'
 const props = defineProps({
   // table的配置
   contentConfig: {
@@ -456,10 +456,6 @@ const triggerShowSearch = () => {
 // 多选后的编辑按钮点击
 const editMoreClick = () => {
   emit('editMoreClick')
-}
-// 用于判断父组件使用是否有某插槽
-const hasSlot = (slots, arr) => {
-  return arr.some((key) => slots.hasOwnProperty(key))
 }
 
 const columnsFilter = () => {

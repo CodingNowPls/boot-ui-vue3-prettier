@@ -144,7 +144,8 @@ const handleClose = () => {
   proxy.$tab.closeOpenPage(obj)
 }
 const reset = () => {
-  for (let key of Object.keys(pageSearchRef.value.formData)) {
+  const formData = pageSearchRef.value.getFormData()
+  for (let key of Object.keys(formData)) {
     if (key !== 'dictType') {
       pageSearchRef.value.setFormData(key, void 0)
     } else {

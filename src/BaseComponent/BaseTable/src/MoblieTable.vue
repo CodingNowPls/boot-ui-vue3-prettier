@@ -55,7 +55,11 @@ const props = defineProps({
     default: 100,
   },
 })
-const emits = defineEmits(['cardHeaderClick'])
+const emits = defineEmits([
+  'cardHeaderClick',
+  'selectionChange',
+  'update:paginationInfo',
+])
 let headerItem = []
 let centerItem = []
 let footerItem = []
@@ -94,6 +98,7 @@ const handleToTop = () => {
   const main = document.querySelector('.el-main')
   main?.scrollTo(0, 0)
 }
+
 const vShowFooter = {
   mounted: (el) => {
     if (el.firstElementChild) {
@@ -101,6 +106,8 @@ const vShowFooter = {
       if (firstChild.clientWidth === 0) {
         el.parentNode && el.parentNode.removeChild(el)
       }
+    } else {
+      el.parentNode && el.parentNode.removeChild(el)
     }
   },
 }
@@ -120,11 +127,20 @@ const isHiddenItem = (item) => {
 const cardHeaderClick = (row) => {
   emits('cardHeaderClick', row)
 }
+const selectionChange = () => {
+  emits('selectionChange', checkList.value)
+}
+const hasSlot = (slots, arr) => {
+  return arr.some((key) => slots.hasOwnProperty(key))
+}
 const checkList = ref([])
 </script>
 <template>
   <div class="mobileContent">
-    <div class="mb12 header">
+    <div
+      class="mb12 header"
+      v-if="hasSlot($slots, ['handleLeft', 'handleRight'])"
+    >
       <el-scrollbar always>
         <div class="headerContent">
           <slot name="header">
@@ -139,21 +155,27 @@ const checkList = ref([])
       </el-scrollbar>
     </div>
     <div class="dataList" v-if="dataList.length !== 0">
-      <el-checkbox-group v-model="checkList">
+      <el-checkbox-group v-model="checkList" @change="selectionChange">
         <div class="data-card overlayColor mb12" v-for="row in dataList">
           <template v-for="field in headerItem">
             <div class="card-header" v-if="!isHiddenItem(field) && !field.hide">
               <div class="order-number">
-                <slot :name="field.slotName + 'Header'" :backData="row">
+                <slot
+                  :name="field.slotName + 'Header'"
+                  :backData="Object.assign(row, { column: field })"
+                >
                   <div class="label">{{ field.label }}：</div>
                 </slot>
-                <slot :name="field.slotName" :backData="row">
+                <slot
+                  :name="field.slotName"
+                  :backData="Object.assign(row, { column: field })"
+                >
                   <div class="value" @click="cardHeaderClick(row)">
                     {{ row[field.prop] }}
                   </div>
                 </slot>
               </div>
-              <el-checkbox :value="row" class="checkSize" />
+              <el-checkbox :value="row" class="checkSize" v-if="showChoose" />
             </div>
           </template>
 
@@ -163,13 +185,21 @@ const checkList = ref([])
                 <div
                   v-if="!isHiddenItem(field) && !field.hide"
                   class="info-item"
-                  :class="{ 'full-width': field.width >= 180 }"
+                  :class="{
+                    'full-width': field.width >= 160 || field.minWidth >= 160,
+                  }"
                 >
                   <template v-if="field.prop !== 'todo'">
-                    <slot :name="field.slotName + 'Header'" :backData="row">
+                    <slot
+                      :name="field.slotName + 'Header'"
+                      :backData="Object.assign(row, { column: field })"
+                    >
                       <span class="label"> {{ field.label }}： </span>
                     </slot>
-                    <slot :name="field.slotName" :backData="row">
+                    <slot
+                      :name="field.slotName"
+                      :backData="Object.assign(row, { column: field })"
+                    >
                       <span class="value">{{ row[field.prop] }}</span>
                     </slot>
                   </template>
@@ -181,7 +211,7 @@ const checkList = ref([])
             <template v-for="field in footerItem">
               <slot
                 :name="field.slotName"
-                :backData="row"
+                :backData="Object.assign(row, { column: field })"
                 v-if="!isHiddenItem(field)"
               ></slot>
             </template>
@@ -211,7 +241,7 @@ const checkList = ref([])
     <el-backtop
       target=".el-main"
       :right="10"
-      :bottom="60"
+      :bottom="100"
       :visibility-height="visibilityHeight"
     />
   </div>
@@ -219,6 +249,7 @@ const checkList = ref([])
 
 <style scoped lang="scss">
 .header {
+  border: 1px solid var(--ba-border-color);
   background-color: var(--ba-bg-color-overlay);
   font-size: 14px;
 }
@@ -228,15 +259,8 @@ const checkList = ref([])
 .data-card {
   border-radius: 12px;
   line-height: 32px;
-  /* 手机端按钮不能太小 */
-  :deep(.el-button--small) {
-    padding: 8px 15px;
-    font-size: 14px;
-    height: 32px;
-  }
-  :deep(.svg-icon) {
-    font-size: 14px !important;
-  }
+  border: 1px solid var(--ba-border-color);
+  overflow: hidden;
 }
 .checkSize {
   :deep(.el-checkbox__inner) {
@@ -261,7 +285,7 @@ const checkList = ref([])
     font-size: 15px;
     overflow: hidden;
     .label {
-      width: 76px;
+      max-width: 90px;
       color: var(--el-text-color-primary);
       font-weight: 500;
     }
@@ -269,9 +293,11 @@ const checkList = ref([])
       color: var(--el-color-primary);
       font-weight: 500;
       flex: 1;
-      max-width: 200px;
+      white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 200px;
     }
   }
 }
@@ -292,7 +318,6 @@ const checkList = ref([])
     overflow: hidden;
     &.full-width {
       grid-column: 1 / -1;
-      white-space: normal;
     }
     .label {
       color: #666;
@@ -302,6 +327,7 @@ const checkList = ref([])
       color: var(--el-text-color-primary);
       flex: 1;
       overflow: hidden;
+      white-space: nowrap;
       text-overflow: ellipsis;
     }
   }
@@ -311,7 +337,7 @@ const checkList = ref([])
   display: flex;
   justify-content: flex-end;
   flex-wrap: wrap;
-  padding: 12px 16px;
+  padding: 10px 12px;
   :deep(.el-button) {
     margin: 4px !important;
   }
@@ -329,7 +355,7 @@ const checkList = ref([])
     font-size: 13px;
   }
   .card-footer {
-    padding: 12px;
+    padding: 8px 12px;
     flex-wrap: wrap;
   }
 }
@@ -342,6 +368,7 @@ const checkList = ref([])
 .footer {
   display: flex;
   align-items: center;
+  justify-content: flex-end;
   flex-wrap: wrap;
   :deep(.el-pager) {
     li {

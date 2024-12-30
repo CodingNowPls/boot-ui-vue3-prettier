@@ -98,8 +98,11 @@ onMounted(() => {
   }
   resizeObserver.observe(pageSearchRef.value)
 })
+const getFormData = () => {
+  return formData.value
+}
 defineExpose({
-  formData,
+  getFormData,
   search,
   setFormData,
 })

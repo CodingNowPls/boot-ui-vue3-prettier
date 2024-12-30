@@ -213,7 +213,8 @@ a {
   max-width: 600px;
 }
 .mobileFooter {
-  background-color: #eef0f2;
+  border-top: 1px solid var(--el-border-color);
+  background-color: var(--ba-bg-color-overlay);
 }
 
 .overlayColor {
