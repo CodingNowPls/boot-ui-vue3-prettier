@@ -1,6 +1,8 @@
 <script setup>
 import useTagsViewStore from '@/store/modules/tagsView'
 import { useConfig } from '@/store/modules/layout'
+import IframeToggle from './IframeToggle/index'
+
 const tagsViewStore = useTagsViewStore()
 const config = useConfig()
 </script>
@@ -17,6 +19,9 @@ const config = useConfig()
         </keep-alive>
       </transition>
     </router-view>
+    <div class="default-main">
+      <IframeToggle />
+    </div>
   </el-main>
 </template>
 

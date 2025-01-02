@@ -13,12 +13,12 @@
 const props = defineProps({
   src: {
     type: String,
-    default: "/"
+    default: '/',
   },
   iframeId: {
-    type: String
-  }
-});
+    type: String,
+  },
+})
 
-const height = ref(document.documentElement.clientHeight - 94.5 + "px");
+const height = ref(document.documentElement.clientHeight - 94.5 + 'px')
 </script>
