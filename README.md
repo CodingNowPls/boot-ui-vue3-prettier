@@ -8,11 +8,6 @@
 
 3. 提供了技术栈<a href="https://gitee.com/codelm/ruoyi-vue3-lmw-ts">vue3+ts</a> 版本，保持同步更新。
 
-## 联系本人
-
-本人微信：lmwcoder，欢迎大家提供建议，
-无需捐赠，如果觉得项目不错，或者已经在使用了，希望你可以去帮我点个 ⭐ Star。
-
 ## 技术选型
 
 - 开发语言：JavaScript
@@ -109,6 +104,11 @@ pnpm build:prod
     <td><img src="./readMeImg/pic30.png" /></td>
   </tr>
 </table>
+
+## 联系本人
+
+本人微信：lmwcoder <img src="./readMeImg/pic0.png" />，欢迎大家加入群聊提供建议，
+无需捐赠，如果觉得项目不错，或者已经在使用了，希望你可以去帮我点个 ⭐ Star。
 
 ## 目录结构
 
