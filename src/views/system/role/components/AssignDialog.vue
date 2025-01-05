@@ -133,7 +133,7 @@ const isSmall = window.isSmallScreen
       <BaseForm
         ref="baseFormRef"
         v-bind="assignConfigComputed"
-        v-model:data="formData"
+        :data="formData"
       ></BaseForm>
       <template #footer>
         <el-button :loading="loading" @click="handleCancel"> 取消 </el-button>

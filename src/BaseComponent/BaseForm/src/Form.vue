@@ -55,8 +55,7 @@
                   :is="item.type.toUpperCase()"
                   :item="item"
                   :allDisabled="allDisabled"
-                  :value="data[`${item.field}`]"
-                  @update:value="handleValueChange($event, item.field)"
+                  v-model:value="data[`${item.field}`]"
                   @keyUpEnter="keyUpEnter($event, item)"
                 >
                   <template
@@ -216,7 +215,7 @@ const props = defineProps({
     default: () => [],
   },
 })
-const emits = defineEmits(['update:data', 'keyUpEnter'])
+const emits = defineEmits(['keyUpEnter'])
 const slots = useSlots()
 let elFormRef = ref(null)
 const allRefs = ref({})
@@ -224,9 +223,6 @@ const setItemRef = (el, type) => {
   if (el && el.getRef) {
     allRefs.value[type] = el.getRef()
   }
-}
-const handleValueChange = (value, field) => {
-  emits('update:data', { ...props.data, [field]: value })
 }
 let getFormValidate = async () => {
   return elFormRef.value.validate((valid) => {

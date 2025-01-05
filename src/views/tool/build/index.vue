@@ -1,5 +1,10 @@
 <script setup>
 const formConfig = {
+  rules: {
+    Cascader: [
+      { required: true, message: 'Cascader不能为空', trigger: 'change' },
+    ],
+  },
   formItems: [
     {
       label: 'Input',
@@ -167,7 +172,7 @@ const formData = ref({})
 <template>
   <div class="default-main page">
     formData: {{ formData }}
-    <BaseForm v-bind="formConfig" v-model:data="formData">
+    <BaseForm v-bind="formConfig" :data="formData">
       <template #SelectLabel="{ backData }">
         <span>{{ backData.slotData.label }}: </span>
         <span style="font-weight: bold">{{ backData.slotData.value }}</span>

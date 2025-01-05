@@ -228,7 +228,7 @@ defineExpose({
       >
         <BaseForm
           class="baseForm"
-          v-model:data="formData"
+          :data="formData"
           v-bind="dialogConfig"
           ref="formRef"
         >

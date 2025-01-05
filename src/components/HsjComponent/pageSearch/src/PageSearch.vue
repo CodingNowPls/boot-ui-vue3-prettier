@@ -114,7 +114,7 @@ defineExpose({
       <BaseForm
         ref="baseFormRef"
         v-bind="searchConfig"
-        v-model:data="formData"
+        :data="formData"
         @keyUpEnter="keyUpEnter"
       >
         <template #footer>

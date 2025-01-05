@@ -119,7 +119,7 @@ defineExpose({
       <BaseForm
         ref="baseFormRef"
         v-bind="searchConfig"
-        v-model:data="formData"
+        :data="formData"
         :hideItems="hideItems"
         @keyUpEnter="keyUpEnter"
       >

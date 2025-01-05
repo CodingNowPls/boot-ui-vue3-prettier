@@ -121,11 +121,7 @@ onUnmounted(() => {
   <div class="login">
     <div class="loginForm">
       <h3 class="title">{{ title }}</h3>
-      <BaseForm
-        v-bind="formConfigComputed"
-        v-model:data="formData"
-        ref="formRef"
-      >
+      <BaseForm v-bind="formConfigComputed" :data="formData" ref="formRef">
         <template #usernamePrefix>
           <SvgIcon iconClass="user" size="16"></SvgIcon>
         </template>
