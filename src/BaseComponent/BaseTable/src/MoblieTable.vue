@@ -103,16 +103,20 @@ const handleToTop = () => {
   main?.scrollTo(0, 0)
 }
 
+const setFooterShow = (el) => {
+  const child = el.querySelectorAll('*')
+  if (child.length <= 1) {
+    el.setAttribute('hiden', '')
+  } else {
+    el.removeAttribute('hiden')
+  }
+}
 const vShowFooter = {
   mounted: (el) => {
-    if (el.firstElementChild) {
-      const firstChild = el.firstElementChild
-      if (firstChild.clientWidth === 0) {
-        el.parentNode && el.parentNode.removeChild(el)
-      }
-    } else {
-      el.parentNode && el.parentNode.removeChild(el)
-    }
+    setFooterShow(el)
+  },
+  updated: (el) => {
+    setFooterShow(el)
   },
 }
 const isHiddenItem = (item) => {
