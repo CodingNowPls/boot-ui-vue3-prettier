@@ -40,9 +40,6 @@ export default (otherConfig = {}) => {
         label: '部门状态',
         isGroup: true,
         options: [],
-        config: {
-          clearable: false,
-        },
         optionConfig: {
           border: true,
         },

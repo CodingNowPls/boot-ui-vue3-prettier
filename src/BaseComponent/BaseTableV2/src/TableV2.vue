@@ -51,8 +51,9 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['update:paginationInfo', 'sortChange'])
-const elTableRef = ref(null)
-const headerRef = ref(null)
+const elTableRef = useTemplateRef('elTableRef')
+const headerRef = useTemplateRef('headerRef')
+const footerRef = useTemplateRef('footerRef')
 
 const handleCurrentChange = (pageNum) => {
   elTableRef.value.scrollTo({ scrollLeft: 0, scrollTop: 0 })
@@ -72,13 +73,15 @@ const columnSort = (order) => {
 
 const maxHeight = computed(() => {
   let headerHeight = 0
+  const footerHeight = footerRef.value?.clientHeight ?? 0
   if (headerRef.value) {
     headerHeight = headerRef.value.clientHeight
   }
   if (props.maxHeight) {
-    return props.maxHeight - headerHeight
+    return props.maxHeight - headerHeight - footerHeight
   } else {
-    const viewportHeight = window.innerHeight - 260 - headerHeight
+    const viewportHeight =
+      window.innerHeight - 260 - headerHeight - footerHeight
     return viewportHeight
   }
 })
@@ -163,7 +166,7 @@ defineExpose({
       </template>
     </el-auto-resizer>
 
-    <div class="footer" v-if="pagination">
+    <div class="footer" v-if="pagination" ref="footerRef">
       <slot name="footer">
         <el-pagination
           @size-change="handleSizeChange"

@@ -78,8 +78,8 @@ const props = defineProps({
   },
 })
 const emit = defineEmits(['update:paginationInfo', 'sortChange'])
-const headerRef = ref(null)
-const elTableRef = ref(null)
+const elTableRef = useTemplateRef('elTableRef')
+const headerRef = useTemplateRef('headerRef')
 const footerRef = useTemplateRef('footerRef')
 const slots = useSlots()
 const handleCurrentChange = (pageNum) => {

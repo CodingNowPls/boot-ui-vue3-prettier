@@ -17,8 +17,6 @@ const pageName = menu
 const requestBaseUrl = systemBaseUrl
 const pageSearchRef = ref(null)
 const pageContentRef = ref(null)
-// 控制页面排序字段
-const descConfig = ref({})
 // 点击保存会带上这里面的值（如果和要提交的表单键冲突那么会优先表单）
 const otherInfo = ref({})
 // 弹出层表单默认值
@@ -156,9 +154,10 @@ const handleAdd = (row) => {
     dialogRef.value?.setFormData('parentId', row.menuId)
   })
 }
-
+const foldAll = ref(false)
 const unFoldAll = () => {
-  pageContentRef.value?.baseTabelRef.unFoldAll()
+  foldAll.value = !foldAll.value
+  pageContentRef.value?.baseTabelRef.unFoldAll(foldAll.value)
 }
 </script>
 <template>
@@ -167,18 +166,20 @@ const unFoldAll = () => {
       ref="pageSearchRef"
       :pageName="pageName"
       :searchConfig="searchConfigComputed"
+      :useMobile="false"
     ></PageSearch>
     <PageContent
       ref="pageContentRef"
       :pageName="pageName"
       :contentConfig="contentConfigComputed"
-      :descConfig="descConfig"
+      :autoDesc="false"
       :dictMap="dictMap"
       :tableListener="tableListener"
       :tableSelected="tableSelected"
       :permission="permission"
       :piniaConfig="piniaConfig"
       :requestBaseUrl="requestBaseUrl"
+      :useMobile="false"
       @beforeSend="beforeSend"
       @addClick="addClick"
       @editBtnClick="editBtnClick"
@@ -186,8 +187,13 @@ const unFoldAll = () => {
       @editMoreClick="editMoreClick"
     >
       <template #handleLeft>
-        <el-button class="order16 ml12" type="info" @click="unFoldAll">
-          展开/折叠
+        <el-button
+          class="order16 ml12"
+          @click="unFoldAll"
+          :type="foldAll ? 'warning' : 'info'"
+        >
+          <span v-show="!foldAll">展开所有</span>
+          <span v-show="foldAll">收缩所有</span>
         </el-button>
       </template>
       <template #todoSlot="{ backData }">

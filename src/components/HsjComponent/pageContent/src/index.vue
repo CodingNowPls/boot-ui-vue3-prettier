@@ -37,7 +37,7 @@ const deleteRow = (delData) => {
   tableRef.value?.deleteRow(delData)
 }
 const editClick = (row, type) => {
-  tableRef.value?.deleteRow(row, type)
+  tableRef.value?.editClick(row, type)
 }
 const dataList = computed(() => {
   return tableRef.value?.dataList

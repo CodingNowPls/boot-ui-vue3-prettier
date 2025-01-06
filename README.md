@@ -226,14 +226,13 @@ pnpm build:prod
 
 #### 属性
 
-| 属性名             | 说明                                                                     | 类型      | 默认值  |
-| ------------------ | ------------------------------------------------------------------------ | --------- | ------- | --- |
-| searchConfig       | 参考BaseForm组件的所有属性                                               | `Object`  | {}      |
-| initSearch         | 搜索参数初始化的值                                                       | `Object`  | {}      |
-| otherRequestOption | 除form表单外的其他搜索条件                                               | `Object`  | {}      |
-| showSearch         | 是否展示检索和重置按钮                                                   | `Boolean` | true    |
-| pageName           | 点击搜索时会使用mitt库发送一个名称为search+pageName+Info的事件，用于查询 | `String`  | 必填    |
-| cacheKey           | 当页面会存在打开多个的时候会出现缓存问题，可以用这个区分缓存             | `String   | Number` |     |
+| 属性名             | 说明                                                         | 类型            | 默认值 |
+| ------------------ | ------------------------------------------------------------ | --------------- | ------ |
+| searchConfig       | 参考BaseForm组件的所有属性                                   | `Object`        | {}     |
+| otherRequestOption | 除form表单外的其他搜索条件                                   | `Object`        | {}     |
+| showSearch         | 是否展示检索和重置按钮                                       | `Boolean`       | true   |
+| pageName           | 点击搜索时会使用mitt库发送一个名称为search+pageName+Info的事件，用于查询 | `String`        | 必填   |
+| cacheKey           | 当页面会存在打开多个的时候会出现缓存问题，可以用这个区分缓存 | `String|Number` |        |
 
 #### Exposes
 

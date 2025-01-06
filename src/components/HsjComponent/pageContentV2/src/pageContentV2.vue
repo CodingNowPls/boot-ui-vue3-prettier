@@ -236,17 +236,11 @@ const mittResize = (searchHeight) => {
   }
   // 获取头部的高度
   const header = document.getElementsByClassName('el-header')[0]
-  // 获取分页的高度
-  const pagination = document.getElementsByClassName('lmw-pagination-footer')[0]
   // 计算公式为 视口高度-搜索栏高度-margin
   let viewportHeight = window.innerHeight - currentSearchHeight - 34
   // 如果header存在会再减去header的高度，因为某些布局没有header
   if (header) {
     viewportHeight -= header.clientHeight
-  }
-  // 分页存在，减去分页的高度
-  if (pagination) {
-    viewportHeight -= pagination.clientHeight
   }
   maxHeight.value = viewportHeight - props.maxHeightDecrement
 }

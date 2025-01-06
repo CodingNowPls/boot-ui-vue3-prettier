@@ -63,13 +63,13 @@ export default () => {
 // export default (otherConfig) => {
 //   return {
 //     tableItem: [
-//       // {
-//       //   key: 'selection',
-//       //   align: 'center',
-//       //   width: 50,
-//       //   cellRenderer: otherConfig.selectionCell,
-//       //   headerCellRenderer: otherConfig.selectionHeader,
-//       // },
+//       {
+//         key: 'selection',
+//         align: 'center',
+//         width: 50,
+//         cellRenderer: otherConfig.selectionCell,
+//         headerCellRenderer: otherConfig.selectionHeader,
+//       },
 //       {
 //         key: 'menuName',
 //         title: '菜单名称',
@@ -122,7 +122,7 @@ export default () => {
 //       },
 //     ],
 //     elTableConfig: {
-//       expandColumnKey: 'menuName',
+//       // expandColumnKey: 'menuName',
 //       rowKey: 'menuId',
 //       // height: 256,
 //       // fixed: false,
