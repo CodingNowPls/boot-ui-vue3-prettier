@@ -147,6 +147,9 @@ const props = defineProps({
     type: [String, Number],
     default: '',
   },
+  getInfoUrl: {
+    type: String,
+  },
 })
 const emit = defineEmits([
   'addClick',
@@ -266,8 +269,13 @@ const getId = (row) => {
 const getRowInfo = async (row) => {
   let id = getId(row)
   if (id || id === 0) {
+    let url = ``
+    if (props.getInfoUrl) {
+      url = `${props.getInfoUrl}/${id}`
+    } else {
+      url = `${props.requestBaseUrl}${interceptor(props.pageName)}/${id}`
+    }
     // 拼接getInfo请求的url地址
-    let url = `${props.requestBaseUrl}${interceptor(props.pageName)}/${id}`
     let [res] = await to(getInfo(url))
     return res
   } else {
