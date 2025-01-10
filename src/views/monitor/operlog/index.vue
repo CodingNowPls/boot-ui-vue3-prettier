@@ -90,6 +90,10 @@ const typeFormat = (row) => {
   return proxy.selectDictLabel(sys_oper_type.value, row.businessType)
 }
 const isSmall = window.isSmallScreen
+const maxHeight = ref(520)
+onMounted(() => {
+  maxHeight.value = window.innerHeight - -57 - 52 - 30 - 80
+})
 </script>
 <template>
   <div class="default-main page">
@@ -152,7 +156,7 @@ const isSmall = window.isSmallScreen
       :fullscreen="isSmall"
       :width="getWidth(1000)"
     >
-      <el-scrollbar :max-height="isSmall ? '520px' : '420px'">
+      <el-scrollbar :max-height="maxHeight">
         <BaseForm :data="viewFormData" v-bind="dialogConfig">
           <template #titleCustom="{ backData }">
             {{ backData.formData.title }} / {{ typeFormat(backData.formData) }}
