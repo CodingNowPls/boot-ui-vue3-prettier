@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue'
+import { nextTick, ref, watch } from 'vue'
 import BaseForm from '@/BaseComponent/BaseForm'
 import businessStore from '@/store/business/businessStore'
 import to from '@/utils/to'
@@ -99,43 +99,51 @@ watch(
     }
   }
 )
-// 保存按钮
-const commitClick = async () => {
-  const success = async () => {
+const send = () => {
+  return new Promise((resolve) => {
     if (isEdit.value) {
       //编辑
       emits('beforeSave')
-      return await store.editDataAction({
-        pageName: props.pageName,
-        editInfo: {
-          ...props.otherInfo,
-          ...formData.value,
-        },
-        id:
-          props.infoInit[props.idKey] ??
-          props.infoInit[props.pageName + 'Id'] ??
-          props.infoInit['id'],
-        sendIdKey: props.sendIdKey,
-        requestBaseUrl: props.requestBaseUrl,
+      nextTick(() => {
+        const promise = store.editDataAction({
+          pageName: props.pageName,
+          editInfo: {
+            ...props.otherInfo,
+            ...formData.value,
+          },
+          id:
+            props.infoInit[props.idKey] ??
+            props.infoInit[props.pageName + 'Id'] ??
+            props.infoInit['id'],
+          sendIdKey: props.sendIdKey,
+          requestBaseUrl: props.requestBaseUrl,
+        })
+        resolve(promise)
       })
     } else {
       //新建
       emits('beforeSave')
-      return await store.createDataAction({
-        pageName: props.pageName,
-        newData: {
-          ...props.otherInfo,
-          ...formData.value,
-        },
-        requestBaseUrl: props.requestBaseUrl,
+      nextTick(() => {
+        const promise = store.createDataAction({
+          pageName: props.pageName,
+          newData: {
+            ...props.otherInfo,
+            ...formData.value,
+          },
+          requestBaseUrl: props.requestBaseUrl,
+        })
+        resolve(promise)
       })
     }
-  }
+  })
+}
+// 保存按钮
+const commitClick = async () => {
   // 表单校验
   const validate = await formRef.value?.getFormValidate()
   if (validate) {
     loading.value = true
-    const [res] = await to(success())
+    const [res] = await to(send())
     if (res) {
       props.search && props.search()
       // 判断是否为多选后的编辑
