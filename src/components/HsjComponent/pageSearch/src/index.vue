@@ -21,8 +21,8 @@ const setFormData = (key, value) => {
 const search = (isReset = false) => {
   pageSearchRef.value?.search(isReset)
 }
-const getFormData = (isReset = false) => {
-  pageSearchRef.value?.getFormData(isReset)
+const getFormData = () => {
+  return pageSearchRef.value?.getFormData(isReset)
 }
 const config = useConfig()
 const layoutType = computed(() => {

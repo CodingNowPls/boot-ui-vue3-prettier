@@ -190,7 +190,7 @@ onUnmounted(() => {
   border-radius: 6px;
   background-color: var(--ba-bg-color-overlay);
   width: 400px;
-  padding: 25px 25px 5px 25px;
+  padding: 25px 25px 15px 25px;
 }
 .code {
   width: 100%;
