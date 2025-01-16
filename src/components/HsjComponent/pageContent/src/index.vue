@@ -2,7 +2,7 @@
 import PageContent from './PageContent.vue'
 import MobileContent from './MobileContent.vue'
 import { useConfig } from '@/store/modules/layout'
-import { computed } from 'vue'
+import { computed, onMounted, useTemplateRef } from 'vue'
 defineOptions({
   components: {
     PageContent,
@@ -15,7 +15,8 @@ const props = defineProps({
     default: true,
   },
 })
-const tableRef = ref('tableRef')
+const tableRef = useTemplateRef('tableRef')
+const tableExpose = ref({})
 const config = useConfig()
 const layoutType = computed(() => {
   if (props.useMobile && config.layout.isMobile) {
@@ -24,36 +25,12 @@ const layoutType = computed(() => {
     return 'PageContent'
   }
 })
-const refresh = () => {
-  tableRef.value?.refresh()
-}
-const baseTabelRef = computed(() => {
-  return tableRef.value?.baseTabelRef
+onMounted(() => {
+  for (const [key, value] of Object.entries(tableRef.value)) {
+    tableExpose.value[key] = value
+  }
 })
-const finalSearchData = computed(() => {
-  return tableRef.value?.finalSearchData
-})
-const deleteRow = (delData) => {
-  tableRef.value?.deleteRow(delData)
-}
-const editClick = (row, type) => {
-  tableRef.value?.editClick(row, type)
-}
-const dataList = computed(() => {
-  return tableRef.value?.dataList
-})
-const mittResize = () => {
-  return tableRef.value?.mittResize
-}
-defineExpose({
-  finalSearchData,
-  refresh,
-  baseTabelRef,
-  deleteRow,
-  editClick,
-  dataList,
-  mittResize,
-})
+defineExpose(tableExpose.value)
 </script>
 <template>
   <component ref="tableRef" :is="layoutType" v-bind="$attrs">

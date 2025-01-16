@@ -1,4 +1,5 @@
 <script setup>
+import { useTemplateRef } from 'vue'
 import MobileSearch from './MobileSearch.vue'
 import PageSearch from './PageSearch.vue'
 import { useConfig } from '@/store/modules/layout'
@@ -14,16 +15,8 @@ const props = defineProps({
     default: true,
   },
 })
-const pageSearchRef = ref(null)
-const setFormData = (key, value) => {
-  pageSearchRef.value?.setFormData(key, value)
-}
-const search = (isReset = false) => {
-  pageSearchRef.value?.search(isReset)
-}
-const getFormData = () => {
-  return pageSearchRef.value?.getFormData(isReset)
-}
+const pageSearchRef = useTemplateRef('pageSearchRef')
+const pageSearchExpose = ref({})
 const config = useConfig()
 const layoutType = computed(() => {
   if (props.useMobile && config.layout.isMobile) {
@@ -32,11 +25,12 @@ const layoutType = computed(() => {
     return 'PageSearch'
   }
 })
-defineExpose({
-  getFormData,
-  setFormData,
-  search,
+onMounted(() => {
+  for (const [key, value] of Object.entries(pageSearchRef.value)) {
+    pageSearchExpose.value[key] = value
+  }
 })
+defineExpose(pageSearchExpose.value)
 </script>
 <template>
   <component ref="pageSearchRef" :is="layoutType">

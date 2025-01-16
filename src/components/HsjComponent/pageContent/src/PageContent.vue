@@ -581,6 +581,7 @@ defineExpose({
   deleteRow,
   editClick,
   dataList,
+  mittResize,
 })
 </script>
 
