@@ -93,10 +93,6 @@ watch(visible, (value) => {
     document.body.removeEventListener('click', closeMenu)
   }
 })
-onMounted(() => {
-  initTags()
-  addTags()
-})
 
 const activeBoxStyle = reactive({
   width: '0',
