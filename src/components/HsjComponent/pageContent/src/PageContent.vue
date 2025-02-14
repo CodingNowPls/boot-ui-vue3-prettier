@@ -85,7 +85,7 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
-  // 显示编辑删除
+  // 显示删除按钮
   showDelete: {
     type: Boolean,
     default: true,

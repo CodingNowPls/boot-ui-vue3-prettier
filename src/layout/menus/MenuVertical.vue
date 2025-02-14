@@ -3,8 +3,9 @@ import { useConfig } from '@/store/modules/layout.js'
 import MenuTree from './MenuTree.vue'
 import usePermissionStore from '@/store/modules/permission.js'
 const permissionStore = usePermissionStore()
-const sidebarRouters = computed(() => permissionStore.sidebarRouters)
-
+const sidebarRouters = computed(() => {
+  return permissionStore.sidebarRouters
+})
 const config = useConfig()
 const route = useRoute()
 
