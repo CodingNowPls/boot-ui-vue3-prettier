@@ -11,7 +11,6 @@ const route = useRoute()
 
 const activeMenu = computed(() => {
   const { meta, path } = route
-  // if set path, the sidebar will highlight the path you set
   if (meta.activeMenu) {
     return meta.activeMenu
   }
