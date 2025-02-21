@@ -49,5 +49,17 @@ export function updateHtmlDarkClass(val) {
     htmlEl.setAttribute('class', '')
   }
 }
+// 根据系统变化主题
+export function toggleDarkBySystem() {
+  const darkModeQuery = window.matchMedia('(prefers-color-scheme: dark)')
+  const matches = darkModeQuery.matches
+  toggleDark(matches)
+  updateHtmlDarkClass(matches)
+  toggleDark(darkModeQuery.matches)
+  darkModeQuery.addEventListener('change', (event) => {
+    toggleDark(event.matches)
+    updateHtmlDarkClass(event.matches)
+  })
+}
 
 export default toggleDark
