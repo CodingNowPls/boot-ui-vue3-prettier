@@ -298,10 +298,7 @@ const addClick = () => {
 // 其他的插槽
 const exceptSlot = ['todo']
 // 所有插槽名称
-let otherSlot = collectObjectsWithSlotName(
-  props.contentConfig?.tableItem,
-  exceptSlot
-)
+const otherSlot = ref([])
 // 排序发生变化触发的函数
 const sortChange = (shortData) => {
   const { order, prop } = shortData
@@ -427,36 +424,7 @@ const onChangeShowColumn = (checked, prop, handleUser) => {
   }
   emit('onChangeShowColumn', filterArr.value)
 }
-watch(
-  () => props.contentConfig,
-  () => {
-    let hidenColumns = useStorage.get('hidenColumns')
-    let tableHides = []
-    // 判断用户是否对该页面进行过设置
-    if (hidenColumns && hidenColumns[props.pageName]) {
-      userHideItems = hidenColumns[props.pageName]
-      tableHides = userHideItems
-      onChangeShowColumn(false, tableHides, false)
-    } else {
-      tableHides = [
-        ...new Set([...userHideItems, ...propsTableHideItems.value]),
-      ]
-    }
-    props.contentConfig.tableItem.forEach((item) => {
-      if (item.prop) {
-        if (tableHides.includes(item.prop)) {
-          filterArr.value.push(item.prop)
-          onChangeShowColumn(false, item.prop, false)
-        } else {
-          columnChecked.value.push(item.prop)
-        }
-      }
-    })
-  },
-  {
-    immediate: true,
-  }
-)
+
 // 用于隐藏页面的pageSearch组件
 const triggerShowSearch = () => {
   store.handlePageSearch(props.pageName, props.cacheKey)
@@ -531,6 +499,41 @@ const init = () => {
   columnsFilter()
 }
 
+watch(
+  () => props.contentConfig,
+  () => {
+    let hidenColumns = useStorage.get('hidenColumns')
+    let tableHides = []
+    // 判断用户是否对该页面进行过设置
+    if (hidenColumns && hidenColumns[props.pageName]) {
+      userHideItems = hidenColumns[props.pageName]
+      tableHides = userHideItems
+      onChangeShowColumn(false, tableHides, false)
+    } else {
+      tableHides = [
+        ...new Set([...userHideItems, ...propsTableHideItems.value]),
+      ]
+    }
+    props.contentConfig.tableItem.forEach((item) => {
+      if (item.prop) {
+        if (tableHides.includes(item.prop)) {
+          filterArr.value.push(item.prop)
+          onChangeShowColumn(false, item.prop, false)
+        } else {
+          columnChecked.value.push(item.prop)
+        }
+      }
+    })
+    otherSlot.value = collectObjectsWithSlotName(
+      props.contentConfig?.tableItem,
+      exceptSlot
+    )
+    init()
+  },
+  {
+    immediate: true,
+  }
+)
 onMounted(() => {
   // 判断是否需要自动排序
   if (props.autoDesc) {
@@ -572,8 +575,6 @@ onActivated(() => {
 onDeactivated(() => {
   offListener()
 })
-
-init()
 defineExpose({
   finalSearchData,
   refresh,

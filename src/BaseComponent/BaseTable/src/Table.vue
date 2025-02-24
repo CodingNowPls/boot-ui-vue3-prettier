@@ -147,13 +147,21 @@ const paginationLayoutComputed = computed(() => {
     return 'total, prev, pager, next'
   }
 })
-let otherSlots = []
+const otherSlots = ref([])
 const filterSlot = () => {
   const filter = ['handleLeft', 'handleRight']
   const slotNames = Object.keys(slots)
-  otherSlots = slotNames.filter((name) => !filter.includes(name))
+  otherSlots.value = slotNames.filter((name) => !filter.includes(name))
 }
-filterSlot()
+watch(
+  () => props.tableItem,
+  () => {
+    filterSlot()
+  },
+  {
+    immediate: true,
+  }
+)
 
 defineExpose({
   elTableRef,
@@ -305,9 +313,9 @@ defineExpose({
 }
 .baseTable {
   :deep(
-      .el-table__body-wrapper .el-table-column--selection > .cell,
-      .el-table__header-wrapper .el-table-column--selection > .cell
-    ) {
+    .el-table__body-wrapper .el-table-column--selection > .cell,
+    .el-table__header-wrapper .el-table-column--selection > .cell
+  ) {
     display: block;
   }
 }

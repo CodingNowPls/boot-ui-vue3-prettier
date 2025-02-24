@@ -299,10 +299,7 @@ const addClick = () => {
 // 其他的插槽
 const exceptSlot = ['todo']
 // 所有插槽名称
-let otherSlot = collectObjectsWithSlotName(
-  props.contentConfig?.tableItem,
-  exceptSlot
-)
+const otherSlot = ref([])
 // 页面数据刷新函数
 const refresh = () => {
   send(finalSearchData.value)
@@ -375,6 +372,19 @@ const showHeader = () => {
   )
   return hasSlot(slots, ['handleLeft']) || btns
 }
+watch(
+  () => props.contentConfig,
+  () => {
+    otherSlot.value = collectObjectsWithSlotName(
+      props.contentConfig?.tableItem,
+      exceptSlot
+    )
+    init()
+  },
+  {
+    immediate: true,
+  }
+)
 onMounted(() => {
   // 判断是否需要自动排序
   if (props.autoDesc) {
@@ -416,7 +426,6 @@ onActivated(() => {
 onDeactivated(() => {
   offListener()
 })
-init()
 defineExpose({
   finalSearchData,
   refresh,
