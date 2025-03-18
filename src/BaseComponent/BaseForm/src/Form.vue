@@ -6,6 +6,7 @@
       :model="data"
       :scroll-to-error="true"
       :validate-on-rule-change="false"
+      @submit.native.prevent
       v-bind="elFormConfig"
     >
       <el-row v-bind="rowConfig">

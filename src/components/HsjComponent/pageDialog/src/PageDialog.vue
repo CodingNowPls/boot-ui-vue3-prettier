@@ -195,7 +195,7 @@ const getMaxHeight = () => {
     // 获取dialog的marginTop
     const { marginTop } = getElementTotalSize(pageDialog)
     // 计算公式 视口高度-marginTop-dialog的header-dialog的Footer-dialog距离底部的预留距离
-    let maxHeight = window.innerHeight - marginTop - 57 - 70 - 18
+    let maxHeight = window.innerHeight - marginTop - 64 - 70 - 18
     if (!isSmall) {
       maxHeight -= 50
     }
