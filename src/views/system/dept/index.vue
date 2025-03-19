@@ -186,7 +186,7 @@ const unFoldAll = () => {
           size="small"
           type="primary"
           @click="handleAdd(backData)"
-          v-hasPermi="['system:menu:add']"
+          v-hasPermi="permission.add"
         >
           <SvgIcon size="12" iconClass="plus" />
           <span class="ml6">添加</span>
