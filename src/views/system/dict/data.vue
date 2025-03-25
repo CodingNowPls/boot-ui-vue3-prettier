@@ -211,11 +211,7 @@ init()
         >
           {{ backData.dictLabel }}
         </span>
-        <el-tag
-          v-else
-          :type="backData.listClass == 'primary' ? '' : backData.listClass"
-          :class="backData.cssClass"
-        >
+        <el-tag v-else :type="backData.listClass" :class="backData.cssClass">
           {{ backData.dictLabel }}
         </el-tag>
       </template>
