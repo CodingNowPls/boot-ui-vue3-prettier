@@ -78,7 +78,12 @@ const search = () => {
   pageSearchRef.value?.search()
 }
 
-const beforeSend = (queryInfo) => {}
+const beforeSend = (queryInfo) => {
+  if (Array.isArray(queryInfo.dateRange)) {
+    queryInfo[`params[beginTime]`] = queryInfo.dateRange[0]
+    queryInfo[`params[endTime]`] = queryInfo.dateRange[1]
+  }
+}
 
 const permission = ref({
   add: 'system:config:add',
