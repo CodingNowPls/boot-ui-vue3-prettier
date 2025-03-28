@@ -36,7 +36,7 @@ defineExpose({
         :value="option.value"
         v-bind="item.optionConfig ?? {}"
       >
-        {{ item.label }}
+        {{ option.label }}
       </el-checkbox>
       <template v-for="slotName in item.slotNames" #[slotName]="slotData">
         <slot :name="slotName" :slotData="slotData"> </slot>
