@@ -101,9 +101,9 @@ watch(
 )
 const send = () => {
   return new Promise((resolve) => {
+    emits('beforeSave')
     if (isEdit.value) {
       //编辑
-      emits('beforeSave')
       nextTick(() => {
         const promise = store.editDataAction({
           pageName: props.pageName,
@@ -122,7 +122,6 @@ const send = () => {
       })
     } else {
       //新建
-      emits('beforeSave')
       nextTick(() => {
         const promise = store.createDataAction({
           pageName: props.pageName,
