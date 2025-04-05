@@ -9,6 +9,8 @@ import TreeSelect from './src/TreeSelect/TreeSelect.vue'
 import Datepicker from './src/Datepicker/Datepicker.vue'
 import CheckBox from './src/CheckBox/CheckBox.vue'
 import Radio from './src/Radio/Radio.vue'
+import Switch from './src/Switch/Switch.vue'
+
 export {
   Input,
   InputNumber,
@@ -21,4 +23,5 @@ export {
   Datepicker,
   CheckBox,
   Radio,
+  Switch,
 }

@@ -9,11 +9,7 @@ const props = defineProps({
     type: Boolean,
   },
 })
-const emits = defineEmits(['keyUpEnter'])
 const value = defineModel('value')
-const keyUpEnter = ($event, item) => {
-  emits('keyUpEnter', $event, item)
-}
 const elRef = useTemplateRef('elRef')
 const getRef = () => {
   return elRef.value
@@ -23,20 +19,17 @@ defineExpose({
 })
 </script>
 <template>
-  <el-input
+  <el-switch
     ref="elRef"
-    clearable
     :disabled="allDisabled"
-    :placeholder="'请输入' + item.label"
     v-model="value"
-    @keyup.enter="keyUpEnter($event, item)"
     v-bind="item.config"
     v-on="item.eventFunction || {}"
   >
     <template v-for="slotName in item.slotNames" #[slotName]="slotData">
       <slot :name="slotName" :slotData="slotData"> </slot>
     </template>
-  </el-input>
+  </el-switch>
 </template>
 
 <style scoped lang="scss"></style>

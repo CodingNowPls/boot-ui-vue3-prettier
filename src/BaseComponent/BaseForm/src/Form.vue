@@ -140,6 +140,7 @@ import {
   Datepicker as DATEPICKER,
   CheckBox as CHECKBOX,
   Radio as RADIO,
+  Switch as SWITCH,
 } from './cpn/index'
 import { capitalizeFirstLetter } from './utils/index.js'
 
@@ -156,6 +157,7 @@ defineOptions({
     DATEPICKER,
     CHECKBOX,
     RADIO,
+    SWITCH,
   },
 })
 const props = defineProps({
@@ -266,6 +268,7 @@ defineExpose({
 
 <style scoped lang="scss">
 .baseFrom {
+  width: 100%;
   :deep(.el-form-item__label) {
     margin: 0px !important;
     font-weight: 500;
