@@ -25,7 +25,7 @@ const hideItems = ref([])
 const generateCode = async () => {
   const res = await getCodeImg()
   if (res) {
-    codeUrl.value = 'data:image/gif;base64,' + res.img
+    codeUrl.value = res.img
     formData.value.uuid = res.uuid
     captchaEnabled.value = res.captchaEnabled === true
   }
