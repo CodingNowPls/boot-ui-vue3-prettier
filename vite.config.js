@@ -25,13 +25,13 @@ export default defineConfig(({ mode, command }) => {
     },
     // vite 相关配置
     server: {
-      port: 80,
+      port: 8000,
       host: true,
       open: true,
       proxy: {
         '/api': {
-          target: 'http://vue.ruoyi.vip/prod-api/',
-          // target: 'http://localhost:8080/',
+          // target: 'http://vue.ruoyi.vip/prod-api/',
+          target: 'http://localhost:8081/',
           changeOrigin: true,
           rewrite: (p) => p.replace(/^\/api/, ''),
         },

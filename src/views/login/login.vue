@@ -12,7 +12,7 @@ const title = ref(import.meta.env.VITE_APP_TITLE)
 const formRef = ref(null)
 const formData = ref({
   code: '',
-  username: '',
+  userName: '',
   password: '',
   uuid: '',
   rememberMe: false,
@@ -31,13 +31,13 @@ const generateCode = async () => {
   }
 }
 const getCookie = () => {
-  const username = Cookies.get('username')
+  const userName = Cookies.get('userName')
   const password = Cookies.get('password')
   const rememberMe = Cookies.get('rememberMe')
   formData.value = {
-    username: username || 'admin',
-    password: decrypt(password) || 'admin123',
-    rememberMe: rememberMe ? false : Boolean(rememberMe),
+    userName:  userName === undefined ? undefined : userName,
+    password: password === undefined ? undefined : decrypt(password),
+    rememberMe: rememberMe === undefined ? false : Boolean(rememberMe),
     code: '',
     uuid: '',
   }
@@ -87,14 +87,14 @@ const submit = async () => {
         return acc
       }, {})
       if (formData.value.rememberMe) {
-        Cookies.set('username', formData.value.username, { expires: 30 })
+        Cookies.set('userName', formData.value.userName, { expires: 30 })
         Cookies.set('password', encrypt(formData.value.password), {
           expires: 30,
         })
         Cookies.set('rememberMe', formData.value.rememberMe, { expires: 30 })
       } else {
         // 否则移除
-        Cookies.remove('username')
+        Cookies.remove('userName')
         Cookies.remove('password')
         Cookies.remove('rememberMe')
       }

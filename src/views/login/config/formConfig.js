@@ -1,7 +1,7 @@
 export default (listeners = {}) => {
   return {
     rules: {
-      username: [
+      userName: [
         {
           required: true,
           trigger: 'blur',
@@ -27,7 +27,7 @@ export default (listeners = {}) => {
     itemStyle: {},
     formItems: [
       {
-        field: 'username',
+        field: 'userName',
         type: 'input',
         config: {
           placeholder: '账号',
