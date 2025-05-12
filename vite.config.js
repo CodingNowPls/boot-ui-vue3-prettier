@@ -56,7 +56,7 @@ export default defineConfig(({ mode, command }) => {
     build: {
       cssCodeSplit: false,
       sourcemap: false,
-      outDir: VITE_OUT_DIR,
+      outDir: 'src/main/resources/webjars',
       emptyOutDir: true,
       chunkSizeWarningLimit: 1500,
       rollupOptions: {
